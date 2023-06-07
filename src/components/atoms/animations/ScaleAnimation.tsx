@@ -1,3 +1,5 @@
+/* eslint-disable implicit-arrow-linebreak */
+/* eslint-disable no-confusing-arrow */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import React from 'react';
 import { Pressable } from 'react-native';
@@ -15,7 +17,7 @@ const TimeConfigurations = { duration: 50, easing: Easing.linear };
 
 interface ScaleAnimationI {
   onPress: () => void;
-  children: any;
+  children: JSX.Element;
   scaleTo: number;
   disabled: boolean;
 }
@@ -28,9 +30,10 @@ export function ScaleAnimation({
   disabled,
 }: ScaleAnimationI) {
   const pressed = useSharedValue(false);
-  const progress = useDerivedValue(() => (pressed.value
-    ? withTiming(1, TimeConfigurations)
-    : withTiming(0, TimeConfigurations)));
+  const progress = useDerivedValue(() =>
+    pressed.value
+      ? withTiming(1, TimeConfigurations)
+      : withTiming(0, TimeConfigurations));
   const animatedStyle = useAnimatedStyle(() => {
     const scale = interpolate(
       progress.value,

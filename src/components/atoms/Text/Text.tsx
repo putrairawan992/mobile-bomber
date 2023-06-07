@@ -1,3 +1,4 @@
+/* eslint-disable arrow-parens */
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 /* eslint-disable @typescript-eslint/no-unsafe-return */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
@@ -46,11 +47,11 @@ const fontSizeMapper: Record<TextVariantType, TextFontSizeType> = {
 };
 
 const StyledText = styled(RNText)<TextProps>`
-  color: ${(props) => props.color || colors.bermudaGrey};
-  font-family: ${(props) => fontFamilyMapper[props.fontWeight || 'regular']};
-  font-size: ${(props) => fontSizeMapper[props.variant || 'medium']};
+  color: ${props => props.color || colors.bermudaGrey};
+  font-family: ${props => fontFamilyMapper[props.fontWeight || 'regular']};
+  font-size: ${props => fontSizeMapper[props.variant || 'medium']};
   font-style: ${({ fontStyle = 'normal' }) => fontStyle};
-  line-height: ${(props) => textLineHeightMapper[props.variant || 'medium']};
+  line-height: ${props => textLineHeightMapper[props.variant || 'medium']};
   text-align: ${({ textAlign }) => textAlign || 'left'};
   text-decoration: ${({ textDecoration }) => textDecoration || 'none'};
   text-transform: ${({ textTransform }) => textTransform || 'none'};
