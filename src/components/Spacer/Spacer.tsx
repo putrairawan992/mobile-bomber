@@ -5,7 +5,7 @@
 /* eslint-disable react/require-default-props */
 import React from 'react';
 import { View, ViewStyle } from 'react-native';
-import useTheme from '../../../theme/useTheme';
+import useTheme from '../../theme/useTheme';
 import Spacing from './Spacing';
 
 type Props = {

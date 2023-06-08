@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-closing-bracket-location */
 /* eslint-disable @typescript-eslint/no-use-before-define */
 /* eslint-disable react/prop-types */
 /* eslint-disable @typescript-eslint/no-unsafe-call */
@@ -8,14 +9,14 @@
 import * as React from 'react';
 
 import { TextInput as RNTextInput, StyleSheet, View } from 'react-native';
-import { SHADOWS, WIDTH } from '../../../utils/config';
 
 import Spacer from '../Spacer/Spacer';
 import { Text } from '../Text';
-import { ThemeInterface } from '../../../theme/ThemeProvider';
-import colors from '../../../styles/colors';
-import useTheme from '../../../theme/useTheme';
-import useThemedStyles from '../../../theme/useThemedStyles';
+import colors from '../../styles/colors';
+import useThemedStyles from '../../theme/useThemedStyles';
+import { SHADOWS, WIDTH } from '../../utils/config';
+import useTheme from '../../theme/useTheme';
+import { ThemeInterface } from '../../theme/ThemeProvider';
 
 type Props = React.ComponentProps<typeof RNTextInput> & {
   label: string;
@@ -77,8 +78,7 @@ export const TextInput = React.forwardRef((props: Props, ref) => {
           borderColor,
           alignItems: 'center',
           justifyContent: 'space-between',
-        }}
-      >
+        }}>
         <RNTextInput
           style={[
             styling.input,

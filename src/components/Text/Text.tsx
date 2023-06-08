@@ -7,7 +7,7 @@ import React from 'react';
 import { Text as RNText } from 'react-native';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import styled from 'styled-components';
-import colors from '../../../styles/colors';
+import colors from '../../styles/colors';
 
 import {
   FontFamilyType,
