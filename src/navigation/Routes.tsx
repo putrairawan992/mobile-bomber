@@ -22,11 +22,15 @@ const MMKV = new MMKVLoader().initialize(); // Returns an MMKV Instance
 function Routes() {
   const dispatch = useDispatch();
 
+  const { isLogin, user } = useSelector(
+    (state: ReduxState) => state.user,
+    shallowEqual,
+  );
+
   React.useEffect(() => {
     async function getLoginStatus() {
       const userAuth = await MMKV.getStringAsync('userAuth');
       if (userAuth) {
-        console.log('login otomatis');
         dispatch(loginSuccess(JSON.parse(userAuth)));
       }
     }
@@ -34,13 +38,6 @@ function Routes() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const { isLogin, user } = useSelector(
-    (state: ReduxState) => state.user,
-    shallowEqual,
-  );
-
-  const theme = useTheme();
-  console.log('is login', isLogin, user);
   return (
     <NavigationContainer>
       {isLogin ? <MainScreenStack /> : <AuthScreenStack />}
