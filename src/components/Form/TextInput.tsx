@@ -126,7 +126,7 @@ const styles = (theme: ThemeInterface) => StyleSheet.create({
   input: {
     borderRadius: 8,
     fontSize: 14,
-    fontFamily: 'SourceSansPro-Regular',
+    fontFamily: 'Poppins-Regular',
     lineHeight: 16,
     backgroundColor: theme.colors.BACKGROUND1,
     ...SHADOWS.default,

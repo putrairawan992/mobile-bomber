@@ -1,4 +1,4 @@
-package com.yourprojectname;
+package com.rn_surplus;
 
 import com.facebook.react.ReactActivity;
 import com.facebook.react.ReactActivityDelegate;

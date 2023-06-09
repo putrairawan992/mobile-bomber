@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-               BuildableName = "YourProjectName.app"
-               BlueprintName = "YourProjectName"
-               ReferencedContainer = "container:YourProjectName.xcodeproj">
+               BuildableName = "rn_surplus.app"
+               BlueprintName = "rn_surplus"
+               ReferencedContainer = "container:rn_surplus.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -33,9 +33,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "00E356ED1AD99517003FC87E"
-               BuildableName = "YourProjectNameTests.xctest"
-               BlueprintName = "YourProjectNameTests"
-               ReferencedContainer = "container:YourProjectName.xcodeproj">
+               BuildableName = "rn_surplusTests.xctest"
+               BlueprintName = "rn_surplusTests"
+               ReferencedContainer = "container:rn_surplus.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -55,9 +55,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-            BuildableName = "YourProjectName.app"
-            BlueprintName = "YourProjectName"
-            ReferencedContainer = "container:YourProjectName.xcodeproj">
+            BuildableName = "rn_surplus.app"
+            BlueprintName = "rn_surplus"
+            ReferencedContainer = "container:rn_surplus.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </LaunchAction>
@@ -72,9 +72,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-            BuildableName = "YourProjectName.app"
-            BlueprintName = "YourProjectName"
-            ReferencedContainer = "container:YourProjectName.xcodeproj">
+            BuildableName = "rn_surplus.app"
+            BlueprintName = "rn_surplus"
+            ReferencedContainer = "container:rn_surplus.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

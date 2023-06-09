@@ -121,7 +121,7 @@ export function HomeScreen() {
         onPress={onLogOut}
         style={{
           position: 'absolute',
-          top: 16,
+          top: Platform.OS === 'android' ? 16 : 64,
           right: 16,
         }}
       >
@@ -206,7 +206,7 @@ export function HomeScreen() {
                         variant="small"
                         label={item.region}
                         fontWeight="bold"
-                        color={colors.gumbo}
+                        color={colors.royalBlue}
                       />
                     </View>
                     <View style={{ flexDirection: 'row' }}>
@@ -214,7 +214,7 @@ export function HomeScreen() {
                         variant="small"
                         label="Pupulation : "
                         fontWeight="bold"
-                        color={colors.royalBlue}
+                        color={colors.gumbo}
                       />
                       <Text
                         variant="small"

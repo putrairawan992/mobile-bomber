@@ -8,7 +8,12 @@
     "start": "react-native start",
     "test": "jest",
     "lint": "eslint --ext .ts --ext .tsx ./src --fix",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "ios-clean-cache": "watchman watch-del-all",
+    "ios-clean-emu": "xcrun simctl erase all",
+    "android-clean-build": "cd android && ./gradlew clean",
+    "ios-clean-build": "cd ios && xcodebuild clean",
+    "pod-install": "cd ios && pod install"
   },
   "dependencies": {
     "@react-navigation/native": "^6.1.6",
@@ -20,6 +25,7 @@
     "iconsax-react-native": "^0.0.8",
     "react": "18.1.0",
     "react-native": "0.70.6",
+    "react-native-eject": "^0.2.0",
     "react-native-linear-gradient": "^2.6.2",
     "react-native-mmkv-storage": "0.8.0",
     "react-native-reanimated": "^3.2.0",
