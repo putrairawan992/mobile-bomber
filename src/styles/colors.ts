@@ -18,6 +18,9 @@ export interface ColorsInterface {
   limeade: string;
   salem: string;
   royalBlue: string;
+  statusPending: string;
+  statusCanceled: string;
+  statusRejected: string;
 }
 
 export default <ColorsInterface>{
@@ -39,4 +42,7 @@ export default <ColorsInterface>{
   pictonBlue: '#25A9EF',
   salem: '#0CA940',
   royalBlue: '#2F80ED',
+  statusPending: '#2F80ED',
+  statusCanceled: '#CC2027',
+  statusRejected: '#7A0000',
 };
