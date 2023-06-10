@@ -8,7 +8,6 @@
 import * as React from 'react';
 
 import { MMKVLoader } from 'react-native-mmkv-storage';
-// import { MMKVLoader } from 'react-native-mmkv-storage';
 import { NavigationContainer } from '@react-navigation/native';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import useTheme from '../theme/useTheme';
