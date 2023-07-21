@@ -8,33 +8,33 @@
 
 /* Begin PBXBuildFile section */
 		00E356F31AD99517003FC87E /* HolidayoTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* HolidayoTests.m */; };
+		06E62026FA5047538C172A96 /* Poppins-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7ECC9C4662574450A3ECAB08 /* Poppins-Light.ttf */; };
 		0C80B921A6F3F58F76C31292 /* libPods-Holidayo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5DCACB8F33CDC322A6C60F78 /* libPods-Holidayo.a */; };
 		13B07FBC1A68108700A75B9A /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.mm */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
-		7699B88040F8A987B510C191 /* libPods-Holidayo-HolidayoTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 19F6CBCC0A4E27FBF8BF4A61 /* libPods-Holidayo-HolidayoTests.a */; };
-		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
-		85B832E2E2874DA4895BB6C3 /* PlusJakartaDisplay-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 8D4A0BCFD8E7477393EEBA91 /* PlusJakartaDisplay-Bold.otf */; };
-		9A0D107BF4A7495E8E650AF0 /* PlusJakartaDisplay-BoldItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = 5A69CB41F9EC4BE0A552A897 /* PlusJakartaDisplay-BoldItalic.otf */; };
-		27F0D38F2DC5469BBB05548B /* PlusJakartaDisplay-Italic.otf in Resources */ = {isa = PBXBuildFile; fileRef = 91B8EE058D574F4EA5CABC11 /* PlusJakartaDisplay-Italic.otf */; };
-		7B3C5C8593584413B3E010D8 /* PlusJakartaDisplay-Light.otf in Resources */ = {isa = PBXBuildFile; fileRef = 1ED4AFE69BAD44C888A97922 /* PlusJakartaDisplay-Light.otf */; };
-		AEA4B20114504A50BEBACB19 /* PlusJakartaDisplay-LightItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = F0C179713EC34E629337D287 /* PlusJakartaDisplay-LightItalic.otf */; };
-		1F24E2E170AA4C73A0C43E23 /* PlusJakartaDisplay-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = 9D00111ECCA94E5DB115B7C1 /* PlusJakartaDisplay-Medium.otf */; };
-		63FD2856476B49C98BFC9D60 /* PlusJakartaDisplay-MediumItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = 18FDB3EF0B6A4CE78EE33A4F /* PlusJakartaDisplay-MediumItalic.otf */; };
-		879DF23AAA3D4D74ADAD19D2 /* PlusJakartaDisplay-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = FEDDE454A9BE42C193327496 /* PlusJakartaDisplay-Regular.otf */; };
-		20EA5ED97B8143B8BE5799C4 /* PlusJakartaText-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 743EF8C2D97D417BA7A542E1 /* PlusJakartaText-Bold.otf */; };
-		BB27668669EC48C295C9DC82 /* PlusJakartaText-BoldItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = 052B9873D7DE47729FB6589A /* PlusJakartaText-BoldItalic.otf */; };
-		1FC2CC88929B416F9DAAD314 /* PlusJakartaText-Italic.otf in Resources */ = {isa = PBXBuildFile; fileRef = 639D68A65A6843108815728B /* PlusJakartaText-Italic.otf */; };
-		CB5ADCE1AA284CD7B7F50B31 /* PlusJakartaText-Light.otf in Resources */ = {isa = PBXBuildFile; fileRef = C5A0C5ABB62A49589B4C3B46 /* PlusJakartaText-Light.otf */; };
-		A767209B303343DDB308E5CB /* PlusJakartaText-LightItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = 427AA8D056D84D6898886099 /* PlusJakartaText-LightItalic.otf */; };
-		852DBBA6F67A4D7693BB20A8 /* PlusJakartaText-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 91B2079E2F9B4D12A29D12B6 /* PlusJakartaText-Regular.otf */; };
-		F3459EB590FB4D0286FBCA00 /* Poppins-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 050BD5ACB57A48D7ACDD7E9C /* Poppins-Bold.ttf */; };
-		3CD6AC74F7EA4F9C9C892965 /* Poppins-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = ED3706942D32409EAAFB03D4 /* Poppins-ExtraBold.ttf */; };
-		06E62026FA5047538C172A96 /* Poppins-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7ECC9C4662574450A3ECAB08 /* Poppins-Light.ttf */; };
 		1CB4E5A3C089467AB3826A57 /* Poppins-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 235BFE15F86C4BCD9BCF0163 /* Poppins-Regular.ttf */; };
+		1F24E2E170AA4C73A0C43E23 /* PlusJakartaDisplay-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = 9D00111ECCA94E5DB115B7C1 /* PlusJakartaDisplay-Medium.otf */; };
+		1FC2CC88929B416F9DAAD314 /* PlusJakartaText-Italic.otf in Resources */ = {isa = PBXBuildFile; fileRef = 639D68A65A6843108815728B /* PlusJakartaText-Italic.otf */; };
+		20EA5ED97B8143B8BE5799C4 /* PlusJakartaText-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 743EF8C2D97D417BA7A542E1 /* PlusJakartaText-Bold.otf */; };
+		27F0D38F2DC5469BBB05548B /* PlusJakartaDisplay-Italic.otf in Resources */ = {isa = PBXBuildFile; fileRef = 91B8EE058D574F4EA5CABC11 /* PlusJakartaDisplay-Italic.otf */; };
 		36850CD2BC174BAA87E5A65F /* Poppins-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9C1A1905E17E48F4AA322CDC /* Poppins-SemiBold.ttf */; };
+		3CD6AC74F7EA4F9C9C892965 /* Poppins-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = ED3706942D32409EAAFB03D4 /* Poppins-ExtraBold.ttf */; };
 		496405EEC0464493B4CDABA6 /* Poppins-Thin.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E1592D83760548D6A597DEE5 /* Poppins-Thin.ttf */; };
+		63FD2856476B49C98BFC9D60 /* PlusJakartaDisplay-MediumItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = 18FDB3EF0B6A4CE78EE33A4F /* PlusJakartaDisplay-MediumItalic.otf */; };
+		7699B88040F8A987B510C191 /* libPods-Holidayo-HolidayoTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 19F6CBCC0A4E27FBF8BF4A61 /* libPods-Holidayo-HolidayoTests.a */; };
+		7B3C5C8593584413B3E010D8 /* PlusJakartaDisplay-Light.otf in Resources */ = {isa = PBXBuildFile; fileRef = 1ED4AFE69BAD44C888A97922 /* PlusJakartaDisplay-Light.otf */; };
+		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
+		852DBBA6F67A4D7693BB20A8 /* PlusJakartaText-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 91B2079E2F9B4D12A29D12B6 /* PlusJakartaText-Regular.otf */; };
+		85B832E2E2874DA4895BB6C3 /* PlusJakartaDisplay-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 8D4A0BCFD8E7477393EEBA91 /* PlusJakartaDisplay-Bold.otf */; };
+		879DF23AAA3D4D74ADAD19D2 /* PlusJakartaDisplay-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = FEDDE454A9BE42C193327496 /* PlusJakartaDisplay-Regular.otf */; };
+		9A0D107BF4A7495E8E650AF0 /* PlusJakartaDisplay-BoldItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = 5A69CB41F9EC4BE0A552A897 /* PlusJakartaDisplay-BoldItalic.otf */; };
+		A767209B303343DDB308E5CB /* PlusJakartaText-LightItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = 427AA8D056D84D6898886099 /* PlusJakartaText-LightItalic.otf */; };
+		AEA4B20114504A50BEBACB19 /* PlusJakartaDisplay-LightItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = F0C179713EC34E629337D287 /* PlusJakartaDisplay-LightItalic.otf */; };
+		BB27668669EC48C295C9DC82 /* PlusJakartaText-BoldItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = 052B9873D7DE47729FB6589A /* PlusJakartaText-BoldItalic.otf */; };
+		CB5ADCE1AA284CD7B7F50B31 /* PlusJakartaText-Light.otf in Resources */ = {isa = PBXBuildFile; fileRef = C5A0C5ABB62A49589B4C3B46 /* PlusJakartaText-Light.otf */; };
 		F22380E68BD44FC08360C2A9 /* OFL.txt in Resources */ = {isa = PBXBuildFile; fileRef = 48D244862FF54C9D878C9211 /* OFL.txt */; };
+		F3459EB590FB4D0286FBCA00 /* Poppins-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 050BD5ACB57A48D7ACDD7E9C /* Poppins-Bold.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -51,41 +51,41 @@
 		00E356EE1AD99517003FC87E /* HolidayoTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = HolidayoTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		00E356F11AD99517003FC87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		00E356F21AD99517003FC87E /* HolidayoTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HolidayoTests.m; sourceTree = "<group>"; };
+		050BD5ACB57A48D7ACDD7E9C /* Poppins-Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Poppins-Bold.ttf"; path = "../src/assets/fonts/Poppins-Bold.ttf"; sourceTree = "<group>"; };
+		052B9873D7DE47729FB6589A /* PlusJakartaText-BoldItalic.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "PlusJakartaText-BoldItalic.otf"; path = "../src/assets/fonts/PlusJakartaText-BoldItalic.otf"; sourceTree = "<group>"; };
 		13B07F961A680F5B00A75B9A /* Holidayo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Holidayo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = Holidayo/AppDelegate.h; sourceTree = "<group>"; };
 		13B07FB01A68108700A75B9A /* AppDelegate.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = AppDelegate.mm; path = Holidayo/AppDelegate.mm; sourceTree = "<group>"; };
 		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = Holidayo/Images.xcassets; sourceTree = "<group>"; };
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = Holidayo/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = Holidayo/main.m; sourceTree = "<group>"; };
+		18FDB3EF0B6A4CE78EE33A4F /* PlusJakartaDisplay-MediumItalic.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "PlusJakartaDisplay-MediumItalic.otf"; path = "../src/assets/fonts/PlusJakartaDisplay-MediumItalic.otf"; sourceTree = "<group>"; };
 		19F6CBCC0A4E27FBF8BF4A61 /* libPods-Holidayo-HolidayoTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Holidayo-HolidayoTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		1ED4AFE69BAD44C888A97922 /* PlusJakartaDisplay-Light.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "PlusJakartaDisplay-Light.otf"; path = "../src/assets/fonts/PlusJakartaDisplay-Light.otf"; sourceTree = "<group>"; };
+		235BFE15F86C4BCD9BCF0163 /* Poppins-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Poppins-Regular.ttf"; path = "../src/assets/fonts/Poppins-Regular.ttf"; sourceTree = "<group>"; };
 		3B4392A12AC88292D35C810B /* Pods-Holidayo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Holidayo.debug.xcconfig"; path = "Target Support Files/Pods-Holidayo/Pods-Holidayo.debug.xcconfig"; sourceTree = "<group>"; };
+		427AA8D056D84D6898886099 /* PlusJakartaText-LightItalic.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "PlusJakartaText-LightItalic.otf"; path = "../src/assets/fonts/PlusJakartaText-LightItalic.otf"; sourceTree = "<group>"; };
+		48D244862FF54C9D878C9211 /* OFL.txt */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = OFL.txt; path = ../src/assets/fonts/OFL.txt; sourceTree = "<group>"; };
 		5709B34CF0A7D63546082F79 /* Pods-Holidayo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Holidayo.release.xcconfig"; path = "Target Support Files/Pods-Holidayo/Pods-Holidayo.release.xcconfig"; sourceTree = "<group>"; };
+		5A69CB41F9EC4BE0A552A897 /* PlusJakartaDisplay-BoldItalic.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "PlusJakartaDisplay-BoldItalic.otf"; path = "../src/assets/fonts/PlusJakartaDisplay-BoldItalic.otf"; sourceTree = "<group>"; };
 		5B7EB9410499542E8C5724F5 /* Pods-Holidayo-HolidayoTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Holidayo-HolidayoTests.debug.xcconfig"; path = "Target Support Files/Pods-Holidayo-HolidayoTests/Pods-Holidayo-HolidayoTests.debug.xcconfig"; sourceTree = "<group>"; };
 		5DCACB8F33CDC322A6C60F78 /* libPods-Holidayo.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Holidayo.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		639D68A65A6843108815728B /* PlusJakartaText-Italic.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "PlusJakartaText-Italic.otf"; path = "../src/assets/fonts/PlusJakartaText-Italic.otf"; sourceTree = "<group>"; };
+		743EF8C2D97D417BA7A542E1 /* PlusJakartaText-Bold.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "PlusJakartaText-Bold.otf"; path = "../src/assets/fonts/PlusJakartaText-Bold.otf"; sourceTree = "<group>"; };
+		7ECC9C4662574450A3ECAB08 /* Poppins-Light.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Poppins-Light.ttf"; path = "../src/assets/fonts/Poppins-Light.ttf"; sourceTree = "<group>"; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = Holidayo/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		89C6BE57DB24E9ADA2F236DE /* Pods-Holidayo-HolidayoTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Holidayo-HolidayoTests.release.xcconfig"; path = "Target Support Files/Pods-Holidayo-HolidayoTests/Pods-Holidayo-HolidayoTests.release.xcconfig"; sourceTree = "<group>"; };
+		8D4A0BCFD8E7477393EEBA91 /* PlusJakartaDisplay-Bold.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "PlusJakartaDisplay-Bold.otf"; path = "../src/assets/fonts/PlusJakartaDisplay-Bold.otf"; sourceTree = "<group>"; };
+		91B2079E2F9B4D12A29D12B6 /* PlusJakartaText-Regular.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "PlusJakartaText-Regular.otf"; path = "../src/assets/fonts/PlusJakartaText-Regular.otf"; sourceTree = "<group>"; };
+		91B8EE058D574F4EA5CABC11 /* PlusJakartaDisplay-Italic.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "PlusJakartaDisplay-Italic.otf"; path = "../src/assets/fonts/PlusJakartaDisplay-Italic.otf"; sourceTree = "<group>"; };
+		9C1A1905E17E48F4AA322CDC /* Poppins-SemiBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Poppins-SemiBold.ttf"; path = "../src/assets/fonts/Poppins-SemiBold.ttf"; sourceTree = "<group>"; };
+		9D00111ECCA94E5DB115B7C1 /* PlusJakartaDisplay-Medium.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "PlusJakartaDisplay-Medium.otf"; path = "../src/assets/fonts/PlusJakartaDisplay-Medium.otf"; sourceTree = "<group>"; };
+		C5A0C5ABB62A49589B4C3B46 /* PlusJakartaText-Light.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "PlusJakartaText-Light.otf"; path = "../src/assets/fonts/PlusJakartaText-Light.otf"; sourceTree = "<group>"; };
+		E1592D83760548D6A597DEE5 /* Poppins-Thin.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Poppins-Thin.ttf"; path = "../src/assets/fonts/Poppins-Thin.ttf"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
-		8D4A0BCFD8E7477393EEBA91 /* PlusJakartaDisplay-Bold.otf */ = {isa = PBXFileReference; name = "PlusJakartaDisplay-Bold.otf"; path = "../src/assets/fonts/PlusJakartaDisplay-Bold.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		5A69CB41F9EC4BE0A552A897 /* PlusJakartaDisplay-BoldItalic.otf */ = {isa = PBXFileReference; name = "PlusJakartaDisplay-BoldItalic.otf"; path = "../src/assets/fonts/PlusJakartaDisplay-BoldItalic.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		91B8EE058D574F4EA5CABC11 /* PlusJakartaDisplay-Italic.otf */ = {isa = PBXFileReference; name = "PlusJakartaDisplay-Italic.otf"; path = "../src/assets/fonts/PlusJakartaDisplay-Italic.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		1ED4AFE69BAD44C888A97922 /* PlusJakartaDisplay-Light.otf */ = {isa = PBXFileReference; name = "PlusJakartaDisplay-Light.otf"; path = "../src/assets/fonts/PlusJakartaDisplay-Light.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		F0C179713EC34E629337D287 /* PlusJakartaDisplay-LightItalic.otf */ = {isa = PBXFileReference; name = "PlusJakartaDisplay-LightItalic.otf"; path = "../src/assets/fonts/PlusJakartaDisplay-LightItalic.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		9D00111ECCA94E5DB115B7C1 /* PlusJakartaDisplay-Medium.otf */ = {isa = PBXFileReference; name = "PlusJakartaDisplay-Medium.otf"; path = "../src/assets/fonts/PlusJakartaDisplay-Medium.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		18FDB3EF0B6A4CE78EE33A4F /* PlusJakartaDisplay-MediumItalic.otf */ = {isa = PBXFileReference; name = "PlusJakartaDisplay-MediumItalic.otf"; path = "../src/assets/fonts/PlusJakartaDisplay-MediumItalic.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		FEDDE454A9BE42C193327496 /* PlusJakartaDisplay-Regular.otf */ = {isa = PBXFileReference; name = "PlusJakartaDisplay-Regular.otf"; path = "../src/assets/fonts/PlusJakartaDisplay-Regular.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		743EF8C2D97D417BA7A542E1 /* PlusJakartaText-Bold.otf */ = {isa = PBXFileReference; name = "PlusJakartaText-Bold.otf"; path = "../src/assets/fonts/PlusJakartaText-Bold.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		052B9873D7DE47729FB6589A /* PlusJakartaText-BoldItalic.otf */ = {isa = PBXFileReference; name = "PlusJakartaText-BoldItalic.otf"; path = "../src/assets/fonts/PlusJakartaText-BoldItalic.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		639D68A65A6843108815728B /* PlusJakartaText-Italic.otf */ = {isa = PBXFileReference; name = "PlusJakartaText-Italic.otf"; path = "../src/assets/fonts/PlusJakartaText-Italic.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		C5A0C5ABB62A49589B4C3B46 /* PlusJakartaText-Light.otf */ = {isa = PBXFileReference; name = "PlusJakartaText-Light.otf"; path = "../src/assets/fonts/PlusJakartaText-Light.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		427AA8D056D84D6898886099 /* PlusJakartaText-LightItalic.otf */ = {isa = PBXFileReference; name = "PlusJakartaText-LightItalic.otf"; path = "../src/assets/fonts/PlusJakartaText-LightItalic.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		91B2079E2F9B4D12A29D12B6 /* PlusJakartaText-Regular.otf */ = {isa = PBXFileReference; name = "PlusJakartaText-Regular.otf"; path = "../src/assets/fonts/PlusJakartaText-Regular.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		050BD5ACB57A48D7ACDD7E9C /* Poppins-Bold.ttf */ = {isa = PBXFileReference; name = "Poppins-Bold.ttf"; path = "../src/assets/fonts/Poppins-Bold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		ED3706942D32409EAAFB03D4 /* Poppins-ExtraBold.ttf */ = {isa = PBXFileReference; name = "Poppins-ExtraBold.ttf"; path = "../src/assets/fonts/Poppins-ExtraBold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		7ECC9C4662574450A3ECAB08 /* Poppins-Light.ttf */ = {isa = PBXFileReference; name = "Poppins-Light.ttf"; path = "../src/assets/fonts/Poppins-Light.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		235BFE15F86C4BCD9BCF0163 /* Poppins-Regular.ttf */ = {isa = PBXFileReference; name = "Poppins-Regular.ttf"; path = "../src/assets/fonts/Poppins-Regular.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		9C1A1905E17E48F4AA322CDC /* Poppins-SemiBold.ttf */ = {isa = PBXFileReference; name = "Poppins-SemiBold.ttf"; path = "../src/assets/fonts/Poppins-SemiBold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		E1592D83760548D6A597DEE5 /* Poppins-Thin.ttf */ = {isa = PBXFileReference; name = "Poppins-Thin.ttf"; path = "../src/assets/fonts/Poppins-Thin.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		48D244862FF54C9D878C9211 /* OFL.txt */ = {isa = PBXFileReference; name = "OFL.txt"; path = "../src/assets/fonts/OFL.txt"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		ED3706942D32409EAAFB03D4 /* Poppins-ExtraBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Poppins-ExtraBold.ttf"; path = "../src/assets/fonts/Poppins-ExtraBold.ttf"; sourceTree = "<group>"; };
+		F0C179713EC34E629337D287 /* PlusJakartaDisplay-LightItalic.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "PlusJakartaDisplay-LightItalic.otf"; path = "../src/assets/fonts/PlusJakartaDisplay-LightItalic.otf"; sourceTree = "<group>"; };
+		FEDDE454A9BE42C193327496 /* PlusJakartaDisplay-Regular.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "PlusJakartaDisplay-Regular.otf"; path = "../src/assets/fonts/PlusJakartaDisplay-Regular.otf"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -192,7 +192,7 @@
 			sourceTree = "<group>";
 		};
 		DF3283593DCA406CA71538C6 /* Resources */ = {
-			isa = "PBXGroup";
+			isa = PBXGroup;
 			children = (
 				8D4A0BCFD8E7477393EEBA91 /* PlusJakartaDisplay-Bold.otf */,
 				5A69CB41F9EC4BE0A552A897 /* PlusJakartaDisplay-BoldItalic.otf */,
@@ -217,8 +217,8 @@
 				48D244862FF54C9D878C9211 /* OFL.txt */,
 			);
 			name = Resources;
-			sourceTree = "<group>";
 			path = "";
+			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
@@ -655,7 +655,7 @@
 				COPY_PHASE_STRIP = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
-				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = "";
+				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = i386;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -689,6 +689,7 @@
 					"-DFOLLY_MOBILE=1",
 					"-DFOLLY_USE_LIBCPP=1",
 				);
+				REACT_NATIVE_PATH = "${PODS_ROOT}/../../node_modules/react-native";
 				SDKROOT = iphoneos;
 			};
 			name = Debug;
@@ -726,7 +727,7 @@
 				COPY_PHASE_STRIP = YES;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = "";
+				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = i386;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -752,6 +753,7 @@
 					"-DFOLLY_MOBILE=1",
 					"-DFOLLY_USE_LIBCPP=1",
 				);
+				REACT_NATIVE_PATH = "${PODS_ROOT}/../../node_modules/react-native";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 			};
