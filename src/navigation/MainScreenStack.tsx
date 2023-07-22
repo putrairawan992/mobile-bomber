@@ -1,4 +1,3 @@
-/* eslint-disable import/no-cycle */
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import React from 'react';
 import { HomeScreen } from '../screens/Home';

@@ -1,9 +1,7 @@
 /* eslint-disable @typescript-eslint/no-use-before-define */
-/* eslint-disable react/jsx-props-no-spreading */
 /* eslint-disable no-nested-ternary */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
-/* eslint-disable react/require-default-props */
 
 import * as React from 'react';
 
@@ -97,8 +95,8 @@ function Button({
               type === 'outlined' || type === 'secondaryOutlined' ? 1 : 0,
             borderColor:
               mapStyling[type as keyof typeof mapStyling].borderColor,
-            width: width ?? WIDTH,
-            borderRadius: noRound ? 0 : 4,
+            width: width ?? 'auto',
+            borderRadius: noRound ? 0 : 50,
           },
         ]}
         {...restOfProps}
@@ -117,7 +115,7 @@ function Button({
         ) : (
           <View style={{ flexDirection: 'row', alignItems: 'center' }}>
             <Text
-              variant="medium"
+              variant="large"
               color={
                 type === 'primary'
                 || type === 'secondary'
@@ -131,6 +129,7 @@ function Button({
                       : 'b1'
               }
               label={title}
+              fontWeight='bold'
             />
             {icon}
           </View>

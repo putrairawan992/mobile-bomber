@@ -4,6 +4,7 @@ export const WIDTH = Dimensions.get('window').width;
 export const HEIGHT = Dimensions.get('window').height;
 export const EVENT_CARD_WIDTH = 329;
 export const EVENT_CARD_HEIGHT = 160;
+export const PADDING = 20;
 
 export const SHADOWS = {
   light: {

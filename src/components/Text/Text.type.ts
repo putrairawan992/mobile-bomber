@@ -25,8 +25,10 @@ export type TextTransformType =
   | 'lowercase';
 export type TextVariantType =
   | 'extra-large'
+  | 'ultra-large'
   | 'x-large'
   | 'large'
+  | 'base'
   | 'medium'
   | 'small'
   | 'extra-small';

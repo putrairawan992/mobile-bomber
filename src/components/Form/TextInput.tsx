@@ -1,14 +1,10 @@
-/* eslint-disable react/jsx-closing-bracket-location */
 /* eslint-disable @typescript-eslint/no-use-before-define */
-/* eslint-disable react/prop-types */
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
-/* eslint-disable react/require-default-props */
-/* eslint-disable import/prefer-default-export */
 import * as React from 'react';
 
-import { TextInput as RNTextInput, StyleSheet, View } from 'react-native';
+import { TextInput as RNTextInput, StyleSheet, View, Platform, TouchableOpacity } from 'react-native';
 
 import Spacer from '../Spacer/Spacer';
 import { Text } from '../Text';
@@ -17,14 +13,16 @@ import useThemedStyles from '../../theme/useThemedStyles';
 import { SHADOWS, WIDTH } from '../../utils/config';
 import useTheme from '../../theme/useTheme';
 import { ThemeInterface } from '../../theme/ThemeProvider';
+import { Eye, EyeSlash } from 'iconsax-react-native';
 
 type Props = React.ComponentProps<typeof RNTextInput> & {
-  label: string;
+  label?: string;
   errorText?: string | null;
   textArea?: boolean;
   isNumeric?: boolean;
   width?: number;
   rightIcon?: JSX.Element;
+  type?: string;
 };
 
 export const TextInput = React.forwardRef((props: Props, ref) => {
@@ -33,6 +31,7 @@ export const TextInput = React.forwardRef((props: Props, ref) => {
     errorText,
     value,
     style,
+    type,
     onBlur,
     onFocus,
     textArea,
@@ -45,9 +44,11 @@ export const TextInput = React.forwardRef((props: Props, ref) => {
   const [isFocused, setIsFocused] = React.useState<boolean>(false);
   const theme = useTheme();
   const styling = useThemedStyles(styles);
+  const [showPassword, setShowPassword] = React.useState<boolean>(false);
 
   let color = isFocused ? theme?.colors.TEXT_PRIMARY : theme?.colors.TEXT_LABEL;
-  let borderColor = isFocused ? '#232323' : '#E8E8E8';
+  let borderColor = isFocused ? theme?.colors.PRIMARY : 'transparent';
+
 
   const borderWidth = isFocused ? 1 : 1;
   if (errorText) {
@@ -67,17 +68,19 @@ export const TextInput = React.forwardRef((props: Props, ref) => {
 
   return (
     <View style={styling.container}>
-      <Text label={label} variant="medium" fontWeight="regular" />
+      {!!label && <Text label={label} variant="medium" fontWeight="regular" />}
       <Spacer s />
       <View
         style={{
           flexDirection: 'row',
-          paddingHorizontal: 13,
+          paddingHorizontal: 22,
           borderRadius: 8,
           borderWidth,
           borderColor,
           alignItems: 'center',
           justifyContent: 'space-between',
+          backgroundColor: theme?.colors.BACKGROUND2,
+          ...(width && { width })
         }}>
         <RNTextInput
           style={[
@@ -86,10 +89,10 @@ export const TextInput = React.forwardRef((props: Props, ref) => {
               color,
               height: textArea ? 160 : 50,
               textAlignVertical: textArea ? 'top' : 'center',
-              width: width ?? WIDTH - 80,
+              width: rightIcon || type === 'password' ? '90%' : '100%',
+              backgroundColor: theme?.colors.BACKGROUND2,
             },
           ]}
-          // eslint-disable-next-line react/jsx-props-no-spreading
           {...restOfProps}
           value={value}
           onBlur={(event) => {
@@ -101,13 +104,22 @@ export const TextInput = React.forwardRef((props: Props, ref) => {
             onFocus?.(event);
           }}
           placeholder={placeholder}
-          placeholderTextColor={theme?.colors.B6}
+          placeholderTextColor={'#777682'}
           multiline={!!textArea}
           numberOfLines={textArea ? 5 : 1}
           keyboardType={isNumeric ? 'number-pad' : 'default'}
           ref={internalInputRef}
+          secureTextEntry={type === 'password' && !showPassword ? true : false}
         />
         {rightIcon}
+        {type === 'password' && (
+          <TouchableOpacity onPress={() => setShowPassword(!showPassword)}>
+            {showPassword ? <Eye size="20" color="#777682" /> : <EyeSlash size="20" color="#777682" />}
+
+          </TouchableOpacity>
+
+
+        )}
       </View>
       {errorText && (
         <View>
@@ -126,9 +138,11 @@ const styles = (theme: ThemeInterface) => StyleSheet.create({
   input: {
     borderRadius: 8,
     fontSize: 14,
-    fontFamily: 'Poppins-Regular',
+    fontFamily: Platform.OS === 'android'
+      ? 'PlusJakartaDisplay-Regular'
+      : 'PlusJakartaText-Regular',
     lineHeight: 16,
-    backgroundColor: theme.colors.BACKGROUND1,
+    backgroundColor: theme.colors.BACKGROUND2,
     ...SHADOWS.default,
   },
 });

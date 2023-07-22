@@ -5,7 +5,6 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import React from 'react';
 import { Text as RNText } from 'react-native';
-// eslint-disable-next-line import/no-extraneous-dependencies
 import styled from 'styled-components';
 import colors from '../../styles/colors';
 
@@ -16,8 +15,8 @@ import {
   TextVariantType,
 } from './Text.type';
 
-type TextFontSizeType = '36px' | '24px' | '16px' | '14px' | '12px' | '10px';
-type TextLineHeightType = '40px' | '28px' | '18px' | '16px' | '14px';
+type TextFontSizeType = '36px' | '24px' | '16px' | '14px' | '12px' | '10px' | '18px' | '30px';
+type TextLineHeightType = '40px' | '28px' | '18px' | '16px' | '14px' | '22px' | '34px';
 
 export const fontFamilyMapper: Record<FontWeightType, FontFamilyType> = {
   'extra-bold': 'Poppins-ExtraBold',
@@ -30,8 +29,10 @@ export const fontFamilyMapper: Record<FontWeightType, FontFamilyType> = {
 
 const textLineHeightMapper: Record<TextVariantType, TextLineHeightType> = {
   'extra-large': '40px',
+  'ultra-large' : '34px',
   'x-large': '28px',
   large: '28px',
+  base: '22px',
   medium: '18px',
   small: '16px',
   'extra-small': '14px',
@@ -39,8 +40,10 @@ const textLineHeightMapper: Record<TextVariantType, TextLineHeightType> = {
 
 const fontSizeMapper: Record<TextVariantType, TextFontSizeType> = {
   'extra-large': '36px',
+  'ultra-large' : '30px',
   'x-large': '24px',
-  large: '16px',
+  large: '18px',
+  base: '16px',
   medium: '14px',
   small: '12px',
   'extra-small': '10px',
@@ -58,11 +61,8 @@ const StyledText = styled(RNText)<TextProps>`
 `;
 
 function Text(props: TextProps) {
-  // FIXME: fix eslint for destructuring-assignmen
   return (
-    // eslint-disable-next-line react/jsx-props-no-spreading
     <StyledText allowFontScaling={false} {...props}>
-      {/* eslint-disable-next-line react/destructuring-assignment */}
       {props.label}
     </StyledText>
   );

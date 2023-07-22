@@ -1,8 +1,6 @@
-/* eslint-disable import/no-extraneous-dependencies */
+
 /* eslint-disable @typescript-eslint/no-misused-promises */
 /* eslint-disable @typescript-eslint/no-unsafe-call */
-/* eslint-disable react/function-component-definition */
-/* eslint-disable import/no-cycle */
 /* eslint-disable @typescript-eslint/no-use-before-define */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
@@ -67,7 +65,7 @@ if (Platform.OS === 'android') {
 }
 
 const MMKV = new MMKVLoader().initialize(); // Returns an MMKV Instance
-/* eslint-disable import/prefer-default-export */
+
 export const LoginScreen = () => {
   const style = useThemedStyles(styles);
   const [isExpand, setIsExpand] = useState<boolean>(false);

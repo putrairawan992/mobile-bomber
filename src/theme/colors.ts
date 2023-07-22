@@ -1,4 +1,3 @@
-/* eslint-disable import/prefer-default-export */
 /* eslint-disable object-shorthand */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 const SUN_FLOWER = '#f1c40f';
@@ -49,12 +48,12 @@ const common = {
 
 const light = {
   ...common,
-  BACKGROUND1: '#FFFFFF',
-  BACKGROUND2: '#FDFDFD',
-  TEXT_PRIMARY: LIGHT_BLACK,
-  TEXT_SECONDARY: LIGHT_GREY,
+  BACKGROUND1: '#FAFAFA',
+  BACKGROUND2: '#FFFFFF',
+  TEXT_PRIMARY: '#0C0C26',
+  TEXT_SECONDARY: '#777682',
   TEXT_LABEL: DARK_GREY,
-  PRIMARY: '#00A793',
+  PRIMARY: '#04CEDB',
   SECONDARY: '#FF5C00',
   TEXT_BUTTON: CLOUDS,
   DISABLED: DISABLED,

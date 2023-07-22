@@ -1,11 +1,8 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/no-misused-promises */
 /* eslint-disable @typescript-eslint/await-thenable */
 /* eslint-disable no-mixed-operators */
 /* eslint-disable max-len */
-/* eslint-disable react/jsx-no-useless-fragment */
 /* eslint-disable no-nested-ternary */
-/* eslint-disable react/no-array-index-key */
 /* eslint-disable @typescript-eslint/no-use-before-define */
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable @typescript-eslint/no-explicit-any */
@@ -14,7 +11,6 @@
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-unsafe-return */
-/* eslint-disable import/prefer-default-export */
 import { useNavigation } from '@react-navigation/native';
 import { Logout } from 'iconsax-react-native';
 import React, { useContext, useEffect, useState } from 'react';
