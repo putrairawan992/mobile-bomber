@@ -10,6 +10,11 @@
     "@jridgewell/gen-mapping" "^0.3.0"
     "@jridgewell/trace-mapping" "^0.3.9"
 
+"@apolloeagle/loading-dots@^3.0.0":
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/@apolloeagle/loading-dots/-/loading-dots-3.0.0.tgz#73efeb9950ac9b59d26dabf98d864f42a0b2daa9"
+  integrity sha512-iaC5PBvopqiQi0BSI8dtRC2xVWkRSWxM5ej3KgiGndtVunJWugVEkcmkFZb6wxdgRIjDZ3LHDGMfXyEKc4M6bg==
+
 "@babel/code-frame@^7.0.0", "@babel/code-frame@^7.21.4":
   version "7.21.4"
   resolved "https://registry.yarnpkg.com/@babel/code-frame/-/code-frame-7.21.4.tgz#d0fa9e4413aca81f2b23b9442797bda1826edb39"
@@ -1567,6 +1572,11 @@
   dependencies:
     "@nodelib/fs.scandir" "2.1.5"
     fastq "^1.6.0"
+
+"@react-native-clipboard/clipboard@^1.11.2":
+  version "1.11.2"
+  resolved "https://registry.yarnpkg.com/@react-native-clipboard/clipboard/-/clipboard-1.11.2.tgz#e826d0336b34e67294aaffa6878308900bc7d197"
+  integrity sha512-bHyZVW62TuleiZsXNHS1Pv16fWc0fh8O9WvBzl4h2fykqZRW9a+Pv/RGTH56E3X2PqzHP38K5go8zmCZUoIsoQ==
 
 "@react-native-community/cli-clean@^9.2.1":
   version "9.2.1"

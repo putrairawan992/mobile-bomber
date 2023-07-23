@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import React from "react"
-import { View } from "react-native"
+import { Platform, TouchableOpacity, View } from "react-native"
 import { Logo } from "../assets/icons/Logo";
 import { Container, Content } from "../components";
 import { TextInput } from "../components/Form/TextInput";
@@ -16,9 +16,12 @@ import { Text } from "../components/Text";
 import { Section } from "../components/Section";
 import GoogleFaceBookBtn from "../components/SignUpLogIn/GoogleFaceBookBtn";
 import { Images } from "../theme";
+import { AuthStackParams } from "../navigation/AuthScreenStack";
+import { NativeStackScreenProps } from "@react-navigation/native-stack";
 
+type Props = NativeStackScreenProps<AuthStackParams, 'SignUp', 'MyStack'>;
 
-export const SignUp = () => {
+export const SignUp = ({ navigation }: Props) => {
     const theme = useTheme();
     const formik = useFormik<SignUpPayloadInterface>({
         initialValues: {
@@ -29,7 +32,7 @@ export const SignUp = () => {
         },
         validationSchema: Yup.object({
             fullName: Yup.string().required('Fullname is required'),
-            phone: Yup.string().required('Phone is required'),
+            phone: Yup.string().required('Phone number is required'),
             email: Yup.string()
                 .email('Must be valid email')
                 .required('Email is required'),
@@ -40,7 +43,7 @@ export const SignUp = () => {
 
         }),
         // validateOnChange: false,
-        // enableReinitialize: true,
+        enableReinitialize: true,
         onSubmit: () => undefined,
     });
     return (
@@ -78,6 +81,7 @@ export const SignUp = () => {
                     errorText={formik.errors.phone}
                     onChangeText={formik.handleChange('phone')}
                     placeholder="Phone Number"
+                    isNumeric
                 />
                 <Spacer l />
                 <TextInput
@@ -91,7 +95,12 @@ export const SignUp = () => {
                 <Spacer l />
                 <Button
                     type="primary"
-                    onPress={() => formik.handleSubmit()}
+                    onPress={() =>
+                        // formik.handleSubmit()
+                        navigation.navigate('OtpSignUp', {
+                            phone: formik.values.phone
+                        })
+                    }
                     title="Sign Up"
                     isLoading={false}
                 />
@@ -112,8 +121,10 @@ export const SignUp = () => {
                 <Section isCenter isRow style={{
                     marginTop: 128
                 }}>
-                    <Text variant="small" label="Don’t have an account yet? " color={theme?.colors.TEXT_SECONDARY} />
-                    <Text variant="small" label="Sign up" color={theme?.colors.PRIMARY} />
+                    <Text variant="small" label="Already have an account? " color={theme?.colors.TEXT_SECONDARY} />
+                    <TouchableOpacity onPress={() => navigation.navigate('LogIn')}>
+                        <Text variant="small" label="Log In" color={theme?.colors.PRIMARY} />
+                    </TouchableOpacity>
                 </Section>
             </Content>
         </Container>

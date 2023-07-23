@@ -2,23 +2,25 @@
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
-import { useNavigation } from "@react-navigation/native";
+import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import React, { useEffect } from "react"
 import { View } from "react-native"
 import { LogoLabel } from "../assets/icons/LogoLabel";
 import { Container } from "../components";
-import { AuthStackParams } from "../navigation/AuthScreenStack";
 import useTheme from "../theme/useTheme";
 
 
 export const SplashScreen = () => {
     const navigation = useNavigation<any>();
     const theme = useTheme();
-    useEffect(() => {
-        setTimeout(() => {
-            navigation.navigate('SignUp');
-        }, 2000)
-    }, [])
+    useFocusEffect(
+        React.useCallback(() => {
+            setTimeout(() => {
+                navigation.navigate('SignUp');
+            }, 2000)
+        }, [])
+      );
+
     return (
         <Container>
             <View style={{

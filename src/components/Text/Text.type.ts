@@ -7,13 +7,22 @@ export type FontFamilyType =
   | 'Poppins-SemiBold'
   | 'Poppins-Regular'
   | 'Poppins-Light'
-  | 'Poppins-Thin';
+  | 'Poppins-Thin'
+  | 'PlusJakartaDisplay-Light'
+  | 'PlusJakartaDisplay-Regular'
+  | 'PlusJakartaDisplay-Medium'
+  | 'PlusJakartaDisplay-Bold'
+  | 'PlusJakartaText-Light'
+  | 'PlusJakartaText-Regular'
+  | 'PlusJakartaText-Bold'
+  ;
 
 export type FontWeightType =
   | 'extra-bold'
   | 'bold'
   | 'semi-bold'
   | 'regular'
+  | 'medium'
   | 'light'
   | 'thin';
 export type TextAlignType = 'left' | 'center' | 'right' | 'justify';

@@ -4,7 +4,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import React from 'react';
-import { Text as RNText } from 'react-native';
+import { Platform, Text as RNText } from 'react-native';
 import styled from 'styled-components';
 import colors from '../../styles/colors';
 
@@ -19,17 +19,28 @@ type TextFontSizeType = '36px' | '24px' | '16px' | '14px' | '12px' | '10px' | '1
 type TextLineHeightType = '40px' | '28px' | '18px' | '16px' | '14px' | '22px' | '34px';
 
 export const fontFamilyMapper: Record<FontWeightType, FontFamilyType> = {
-  'extra-bold': 'Poppins-ExtraBold',
-  bold: 'Poppins-Bold',
+  'extra-bold': Platform.OS === 'android'
+    ? 'PlusJakartaDisplay-Bold'
+    : 'PlusJakartaText-Bold',
+  bold: Platform.OS === 'android'
+    ? 'PlusJakartaDisplay-Bold'
+    : 'PlusJakartaText-Bold',
   'semi-bold': 'Poppins-SemiBold',
-  regular: 'Poppins-Regular',
-  light: 'Poppins-Light',
-  thin: 'Poppins-Thin',
+  regular: 'PlusJakartaDisplay-Medium',
+  medium: Platform.OS === 'android'
+    ? 'PlusJakartaDisplay-Regular'
+    : 'PlusJakartaText-Regular',
+  light: Platform.OS === 'android'
+    ? 'PlusJakartaDisplay-Light'
+    : 'PlusJakartaText-Light',
+  thin: Platform.OS === 'android'
+    ? 'PlusJakartaDisplay-Light'
+    : 'PlusJakartaText-Light',
 };
 
 const textLineHeightMapper: Record<TextVariantType, TextLineHeightType> = {
   'extra-large': '40px',
-  'ultra-large' : '34px',
+  'ultra-large': '34px',
   'x-large': '28px',
   large: '28px',
   base: '22px',
@@ -40,7 +51,7 @@ const textLineHeightMapper: Record<TextVariantType, TextLineHeightType> = {
 
 const fontSizeMapper: Record<TextVariantType, TextFontSizeType> = {
   'extra-large': '36px',
-  'ultra-large' : '30px',
+  'ultra-large': '30px',
   'x-large': '24px',
   large: '18px',
   base: '16px',
@@ -49,7 +60,7 @@ const fontSizeMapper: Record<TextVariantType, TextFontSizeType> = {
   'extra-small': '10px',
 };
 
-const StyledText = styled(RNText)<TextProps>`
+const StyledText = styled(RNText) <TextProps>`
   color: ${props => props.color || colors.bermudaGrey};
   font-family: ${props => fontFamilyMapper[props.fontWeight || 'regular']};
   font-size: ${props => fontSizeMapper[props.variant || 'medium']};

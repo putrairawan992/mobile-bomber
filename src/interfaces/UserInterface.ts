@@ -7,7 +7,7 @@ export interface UserInterface {
 }
 
 export interface LoginPayloadInterface {
-  email: string;
+  phone: string;
   password: string;
 }
 
@@ -16,4 +16,9 @@ export interface SignUpPayloadInterface {
   email: string;
   password: string;
   phone: string;
+}
+
+export interface ResetPasswordInterface {
+  password: string;
+  rePassword: string;
 }

@@ -23,6 +23,7 @@ type Props = React.ComponentProps<typeof RNTextInput> & {
   width?: number;
   rightIcon?: JSX.Element;
   type?: string;
+  style?: React.CSSProperties;
 };
 
 export const TextInput = React.forwardRef((props: Props, ref) => {
@@ -67,8 +68,8 @@ export const TextInput = React.forwardRef((props: Props, ref) => {
   }));
 
   return (
-    <View style={styling.container}>
-      {!!label && <Text label={label} variant="medium" fontWeight="regular" />}
+    <View style={[styling.container, style]}>
+      {!!label && <Text label={label} variant="medium" fontWeight="regular" color={theme?.colors.TEXT_SECONDARY} />}
       <Spacer s />
       <View
         style={{
