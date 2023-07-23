@@ -3,7 +3,6 @@
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
-/* eslint-disable import/no-extraneous-dependencies */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import * as React from 'react';
 
@@ -34,7 +33,6 @@ function Routes() {
       }
     }
     getLoginStatus();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

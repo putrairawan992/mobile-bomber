@@ -6,7 +6,6 @@ import AnimatedEllipsis from 'react-native-animated-ellipsis';
 
 
 export const Ellipsis = (props) => {
-    console.log(props);
     return (
         <AnimatedEllipsis
             numberOfDots={props.numberOfDots}

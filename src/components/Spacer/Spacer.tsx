@@ -1,8 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
-/* eslint-disable react/destructuring-assignment */
-/* eslint-disable react/require-default-props */
 import React from 'react';
 import { View, ViewStyle } from 'react-native';
 import useTheme from '../../theme/useTheme';
@@ -11,6 +9,7 @@ import Spacing from './Spacing';
 type Props = {
   xxs?: boolean;
   xs?: boolean;
+  sx?: boolean;
   s?: boolean;
   sm?: boolean;
   m?: boolean;
@@ -35,6 +34,8 @@ function Spacer(props: Props) {
     space = Spacing.xxs;
   } else if (props.xs) {
     space = Spacing.xs;
+  } else if (props.sx) {
+    space = Spacing.sx;
   } else if (props.s) {
     space = Spacing.s;
   } else if (props.sm) {

@@ -4,9 +4,9 @@ import { Container, Header } from '../components';
 import { MainStackParams } from '../navigation/MainScreenStack';
 import useTheme from '../theme/useTheme';
 
-type Props = NativeStackScreenProps<MainStackParams, 'Home', 'MyStack'>;
+type Props = NativeStackScreenProps<MainStackParams, 'Saved', 'MyStack'>;
 
-function HomeScreen({ navigation }: Props) {
+function SavedScreen({ navigation }: Props) {
 const theme = useTheme()
 
   return (
@@ -18,4 +18,4 @@ const theme = useTheme()
   );
 }
 
-export default HomeScreen;
+export default SavedScreen;

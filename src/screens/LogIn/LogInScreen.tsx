@@ -23,11 +23,15 @@ import { TextInput } from '../../components/Form/TextInput';
 import styles from './Styles/LogInStyle';
 import { useFormik } from 'formik';
 import useTheme from '../../theme/useTheme';
+import { useDispatch } from 'react-redux';
+import { loginSuccess } from '../../store/user/userActions';
 
 type Props = NativeStackScreenProps<AuthStackParams, 'LogIn', 'MyStack'>;
 
 function LogInScreen({ navigation }: Props) {
   const theme = useTheme();
+  const dispatch = useDispatch();
+  const [isLoading, setIsLoading] = React.useState<boolean>(false);
   const formik = useFormik<LoginPayloadInterface>({
     initialValues: {
       password: '',
@@ -41,7 +45,17 @@ function LogInScreen({ navigation }: Props) {
     }),
     // validateOnChange: false,
     enableReinitialize: true,
-    onSubmit: () => undefined,
+    onSubmit: () => {
+      setIsLoading(true);
+      setTimeout(() => {
+        dispatch(loginSuccess({
+          userId: 'ABC123',
+          fullName: 'John Wick',
+          email: 'john.wick@gmail.com',
+          token: 'DEF456'
+        }))
+      }, 3000);
+    }
   });
   return (
     <Container>
@@ -84,7 +98,7 @@ function LogInScreen({ navigation }: Props) {
               formik.handleSubmit()
             }
             title="Log In"
-            isLoading={false}
+            isLoading={isLoading}
           />
           <Spacer lxx />
           <Section isCenter >
