@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 /* eslint-disable no-undef */
-const { CountryService } = require('../CountryService');
+const {CountryService} = require('../CountryService');
 
 describe('should fire getCountryList', () => {
   it('Mocking and returning correct data', async () => {

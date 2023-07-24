@@ -1,20 +1,23 @@
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
-import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import * as React from 'react';
-import { Image, View } from 'react-native';
-import { Container, Content } from '../../components';
-import { Section } from '../../components/Section';
-import { Text } from '../../components/Text';
-import { AuthStackParams } from '../../navigation/AuthScreenStack';
-import { Images } from '../../theme';
-import { ThemeInterface } from '../../theme/ThemeProvider';
+import {Image, View} from 'react-native';
+import {Container, Content} from '../../components';
+import {Section} from '../../components/Section';
+import {Text} from '../../components/Text';
+import {AuthStackParams} from '../../navigation/AuthScreenStack';
+import {Images} from '../../theme';
 import useTheme from '../../theme/useTheme';
 import styles from './Styles/SuccessStyle';
 
-type Props = NativeStackScreenProps<AuthStackParams, 'SuccessNumber', 'MyStack'>;
+type Props = NativeStackScreenProps<
+  AuthStackParams,
+  'SuccessNumber',
+  'MyStack'
+>;
 
-function SuccessNumberScreen({ navigation }: Props) {
+function SuccessNumberScreen({navigation}: Props) {
   const theme = useTheme();
   setTimeout(() => {
     navigation.navigate('LogIn');
@@ -28,9 +31,20 @@ function SuccessNumberScreen({ navigation }: Props) {
             style={styles.successImage}
             resizeMode="contain"
           />
-          <Text variant='ultra-large' fontWeight='bold' label="Success" color={theme?.colors.TEXT_PRIMARY} style={{ marginBottom: 33 }} />
-          <Section padding='0 38'>
-            <Text fontWeight='medium' label="Congratulations your number has been confirmed." color={theme?.colors.TEXT_SECONDARY} style={{textAlign: 'center'}} />
+          <Text
+            variant="ultra-large"
+            fontWeight="bold"
+            label="Success"
+            color={theme?.colors.TEXT_PRIMARY}
+            style={{marginBottom: 33}}
+          />
+          <Section padding="0 38">
+            <Text
+              fontWeight="medium"
+              label="Congratulations your number has been confirmed."
+              color={theme?.colors.TEXT_SECONDARY}
+              style={{textAlign: 'center'}}
+            />
           </Section>
         </View>
       </Content>

@@ -1,21 +1,13 @@
-
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
-/* eslint-disable @typescript-eslint/no-unsafe-call */
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import React from 'react';
-import { View, Image, TouchableOpacity } from 'react-native';
+import {View, Image, TouchableOpacity} from 'react-native';
 import styles from './Styles';
 import HeaderLeftLoaction from './LeftLocation';
 import HeaderRight from './Right';
-import HeaderTitle from './Title';
-import TitleLogo from './TitleLogo';
-import UserLeft from './UserLeft';
-import { Images } from '../../theme';
+import {Images} from '../../theme';
 import HeaderLeft from './Left';
-import { Text } from '../Text';
+import {Text} from '../Text';
 import useTheme from '../../theme/useTheme';
-import { useNavigation } from '@react-navigation/native';
+import {useNavigation} from '@react-navigation/native';
 
 function Header({
   style,
@@ -47,8 +39,7 @@ function Header({
               } else if (navigation) {
                 navigation.goBack();
               }
-            }}
-          >
+            }}>
             <Image
               source={Images.LeftArrowBlack}
               style={styles.leftArrow}
@@ -82,11 +73,22 @@ function Header({
           </UserLeft>
         )} */}
 
-      {title && <Text variant='large' fontWeight="bold" label={title} color={theme?.colors.TEXT_PRIMARY} style={[{
-        paddingHorizontal: 10,
-        marginLeft: 'auto',
-        marginRight: 'auto',
-      }, titleStyle]} />}
+      {title && (
+        <Text
+          variant="large"
+          fontWeight="bold"
+          label={title}
+          color={theme?.colors.TEXT_PRIMARY}
+          style={[
+            {
+              paddingHorizontal: 10,
+              marginLeft: 'auto',
+              marginRight: 'auto',
+            },
+            titleStyle,
+          ]}
+        />
+      )}
       {/* {centerLogo && (
           <TitleLogo>
             <Image
@@ -103,8 +105,7 @@ function Header({
             if (onProfilePress) {
               onProfilePress();
             }
-          }}
-        >
+          }}>
           {/* {children} */}
         </HeaderRight>
       )}

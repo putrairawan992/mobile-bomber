@@ -1,21 +1,14 @@
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
-/* eslint-disable react/require-default-props */
-/* eslint-disable react/no-unused-prop-types */
-/* eslint-disable import/prefer-default-export */
 import React from 'react';
-import {
-  Modal, Platform, SafeAreaView, StatusBar, View,
-} from 'react-native';
+import {Modal, Platform, SafeAreaView, StatusBar, View} from 'react-native';
 import styled from 'styled-components';
 import colors from '../../styles/colors';
 import useTheme from '../../theme/useTheme';
 
-import { Text } from '../Text';
+import {Text} from '../Text';
 
-const ModalContainerStyled = styled(View)<{ bgColor: string }>`
+const ModalContainerStyled = styled(View)<{bgColor: string}>`
   align-items: center;
-  background-color: ${(props) => props.bgColor};
+  background-color: ${props => props.bgColor};
   display: flex;
   flex-direction: row;
   height: 56px;
@@ -60,16 +53,15 @@ export function ModalToast({
           setTimeout(() => {
             onCloseModal();
           }, 2000);
-        }}
-      >
+        }}>
         {Platform.OS === 'ios' && (
           <SafeAreaView
-            style={{ flex: 0, backgroundColor: modalBackgroundMapper[type] }}
+            style={{flex: 0, backgroundColor: modalBackgroundMapper[type]}}
           />
         )}
-        <SafeAreaView style={{ flex: 1 }}>
+        <SafeAreaView style={{flex: 1}}>
           <ModalContainerStyled bgColor={modalBackgroundMapper[type]}>
-            <View style={{ marginLeft: 12 }}>
+            <View style={{marginLeft: 12}}>
               <Text
                 color={colors.white}
                 label={message}

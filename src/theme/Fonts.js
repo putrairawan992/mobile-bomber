@@ -2,8 +2,8 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 import FontHelper from '../helpers/FontHelper';
-import { Platform } from 'react-native';
-import Colors from  '../theme/Color';
+import {Platform} from 'react-native';
+import Colors from '../theme/Color';
 
 const size = {
   h1: '32rem',
@@ -14,51 +14,51 @@ const size = {
   regular: '16rem',
   medium: '14rem',
   small: '13rem',
-  tiny: '12rem'
+  tiny: '12rem',
 };
 
 const style = {
   placeHolderText: {
     ...FontHelper.font({
       fontFamily: 'PlusJakarta',
-      fontWeight: '300'
+      fontWeight: '300',
     }),
     fontSize: size.regular,
-    color: Colors.lightGray
+    color: Colors.lightGray,
   },
   textInputText: {
     ...FontHelper.font({
       fontFamily: 'PlusJakarta',
-      fontWeight: '500'
-    })
+      fontWeight: '500',
+    }),
   },
   buttonText: {
     ...FontHelper.font({
       fontFamily: 'PlusJakarta',
-      fontWeight: '700'
-    })
+      fontWeight: '700',
+    }),
   },
   lightText: {
     ...FontHelper.font({
       fontFamily: 'PlusJakarta',
-      fontWeight: '300'
-    })
+      fontWeight: '300',
+    }),
   },
   normalText: {
     ...FontHelper.font({
       fontFamily: 'PlusJakarta',
-      fontWeight: '400'
-    })
+      fontWeight: '400',
+    }),
   },
   boldText: {
     ...FontHelper.font({
       fontFamily: 'PlusJakarta',
-      fontWeight: Platform.OS === 'ios' ? '700' : '600'
-    })
-  }
+      fontWeight: Platform.OS === 'ios' ? '700' : '600',
+    }),
+  },
 };
 
 export default {
   size,
-  style
+  style,
 };

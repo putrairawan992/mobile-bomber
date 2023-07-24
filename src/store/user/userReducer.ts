@@ -1,8 +1,6 @@
 /* eslint-disable @typescript-eslint/default-param-last */
-import { UserInterface } from '../../interfaces/UserInterface';
-import {
-  LOGIN_SUCCESS, LOG_OUT, LogOutI, LoginSuccessI,
-} from './userTypes';
+import {UserInterface} from '../../interfaces/UserInterface';
+import {LOGIN_SUCCESS, LOG_OUT, LogOutI, LoginSuccessI} from './userTypes';
 
 export interface UserStateI {
   user: UserInterface;

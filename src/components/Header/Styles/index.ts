@@ -1,13 +1,10 @@
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
-import { Platform } from 'react-native';
+import {Platform} from 'react-native';
 
 import EStyleSheet from 'react-native-extended-stylesheet';
 
 import Fonts from '../../../theme/Fonts';
-import FontHelper from '../../../helpers/FontHelper';
 import Colors from '../../../theme/Color';
-import { WIDTH } from '../../../utils/config';
+import {WIDTH} from '../../../utils/config';
 
 export default EStyleSheet.create({
   header: {
@@ -64,7 +61,7 @@ export default EStyleSheet.create({
     marginLeft: 5,
     ...Fonts.style.boldText,
   },
-  leftArrow: { height: 20, width: 9.78 },
+  leftArrow: {height: 20, width: 9.78},
   userRightImageBtn: {
     marginLeft: 'auto',
   },
@@ -81,7 +78,7 @@ export default EStyleSheet.create({
   },
   leftLocationText: {
     marginLeft: 6,
-    width: WIDTH-120,
+    width: WIDTH - 120,
     // ...Fonts.style.normalText,
     fontSize: Fonts.size.medium,
     '@media ios': {

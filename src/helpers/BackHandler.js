@@ -4,18 +4,18 @@
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable @typescript-eslint/no-unsafe-call */
-import { BackHandler, ToastAndroid } from 'react-native';
+import {BackHandler, ToastAndroid} from 'react-native';
 
 import * as types from '../actions/types';
 
 const backHandler = () => (dispatch, getState) => {
   BackHandler.addEventListener('hardwareBackPress', () => {
     try {
-      const { nav, app } = getState();
-      const { routes } = nav;
+      const {nav, app} = getState();
+      const {routes} = nav;
       const length = routes.length || 0;
       if (length === 1) {
-        const { lastBack } = app;
+        const {lastBack} = app;
         const currentTime = new Date().getTime();
         if (!(!!lastBack && lastBack + 10 * 1000 > currentTime)) {
           dispatch({

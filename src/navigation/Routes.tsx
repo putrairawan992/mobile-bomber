@@ -1,18 +1,11 @@
-/* eslint-disable @typescript-eslint/no-floating-promises */
-/* eslint-disable @typescript-eslint/no-unsafe-argument */
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
-/* eslint-disable @typescript-eslint/no-unsafe-call */
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import * as React from 'react';
 
-import { MMKVLoader } from 'react-native-mmkv-storage';
-import { NavigationContainer } from '@react-navigation/native';
-import { shallowEqual, useDispatch, useSelector } from 'react-redux';
-import useTheme from '../theme/useTheme';
+import {MMKVLoader} from 'react-native-mmkv-storage';
+import {NavigationContainer} from '@react-navigation/native';
+import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 import AuthScreenStack from './AuthScreenStack';
-import { ReduxState } from '../store';
-import { loginSuccess } from '../store/user/userActions';
+import {ReduxState} from '../store';
+import {loginSuccess} from '../store/user/userActions';
 import MainScreenStack from './MainScreenStack';
 
 const MMKV = new MMKVLoader().initialize(); // Returns an MMKV Instance
@@ -20,7 +13,7 @@ const MMKV = new MMKVLoader().initialize(); // Returns an MMKV Instance
 function Routes() {
   const dispatch = useDispatch();
 
-  const { isLogin, user } = useSelector(
+  const {isLogin} = useSelector(
     (state: ReduxState) => state.user,
     shallowEqual,
   );
@@ -33,7 +26,7 @@ function Routes() {
       }
     }
     getLoginStatus();
-  }, []);
+  }, [dispatch]);
 
   return (
     <NavigationContainer>

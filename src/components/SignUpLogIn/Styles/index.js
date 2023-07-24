@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import EStyleSheet from 'react-native-extended-stylesheet';
-import { Colors, Fonts } from '../../../theme';
+import {Colors, Fonts} from '../../../theme';
 
 const styles = EStyleSheet.create({
   logo: {
@@ -8,7 +8,7 @@ const styles = EStyleSheet.create({
     height: 70,
     marginLeft: 'auto',
     marginRight: 'auto',
-    marginBottom: 21
+    marginBottom: 21,
   },
   heading: {
     marginBottom: 38,
@@ -17,7 +17,7 @@ const styles = EStyleSheet.create({
     color: Colors.black,
     lineHeight: 38,
     fontSize: Fonts.size.larg,
-    ...Fonts.style.boldText
+    ...Fonts.style.boldText,
   },
   allInputStyle: {
     backgroundColor: Colors.white,
@@ -29,36 +29,36 @@ const styles = EStyleSheet.create({
     height: 40,
     fontSize: Fonts.size.medium,
     '@media ios': {
-      ...Fonts.style.normalText
+      ...Fonts.style.normalText,
     },
     '@media android': {
-      ...Fonts.style.textInputText
-    }
+      ...Fonts.style.textInputText,
+    },
   },
   passwordEyeImgBtn: {
     position: 'absolute',
     right: 12,
-    top: 12
+    top: 12,
   },
   passwordEyeImg: {
     width: 16,
     height: 16,
-    opacity: 1
+    opacity: 1,
   },
   commanText: {
     lineHeight: 18,
     color: Colors.darkGray,
     textAlign: 'center',
     ...Fonts.style.textInputText,
-    fontSize: Fonts.size.tiny
+    fontSize: Fonts.size.tiny,
   },
   googleImg: {
     height: 30,
-    width: 30
+    width: 30,
   },
   facebookImg: {
     height: 30,
-    width: 15
+    width: 15,
   },
   googleFaceBookBtn: {
     width: 42,
@@ -68,14 +68,14 @@ const styles = EStyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     paddingVertical: 10,
-    paddingHorizontal: 17
+    paddingHorizontal: 17,
   },
   googleFaceBookBtnText: {
     paddingLeft: 17,
     fontSize: 15,
     lineHeight: 22.5,
     color: Colors.black,
-    ...Fonts.style.buttonText
+    ...Fonts.style.buttonText,
   },
   resetInputStyle: {
     paddingVertical: 15,
@@ -86,17 +86,17 @@ const styles = EStyleSheet.create({
     borderColor: Colors.lightGray,
     fontSize: Fonts.size.medium,
     '@media ios': {
-      ...Fonts.style.normalText
+      ...Fonts.style.normalText,
     },
     '@media android': {
-      ...Fonts.style.textInputText
-    }
+      ...Fonts.style.textInputText,
+    },
   },
   resetPasswordEyeImgBtn: {
     position: 'absolute',
     right: 12,
-    top: 16
-  }
+    top: 16,
+  },
 });
 
 export default styles;

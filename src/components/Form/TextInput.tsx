@@ -1,19 +1,21 @@
-/* eslint-disable @typescript-eslint/no-use-before-define */
-/* eslint-disable @typescript-eslint/no-unsafe-call */
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import * as React from 'react';
 
-import { TextInput as RNTextInput, StyleSheet, View, Platform, TouchableOpacity } from 'react-native';
+import {
+  TextInput as RNTextInput,
+  StyleSheet,
+  View,
+  Platform,
+  TouchableOpacity,
+} from 'react-native';
 
 import Spacer from '../Spacer/Spacer';
-import { Text } from '../Text';
+import {Text} from '../Text';
 import colors from '../../styles/colors';
 import useThemedStyles from '../../theme/useThemedStyles';
-import { SHADOWS, WIDTH } from '../../utils/config';
+import {SHADOWS} from '../../utils/config';
 import useTheme from '../../theme/useTheme';
-import { ThemeInterface } from '../../theme/ThemeProvider';
-import { Eye, EyeSlash } from 'iconsax-react-native';
+import {ThemeInterface} from '../../theme/ThemeProvider';
+import {Eye, EyeSlash} from 'iconsax-react-native';
 
 type Props = React.ComponentProps<typeof RNTextInput> & {
   label?: string;
@@ -50,7 +52,6 @@ export const TextInput = React.forwardRef((props: Props, ref) => {
   let color = isFocused ? theme?.colors.TEXT_PRIMARY : theme?.colors.TEXT_LABEL;
   let borderColor = isFocused ? theme?.colors.PRIMARY : 'transparent';
 
-
   const borderWidth = isFocused ? 1 : 1;
   if (errorText) {
     color = theme?.colors.ERROR;
@@ -69,7 +70,14 @@ export const TextInput = React.forwardRef((props: Props, ref) => {
 
   return (
     <View style={[styling.container, style]}>
-      {!!label && <Text label={label} variant="medium" fontWeight="regular" color={theme?.colors.TEXT_SECONDARY} />}
+      {!!label && (
+        <Text
+          label={label}
+          variant="medium"
+          fontWeight="regular"
+          color={theme?.colors.TEXT_SECONDARY}
+        />
+      )}
       <Spacer s />
       <View
         style={{
@@ -81,7 +89,7 @@ export const TextInput = React.forwardRef((props: Props, ref) => {
           alignItems: 'center',
           justifyContent: 'space-between',
           backgroundColor: theme?.colors.BACKGROUND2,
-          ...(width && { width })
+          ...(width && {width}),
         }}>
         <RNTextInput
           style={[
@@ -96,11 +104,11 @@ export const TextInput = React.forwardRef((props: Props, ref) => {
           ]}
           {...restOfProps}
           value={value}
-          onBlur={(event) => {
+          onBlur={event => {
             setIsFocused(false);
             onBlur?.(event);
           }}
-          onFocus={(event) => {
+          onFocus={event => {
             setIsFocused(true);
             onFocus?.(event);
           }}
@@ -115,11 +123,12 @@ export const TextInput = React.forwardRef((props: Props, ref) => {
         {rightIcon}
         {type === 'password' && (
           <TouchableOpacity onPress={() => setShowPassword(!showPassword)}>
-            {showPassword ? <Eye size="20" color="#777682" /> : <EyeSlash size="20" color="#777682" />}
-
+            {showPassword ? (
+              <Eye size="20" color="#777682" />
+            ) : (
+              <EyeSlash size="20" color="#777682" />
+            )}
           </TouchableOpacity>
-
-
         )}
       </View>
       {errorText && (
@@ -132,18 +141,20 @@ export const TextInput = React.forwardRef((props: Props, ref) => {
   );
 });
 
-const styles = (theme: ThemeInterface) => StyleSheet.create({
-  container: {
-    flexDirection: 'column',
-  },
-  input: {
-    borderRadius: 8,
-    fontSize: 14,
-    fontFamily: Platform.OS === 'android'
-      ? 'PlusJakartaDisplay-Regular'
-      : 'PlusJakartaText-Regular',
-    lineHeight: 16,
-    backgroundColor: theme.colors.BACKGROUND2,
-    ...SHADOWS.default,
-  },
-});
+const styles = (theme: ThemeInterface) =>
+  StyleSheet.create({
+    container: {
+      flexDirection: 'column',
+    },
+    input: {
+      borderRadius: 8,
+      fontSize: 14,
+      fontFamily:
+        Platform.OS === 'android'
+          ? 'PlusJakartaDisplay-Regular'
+          : 'PlusJakartaText-Regular',
+      lineHeight: 16,
+      backgroundColor: theme.colors.BACKGROUND2,
+      ...SHADOWS.default,
+    },
+  });

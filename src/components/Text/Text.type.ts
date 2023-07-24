@@ -1,5 +1,5 @@
-import { ReactElement } from 'react';
-import { TextProps as RNTextProps } from 'react-native';
+import {ReactElement} from 'react';
+import {TextProps as RNTextProps} from 'react-native';
 
 export type FontFamilyType =
   | 'Poppins-ExtraBold'
@@ -14,8 +14,7 @@ export type FontFamilyType =
   | 'PlusJakartaDisplay-Bold'
   | 'PlusJakartaText-Light'
   | 'PlusJakartaText-Regular'
-  | 'PlusJakartaText-Bold'
-  ;
+  | 'PlusJakartaText-Bold';
 
 export type FontWeightType =
   | 'extra-bold'

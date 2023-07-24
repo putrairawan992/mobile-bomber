@@ -1,15 +1,15 @@
 import React from 'react';
-import Svg, { Path } from 'react-native-svg';
+import Svg, {Path} from 'react-native-svg';
 import Animated from 'react-native-reanimated';
 // import { View } from 'react-native';
 
 const AnimatedPath = Animated.createAnimatedComponent(Path);
 
 Animated.addWhitelistedNativeProps({
-  stroke: true
+  stroke: true,
 });
 
-const BookingSVG = ({ color }) => {
+const BookingSVG = ({color}) => {
   return (
     <Svg width="18" height="20" viewBox="0 0 18 20">
       <AnimatedPath

@@ -10,5 +10,5 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 // import Colors from './Colors';
 
 export default EStyleSheet.create({
-  rootContainer: { flex: 1 }
+  rootContainer: {flex: 1},
 });

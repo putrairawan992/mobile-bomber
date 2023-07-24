@@ -1,10 +1,10 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import React from 'react';
-import { TouchableOpacity, Image, Text } from 'react-native';
-import { Images } from '../../theme';
+import {TouchableOpacity, Image, Text} from 'react-native';
+import {Images} from '../../theme';
 import styles from './Styles';
 
-function LeftLocation({ onLocationPress }: { onLocationPress: () => void }) {
+function LeftLocation({onLocationPress}: {onLocationPress: () => void}) {
   return (
     <TouchableOpacity
       style={styles.leftLocationContent}
@@ -12,8 +12,7 @@ function LeftLocation({ onLocationPress }: { onLocationPress: () => void }) {
         if (onLocationPress) {
           onLocationPress();
         }
-      }}
-    >
+      }}>
       <Image
         source={Images.LocationImage}
         resizeMode="contain"

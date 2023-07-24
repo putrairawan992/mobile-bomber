@@ -4,8 +4,8 @@
 /* eslint-disable @typescript-eslint/comma-dangle */
 /* eslint-disable react/prop-types */
 import React from 'react';
-import { Text, Image, TouchableOpacity } from 'react-native';
-import { Images } from '../../theme';
+import {Text, Image, TouchableOpacity} from 'react-native';
+import {Images} from '../../theme';
 import styles from './Styles';
 
 function HeaderRight({
@@ -14,7 +14,7 @@ function HeaderRight({
   filterBtn,
   onFilterBtnPress,
   clearText,
-  onclearTextPress
+  onclearTextPress,
 }: any) {
   return (
     <>
@@ -33,8 +33,7 @@ function HeaderRight({
             if (onProfilePress) {
               onProfilePress();
             }
-          }}
-        >
+          }}>
           <Image
             source={Images.UserImage}
             resizeMode="contain"
@@ -49,8 +48,7 @@ function HeaderRight({
             if (onFilterBtnPress) {
               onFilterBtnPress();
             }
-          }}
-        >
+          }}>
           <Image
             source={Images.FilterIcon}
             resizeMode="contain"
@@ -65,8 +63,7 @@ function HeaderRight({
             if (onclearTextPress) {
               onclearTextPress();
             }
-          }}
-        >
+          }}>
           <Text style={styles.clearText}>Clear</Text>
         </TouchableOpacity>
       )}
