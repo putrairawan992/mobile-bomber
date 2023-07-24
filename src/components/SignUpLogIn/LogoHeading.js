@@ -1,6 +1,6 @@
 import * as React from 'react';
-import { Text, Image, View } from 'react-native';
-import { Images } from '../../theme';
+import {Text, Image, View} from 'react-native';
+import {Images} from '../../theme';
 import styles from './Styles/index';
 
 function LogoHeading(props) {

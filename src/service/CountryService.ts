@@ -1,7 +1,6 @@
-/* eslint-disable import/prefer-default-export */
 /* eslint-disable @typescript-eslint/no-unsafe-return */
-import { APIResponse } from '../interfaces/BaseApiResponse';
-import { CountryInterface } from '../interfaces/CountryInterface';
+import {APIResponse} from '../interfaces/BaseApiResponse';
+import {CountryInterface} from '../interfaces/CountryInterface';
 import ax from './axios';
 
 const URL = 'name';

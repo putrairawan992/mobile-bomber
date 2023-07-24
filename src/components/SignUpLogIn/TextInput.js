@@ -1,10 +1,10 @@
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import * as React from 'react';
-import { useState } from 'react';
-import { TextInput, Image, View, TouchableOpacity } from 'react-native';
+import {useState} from 'react';
+import {TextInput, Image, View, TouchableOpacity} from 'react-native';
 import dayjs from 'dayjs';
-import { Images, Colors } from '../../theme';
+import {Images, Colors} from '../../theme';
 import styles from './Styles/index';
 
 function TextInputScreen({
@@ -16,7 +16,7 @@ function TextInputScreen({
   type,
   passwordStyle,
   onPress,
-  value
+  value,
 }) {
   const [showPassword, setShowPassword] = useState(true);
   // console.log('balueeee----',value?.toString())

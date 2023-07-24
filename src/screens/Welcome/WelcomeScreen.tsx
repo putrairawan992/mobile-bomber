@@ -5,14 +5,14 @@
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import * as React from 'react';
-import { useState, useEffect } from 'react';
-import { TouchableOpacity, Text, View, Image, Dimensions } from 'react-native';
-import { Container, Content } from '../../components';
+import {useState} from 'react';
+import {Dimensions, Image, Text, TouchableOpacity, View} from 'react-native';
+import {Container, Content} from '../../components';
 import Welcome from '../../components/Welcome';
-import { Images } from '../../theme';
+import {Images} from '../../theme';
 import Carousel from 'react-native-snap-carousel';
 import styles from './Styles/WelcomeStyle';
-import { useNavigation } from '@react-navigation/native';
+import {useNavigation} from '@react-navigation/native';
 
 interface SlidesI {
   id: number;
@@ -26,34 +26,31 @@ const slides: SlidesI[] = [
   {
     id: 1,
     title: 'Book Your Home',
-    text:
-      'Lorem Ipsum is simply dummy text of the\nprinting and typesetting industry.',
+    text: 'Lorem Ipsum is simply dummy text of the\nprinting and typesetting industry.',
     image: Images.BackHome,
-    imageStyle: styles.welcomeSlideImg
+    imageStyle: styles.welcomeSlideImg,
   },
   {
     id: 2,
     title: 'Chat With Owner',
-    text:
-      'Lorem Ipsum is simply dummy text of the\nprinting and typesetting industry.',
+    text: 'Lorem Ipsum is simply dummy text of the\nprinting and typesetting industry.',
     image: Images.ChatWithOwner,
-    imageStyle: styles.welcomeTwoSlideImg
+    imageStyle: styles.welcomeTwoSlideImg,
   },
   {
     id: 3,
     title: 'Easy To Rent',
-    text:
-      'Lorem Ipsum is simply dummy text of the\nprinting and typesetting industry.',
+    text: 'Lorem Ipsum is simply dummy text of the\nprinting and typesetting industry.',
     image: Images.EasyToRent,
-    imageStyle: styles.welcomeSlideImg
-  }
+    imageStyle: styles.welcomeSlideImg,
+  },
 ];
 
 function WelcomeScreen() {
   const navigation = useNavigation<any>();
   const windowWidth = Dimensions.get('window').width;
   const [Index, setIndex] = useState(0);
-  let renderItem = ({ item }: any) => (
+  let renderItem = ({item}: any) => (
     <Welcome
       key={item.id}
       heading={item.title}
@@ -76,7 +73,7 @@ function WelcomeScreen() {
           itemWidth={windowWidth}
           onSnapToItem={() => setIndex(renderItem.currentIndex)}
         />
-        {/* <View style={styles.welcomeBottomBtn}>
+        <View style={styles.welcomeBottomBtn}>
           {Index > 0 && (
             <TouchableOpacity
               style={styles.backBtnImgView}
@@ -105,7 +102,7 @@ function WelcomeScreen() {
               <Text style={styles.nextStartBtn}>Next</Text>
             </TouchableOpacity>
           )}
-        </View> */}
+        </View>
       </Content>
     </Container>
   );

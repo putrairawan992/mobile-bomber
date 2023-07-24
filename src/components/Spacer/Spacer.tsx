@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import React from 'react';
-import { View, ViewStyle } from 'react-native';
+import {View, ViewStyle} from 'react-native';
 import useTheme from '../../theme/useTheme';
 import Spacing from './Spacing';
 
@@ -25,7 +25,7 @@ type Props = {
 };
 
 function Spacer(props: Props) {
-  const { style = {}, horizontal = false } = props;
+  const {style = {}, horizontal = false} = props;
   const theme = useTheme();
   let space = Spacing.xxl;
   if (props.height) {

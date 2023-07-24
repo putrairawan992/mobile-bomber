@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, {useEffect} from 'react';
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
@@ -13,12 +13,13 @@ interface EntryAnimationI {
   index: number;
 }
 
-// eslint-disable-next-line import/prefer-default-export
-export function EntryAnimation({ children, index }: EntryAnimationI) {
+export function EntryAnimation({children, index}: EntryAnimationI) {
   const play = useSharedValue(false);
-  const progress = useDerivedValue(() => (play.value
-    ? withDelay(50 * (index ?? 0), withTiming(1, { duration: 700 }))
-    : 0));
+  const progress = useDerivedValue(() =>
+    play.value
+      ? withDelay(50 * (index ?? 0), withTiming(1, {duration: 700}))
+      : 0,
+  );
 
   useEffect(() => {
     play.value = true;
@@ -30,7 +31,7 @@ export function EntryAnimation({ children, index }: EntryAnimationI) {
 
     return {
       opacity,
-      transform: [{ translateY }],
+      transform: [{translateY}],
     };
   });
 

@@ -5,31 +5,28 @@
 
 import * as React from 'react';
 
-import {
-  ActivityIndicator, Pressable, StyleSheet, View,
-} from 'react-native';
-import { ThemeInterface } from '../../theme/ThemeProvider';
+import {ActivityIndicator, StyleSheet, View} from 'react-native';
+import {ThemeInterface} from '../../theme/ThemeProvider';
 import useTheme from '../../theme/useTheme';
 import useThemedStyles from '../../theme/useThemedStyles';
-import { WIDTH } from '../../utils/config';
 
-import { ScaleAnimation } from '../animations/ScaleAnimation';
-import { Text } from '../Text';
+import {ScaleAnimation} from '../animations/ScaleAnimation';
+import {Text} from '../Text';
 
 interface ButtonProps {
   title: string;
   onPress: () => void;
   isLoading?: boolean;
   type:
-  | 'primary'
-  | 'secondary'
-  | 'contained'
-  | 'outlined'
-  | 'danger'
-  | 'disabled'
-  | 'secondaryOutlined'
-  | 'textButton';
-  style?: any;
+    | 'primary'
+    | 'secondary'
+    | 'contained'
+    | 'outlined'
+    | 'danger'
+    | 'disabled'
+    | 'secondaryOutlined'
+    | 'textButton';
+  style?: React.CSSProperties;
   width?: number;
   icon?: JSX.Element;
   noRound?: boolean;
@@ -98,9 +95,9 @@ function Button({
             width: width ?? 'auto',
             borderRadius: noRound ? 0 : 50,
           },
+          style,
         ]}
-        {...restOfProps}
-      >
+        {...restOfProps}>
         {isLoading ? (
           <ActivityIndicator
             size="small"
@@ -108,28 +105,28 @@ function Button({
               type === 'secondaryOutlined'
                 ? theme?.colors.SECONDARY
                 : type === 'outlined'
-                  ? theme?.colors.PRIMARY
-                  : theme?.colors.BACKGROUND1
+                ? theme?.colors.PRIMARY
+                : theme?.colors.BACKGROUND1
             }
           />
         ) : (
-          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+          <View style={{flexDirection: 'row', alignItems: 'center'}}>
             <Text
               variant="large"
               color={
-                type === 'primary'
-                || type === 'secondary'
-                || type === 'danger'
-                || type === 'disabled'
+                type === 'primary' ||
+                type === 'secondary' ||
+                type === 'danger' ||
+                type === 'disabled'
                   ? '#fff'
                   : type === 'outlined'
-                    ? 'active'
-                    : type === 'secondaryOutlined'
-                      ? 'primary2'
-                      : 'b1'
+                  ? 'active'
+                  : type === 'secondaryOutlined'
+                  ? 'primary2'
+                  : 'b1'
               }
               label={title}
-              fontWeight='bold'
+              fontWeight="bold"
             />
             {icon}
           </View>
@@ -142,10 +139,11 @@ function Button({
 export default Button;
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-const styles = (theme: ThemeInterface) => StyleSheet.create({
-  ButtonV2: {
-    height: 44,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+const styles = (theme: ThemeInterface) =>
+  StyleSheet.create({
+    ButtonV2: {
+      height: 44,
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+  });

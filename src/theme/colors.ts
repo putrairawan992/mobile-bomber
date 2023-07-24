@@ -58,7 +58,7 @@ const light = {
   TEXT_BUTTON: CLOUDS,
   DISABLED: DISABLED,
   ICON: '#374957',
-  INACTIVE_TABS: '#565656'
+  INACTIVE_TABS: '#565656',
 };
 
 const dark = {
@@ -73,7 +73,7 @@ const dark = {
   TEXT_BUTTON: DARK_ONYX,
   DISABLED: DISABLED,
   ICON: '#374957',
-  INACTIVE_TABS: '#565656'
+  INACTIVE_TABS: '#565656',
 };
 
-export const colors = { light, dark };
+export const colors = {light, dark};

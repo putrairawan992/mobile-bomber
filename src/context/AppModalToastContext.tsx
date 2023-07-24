@@ -1,5 +1,5 @@
 /* eslint-disable react/jsx-no-constructed-context-values */
-import React, { createContext, useState } from 'react';
+import React, {createContext, useState} from 'react';
 
 type ModalToastType = 'success' | 'error' | 'warning';
 
@@ -21,7 +21,7 @@ export const ModalToastContext = createContext<ModalToastContextInterface>({
   setToastMessage: () => undefined,
 });
 
-function AppModalToastContext({ children }: { children: React.ReactNode }) {
+function AppModalToastContext({children}: {children: React.ReactNode}) {
   const [isShowToast, setIsShowToast] = useState<boolean>(false);
   const [toastMessage, setToastMessage] = useState('halo');
   const [type, setType] = useState<ModalToastType>('success');
@@ -34,8 +34,7 @@ function AppModalToastContext({ children }: { children: React.ReactNode }) {
         setIsShowToast,
         toastMessage,
         setToastMessage,
-      }}
-    >
+      }}>
       {children}
     </ModalToastContext.Provider>
   );

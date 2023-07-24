@@ -3,7 +3,7 @@
 /* eslint-disable @typescript-eslint/restrict-plus-operands */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
-import { Platform } from 'react-native';
+import {Platform} from 'react-native';
 import _ from 'lodash';
 // use post script names for font families
 const PlusJakarta = {

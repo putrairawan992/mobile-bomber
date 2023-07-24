@@ -3,9 +3,9 @@
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 import React from 'react';
-import { Keyboard } from 'react-native';
-import { ScrollView } from 'react-native-gesture-handler';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import {Keyboard} from 'react-native';
+import {ScrollView} from 'react-native-gesture-handler';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import styles from './Styles';
 
 class Content extends React.Component {
@@ -20,18 +20,18 @@ class Content extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      isVisible: true
+      isVisible: true,
     };
   }
 
   componentDidMount = () => {
     this.keyboardWillShowSub = Keyboard.addListener(
       'keyboardDidShow',
-      this.keyboardWillShow
+      this.keyboardWillShow,
     );
     this.keyboardWillHideSub = Keyboard.addListener(
       'keyboardDidHide',
-      this.keyboardWillHide
+      this.keyboardWillHide,
     );
   };
 
@@ -41,15 +41,15 @@ class Content extends React.Component {
   };
 
   keyboardWillShow = () => {
-    this.setState({ isVisible: false });
+    this.setState({isVisible: false});
   };
 
   keyboardWillHide = () => {
-    this.setState({ isVisible: true });
+    this.setState({isVisible: true});
   };
 
   getStyle = () => {
-    const { style } = this.props;
+    const {style} = this.props;
     const tmpStyle = [styles.content];
     if (style) {
       tmpStyle.push(style);
@@ -58,13 +58,13 @@ class Content extends React.Component {
   };
 
   getContentContainerStyle = () => {
-    const { contentContainerStyle, hasHeader } = this.props;
+    const {contentContainerStyle, hasHeader} = this.props;
     const style = [styles.contentContainerStyle];
     if (contentContainerStyle) {
       style.push(contentContainerStyle);
     }
     if (hasHeader === false) {
-      style.push({ paddingTop: 0 });
+      style.push({paddingTop: 0});
     }
     return style;
   };
@@ -77,7 +77,7 @@ class Content extends React.Component {
       disableKBDismissScroll,
       keyboardShouldPersistTaps,
       scrollEnabled,
-      isBottomSheet
+      isBottomSheet,
     } = this.props;
 
     const style = this.getStyle();
@@ -91,11 +91,9 @@ class Content extends React.Component {
         scrollEnabled={scrollEnabled}
         bounces={false}
         automaticallyAdjustContentInsets={false}
-        resetScrollToCoords={
-          disableKBDismissScroll ? undefined : { x: 0, y: 0 }
-        }
+        resetScrollToCoords={disableKBDismissScroll ? undefined : {x: 0, y: 0}}
         keyboardShouldPersistTaps={keyboardShouldPersistTaps || 'handled'}
-        ref={(c) => {
+        ref={c => {
           this.scrollviewRef = c;
           this.rootRef = c;
         }}

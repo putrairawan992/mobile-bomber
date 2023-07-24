@@ -24,7 +24,7 @@ const Colors = {
   darkerGray: '#ADB5BD',
   boxShadowLighterBlack: 'rgba(0, 0, 0, 0.1)',
   lighterPink: '#f15f5f4d',
-  locationDarkGray: '#374151'
+  locationDarkGray: '#374151',
 };
 
 export default Colors;
