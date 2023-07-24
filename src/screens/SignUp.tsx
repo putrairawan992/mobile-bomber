@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-inline-styles */
 import React from 'react';
 import {TouchableOpacity} from 'react-native';
 import {Logo} from '../assets/icons/Logo';
@@ -129,7 +130,7 @@ export const SignUp = ({navigation}: Props) => {
           isCenter
           isRow
           style={{
-            marginTop: 128,
+            marginTop: 40,
           }}>
           <Text
             variant="small"
