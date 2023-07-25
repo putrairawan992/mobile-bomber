@@ -1,47 +1,52 @@
 /* eslint-disable react-native/no-inline-styles */
 import React from 'react';
-import {TouchableOpacity} from 'react-native';
+import {StyleSheet, TouchableOpacity} from 'react-native';
 import {Logo} from '../assets/icons/Logo';
 import {Container, Content} from '../components';
 import {TextInput} from '../components/Form/TextInput';
 import Spacer from '../components/Spacer/Spacer';
 import useTheme from '../theme/useTheme';
 import * as Yup from 'yup';
-import {useFormik} from 'formik';
 import {SignUpPayloadInterface} from '../interfaces/UserInterface';
 import Button from '../components/Button';
 import {Text} from '../components/Text';
 import {Section} from '../components/Section';
-import GoogleFaceBookBtn from '../components/SignUpLogIn/GoogleFaceBookBtn';
-import {Images} from '../theme';
 import {AuthStackParams} from '../navigation/AuthScreenStack';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
+import GradientText from '../components/Text/GradientText';
+import useThemedStyles from '../theme/useThemedStyles';
+import {useFormik} from 'formik';
 
 type Props = NativeStackScreenProps<AuthStackParams, 'SignUp', 'MyStack'>;
 
 export const SignUp = ({navigation}: Props) => {
   const theme = useTheme();
+  const s = useThemedStyles(Styles);
+
   const formik = useFormik<SignUpPayloadInterface>({
     initialValues: {
-      fullName: '',
-      email: '',
+      username: '',
       password: '',
       phone: '',
+      confirmPassword: '',
     },
     validationSchema: Yup.object({
-      fullName: Yup.string().required('Fullname is required'),
+      username: Yup.string().required('username is required'),
       phone: Yup.string().required('Phone number is required'),
-      email: Yup.string()
-        .email('Must be valid email')
-        .required('Email is required'),
       password: Yup.string()
         .required('Password is required')
-        .min(8, 'Password is too short - should be 8 chars minimum.')
-        .matches(/[a-zA-Z]/, 'Password can only contain Latin letters.'),
+        .min(8, 'Password is too short - should be 8 chars minimum.'),
+      confirmPassword: Yup.string()
+        .oneOf([Yup.ref('password'), ''], 'Passwords must match')
+        .required('Password confirmation is required'),
     }),
     // validateOnChange: false,
     enableReinitialize: true,
-    onSubmit: () => undefined,
+    onSubmit: () => {
+      navigation.navigate('OtpSignUp', {
+        phone: formik.values.phone,
+      });
+    },
   });
   return (
     <Container>
@@ -49,98 +54,78 @@ export const SignUp = ({navigation}: Props) => {
         hasHeader
         contentContainerStyle={{
           flex: 1,
-          justifyContent: 'center',
+          paddingTop: 50,
           backgroundColor: theme?.colors.BACKGROUND1,
-          paddingHorizontal: 40,
+          paddingHorizontal: 27,
         }}>
-        <Section isCenter>
-          <Logo size={80} color={theme?.colors.PRIMARY} />
-          <Spacer l />
+        <Section>
+          <Logo size={64} color={theme?.colors.PRIMARY} />
+          <Spacer sm />
+          <GradientText colors={['#A060FA', '#A060FA']} style={s.headerText}>
+            Join the Party!
+          </GradientText>
           <Text
-            variant="ultra-large"
-            fontWeight="bold"
-            label="Sign Up"
+            variant="base"
+            fontWeight="inter-regular"
+            label="Create your account now and experience the nightlife like never before."
             color={theme?.colors.TEXT_PRIMARY}
-            style={{marginBottom: 38}}
+            style={{marginBottom: 56}}
           />
         </Section>
         <TextInput
-          value={formik.values.fullName}
-          label=""
-          errorText={formik.errors.fullName}
-          onChangeText={formik.handleChange('fullName')}
-          placeholder="Full name"
-        />
-        <Spacer l />
-        <TextInput
-          value={formik.values.email}
-          label=""
-          errorText={formik.errors.email}
-          onChangeText={formik.handleChange('email')}
-          placeholder="E-mail address"
+          value={formik.values.username}
+          label="Username"
+          errorText={formik.errors.username}
+          onChangeText={formik.handleChange('username')}
+          placeholder="Username"
         />
         <Spacer l />
         <TextInput
           value={formik.values.phone}
-          label=""
+          label="Phone number"
           errorText={formik.errors.phone}
           onChangeText={formik.handleChange('phone')}
-          placeholder="Phone Number"
+          placeholder="Phone number"
           isNumeric
         />
         <Spacer l />
         <TextInput
           value={formik.values.password}
-          label=""
+          label="Password"
           errorText={formik.errors.password}
           onChangeText={formik.handleChange('password')}
           placeholder="Password"
           type="password"
         />
         <Spacer l />
+        <TextInput
+          value={formik.values.confirmPassword}
+          label="Confirm Password"
+          errorText={formik.errors.confirmPassword}
+          onChangeText={formik.handleChange('confirmPassword')}
+          placeholder="Confirm password"
+          type="password"
+        />
+        <Spacer lxx />
         <Button
           type="primary"
-          onPress={() =>
-            // formik.handleSubmit()
-            navigation.navigate('OtpSignUp', {
-              phone: formik.values.phone,
-            })
-          }
+          onPress={() => formik.handleSubmit()}
           title="Sign Up"
           isLoading={false}
         />
         <Spacer lxx />
-        <Section isCenter>
+        <Section isRow>
           <Text
-            variant="small"
-            label="Or log in using"
-            color={theme?.colors.TEXT_SECONDARY}
-          />
-        </Section>
-        <Spacer lxx />
-        <Section isRow isBetween>
-          <GoogleFaceBookBtn
-            googleImg
-            btnImage={Images.Google}
-            btnText="Google"
-          />
-          <GoogleFaceBookBtn btnImage={Images.Facebook} btnText="Facebook" />
-        </Section>
-        <Section
-          isCenter
-          isRow
-          style={{
-            marginTop: 40,
-          }}>
-          <Text
-            variant="small"
+            fontWeight="inter-regular"
+            variant="base"
             label="Already have an account? "
             color={theme?.colors.TEXT_SECONDARY}
           />
           <TouchableOpacity onPress={() => navigation.navigate('LogIn')}>
             <Text
-              variant="small"
-              label="Log In"
+              fontWeight="inter-regular"
+              variant="base"
+              label="Login Now"
               color={theme?.colors.PRIMARY}
             />
           </TouchableOpacity>
@@ -149,3 +134,11 @@ export const SignUp = ({navigation}: Props) => {
     </Container>
   );
 };
+
+const Styles = () =>
+  StyleSheet.create({
+    headerText: {
+      fontSize: 32,
+      fontFamily: 'Poppins-SemiBold',
+    },
+  });

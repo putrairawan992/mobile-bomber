@@ -7,7 +7,7 @@ const Spacing = {
   m: 16,
   l: 20,
   lx: 24,
-  lxx: 30,
+  lxx: 28,
   xl: 36,
   xxl: 48,
   borderRadius: 12,

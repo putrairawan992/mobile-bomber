@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-inline-styles */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
@@ -24,7 +25,10 @@ function SuccessNumberScreen({navigation}: Props) {
   }, 2000);
   return (
     <Container>
-      <Content contentContainerStyle={styles.container}>
+      <Content
+        contentContainerStyle={{
+          ...(styles.container, {backgroundColor: theme?.colors.BACKGROUND1}),
+        }}>
         <View style={styles.successContent}>
           <Image
             source={Images.Success}
@@ -40,7 +44,8 @@ function SuccessNumberScreen({navigation}: Props) {
           />
           <Section padding="0 38">
             <Text
-              fontWeight="medium"
+              variant="base"
+              fontWeight="inter-regular"
               label="Congratulations your number has been confirmed."
               color={theme?.colors.TEXT_SECONDARY}
               style={{textAlign: 'center'}}

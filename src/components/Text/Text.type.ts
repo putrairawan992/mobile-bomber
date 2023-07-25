@@ -2,6 +2,7 @@ import {ReactElement} from 'react';
 import {TextProps as RNTextProps} from 'react-native';
 
 export type FontFamilyType =
+  | 'Inter'
   | 'Poppins-ExtraBold'
   | 'Poppins-Bold'
   | 'Poppins-SemiBold'
@@ -17,11 +18,11 @@ export type FontFamilyType =
   | 'PlusJakartaText-Bold';
 
 export type FontWeightType =
+  | 'inter-regular'
   | 'extra-bold'
   | 'bold'
   | 'semi-bold'
   | 'regular'
-  | 'medium'
   | 'light'
   | 'thin';
 export type TextAlignType = 'left' | 'center' | 'right' | 'justify';

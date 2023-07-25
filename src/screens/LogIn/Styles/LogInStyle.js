@@ -1,24 +1,22 @@
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import EStyleSheet from 'react-native-extended-stylesheet';
 import {isIphoneX} from '../../../libs/Utils';
 import {Colors, Fonts} from '../../../theme';
 
 const styles = EStyleSheet.create({
   container: {
-    paddingHorizontal: 14,
-    paddingBottom: 15,
+    paddingHorizontal: 27,
     '@media ios': {
       flex: isIphoneX() ? 1 : 0,
-      paddingTop: 81,
+      paddingTop: 61,
     },
     '@media android': {
-      paddingTop: 70,
+      paddingTop: 50,
     },
   },
   signupLoginInputGroup: {
-    paddingHorizontal: 25,
     flexDirection: 'column',
     flex: 1,
+    marginTop: 56,
   },
   lastInputStyle: {
     marginBottom: 32,
@@ -53,7 +51,6 @@ const styles = EStyleSheet.create({
     fontSize: Fonts.size.tiny,
   },
   forgotPasswordLink: {
-    marginBottom: 32,
     marginLeft: 'auto',
   },
   forgotPasswordText: {

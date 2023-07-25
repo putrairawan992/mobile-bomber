@@ -1,8 +1,8 @@
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import React from 'react';
 import {SafeAreaView, StatusBar, View} from 'react-native';
 // import { colors } from '../../theme';
 import Colors from '../../theme/Color';
+import useTheme from '../../theme/useTheme';
 import styles from './Styles';
 
 export default class Container extends React.Component {
@@ -26,12 +26,13 @@ export default class Container extends React.Component {
     return (
       <>
         <StatusBar
-          backgroundColor={
-            statusBarColor ?? lightContent
-              ? Colors.darkGray
-              : Colors.lighterGray
-          }
-          barStyle={lightContent ? 'light-content' : 'dark-content'}
+          backgroundColor={'#1E1E1E'}
+          //   statusBarColor ?? lightContent
+          //     ? Colors.darkGray
+          //     : Colors.lighterGray
+          // }
+          // barStyle={lightContent ? 'light-content' : 'dark-content'}
+          barStyle={'light-content'}
         />
         {safeAreaView !== false && <SafeAreaView style={style} />}
         {safeAreaView !== false && safeAreaViewHeader !== false && (

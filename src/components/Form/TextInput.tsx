@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-inline-styles */
 import * as React from 'react';
 
 import {
@@ -50,7 +51,7 @@ export const TextInput = React.forwardRef((props: Props, ref) => {
   const [showPassword, setShowPassword] = React.useState<boolean>(false);
 
   let color = isFocused ? theme?.colors.TEXT_PRIMARY : theme?.colors.TEXT_LABEL;
-  let borderColor = isFocused ? theme?.colors.PRIMARY : 'transparent';
+  let borderColor = isFocused ? theme?.colors.PRIMARY : theme?.colors.BORDER;
 
   const borderWidth = isFocused ? 1 : 1;
   if (errorText) {
@@ -75,7 +76,7 @@ export const TextInput = React.forwardRef((props: Props, ref) => {
           label={label}
           variant="medium"
           fontWeight="regular"
-          color={theme?.colors.TEXT_SECONDARY}
+          color={theme?.colors.TEXT_LABEL}
         />
       )}
       <Spacer s />
@@ -113,7 +114,7 @@ export const TextInput = React.forwardRef((props: Props, ref) => {
             onFocus?.(event);
           }}
           placeholder={placeholder}
-          placeholderTextColor={'#777682'}
+          placeholderTextColor={theme?.colors.TEXT_PLACEHOLDER}
           multiline={!!textArea}
           numberOfLines={textArea ? 5 : 1}
           keyboardType={isNumeric ? 'number-pad' : 'default'}

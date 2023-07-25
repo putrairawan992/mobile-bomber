@@ -1,10 +1,8 @@
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
-/* eslint-disable @typescript-eslint/no-unsafe-return */
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+/* eslint-disable react-native/no-inline-styles */
 import * as React from 'react';
 
 import {Container, Content} from '../../components';
-import {TouchableOpacity, View} from 'react-native';
+import {StyleSheet, TouchableOpacity} from 'react-native';
 
 import styles from './Styles/LogInStyle';
 import {NativeStackScreenProps} from '@react-navigation/native-stack/lib/typescript/src/types';
@@ -18,6 +16,8 @@ import {Logo} from '../../assets/icons/Logo';
 import {TextInput} from '../../components/Form/TextInput';
 import {useFormik} from 'formik';
 import * as Yup from 'yup';
+import GradientText from '../../components/Text/GradientText';
+import useThemedStyles from '../../theme/useThemedStyles';
 
 type Props = NativeStackScreenProps<
   AuthStackParams,
@@ -31,6 +31,7 @@ interface ForgotPasswordInterface {
 
 function ForgotPasswordScreen({navigation}: Props) {
   const theme = useTheme();
+  const s = useThemedStyles(Styles);
   const formik = useFormik<ForgotPasswordInterface>({
     initialValues: {
       phone: '',
@@ -47,56 +48,56 @@ function ForgotPasswordScreen({navigation}: Props) {
   });
   return (
     <Container>
-      <Content hasHeader contentContainerStyle={styles.container}>
-        <Section isCenter>
-          <Logo size={80} color={theme?.colors.PRIMARY} />
-          <Spacer l />
+      <Content
+        hasHeader
+        contentContainerStyle={{
+          ...styles.container,
+          backgroundColor: theme?.colors.BACKGROUND1,
+        }}>
+        <Section>
+          <Logo size={64} color={theme?.colors.PRIMARY} />
+          <Spacer sm />
+          <GradientText colors={['#A060FA', '#C800CC']} style={s.headerText}>
+            Forgot Your Password?
+          </GradientText>
           <Text
-            variant="ultra-large"
-            fontWeight="bold"
-            label="Forgot Password"
+            variant="base"
+            fontWeight="inter-regular"
+            label={
+              "No worries! We'll help you get back into the groove. Enter your email to reset your password."
+            }
             color={theme?.colors.TEXT_PRIMARY}
-            style={{marginBottom: 38}}
+            style={{marginBottom: 56}}
           />
         </Section>
-        <View style={styles.signupLoginInputGroup}>
+        <TextInput
+          value={formik.values.phone}
+          label="Phone Number"
+          errorText={formik.errors.phone}
+          onChangeText={formik.handleChange('phone')}
+          placeholder="Phone Number"
+          isNumeric
+        />
+        <Spacer xl />
+        <Button
+          type="primary"
+          onPress={() => formik.handleSubmit()}
+          title="Submit"
+          isLoading={false}
+        />
+
+        <Section style={{marginTop: 28}} isRow>
           <Text
-            fontWeight="medium"
-            label="Enter your registered phone number below"
-            color={theme?.colors.TEXT_SECONDARY}
-            style={{textAlign: 'center', marginBottom: 23}}
-          />
-          <TextInput
-            value={formik.values.phone}
-            label=""
-            errorText={formik.errors.phone}
-            onChangeText={formik.handleChange('phone')}
-            placeholder="Phone Number"
-            isNumeric
-          />
-          <Spacer xl />
-          <Button
-            type="primary"
-            onPress={() => formik.handleSubmit()}
-            title="Submit"
-            isLoading={false}
-          />
-        </View>
-        <Section
-          isCenter
-          isRow
-          style={{
-            marginTop: 128,
-          }}>
-          <Text
-            variant="small"
+            fontWeight="inter-regular"
+            variant="base"
             label="Remember the password? "
             color={theme?.colors.TEXT_SECONDARY}
           />
-          <TouchableOpacity onPress={() => navigation.navigate('SignUp')}>
+          <TouchableOpacity onPress={() => navigation.navigate('LogIn')}>
             <Text
-              variant="small"
-              label="Log in"
+              fontWeight="inter-regular"
+              variant="base"
+              label="Login Now"
               color={theme?.colors.PRIMARY}
             />
           </TouchableOpacity>
@@ -107,3 +108,11 @@ function ForgotPasswordScreen({navigation}: Props) {
 }
 
 export default ForgotPasswordScreen;
+
+const Styles = () =>
+  StyleSheet.create({
+    headerText: {
+      fontSize: 32,
+      fontFamily: 'Poppins-SemiBold',
+    },
+  });

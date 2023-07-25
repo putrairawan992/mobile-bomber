@@ -1,9 +1,11 @@
 export interface UserInterface {
   userId: string;
-  fullName: string;
-  email: string;
+  fullName?: string;
+  email?: string;
   token: string;
   password?: string;
+  username: string;
+  phone: string;
 }
 
 export interface LoginPayloadInterface {
@@ -12,10 +14,10 @@ export interface LoginPayloadInterface {
 }
 
 export interface SignUpPayloadInterface {
-  fullName: string;
-  email: string;
+  username: string;
   password: string;
   phone: string;
+  confirmPassword: string;
 }
 
 export interface ResetPasswordInterface {

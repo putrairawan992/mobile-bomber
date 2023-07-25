@@ -1,16 +1,12 @@
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
-/* eslint-disable @typescript-eslint/no-unsafe-call */
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+/* eslint-disable react-native/no-inline-styles */
 import * as React from 'react';
 import * as Yup from 'yup';
 
 import {Container, Content} from '../../components';
-import {TouchableOpacity, View} from 'react-native';
+import {StyleSheet, TouchableOpacity} from 'react-native';
 
 import {AuthStackParams} from '../../navigation/AuthScreenStack';
 import Button from '../../components/Button';
-import GoogleFaceBookBtn from '../../components/SignUpLogIn/GoogleFaceBookBtn';
-import {Images} from '../../theme';
 import {LoginPayloadInterface} from '../../interfaces/UserInterface';
 import {Logo} from '../../assets/icons/Logo';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
@@ -23,11 +19,14 @@ import {useFormik} from 'formik';
 import useTheme from '../../theme/useTheme';
 import {useDispatch} from 'react-redux';
 import {loginSuccess} from '../../store/user/userActions';
+import GradientText from '../../components/Text/GradientText';
+import useThemedStyles from '../../theme/useThemedStyles';
 
 type Props = NativeStackScreenProps<AuthStackParams, 'LogIn', 'MyStack'>;
 
 function LogInScreen({navigation}: Props) {
   const theme = useTheme();
+  const s = useThemedStyles(Styles);
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
   const formik = useFormik<LoginPayloadInterface>({
@@ -49,8 +48,8 @@ function LogInScreen({navigation}: Props) {
         dispatch(
           loginSuccess({
             userId: 'ABC123',
-            fullName: 'John Wick',
-            email: 'john.wick@gmail.com',
+            username: 'John Wick',
+            phone: formik.values.phone,
             token: 'DEF456',
           }),
         );
@@ -61,93 +60,83 @@ function LogInScreen({navigation}: Props) {
     <Container>
       <Content
         hasHeader
-        contentContainerStyle={styles.container}
+        contentContainerStyle={{
+          ...styles.container,
+          backgroundColor: theme?.colors.BACKGROUND1,
+        }}
         extraScrollHeight={1}>
-        <Section isCenter>
-          <Logo size={80} color={theme?.colors.PRIMARY} />
-          <Spacer l />
+        <Section>
+          <Logo size={64} color={theme?.colors.PRIMARY} />
+          <Spacer sm />
+          <GradientText colors={['#A060FA', '#C800CC']} style={s.headerText}>
+            Nightlife Awaits!
+          </GradientText>
           <Text
-            variant="ultra-large"
-            fontWeight="bold"
-            label="Log in"
+            variant="base"
+            fontWeight="inter-regular"
+            label="Access your account and get ready for an unforgettable night of fun and celebration."
             color={theme?.colors.TEXT_PRIMARY}
-            style={{marginBottom: 38}}
+            style={{marginBottom: 56}}
           />
         </Section>
-        <View style={styles.signupLoginInputGroup}>
-          <TextInput
-            value={formik.values.phone}
-            label=""
-            errorText={formik.errors.phone}
-            onChangeText={formik.handleChange('phone')}
-            placeholder="Phone Number"
-            isNumeric
+        <TextInput
+          value={formik.values.phone}
+          label="Phone Number"
+          errorText={formik.errors.phone}
+          onChangeText={formik.handleChange('phone')}
+          placeholder="Phone number"
+          isNumeric
+        />
+        <Spacer l />
+        <TextInput
+          value={formik.values.password}
+          label="Password"
+          errorText={formik.errors.password}
+          onChangeText={formik.handleChange('password')}
+          placeholder="Password"
+          type="password"
+        />
+        <Spacer sm />
+        <TouchableOpacity
+          style={styles.forgotPasswordLink}
+          onPress={() => navigation.navigate('ForgotPassword')}>
+          <Text label="Forgot Password?" color={theme?.colors.PRIMARY} />
+        </TouchableOpacity>
+        <Spacer lxx />
+        <Button
+          type="primary"
+          onPress={() => formik.handleSubmit()}
+          title="Sign In"
+          isLoading={isLoading}
+        />
+        <Spacer lxx />
+        <Section isRow>
+          <Text
+            fontWeight="inter-regular"
+            variant="base"
+            label="Don’t have an account yet? "
+            color={theme?.colors.TEXT_SECONDARY}
           />
-          <Spacer l />
-          <TextInput
-            value={formik.values.password}
-            label=""
-            errorText={formik.errors.password}
-            onChangeText={formik.handleChange('password')}
-            placeholder="Password"
-            type="password"
-          />
-          <Spacer l />
-          <TouchableOpacity
-            style={styles.forgotPasswordLink}
-            onPress={() => navigation.navigate('ForgotPassword')}>
+          <TouchableOpacity onPress={() => navigation.navigate('SignUp')}>
             <Text
-              variant="small"
-              label="Forgot your password?"
-              color={theme?.colors.TEXT_SECONDARY}
+              fontWeight="inter-regular"
+              variant="base"
+              label="Register Now"
+              color={theme?.colors.PRIMARY}
             />
           </TouchableOpacity>
-          <Button
-            type="primary"
-            onPress={() => formik.handleSubmit()}
-            title="Log In"
-            isLoading={isLoading}
-          />
-          <Spacer lxx />
-          <Section isCenter>
-            <Text
-              variant="small"
-              label="Or log in using"
-              color={theme?.colors.TEXT_SECONDARY}
-            />
-          </Section>
-          <Spacer lxx />
-          <Section isRow isBetween>
-            <GoogleFaceBookBtn
-              googleImg
-              btnImage={Images.Google}
-              btnText="Google"
-            />
-            <GoogleFaceBookBtn btnImage={Images.Facebook} btnText="Facebook" />
-          </Section>
-          <Section
-            isCenter
-            isRow
-            style={{
-              marginTop: 128,
-            }}>
-            <Text
-              variant="small"
-              label="Don’t have an account yet? "
-              color={theme?.colors.TEXT_SECONDARY}
-            />
-            <TouchableOpacity onPress={() => navigation.navigate('SignUp')}>
-              <Text
-                variant="small"
-                label="Sign up"
-                color={theme?.colors.PRIMARY}
-              />
-            </TouchableOpacity>
-          </Section>
-        </View>
+        </Section>
       </Content>
     </Container>
   );
 }
 
 export default LogInScreen;
+
+const Styles = () =>
+  StyleSheet.create({
+    headerText: {
+      fontSize: 32,
+      fontFamily: 'Poppins-SemiBold',
+    },
+  });

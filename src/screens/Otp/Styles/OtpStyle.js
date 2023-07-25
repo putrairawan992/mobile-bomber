@@ -6,8 +6,7 @@ import {Colors, Fonts} from '../../../theme';
 const styles = EStyleSheet.create({
   container: {
     flex: isIphoneX() ? 1 : 0,
-    paddingTop: 37,
-    paddingBottom: 15,
+    paddingTop: 50,
     paddingHorizontal: 0,
   },
   signupLoginInputGroup: {

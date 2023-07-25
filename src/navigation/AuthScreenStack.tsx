@@ -31,7 +31,7 @@ const AuthStack = createNativeStackNavigator<AuthStackParams>();
 function AuthScreenStack() {
   return (
     <AuthStack.Navigator
-      initialRouteName="Splash"
+      initialRouteName="LogIn"
       screenOptions={{
         headerShown: false,
       }}>

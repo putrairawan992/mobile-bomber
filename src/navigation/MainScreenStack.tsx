@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import React, {ReactNode} from 'react';
 import {Bookmark} from '../assets/icons/Bookmark';
@@ -8,16 +6,16 @@ import {Search} from '../assets/icons/Search';
 import {User} from '../assets/icons/User';
 import Spacer from '../components/Spacer/Spacer';
 import {Text} from '../components/Text';
-import BookedScreen from '../screens/Booked';
-import HomeScreen from '../screens/Home';
 import ProfileScreen from '../screens/Profile';
-import SavedScreen from '../screens/Saved';
 import useTheme from '../theme/useTheme';
+import NightlifeScreen from '../screens/Nightlife';
+import EventScreen from '../screens/Event';
+import FriendsScreen from '../screens/Friends';
 
 export type MainStackParams = {
-  Home: undefined;
-  Saved: undefined;
-  Booked: undefined;
+  Nightlife: undefined;
+  Event: undefined;
+  Friends: undefined;
   Profile: undefined;
 };
 
@@ -41,7 +39,7 @@ function MainScreenStack() {
         <Spacer sx />
         <Text
           variant="small"
-          fontWeight="medium"
+          fontWeight="inter-regular"
           label={item.title}
           color={item.focused ? theme?.colors.PRIMARY : '#0C0C26'}
         />
@@ -60,8 +58,8 @@ function MainScreenStack() {
         },
       }}>
       <Tab.Screen
-        name="Home"
-        component={HomeScreen}
+        name="Nightlife"
+        component={NightlifeScreen}
         options={() => ({
           tabBarIcon: ({focused}: TabBarProps) => (
             <TabBarContent
@@ -86,8 +84,8 @@ function MainScreenStack() {
         })}
       />
       <Tab.Screen
-        name="Saved"
-        component={SavedScreen}
+        name="Event"
+        component={EventScreen}
         options={() => ({
           tabBarIcon: ({focused}: TabBarProps) => (
             <TabBarContent
@@ -112,8 +110,8 @@ function MainScreenStack() {
         })}
       />
       <Tab.Screen
-        name="Booked"
-        component={BookedScreen}
+        name="Friends"
+        component={FriendsScreen}
         options={() => ({
           tabBarIcon: ({focused}: TabBarProps) => (
             <TabBarContent

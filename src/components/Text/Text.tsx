@@ -1,10 +1,5 @@
-/* eslint-disable arrow-parens */
-/* eslint-disable @typescript-eslint/no-unsafe-call */
-/* eslint-disable @typescript-eslint/no-unsafe-return */
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import React from 'react';
-import {Platform, Text as RNText} from 'react-native';
+import {Text as RNText} from 'react-native';
 import styled from 'styled-components';
 import colors from '../../styles/colors';
 
@@ -34,28 +29,13 @@ type TextLineHeightType =
   | '34px';
 
 export const fontFamilyMapper: Record<FontWeightType, FontFamilyType> = {
-  'extra-bold':
-    Platform.OS === 'android'
-      ? 'PlusJakartaDisplay-Bold'
-      : 'PlusJakartaText-Bold',
-  bold:
-    Platform.OS === 'android'
-      ? 'PlusJakartaDisplay-Bold'
-      : 'PlusJakartaText-Bold',
+  'extra-bold': 'Poppins-ExtraBold',
+  bold: 'Poppins-Bold',
   'semi-bold': 'Poppins-SemiBold',
-  regular: 'PlusJakartaDisplay-Medium',
-  medium:
-    Platform.OS === 'android'
-      ? 'PlusJakartaDisplay-Regular'
-      : 'PlusJakartaText-Regular',
-  light:
-    Platform.OS === 'android'
-      ? 'PlusJakartaDisplay-Light'
-      : 'PlusJakartaText-Light',
-  thin:
-    Platform.OS === 'android'
-      ? 'PlusJakartaDisplay-Light'
-      : 'PlusJakartaText-Light',
+  regular: 'Poppins-Regular',
+  light: 'Poppins-Light',
+  thin: 'Poppins-Thin',
+  'inter-regular': 'Inter',
 };
 
 const textLineHeightMapper: Record<TextVariantType, TextLineHeightType> = {

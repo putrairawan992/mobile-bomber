@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-inline-styles */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
@@ -22,7 +23,11 @@ function SuccessPasswordScreen({navigation}: Props) {
   const theme = useTheme();
   return (
     <Container>
-      <Content contentContainerStyle={styles.container}>
+      <Content
+        contentContainerStyle={{
+          ...(styles.container,
+          {backgroundColor: theme?.colors.BACKGROUND1, paddingHorizontal: 27}),
+        }}>
         <View style={styles.successContent}>
           <Image
             source={Images.Success}
@@ -38,7 +43,8 @@ function SuccessPasswordScreen({navigation}: Props) {
           />
           <Section padding="0 38">
             <Text
-              fontWeight="medium"
+              variant="base"
+              fontWeight="inter-regular"
               label=" Congratulations your password has been changed."
               color={theme?.colors.TEXT_SECONDARY}
               style={{textAlign: 'center'}}
@@ -50,6 +56,7 @@ function SuccessPasswordScreen({navigation}: Props) {
           onPress={() => navigation.navigate('LogIn')}
           title="Log In"
           isLoading={false}
+          style={{bottom: 28}}
         />
       </Content>
     </Container>

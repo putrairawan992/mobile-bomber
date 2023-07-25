@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-inline-styles */
 /* eslint-disable @typescript-eslint/no-use-before-define */
 /* eslint-disable no-nested-ternary */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
@@ -6,6 +7,7 @@
 import * as React from 'react';
 
 import {ActivityIndicator, StyleSheet, View} from 'react-native';
+import LinearGradient from 'react-native-linear-gradient';
 import {ThemeInterface} from '../../theme/ThemeProvider';
 import useTheme from '../../theme/useTheme';
 import useThemedStyles from '../../theme/useThemedStyles';
@@ -82,18 +84,19 @@ function Button({
 
   return (
     <ScaleAnimation onPress={onPress} disabled={false} scaleTo={0.97}>
-      <View
+      <LinearGradient
+        colors={['#A060FA', '#C800CC']}
+        start={{x: 0, y: 0}}
+        end={{x: 1, y: 0}}
         style={[
           s.ButtonV2,
           {
-            backgroundColor:
-              mapStyling[type as keyof typeof mapStyling].backgroundColor,
             borderWidth:
               type === 'outlined' || type === 'secondaryOutlined' ? 1 : 0,
             borderColor:
               mapStyling[type as keyof typeof mapStyling].borderColor,
             width: width ?? 'auto',
-            borderRadius: noRound ? 0 : 50,
+            borderRadius: noRound ? 0 : 8,
           },
           style,
         ]}
@@ -106,7 +109,7 @@ function Button({
                 ? theme?.colors.SECONDARY
                 : type === 'outlined'
                 ? theme?.colors.PRIMARY
-                : theme?.colors.BACKGROUND1
+                : theme?.colors.TEXT_PRIMARY
             }
           />
         ) : (
@@ -118,7 +121,7 @@ function Button({
                 type === 'secondary' ||
                 type === 'danger' ||
                 type === 'disabled'
-                  ? '#fff'
+                  ? theme?.colors.TEXT_PRIMARY
                   : type === 'outlined'
                   ? 'active'
                   : type === 'secondaryOutlined'
@@ -131,7 +134,7 @@ function Button({
             {icon}
           </View>
         )}
-      </View>
+      </LinearGradient>
     </ScaleAnimation>
   );
 }
@@ -142,7 +145,8 @@ export default Button;
 const styles = (theme: ThemeInterface) =>
   StyleSheet.create({
     ButtonV2: {
-      height: 44,
+      paddingHorizontal: 20,
+      paddingVertical: 12,
       alignItems: 'center',
       justifyContent: 'center',
     },

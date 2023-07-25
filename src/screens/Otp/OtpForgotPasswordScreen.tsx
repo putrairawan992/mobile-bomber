@@ -1,6 +1,7 @@
+/* eslint-disable react-native/no-inline-styles */
 import * as React from 'react';
 import {useContext, useState} from 'react';
-import {View} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 import {Container, Content} from '../../components';
 import OtpInputs from 'react-native-otp-inputs';
 import styles from './Styles/OtpStyle';
@@ -14,12 +15,17 @@ import Spacer from '../../components/Spacer/Spacer';
 import {ModalToastContext} from '../../context/AppModalToastContext';
 import LoadingDots from '@apolloeagle/loading-dots';
 import {ModalToast} from '../../components/ModalToast';
+import GradientText from '../../components/Text/GradientText';
+import useThemedStyles from '../../theme/useThemedStyles';
+import {ThemeInterface} from '../../theme/ThemeProvider';
 
 type Props = NativeStackScreenProps<AuthStackParams, 'OtpForgot', 'MyStack'>;
 
 function OtpForgotPasswordScreen({route, navigation}: Props) {
   const theme = useTheme();
+  const s = useThemedStyles(Styles);
   const optConfirm = '123456';
+  const otpRef = React.useRef<any>();
   const [otpInputFill, setOtpInputFill] = useState(true);
   const {
     isShowToast,
@@ -29,27 +35,32 @@ function OtpForgotPasswordScreen({route, navigation}: Props) {
     type,
     setType,
   } = useContext(ModalToastContext);
+  React.useEffect(() => {
+    setTimeout(() => {
+      otpRef?.current?.focus();
+    }, 1000);
+  }, []);
   return (
     <Container>
-      <Content hasHeader contentContainerStyle={styles.container}>
+      <Content
+        hasHeader
+        contentContainerStyle={{
+          ...styles.container,
+          backgroundColor: theme?.colors.BACKGROUND1,
+        }}>
         <View style={styles.signupLoginInputGroup}>
-          <Section isCenter style={{marginBottom: 37}}>
-            <Logo size={80} color={theme?.colors.PRIMARY} />
-            <Spacer l />
+          <Section>
+            <Logo size={64} color={theme?.colors.PRIMARY} />
+            <Spacer sm />
+            <GradientText colors={['#A060FA', '#C800CC']} style={s.headerText}>
+              Confirm Your Number
+            </GradientText>
             <Text
-              variant="ultra-large"
-              fontWeight="bold"
-              label="Confirm Your Number"
-              color={theme?.colors.TEXT_PRIMARY}
-              style={{marginBottom: 38}}
-            />
-          </Section>
-          <Section padding="0 70" style={{marginBottom: 23}}>
-            <Text
+              variant="base"
+              fontWeight="inter-regular"
               label={`Enter the code we sent over SMS to  ${route.params.phone}:`}
-              style={{textAlign: 'center'}}
-              color="#777682"
-              fontWeight="medium"
+              color={theme?.colors.TEXT_PRIMARY}
+              style={{marginBottom: 56}}
             />
           </Section>
           {otpInputFill ? (
@@ -75,16 +86,9 @@ function OtpForgotPasswordScreen({route, navigation}: Props) {
                 }
               }}
               numberOfInputs={6}
+              ref={otpRef}
               style={styles.otpInputContainer}
-              inputStyles={{
-                width: 40,
-                height: 40,
-                backgroundColor: theme?.colors.BACKGROUND2,
-                borderRadius: 12,
-                textAlign: 'center',
-                fontSize: 14,
-                fontFamily: 'PlusJakartaDisplay-Medium',
-              }}
+              inputStyles={s.otpStyle}
               autofillFromClipboard={false}
             />
           ) : (
@@ -97,14 +101,16 @@ function OtpForgotPasswordScreen({route, navigation}: Props) {
               />
             </View>
           )}
-          <Section isRow isCenter>
+          <Section isRow>
             <Text
-              variant="small"
+              fontWeight="inter-regular"
+              variant="base"
               label="Didn’t get a code? "
               color={theme?.colors.TEXT_SECONDARY}
             />
             <Text
-              variant="small"
+              fontWeight="inter-regular"
+              variant="base"
               label="Resent"
               color={theme?.colors.PRIMARY}
             />
@@ -124,3 +130,23 @@ function OtpForgotPasswordScreen({route, navigation}: Props) {
 }
 
 export default OtpForgotPasswordScreen;
+
+const Styles = (theme: ThemeInterface) =>
+  StyleSheet.create({
+    headerText: {
+      fontSize: 32,
+      fontFamily: 'Poppins-SemiBold',
+    },
+    otpStyle: {
+      width: 50,
+      height: 50,
+      backgroundColor: theme?.colors.BACKGROUND2,
+      borderRadius: 12,
+      borderWidth: 1,
+      borderColor: theme?.colors.BORDER,
+      textAlign: 'center',
+      fontSize: 14,
+      fontFamily: 'Poppins-Regular',
+      color: theme?.colors.TEXT_PRIMARY,
+    },
+  });
