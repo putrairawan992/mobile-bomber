@@ -1,12 +1,9 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable @typescript-eslint/no-unsafe-call */
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+/* eslint-disable react-native/no-inline-styles */
 import {useFocusEffect, useNavigation} from '@react-navigation/native';
 import React from 'react';
 import {View} from 'react-native';
 import {LogoLabel} from '../assets/icons/LogoLabel';
-import {Container} from '../components';
+import {Container} from '../components/atoms';
 import useTheme from '../theme/useTheme';
 
 export const SplashScreen = () => {

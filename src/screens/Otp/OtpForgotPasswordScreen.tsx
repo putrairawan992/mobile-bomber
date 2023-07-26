@@ -1,23 +1,26 @@
 /* eslint-disable react-native/no-inline-styles */
 import * as React from 'react';
+import {
+  GradientText,
+  Section,
+  Spacer,
+  Text,
+  Container,
+  Content,
+} from '../../components/atoms';
+import {Logo} from '../../assets/icons';
 import {useContext, useState} from 'react';
 import {StyleSheet, View} from 'react-native';
-import {Container, Content} from '../../components';
 import OtpInputs from 'react-native-otp-inputs';
 import styles from './Styles/OtpStyle';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {AuthStackParams} from '../../navigation/AuthScreenStack';
-import {Section} from '../../components/Section';
 import useTheme from '../../theme/useTheme';
-import {Text} from '../../components/Text';
-import {Logo} from '../../assets/icons/Logo';
-import Spacer from '../../components/Spacer/Spacer';
 import {ModalToastContext} from '../../context/AppModalToastContext';
 import LoadingDots from '@apolloeagle/loading-dots';
-import {ModalToast} from '../../components/ModalToast';
-import GradientText from '../../components/Text/GradientText';
 import useThemedStyles from '../../theme/useThemedStyles';
 import {ThemeInterface} from '../../theme/ThemeProvider';
+import {ModalToast} from '../../components/molecules';
 
 type Props = NativeStackScreenProps<AuthStackParams, 'OtpForgot', 'MyStack'>;
 

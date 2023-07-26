@@ -1,26 +1,28 @@
 /* eslint-disable react-native/no-inline-styles */
 import * as React from 'react';
 import * as Yup from 'yup';
-
-import {Container, Content} from '../../components';
 import {StyleSheet, TouchableOpacity} from 'react-native';
 
 import {AuthStackParams} from '../../navigation/AuthScreenStack';
-import Button from '../../components/Button';
 import {LoginPayloadInterface} from '../../interfaces/UserInterface';
-import {Logo} from '../../assets/icons/Logo';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
-import {Section} from '../../components/Section';
-import Spacer from '../../components/Spacer/Spacer';
-import {Text} from '../../components/Text';
-import {TextInput} from '../../components/Form/TextInput';
 import styles from './Styles/LogInStyle';
 import {useFormik} from 'formik';
 import useTheme from '../../theme/useTheme';
 import {useDispatch} from 'react-redux';
 import {loginSuccess} from '../../store/user/userActions';
-import GradientText from '../../components/Text/GradientText';
 import useThemedStyles from '../../theme/useThemedStyles';
+import {
+  Content,
+  Container,
+  Button,
+  GradientText,
+  Section,
+  Spacer,
+  Text,
+  TextInput,
+} from '../../components/atoms';
+import {Logo} from '../../assets/icons';
 
 type Props = NativeStackScreenProps<AuthStackParams, 'LogIn', 'MyStack'>;
 
@@ -63,8 +65,7 @@ function LogInScreen({navigation}: Props) {
         contentContainerStyle={{
           ...styles.container,
           backgroundColor: theme?.colors.BACKGROUND1,
-        }}
-        extraScrollHeight={1}>
+        }}>
         <Section>
           <Logo size={64} color={theme?.colors.PRIMARY} />
           <Spacer sm />

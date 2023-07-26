@@ -1,12 +1,8 @@
 /* eslint-disable react-native/no-inline-styles */
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import * as React from 'react';
 import {Image, View} from 'react-native';
-import {Container, Content} from '../../components';
-import {Section} from '../../components/Section';
-import {Text} from '../../components/Text';
+import {Content, Container, Section, Text} from '../../components/atoms';
 import {AuthStackParams} from '../../navigation/AuthScreenStack';
 import {Images} from '../../theme';
 import useTheme from '../../theme/useTheme';

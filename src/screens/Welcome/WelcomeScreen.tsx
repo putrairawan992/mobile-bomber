@@ -1,18 +1,12 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable @typescript-eslint/no-unsafe-return */
-/* eslint-disable @typescript-eslint/no-unsafe-call */
-/* eslint-disable @typescript-eslint/no-unsafe-argument */
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import * as React from 'react';
 import {useState} from 'react';
 import {Dimensions, Image, Text, TouchableOpacity, View} from 'react-native';
-import {Container, Content} from '../../components';
-import Welcome from '../../components/Welcome';
 import {Images} from '../../theme';
 import Carousel from 'react-native-snap-carousel';
 import styles from './Styles/WelcomeStyle';
 import {useNavigation} from '@react-navigation/native';
+import {Welcome} from '../../components/molecules';
+import {Container, Content} from '../../components/atoms';
 
 interface SlidesI {
   id: number;

@@ -1,16 +1,16 @@
-import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import React, {ReactNode} from 'react';
+import {Spacer, Text} from '../components/atoms';
+
 import {Bookmark} from '../assets/icons/Bookmark';
-import {Heart} from '../assets/icons/Heart';
-import {Search} from '../assets/icons/Search';
-import {User} from '../assets/icons/User';
-import Spacer from '../components/Spacer/Spacer';
-import {Text} from '../components/Text';
-import ProfileScreen from '../screens/Profile';
-import useTheme from '../theme/useTheme';
-import NightlifeScreen from '../screens/Nightlife';
 import EventScreen from '../screens/Event';
 import FriendsScreen from '../screens/Friends';
+import {Heart} from '../assets/icons/Heart';
+import NightlifeScreen from '../screens/Nightlife';
+import ProfileScreen from '../screens/Profile';
+import {Search} from '../assets/icons/Search';
+import {User} from '../assets/icons/User';
+import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import useTheme from '../theme/useTheme';
 
 export type MainStackParams = {
   Nightlife: undefined;

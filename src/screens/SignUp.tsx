@@ -1,21 +1,23 @@
 /* eslint-disable react-native/no-inline-styles */
 import React from 'react';
+import {
+  Content,
+  Container,
+  GradientText,
+  Section,
+  Spacer,
+  Text,
+} from '../components/atoms';
 import {StyleSheet, TouchableOpacity} from 'react-native';
 import {Logo} from '../assets/icons/Logo';
-import {Container, Content} from '../components';
-import {TextInput} from '../components/Form/TextInput';
-import Spacer from '../components/Spacer/Spacer';
 import useTheme from '../theme/useTheme';
 import * as Yup from 'yup';
 import {SignUpPayloadInterface} from '../interfaces/UserInterface';
-import Button from '../components/Button';
-import {Text} from '../components/Text';
-import {Section} from '../components/Section';
 import {AuthStackParams} from '../navigation/AuthScreenStack';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
-import GradientText from '../components/Text/GradientText';
 import useThemedStyles from '../theme/useThemedStyles';
 import {useFormik} from 'formik';
+import {Button, TextInput} from '../components/atoms';
 
 type Props = NativeStackScreenProps<AuthStackParams, 'SignUp', 'MyStack'>;
 

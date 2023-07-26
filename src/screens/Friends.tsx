@@ -1,5 +1,7 @@
 import * as React from 'react';
-import {Container, Header} from '../components';
+
+import Container from '../components/atoms/Container';
+import {Header} from '../components/molecules';
 
 // type Props = NativeStackScreenProps<MainStackParams, 'Booked', 'MyStack'>;
 
