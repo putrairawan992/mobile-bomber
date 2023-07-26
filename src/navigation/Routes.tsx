@@ -30,7 +30,7 @@ function Routes() {
 
   return (
     <NavigationContainer>
-      {isLogin ? <MainScreenStack /> : <AuthScreenStack />}
+      {!isLogin ? <MainScreenStack /> : <AuthScreenStack />}
     </NavigationContainer>
   );
 }

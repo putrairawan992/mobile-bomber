@@ -7,19 +7,13 @@ interface Props {
   focused?: boolean;
 }
 
-export const User = (props: Props) => {
+export const HalfMoon = (props: Props) => {
   return (
     <Svg fill="none" viewBox="0 0 20 20" width={props.size} height={props.size}>
       <Path
         fill={props.focused ? 'url(#paint0_linear_1018_11010)' : '#FBFDFF'}
         fillRule="evenodd"
-        d="M10 10.625a5.208 5.208 0 00-5.208 5.208v.834a.625.625 0 01-1.25 0v-.834a6.458 6.458 0 0112.916 0v.834a.625.625 0 01-1.25 0v-.834A5.208 5.208 0 0010 10.625z"
-        clipRule="evenodd"
-      />
-      <Path
-        fill={props.focused ? 'url(#paint0_linear_1018_11010)' : '#FBFDFF'}
-        fillRule="evenodd"
-        d="M10 3.959a2.708 2.708 0 100 5.417 2.708 2.708 0 000-5.417zM6.042 6.667a3.958 3.958 0 117.916 0 3.958 3.958 0 01-7.917 0z"
+        d="M7.224 1.969a.625.625 0 01.296.531c0 3.45.855 5.913 2.461 7.519 1.606 1.606 4.07 2.46 7.519 2.46a.625.625 0 01.56.904A8.536 8.536 0 116.617 1.94a.625.625 0 01.607.029zm-.926 1.605a7.286 7.286 0 1010.128 10.128c-3.127-.164-5.598-1.069-7.329-2.8-1.73-1.73-2.635-4.2-2.8-7.328z"
         clipRule="evenodd"
       />
       {props.focused && (

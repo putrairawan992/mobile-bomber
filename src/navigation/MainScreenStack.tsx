@@ -1,16 +1,14 @@
+/* eslint-disable react-native/no-inline-styles */
 import React, {ReactNode} from 'react';
-import {Spacer, Text} from '../components/atoms';
+import {GradientText, Text} from '../components/atoms';
 
-import {Bookmark} from '../assets/icons/Bookmark';
 import EventScreen from '../screens/Event';
 import FriendsScreen from '../screens/Friends';
-import {Heart} from '../assets/icons/Heart';
 import NightlifeScreen from '../screens/Nightlife';
 import ProfileScreen from '../screens/Profile';
-import {Search} from '../assets/icons/Search';
-import {User} from '../assets/icons/User';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import useTheme from '../theme/useTheme';
+import {Community, Flare, HalfMoon, User} from '../assets/icons';
 
 export type MainStackParams = {
   Nightlife: undefined;
@@ -36,13 +34,19 @@ function MainScreenStack() {
     return (
       <>
         {item.icon}
-        <Spacer sx />
-        <Text
-          variant="small"
-          fontWeight="inter-regular"
-          label={item.title}
-          color={item.focused ? theme?.colors.PRIMARY : '#0C0C26'}
-        />
+        {item.focused ? (
+          <GradientText
+            colors={['#A060FA', '#C800CC']}
+            style={{
+              fontSize: 14,
+              fontFamily: 'Poppins-Bold',
+              lineHeight: 18,
+            }}>
+            {item.title}
+          </GradientText>
+        ) : (
+          <Text label={item.title} color="#FBFDFF" fontWeight="bold" />
+        )}
       </>
     );
   };
@@ -53,7 +57,7 @@ function MainScreenStack() {
       screenOptions={{
         headerShown: false,
         tabBarStyle: {
-          height: 74,
+          height: 80,
           backgroundColor: theme?.colors.BACKGROUND2,
         },
       }}>
@@ -64,17 +68,8 @@ function MainScreenStack() {
           tabBarIcon: ({focused}: TabBarProps) => (
             <TabBarContent
               focused={focused}
-              title="Search"
-              icon={
-                <Search
-                  color={
-                    focused
-                      ? theme?.colors.PRIMARY
-                      : theme?.colors.INACTIVE_TABS
-                  }
-                  size={28}
-                />
-              }
+              title="Nightlife"
+              icon={<HalfMoon focused={focused} size={20} />}
             />
           ),
           headerShown: false,
@@ -90,17 +85,8 @@ function MainScreenStack() {
           tabBarIcon: ({focused}: TabBarProps) => (
             <TabBarContent
               focused={focused}
-              title="Saved"
-              icon={
-                <Heart
-                  color={
-                    focused
-                      ? theme?.colors.PRIMARY
-                      : theme?.colors.INACTIVE_TABS
-                  }
-                  size={28}
-                />
-              }
+              title="Event"
+              icon={<Flare focused={focused} size={20} />}
             />
           ),
           headerShown: false,
@@ -116,17 +102,8 @@ function MainScreenStack() {
           tabBarIcon: ({focused}: TabBarProps) => (
             <TabBarContent
               focused={focused}
-              title="Booked"
-              icon={
-                <Bookmark
-                  color={
-                    focused
-                      ? theme?.colors.PRIMARY
-                      : theme?.colors.INACTIVE_TABS
-                  }
-                  size={28}
-                />
-              }
+              title="Friends"
+              icon={<Community focused={focused} size={21} />}
             />
           ),
           headerShown: false,
@@ -142,17 +119,8 @@ function MainScreenStack() {
           tabBarIcon: ({focused}: TabBarProps) => (
             <TabBarContent
               focused={focused}
-              title="Profile"
-              icon={
-                <User
-                  color={
-                    focused
-                      ? theme?.colors.PRIMARY
-                      : theme?.colors.INACTIVE_TABS
-                  }
-                  size={28}
-                />
-              }
+              title="Event"
+              icon={<User focused={focused} size={20} />}
             />
           ),
           headerShown: false,

@@ -7,19 +7,13 @@ interface Props {
   focused?: boolean;
 }
 
-export const User = (props: Props) => {
+export const Flare = (props: Props) => {
   return (
     <Svg fill="none" viewBox="0 0 20 20" width={props.size} height={props.size}>
       <Path
         fill={props.focused ? 'url(#paint0_linear_1018_11010)' : '#FBFDFF'}
         fillRule="evenodd"
-        d="M10 10.625a5.208 5.208 0 00-5.208 5.208v.834a.625.625 0 01-1.25 0v-.834a6.458 6.458 0 0112.916 0v.834a.625.625 0 01-1.25 0v-.834A5.208 5.208 0 0010 10.625z"
-        clipRule="evenodd"
-      />
-      <Path
-        fill={props.focused ? 'url(#paint0_linear_1018_11010)' : '#FBFDFF'}
-        fillRule="evenodd"
-        d="M10 3.959a2.708 2.708 0 100 5.417 2.708 2.708 0 000-5.417zM6.042 6.667a3.958 3.958 0 117.916 0 3.958 3.958 0 01-7.917 0z"
+        d="M10.666 2.727L8.393 7.6c-.112.24-.304.432-.544.544l-4.871 2.273 4.871 2.273c.24.112.432.305.544.544l2.273 4.872 2.274-4.872c.112-.24.304-.432.544-.544l4.871-2.273-4.871-2.273a1.125 1.125 0 01-.544-.544l-2.274-4.872zm-1.019-.771c.404-.866 1.635-.866 2.039 0l2.367 5.073 5.073 2.367c.866.404.866 1.635 0 2.04l-5.073 2.367-2.367 5.073c-.404.866-1.635.866-2.039 0L7.28 13.803l-5.074-2.368c-.865-.404-.865-1.635 0-2.039L7.28 7.03l2.367-5.073z"
         clipRule="evenodd"
       />
       {props.focused && (
