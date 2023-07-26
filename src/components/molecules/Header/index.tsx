@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable react-native/no-inline-styles */
-import React from 'react';
+import React, {CSSProperties} from 'react';
 import {View, Image, TouchableOpacity} from 'react-native';
 import styles from './Styles';
 import HeaderLeftLoaction from './LeftLocation';
@@ -10,6 +10,26 @@ import {useNavigation} from '@react-navigation/native';
 import useTheme from '../../../theme/useTheme';
 import {Text} from '../../atoms';
 import {Images} from '../../../theme';
+import {Logo, LogoText} from '../../../assets/icons';
+
+interface HeaderPropsI {
+  style?: CSSProperties;
+  children?: boolean;
+  transparent?: boolean;
+  hasBackBtn?: boolean;
+  hasLocation?: boolean;
+  title?: string;
+  onBackPress?: () => void;
+  onLocationPress?: () => void;
+  onProfilePress?: () => void;
+  clearText?: boolean;
+  onclearTextPress?: () => void;
+  filterBtn?: boolean;
+  onFilterBtnPress?: () => void;
+  hasNotification?: boolean;
+  onNotificationPress?: () => void;
+  hasLogo?: boolean;
+}
 
 function Header({
   style,
@@ -18,7 +38,6 @@ function Header({
   hasBackBtn,
   hasLocation,
   title,
-  titleStyle,
   onBackPress,
   onLocationPress,
   onProfilePress,
@@ -26,7 +45,8 @@ function Header({
   onclearTextPress,
   filterBtn,
   onFilterBtnPress,
-}: any) {
+  hasLogo,
+}: HeaderPropsI) {
   const theme = useTheme();
   const navigation = useNavigation();
   return (
@@ -47,7 +67,20 @@ function Header({
         </HeaderLeft>
       )}
 
-      {hasLocation && (
+      {hasLogo && (
+        <HeaderLeft>
+          <View
+            style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+            }}>
+            <Logo size={23} style={{marginRight: 4}} />
+            <LogoText />
+          </View>
+        </HeaderLeft>
+      )}
+
+      {/* {hasLocation && (
         <HeaderLeftLoaction
           onLocationPress={() => {
             if (onLocationPress) {
@@ -55,7 +88,7 @@ function Header({
             }
           }}
         />
-      )}
+      )} */}
 
       {/* {userIcon && (
           <UserLeft>
@@ -83,7 +116,6 @@ function Header({
               marginLeft: 'auto',
               marginRight: 'auto',
             },
-            titleStyle,
           ]}
         />
       )}
@@ -96,12 +128,13 @@ function Header({
             />
           </TitleLogo>
         )} */}
-      {children && (
+      {hasLocation && (
         <HeaderRight
-          userImage
-          onProfilePress={() => {
-            if (onProfilePress) {
-              onProfilePress();
+          hasLocation
+          hasNotification
+          onLocationPress={() => {
+            if (onLocationPress) {
+              onLocationPress();
             }
           }}>
           {/* {children} */}

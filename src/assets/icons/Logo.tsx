@@ -10,14 +10,20 @@ import Svg, {
 } from 'react-native-svg';
 
 interface Props {
-  color: string;
+  color?: string;
   size: number;
   focused?: boolean;
+  style?: any;
 }
 
 export const Logo = (props: Props) => {
   return (
-    <Svg fill="none" viewBox="0 0 66 64" width={props.size} height={props.size}>
+    <Svg
+      fill="none"
+      viewBox="0 0 66 64"
+      width={props.size}
+      height={props.size}
+      style={props.style}>
       <Path
         fill="url(#paint0_linear_351_10963)"
         fillRule="evenodd"

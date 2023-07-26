@@ -8,14 +8,13 @@ import {WIDTH} from '../../../../utils/config';
 
 export default EStyleSheet.create({
   header: {
-    paddingHorizontal: 20,
-    paddingVertical: 10,
+    paddingHorizontal: 16,
+    paddingTop: 12,
     width: '100%',
     flexDirection: 'row',
     backgroundColor: Colors.lighterGray,
     alignItems: 'center',
     zIndex: 99999,
-    height: 65,
     ...Platform.select({
       ios: {
         shadowColor: Colors.black,
@@ -55,6 +54,7 @@ export default EStyleSheet.create({
   },
   left: {
     position: 'absolute',
+    top: 10,
     left: 16,
   },
   textSubChild: {

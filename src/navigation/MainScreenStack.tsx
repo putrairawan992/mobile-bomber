@@ -36,7 +36,7 @@ function MainScreenStack() {
         {item.icon}
         {item.focused ? (
           <GradientText
-            colors={['#A060FA', '#C800CC']}
+            colors={['#FFE419', '#F27611']}
             style={{
               fontSize: 14,
               fontFamily: 'Poppins-Bold',
@@ -59,6 +59,7 @@ function MainScreenStack() {
         tabBarStyle: {
           height: 80,
           backgroundColor: theme?.colors.BACKGROUND2,
+          borderTopColor: 'transparent',
         },
       }}>
       <Tab.Screen

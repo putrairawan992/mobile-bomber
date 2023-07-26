@@ -1,16 +1,26 @@
+/* eslint-disable react-native/no-inline-styles */
+import {Notification} from 'iconsax-react-native';
 import React from 'react';
-import {Text, Image, TouchableOpacity} from 'react-native';
+import {Image, TouchableOpacity} from 'react-native';
+import {Pin} from '../../../assets/icons';
 import {Images} from '../../../theme';
+import useTheme from '../../../theme/useTheme';
+import {Text} from '../../atoms';
 import styles from './Styles';
 
 function HeaderRight({
+  hasLocation,
   onProfilePress,
   userImage,
   filterBtn,
   onFilterBtnPress,
   clearText,
   onclearTextPress,
+  onLocationPress,
+  hasNotification,
+  onNotificationPress,
 }: any) {
+  const theme = useTheme();
   return (
     <>
       {/* // <View style={[styles.right, style]}>
@@ -21,9 +31,47 @@ function HeaderRight({
     //     of 4
     //   </Text>
     // </View> */}
+      {hasLocation && (
+        <TouchableOpacity
+          style={[
+            styles.userRightImageBtn,
+            {
+              flexDirection: 'row',
+              alignItems: 'center',
+            },
+          ]}
+          onPress={() => {
+            if (onLocationPress) {
+              onLocationPress();
+            }
+          }}>
+          <Pin color={theme?.colors.ICON} size={16} style={{marginRight: 4}} />
+          <Text fontWeight="inter-regular" label="Taipei, Taiwan" />
+          {hasNotification && (
+            <TouchableOpacity
+              onPress={() => {
+                if (onNotificationPress) {
+                  onNotificationPress();
+                }
+              }}>
+              <Notification
+                size={16}
+                color={theme?.colors.ICON}
+                style={{marginLeft: 12, top: 2}}
+              />
+            </TouchableOpacity>
+          )}
+        </TouchableOpacity>
+      )}
       {userImage && (
         <TouchableOpacity
-          style={styles.userRightImageBtn}
+          style={[
+            styles.userRightImageBtn,
+            {
+              flexDirection: 'row',
+              alignItems: 'center',
+            },
+          ]}
           onPress={() => {
             if (onProfilePress) {
               onProfilePress();
@@ -59,7 +107,7 @@ function HeaderRight({
               onclearTextPress();
             }
           }}>
-          <Text style={styles.clearText}>Clear</Text>
+          <Text fontWeight="inter-regular" label="Clear" />
         </TouchableOpacity>
       )}
     </>

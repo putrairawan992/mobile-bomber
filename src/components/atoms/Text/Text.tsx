@@ -61,7 +61,7 @@ const fontSizeMapper: Record<TextVariantType, TextFontSizeType> = {
 };
 
 const StyledText = styled(RNText)<TextProps>`
-  color: ${props => props.color || colors.bermudaGrey};
+  color: ${props => props.color || colors.white};
   font-family: ${props => fontFamilyMapper[props.fontWeight || 'regular']};
   font-size: ${props => fontSizeMapper[props.variant || 'medium']};
   font-style: ${({fontStyle = 'normal'}) => fontStyle};
