@@ -4,14 +4,9 @@ import {
   Content,
   Container,
   Button,
-  GradientText,
-  Section,
   Spacer,
-  Text,
   TextInput,
 } from '../../components/atoms';
-import {Logo} from '../../assets/icons';
-import {StyleSheet} from 'react-native';
 import styles from './Styles/LogInStyle';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {AuthStackParams} from '../../navigation/AuthScreenStack';
@@ -19,7 +14,7 @@ import useTheme from '../../theme/useTheme';
 import {useFormik} from 'formik';
 import * as Yup from 'yup';
 import {ResetPasswordInterface} from '../../interfaces/UserInterface';
-import useThemedStyles from '../../theme/useThemedStyles';
+import {LogoLabel} from '../../components/molecules';
 
 type Props = NativeStackScreenProps<
   AuthStackParams,
@@ -29,7 +24,6 @@ type Props = NativeStackScreenProps<
 
 function ResetPasswordScreen({navigation}: Props) {
   const theme = useTheme();
-  const s = useThemedStyles(Styles);
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
   const formik = useFormik<ResetPasswordInterface>({
     initialValues: {
@@ -62,20 +56,10 @@ function ResetPasswordScreen({navigation}: Props) {
           ...styles.container,
           backgroundColor: theme?.colors.BACKGROUND1,
         }}>
-        <Section>
-          <Logo size={64} color={theme?.colors.PRIMARY} />
-          <Spacer sm />
-          <GradientText colors={['#A060FA', '#C800CC']} style={s.headerText}>
-            Reset Your Password
-          </GradientText>
-          <Text
-            variant="base"
-            fontWeight="inter-regular"
-            label="Enter a different password with the previous"
-            color={theme?.colors.TEXT_PRIMARY}
-            style={{marginBottom: 56}}
-          />
-        </Section>
+        <LogoLabel
+          title="Reset Your Password"
+          subtitle="Enter a different password with the previous"
+        />
         <TextInput
           value={formik.values.password}
           label="New Password"
@@ -106,11 +90,3 @@ function ResetPasswordScreen({navigation}: Props) {
 }
 
 export default ResetPasswordScreen;
-
-const Styles = () =>
-  StyleSheet.create({
-    headerText: {
-      fontSize: 32,
-      fontFamily: 'Poppins-SemiBold',
-    },
-  });

@@ -1,7 +1,6 @@
-/* eslint-disable react-native/no-inline-styles */
 import * as React from 'react';
 import * as Yup from 'yup';
-import {StyleSheet, TouchableOpacity} from 'react-native';
+import {TouchableOpacity} from 'react-native';
 
 import {AuthStackParams} from '../../navigation/AuthScreenStack';
 import {LoginPayloadInterface} from '../../interfaces/UserInterface';
@@ -11,24 +10,22 @@ import {useFormik} from 'formik';
 import useTheme from '../../theme/useTheme';
 import {useDispatch} from 'react-redux';
 import {loginSuccess} from '../../store/user/userActions';
-import useThemedStyles from '../../theme/useThemedStyles';
 import {
   Content,
   Container,
   Button,
-  GradientText,
   Section,
   Spacer,
   Text,
   TextInput,
 } from '../../components/atoms';
-import {Logo} from '../../assets/icons';
+import {LogoLabel} from '../../components/molecules';
 
 type Props = NativeStackScreenProps<AuthStackParams, 'LogIn', 'MyStack'>;
 
 function LogInScreen({navigation}: Props) {
   const theme = useTheme();
-  const s = useThemedStyles(Styles);
+
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
   const formik = useFormik<LoginPayloadInterface>({
@@ -66,20 +63,10 @@ function LogInScreen({navigation}: Props) {
           ...styles.container,
           backgroundColor: theme?.colors.BACKGROUND1,
         }}>
-        <Section>
-          <Logo size={64} color={theme?.colors.PRIMARY} />
-          <Spacer sm />
-          <GradientText colors={['#A060FA', '#C800CC']} style={s.headerText}>
-            Nightlife Awaits!
-          </GradientText>
-          <Text
-            variant="base"
-            fontWeight="inter-regular"
-            label="Access your account and get ready for an unforgettable night of fun and celebration."
-            color={theme?.colors.TEXT_PRIMARY}
-            style={{marginBottom: 56}}
-          />
-        </Section>
+        <LogoLabel
+          title="Nightlife Awaits!"
+          subtitle="Access your account and get ready for an unforgettable night of fun and celebration."
+        />
         <TextInput
           value={formik.values.phone}
           label="Phone Number"
@@ -133,11 +120,3 @@ function LogInScreen({navigation}: Props) {
 }
 
 export default LogInScreen;
-
-const Styles = () =>
-  StyleSheet.create({
-    headerText: {
-      fontSize: 32,
-      fontFamily: 'Poppins-SemiBold',
-    },
-  });

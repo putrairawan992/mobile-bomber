@@ -1,30 +1,20 @@
 /* eslint-disable react-native/no-inline-styles */
 import React from 'react';
-import {
-  Content,
-  Container,
-  GradientText,
-  Section,
-  Spacer,
-  Text,
-} from '../components/atoms';
-import {StyleSheet, TouchableOpacity} from 'react-native';
-import {Logo} from '../assets/icons/Logo';
+import {Content, Container, Section, Spacer, Text} from '../components/atoms';
+import {TouchableOpacity} from 'react-native';
 import useTheme from '../theme/useTheme';
 import * as Yup from 'yup';
 import {SignUpPayloadInterface} from '../interfaces/UserInterface';
 import {AuthStackParams} from '../navigation/AuthScreenStack';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
-import useThemedStyles from '../theme/useThemedStyles';
 import {useFormik} from 'formik';
 import {Button, TextInput} from '../components/atoms';
+import {LogoLabel} from '../components/molecules';
 
 type Props = NativeStackScreenProps<AuthStackParams, 'SignUp', 'MyStack'>;
 
 export const SignUp = ({navigation}: Props) => {
   const theme = useTheme();
-  const s = useThemedStyles(Styles);
-
   const formik = useFormik<SignUpPayloadInterface>({
     initialValues: {
       username: '',
@@ -60,20 +50,10 @@ export const SignUp = ({navigation}: Props) => {
           backgroundColor: theme?.colors.BACKGROUND1,
           paddingHorizontal: 27,
         }}>
-        <Section>
-          <Logo size={64} color={theme?.colors.PRIMARY} />
-          <Spacer sm />
-          <GradientText colors={['#A060FA', '#A060FA']} style={s.headerText}>
-            Join the Party!
-          </GradientText>
-          <Text
-            variant="base"
-            fontWeight="inter-regular"
-            label="Create your account now and experience the nightlife like never before."
-            color={theme?.colors.TEXT_PRIMARY}
-            style={{marginBottom: 56}}
-          />
-        </Section>
+        <LogoLabel
+          title="Join the Party!"
+          subtitle="Create your account now and experience the nightlife like never before."
+        />
         <TextInput
           value={formik.values.username}
           label="Username"
@@ -136,11 +116,3 @@ export const SignUp = ({navigation}: Props) => {
     </Container>
   );
 };
-
-const Styles = () =>
-  StyleSheet.create({
-    headerText: {
-      fontSize: 32,
-      fontFamily: 'Poppins-SemiBold',
-    },
-  });

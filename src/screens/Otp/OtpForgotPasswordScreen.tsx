@@ -1,14 +1,5 @@
-/* eslint-disable react-native/no-inline-styles */
 import * as React from 'react';
-import {
-  GradientText,
-  Section,
-  Spacer,
-  Text,
-  Container,
-  Content,
-} from '../../components/atoms';
-import {Logo} from '../../assets/icons';
+import {Section, Text, Container, Content} from '../../components/atoms';
 import {useContext, useState} from 'react';
 import {StyleSheet, View} from 'react-native';
 import OtpInputs from 'react-native-otp-inputs';
@@ -20,7 +11,7 @@ import {ModalToastContext} from '../../context/AppModalToastContext';
 import LoadingDots from '@apolloeagle/loading-dots';
 import useThemedStyles from '../../theme/useThemedStyles';
 import {ThemeInterface} from '../../theme/ThemeProvider';
-import {ModalToast} from '../../components/molecules';
+import {LogoLabel, ModalToast} from '../../components/molecules';
 
 type Props = NativeStackScreenProps<AuthStackParams, 'OtpForgot', 'MyStack'>;
 
@@ -52,20 +43,10 @@ function OtpForgotPasswordScreen({route, navigation}: Props) {
           backgroundColor: theme?.colors.BACKGROUND1,
         }}>
         <View style={styles.signupLoginInputGroup}>
-          <Section>
-            <Logo size={64} color={theme?.colors.PRIMARY} />
-            <Spacer sm />
-            <GradientText colors={['#A060FA', '#C800CC']} style={s.headerText}>
-              Confirm Your Number
-            </GradientText>
-            <Text
-              variant="base"
-              fontWeight="inter-regular"
-              label={`Enter the code we sent over SMS to  ${route.params.phone}:`}
-              color={theme?.colors.TEXT_PRIMARY}
-              style={{marginBottom: 56}}
-            />
-          </Section>
+          <LogoLabel
+            title="Confirm Your Number"
+            subtitle={`Enter the code we sent over SMS to  ${route.params.phone}:`}
+          />
           {otpInputFill ? (
             <OtpInputs
               handleChange={code => {
@@ -136,10 +117,6 @@ export default OtpForgotPasswordScreen;
 
 const Styles = (theme: ThemeInterface) =>
   StyleSheet.create({
-    headerText: {
-      fontSize: 32,
-      fontFamily: 'Poppins-SemiBold',
-    },
     otpStyle: {
       width: 50,
       height: 50,
