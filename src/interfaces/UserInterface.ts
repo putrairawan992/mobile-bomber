@@ -24,3 +24,10 @@ export interface ResetPasswordInterface {
   password: string;
   rePassword: string;
 }
+
+export interface UserAchievementInterface {
+  currentLevel: string;
+  start: number;
+  end: number;
+  planLevel: string;
+}

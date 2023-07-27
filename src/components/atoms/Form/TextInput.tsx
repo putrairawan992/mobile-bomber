@@ -17,6 +17,7 @@ import {Text} from '..';
 import colors from '../../../styles/colors';
 import {ThemeInterface} from '../../../theme/ThemeProvider';
 import {SHADOWS} from '../../../utils/config';
+import {Search} from '../../../assets/icons/Search';
 
 type Props = React.ComponentProps<typeof RNTextInput> & {
   label?: string;
@@ -25,7 +26,7 @@ type Props = React.ComponentProps<typeof RNTextInput> & {
   isNumeric?: boolean;
   width?: number;
   rightIcon?: JSX.Element;
-  type?: string;
+  type?: 'password' | 'search';
   style?: React.CSSProperties;
 };
 
@@ -129,6 +130,11 @@ export const TextInput = React.forwardRef((props: Props, ref) => {
             ) : (
               <EyeSlash size="20" color="#777682" />
             )}
+          </TouchableOpacity>
+        )}
+        {type === 'search' && (
+          <TouchableOpacity style={{right: 12}}>
+            <Search size={20} color={theme?.colors.PRIMARY} />
           </TouchableOpacity>
         )}
       </View>

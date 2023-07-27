@@ -6,6 +6,8 @@ import {View} from 'react-native';
 interface SectionPropsI {
   isRow?: boolean;
   isBetween?: boolean;
+  isEvenly?: boolean;
+  isAround?: boolean;
   children: ReactNode;
   backgroundColor?: string;
   borderRadius?: number;
@@ -17,6 +19,8 @@ interface SectionPropsI {
 export const Section = ({
   isRow,
   isBetween,
+  isEvenly,
+  isAround,
   children,
   backgroundColor,
   borderRadius,
@@ -34,6 +38,9 @@ export const Section = ({
           flexDirection: isRow ? 'row' : 'column',
           justifyContent: isBetween ? 'space-between' : undefined,
           ...(isBetween && {justifyContent: 'space-between'}),
+          ...(isEvenly && {justifyContent: 'space-evenly'}),
+          ...(isAround && {justifyContent: 'space-around'}),
+          ...(isRow && {alignItems: 'center'}),
           ...(padding && {
             paddingVertical: paddingVertical,
             paddingHorizontal: paddingHorizontal,

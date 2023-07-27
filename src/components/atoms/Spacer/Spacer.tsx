@@ -16,6 +16,7 @@ type Props = {
   l?: boolean;
   lx?: boolean;
   lxx?: boolean;
+  llxx?: boolean;
   xl?: boolean;
   xxl?: boolean;
   height?: number;
@@ -48,6 +49,8 @@ function Spacer(props: Props) {
     space = Spacing.lx;
   } else if (props.lxx) {
     space = Spacing.lxx;
+  } else if (props.llxx) {
+    space = Spacing.llxx;
   } else if (props.xl) {
     space = Spacing.xl;
   } else if (props.xxl) {
