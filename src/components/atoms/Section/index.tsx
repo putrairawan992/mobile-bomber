@@ -1,7 +1,7 @@
 /* eslint-disable radix */
 /* eslint-disable react-native/no-inline-styles */
 import React, {ReactNode} from 'react';
-import {View} from 'react-native';
+import {View, ViewStyle} from 'react-native';
 
 interface SectionPropsI {
   isRow?: boolean;
@@ -12,7 +12,7 @@ interface SectionPropsI {
   backgroundColor?: string;
   borderRadius?: number;
   isCenter?: boolean;
-  style?: any;
+  style?: ViewStyle;
   padding?: string;
 }
 

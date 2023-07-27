@@ -1,8 +1,5 @@
-/* eslint-disable implicit-arrow-linebreak */
-/* eslint-disable no-confusing-arrow */
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import React from 'react';
-import {Pressable} from 'react-native';
+import {Pressable, ViewStyle} from 'react-native';
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
@@ -20,6 +17,7 @@ interface ScaleAnimationI {
   children: JSX.Element;
   scaleTo: number;
   disabled: boolean;
+  style?: ViewStyle;
 }
 
 export function ScaleAnimation({
@@ -27,6 +25,7 @@ export function ScaleAnimation({
   children,
   scaleTo,
   disabled,
+  style,
 }: ScaleAnimationI) {
   const pressed = useSharedValue(false);
   const progress = useDerivedValue(() =>
@@ -56,7 +55,8 @@ export function ScaleAnimation({
         pressed.value = false;
       }}
       onPress={onPress}
-      disabled={disabled}>
+      disabled={disabled}
+      style={style}>
       <Animated.View style={animatedStyle}>{children}</Animated.View>
     </Pressable>
   );

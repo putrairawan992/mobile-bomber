@@ -4,6 +4,7 @@ import Button from './Button';
 import Container from './Container';
 import Content from './Content';
 import {TextInput} from './Form/TextInput';
+import {Gap} from './Gap';
 import {Section} from './Section';
 import Spacer from './Spacer/Spacer';
 import GradientText from './Text/GradientText';
@@ -20,4 +21,5 @@ export {
   Section,
   TextInput,
   GradientText,
+  Gap,
 };
