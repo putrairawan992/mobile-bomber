@@ -1,10 +1,11 @@
 import {useCallback, useEffect, useState} from 'react';
 import Geolocation from 'react-native-geolocation-service';
-import {LatLng} from 'react-native-maps';
+import {LocationInterface} from '../interfaces/UserInterface';
 import {usePermission} from './usePermission';
 
 export const useAttendanceCheckLocation = () => {
-  const [currentLocation, setCurrentLocation] = useState<LatLng | null>(null);
+  const [currentLocation, setCurrentLocation] =
+    useState<LocationInterface | null>(null);
   const {isFineLocationGranted, fineLocationPermission} = usePermission();
   const [isMockedLocation, setIsMockedLocation] = useState<boolean>(false);
 

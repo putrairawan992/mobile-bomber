@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import EStyleSheet from 'react-native-extended-stylesheet';
-import {Colors, Fonts} from '../../../theme';
+import {Colors} from '../../../theme';
 
 const styles = EStyleSheet.create({
   container: {
@@ -16,8 +16,6 @@ const styles = EStyleSheet.create({
     color: Colors.white,
     width: '165rem',
     height: '50rem',
-    fontSize: Fonts.size.h4,
-    ...Fonts.style.boldText,
   },
   nextFirstStartBtnView: {
     marginLeft: 'auto',

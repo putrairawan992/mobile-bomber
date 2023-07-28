@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import EStyleSheet from 'react-native-extended-stylesheet';
-import {Colors, Fonts} from '../../../theme';
+import {Colors} from '../../../theme';
 
 const styles = EStyleSheet.create({
   container: {
@@ -23,16 +23,12 @@ const styles = EStyleSheet.create({
     lineHeight: 45,
     marginBottom: 38,
     color: Colors.black,
-    fontSize: Fonts.size.larg,
-    ...Fonts.style.buttonText,
   },
   successPeregraph: {
     lineHeight: 21,
     color: Colors.darkGray,
     width: 233,
     textAlign: 'center',
-    ...Fonts.style.normalText,
-    fontSize: Fonts.size.medium,
   },
   successBtn: {
     width: '100%',

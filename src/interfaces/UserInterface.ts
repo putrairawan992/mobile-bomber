@@ -31,3 +31,19 @@ export interface UserAchievementInterface {
   end: number;
   planLevel: string;
 }
+
+export interface LocationInterface {
+  latitude: number;
+  longitude: number;
+}
+
+export interface UserLocationInterface {
+  address: string;
+  city: string;
+  region: string;
+  country: string;
+  country_code: string;
+  continent: string;
+  latitude: number | null;
+  longitude: number | null;
+}

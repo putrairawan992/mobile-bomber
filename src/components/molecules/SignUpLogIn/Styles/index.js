@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import EStyleSheet from 'react-native-extended-stylesheet';
-import {Colors, Fonts} from '../../../theme';
+import {Colors} from '../../../theme';
 
 const styles = EStyleSheet.create({
   logo: {
@@ -16,8 +16,6 @@ const styles = EStyleSheet.create({
     width: '100%',
     color: Colors.black,
     lineHeight: 38,
-    fontSize: Fonts.size.larg,
-    ...Fonts.style.boldText,
   },
   allInputStyle: {
     backgroundColor: Colors.white,
@@ -27,13 +25,6 @@ const styles = EStyleSheet.create({
     color: Colors.black,
     marginBottom: 20,
     height: 40,
-    fontSize: Fonts.size.medium,
-    '@media ios': {
-      ...Fonts.style.normalText,
-    },
-    '@media android': {
-      ...Fonts.style.textInputText,
-    },
   },
   passwordEyeImgBtn: {
     position: 'absolute',
@@ -49,8 +40,6 @@ const styles = EStyleSheet.create({
     lineHeight: 18,
     color: Colors.darkGray,
     textAlign: 'center',
-    ...Fonts.style.textInputText,
-    fontSize: Fonts.size.tiny,
   },
   googleImg: {
     height: 30,
@@ -75,7 +64,6 @@ const styles = EStyleSheet.create({
     fontSize: 15,
     lineHeight: 22.5,
     color: Colors.black,
-    ...Fonts.style.buttonText,
   },
   resetInputStyle: {
     paddingVertical: 15,
@@ -84,13 +72,6 @@ const styles = EStyleSheet.create({
     marginBottom: 20,
     borderBottomWidth: 2,
     borderColor: Colors.lightGray,
-    fontSize: Fonts.size.medium,
-    '@media ios': {
-      ...Fonts.style.normalText,
-    },
-    '@media android': {
-      ...Fonts.style.textInputText,
-    },
   },
   resetPasswordEyeImgBtn: {
     position: 'absolute',

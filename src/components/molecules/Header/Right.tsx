@@ -3,6 +3,7 @@ import {Notification} from 'iconsax-react-native';
 import React from 'react';
 import {Image, TouchableOpacity} from 'react-native';
 import {Pin} from '../../../assets/icons';
+import {useAppSelector} from '../../../hooks/hooks';
 import {Images} from '../../../theme';
 import useTheme from '../../../theme/useTheme';
 import {Text} from '../../atoms';
@@ -21,6 +22,7 @@ function HeaderRight({
   onNotificationPress,
 }: any) {
   const theme = useTheme();
+  const {userLocation} = useAppSelector(state => state.user);
   return (
     <>
       {/* // <View style={[styles.right, style]}>
@@ -46,7 +48,14 @@ function HeaderRight({
             }
           }}>
           <Pin color={theme?.colors.ICON} size={16} style={{marginRight: 4}} />
-          <Text fontWeight="inter-regular" label="Taipei, Taiwan" />
+          <Text
+            fontWeight="inter-regular"
+            label={
+              userLocation.address
+                ? `${userLocation.city}, ${userLocation.country}`
+                : 'Unknown'
+            }
+          />
           {hasNotification && (
             <TouchableOpacity
               onPress={() => {

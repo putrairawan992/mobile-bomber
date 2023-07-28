@@ -5,7 +5,6 @@ import {
   TextInput as RNTextInput,
   StyleSheet,
   View,
-  Platform,
   TouchableOpacity,
 } from 'react-native';
 
@@ -156,10 +155,7 @@ const styles = (theme: ThemeInterface) =>
     input: {
       borderRadius: 8,
       fontSize: 14,
-      fontFamily:
-        Platform.OS === 'android'
-          ? 'PlusJakartaDisplay-Regular'
-          : 'PlusJakartaText-Regular',
+      fontFamily: 'Inter',
       lineHeight: 16,
       backgroundColor: theme.colors.BACKGROUND2,
       ...SHADOWS.default,

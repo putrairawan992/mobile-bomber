@@ -1,12 +1,8 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
-import {LOGIN_SUCCESS, LOG_OUT} from './userTypes';
+import {LOGIN_SUCCESS, LOG_OUT, UPDATE_USER_LOCATION} from './userTypes';
 
-import {APIResponse} from '../../interfaces/BaseApiResponse';
-// import Conn from '../../service/Conn';
 import {
-  LoginPayloadInterface,
   UserInterface,
+  UserLocationInterface,
 } from '../../interfaces/UserInterface';
 
 export const loginSuccess = (payload: UserInterface) => ({
@@ -16,4 +12,9 @@ export const loginSuccess = (payload: UserInterface) => ({
 
 export const handleLogOut = () => ({
   type: LOG_OUT,
+});
+
+export const updateUserLocation = (payload: UserLocationInterface) => ({
+  type: UPDATE_USER_LOCATION,
+  payload,
 });

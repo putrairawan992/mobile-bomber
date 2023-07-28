@@ -1,6 +1,6 @@
 import EStyleSheet from 'react-native-extended-stylesheet';
 import {isIphoneX} from '../../../libs/Utils';
-import {Colors, Fonts} from '../../../theme';
+import {Colors} from '../../../theme';
 
 const styles = EStyleSheet.create({
   container: {
@@ -38,8 +38,6 @@ const styles = EStyleSheet.create({
     color: Colors.lightBlack,
     alignSelf: 'center',
     marginTop: 'auto',
-    ...Fonts.style.normalText,
-    fontSize: Fonts.size.tiny,
   },
   loginSignupBtnText: {
     lineHeight: 18,
@@ -47,8 +45,6 @@ const styles = EStyleSheet.create({
     textDecorationLine: 'underline',
     textDecorationStyle: 'solid',
     textDecorationColor: Colors.pink,
-    ...Fonts.style.textInputText,
-    fontSize: Fonts.size.tiny,
   },
   forgotPasswordLink: {
     marginLeft: 'auto',
@@ -58,19 +54,14 @@ const styles = EStyleSheet.create({
     fontSize: 10,
     lineHeight: 15,
     color: Colors.darkGray,
-    ...Fonts.style.textInputText,
   },
   forgotPasswordInput: {
     marginBottom: 37,
   },
-  resetPasswordInput: {
-    ...Fonts.style.normalText,
-  },
+
   forgotPasswordPageText: {
     lineHeight: 21,
     marginBottom: 20,
-    ...Fonts.style.normalText,
-    fontSize: Fonts.size.medium,
   },
   resetPageText: {
     marginBottom: 33,
@@ -83,8 +74,6 @@ const styles = EStyleSheet.create({
   inputLabelText: {
     textAlign: 'left',
     color: Colors.lighterBlack,
-    ...Fonts.style.textInputText,
-    fontSize: Fonts.size.tiny,
   },
 });
 

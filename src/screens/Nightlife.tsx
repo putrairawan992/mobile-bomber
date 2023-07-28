@@ -1,5 +1,7 @@
 import * as React from 'react';
+import {useEffect} from 'react';
 import {Image, ScrollView} from 'react-native';
+import {useDispatch} from 'react-redux';
 import {Beer, DiscoLight, Karaoke, WineBottle} from '../assets/icons';
 import {
   Content,
@@ -15,7 +17,12 @@ import {Header} from '../components/molecules';
 import {PlaceCategory} from '../components/organism';
 import {TopPlaces} from '../components/organism/Places/TopPlaces';
 import {UserAchievement} from '../components/organism/User/UserAchievement';
+import {useAttendanceCheckLocation} from '../hooks/useAttendanceCheckLocation';
+import {usePermission} from '../hooks/usePermission';
 import {PlaceCategoryInterface} from '../interfaces/PlaceInterface';
+import {UserLocationInterface} from '../interfaces/UserInterface';
+import {LocationService} from '../service/LocationService';
+import {updateUserLocation} from '../store/user/userActions';
 import useTheme from '../theme/useTheme';
 import {WIDTH} from '../utils/config';
 import {PLACES_DATA, USER_ACHIEVEMENT} from '../utils/data';
@@ -26,6 +33,31 @@ import styles from './Styles';
 function NightlifeScreen() {
   const theme = useTheme();
   const [searchValue, setSearchValue] = React.useState<string>('');
+  const {isFineLocationGranted} = usePermission();
+  const {currentLocation, getOneTimeLocation} = useAttendanceCheckLocation();
+  const dispatch = useDispatch();
+  useEffect(() => {
+    if (isFineLocationGranted) {
+      getOneTimeLocation();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
+    const fetchUserLocation = async () => {
+      if (currentLocation) {
+        const location: UserLocationInterface =
+          await LocationService.geocodeReverse({
+            latitude: currentLocation.latitude,
+            longitude: currentLocation.longitude,
+          });
+        dispatch(updateUserLocation(location));
+      }
+    };
+
+    fetchUserLocation();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentLocation]);
 
   const PLACE_CATEGORY: PlaceCategoryInterface[] = [
     {

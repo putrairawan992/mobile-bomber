@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import EStyleSheet from 'react-native-extended-stylesheet';
 import {isIphoneX} from '../../../libs/Utils';
-import {Colors, Fonts} from '../../../theme';
+import {Colors} from '../../../theme';
 
 const styles = EStyleSheet.create({
   container: {
@@ -20,15 +20,11 @@ const styles = EStyleSheet.create({
     marginLeft: 'auto',
     marginRight: 'auto',
     marginBottom: 20,
-    ...Fonts.style.normalText,
-    fontSize: Fonts.size.medium,
   },
   bottomAccountText: {
     lineHeight: 18,
     color: Colors.lightBlack,
     alignSelf: 'center',
-    ...Fonts.style.normalText,
-    fontSize: Fonts.size.tiny,
   },
   loginSignupBtnText: {
     lineHeight: 18,
@@ -36,8 +32,6 @@ const styles = EStyleSheet.create({
     textDecorationLine: 'underline',
     textDecorationStyle: 'solid',
     textDecorationColor: Colors.pink,
-    ...Fonts.style.normalText,
-    fontSize: Fonts.size.tiny,
   },
   otpInputStyle: {
     width: 40,
@@ -53,8 +47,6 @@ const styles = EStyleSheet.create({
     shadowRadius: 20,
     elevation: 20,
     shadowColor: Colors.blurBlack,
-    ...Fonts.style.normalText,
-    fontSize: Fonts.size.medium,
   },
   otpInputContainer: {
     flexDirection: 'row',

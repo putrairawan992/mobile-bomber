@@ -2,7 +2,6 @@ import {Platform} from 'react-native';
 
 import EStyleSheet from 'react-native-extended-stylesheet';
 
-import Fonts from '../../../../theme/Fonts';
 import Colors from '../../../../theme/Color';
 import {WIDTH} from '../../../../utils/config';
 
@@ -49,8 +48,6 @@ export default EStyleSheet.create({
   },
   titleTxt: {
     color: Colors.darkBlack,
-    fontSize: Fonts.size.h4,
-    ...Fonts.style.boldText,
   },
   left: {
     position: 'absolute',
@@ -59,7 +56,6 @@ export default EStyleSheet.create({
   },
   textSubChild: {
     marginLeft: 5,
-    ...Fonts.style.boldText,
   },
   leftArrow: {height: 20, width: 9.78},
   userRightImageBtn: {
@@ -79,20 +75,10 @@ export default EStyleSheet.create({
   leftLocationText: {
     marginLeft: 6,
     width: WIDTH - 120,
-    // ...Fonts.style.normalText,
-    fontSize: Fonts.size.medium,
-    '@media ios': {
-      ...Fonts.style.normalText,
-    },
-    '@media android': {
-      ...Fonts.style.textInputText,
-    },
   },
   clearText: {
     lineHeight: 21,
     color: Colors.pink,
-    ...Fonts.style.normalText,
-    fontSize: Fonts.size.medium,
   },
   filterBtn: {
     width: 40,
