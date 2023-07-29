@@ -8,13 +8,14 @@ import {Gap, ScaleAnimation, Section, Text} from '../../atoms';
 
 interface PlaceCardProps {
   item: PlaceInterface;
+  onSelect: (id: string) => void;
 }
 
-export const PlaceCard = ({item}: PlaceCardProps) => {
+export const PlaceCard = ({item, onSelect}: PlaceCardProps) => {
   const theme = useTheme();
   return (
     <ScaleAnimation
-      onPress={() => undefined}
+      onPress={() => onSelect(item.id)}
       disabled={false}
       scaleTo={0.97}
       style={{

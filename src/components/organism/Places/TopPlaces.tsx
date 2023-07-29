@@ -12,6 +12,7 @@ interface PlaceCategoryProps {
   data: PlaceInterface[];
   itemWidthStyle: boolean;
   fullSliderWidth: boolean;
+  onSelect: (id: string) => void;
 }
 
 export const TopPlaces = ({
@@ -19,10 +20,13 @@ export const TopPlaces = ({
   data,
   itemWidthStyle,
   fullSliderWidth,
+  onSelect,
 }: PlaceCategoryProps) => {
   const theme = useTheme();
   const [index, setIndex] = React.useState<number>(0);
-  let renderItem = ({item}: any) => <PlaceCard item={item} />;
+  let renderItem = ({item}: any) => (
+    <PlaceCard item={item} onSelect={onSelect} />
+  );
   return (
     <Section>
       <Text

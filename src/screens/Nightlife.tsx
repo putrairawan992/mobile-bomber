@@ -1,3 +1,4 @@
+import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import * as React from 'react';
 import {useEffect} from 'react';
 import {Image, ScrollView} from 'react-native';
@@ -20,6 +21,7 @@ import {useAttendanceCheckLocation} from '../hooks/useAttendanceCheckLocation';
 import {usePermission} from '../hooks/usePermission';
 import {PlaceCategoryInterface} from '../interfaces/PlaceInterface';
 import {UserLocationInterface} from '../interfaces/UserInterface';
+import {NightlifeStackParams} from '../navigation/MainScreenStack';
 import {LocationService} from '../service/LocationService';
 import {updateUserLocation} from '../store/user/userActions';
 import useTheme from '../theme/useTheme';
@@ -27,9 +29,13 @@ import {WIDTH} from '../utils/config';
 import {PLACES_DATA, USER_ACHIEVEMENT} from '../utils/data';
 import styles from './Styles';
 
-// type Props = NativeStackScreenProps<MainStackParams, 'Home', 'MyStack'>;
+type Props = NativeStackScreenProps<
+  NightlifeStackParams,
+  'Nightlife',
+  'MyStack'
+>;
 
-function NightlifeScreen() {
+function NightlifeScreen({navigation}: Props) {
   const theme = useTheme();
   const [searchValue, setSearchValue] = React.useState<string>('');
   const {isFineLocationGranted} = usePermission();
@@ -81,6 +87,9 @@ function NightlifeScreen() {
     },
   ];
 
+  const onPlaceSelect = (id: string) =>
+    navigation.navigate('PlaceDetail', {placeId: id});
+
   return (
     <Layout contentContainerStyle={styles.container}>
       <ScrollView>
@@ -128,6 +137,7 @@ function NightlifeScreen() {
           data={PLACES_DATA}
           itemWidthStyle
           fullSliderWidth
+          onSelect={onPlaceSelect}
         />
         <Gap height={32} />
       </ScrollView>
