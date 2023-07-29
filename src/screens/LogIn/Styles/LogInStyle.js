@@ -6,7 +6,7 @@ const styles = EStyleSheet.create({
   container: {
     paddingHorizontal: 27,
     '@media ios': {
-      flex: isIphoneX() ? 1 : 0,
+      // flex: isIphoneX() ? 1 : 0,
       paddingTop: 61,
     },
     '@media android': {

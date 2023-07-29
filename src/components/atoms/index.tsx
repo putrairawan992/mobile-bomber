@@ -1,18 +1,15 @@
 import {EntryAnimation} from './animations/EntryAnimation';
 import {ScaleAnimation} from './animations/ScaleAnimation';
 import Button from './Button';
-import Container from './Container';
-import Content from './Content';
 import {TextInput} from './Form/TextInput';
 import {Gap} from './Gap';
+import {Layout} from './Layout';
 import {Section} from './Section';
 import Spacer from './Spacer/Spacer';
 import GradientText from './Text/GradientText';
 import Text from './Text/Text';
 
 export {
-  Container,
-  Content,
   Spacer,
   Text,
   Button,
@@ -22,4 +19,5 @@ export {
   TextInput,
   GradientText,
   Gap,
+  Layout,
 };

@@ -12,8 +12,7 @@ import * as Yup from 'yup';
 
 import {
   Button,
-  Container,
-  Content,
+  Layout,
   Section,
   Spacer,
   Text,
@@ -48,51 +47,44 @@ function ForgotPasswordScreen({navigation}: Props) {
       }),
   });
   return (
-    <Container>
-      <Content
-        hasHeader
-        contentContainerStyle={{
-          ...styles.container,
-          backgroundColor: theme?.colors.BACKGROUND1,
-        }}>
-        <LogoLabel
-          title="Forgot Your Password?"
-          subtitle="No worries! We'll help you get back into the groove. Enter your email to reset your password."
-        />
-        <TextInput
-          value={formik.values.phone}
-          label="Phone Number"
-          errorText={formik.errors.phone}
-          onChangeText={formik.handleChange('phone')}
-          placeholder="Phone Number"
-          isNumeric
-        />
-        <Spacer xl />
-        <Button
-          type="primary"
-          onPress={() => formik.handleSubmit()}
-          title="Submit"
-          isLoading={false}
-        />
+    <Layout contentContainerStyle={styles.container}>
+      <LogoLabel
+        title="Forgot Your Password?"
+        subtitle="No worries! We'll help you get back into the groove. Enter your email to reset your password."
+      />
+      <TextInput
+        value={formik.values.phone}
+        label="Phone Number"
+        errorText={formik.errors.phone}
+        onChangeText={formik.handleChange('phone')}
+        placeholder="Phone Number"
+        isNumeric
+      />
+      <Spacer xl />
+      <Button
+        type="primary"
+        onPress={() => formik.handleSubmit()}
+        title="Submit"
+        isLoading={false}
+      />
 
-        <Section style={{marginTop: 28}} isRow>
+      <Section style={{marginTop: 28}} isRow>
+        <Text
+          fontWeight="inter-regular"
+          variant="base"
+          label="Remember the password? "
+          color={theme?.colors.TEXT_SECONDARY}
+        />
+        <TouchableOpacity onPress={() => navigation.navigate('LogIn')}>
           <Text
             fontWeight="inter-regular"
             variant="base"
-            label="Remember the password? "
-            color={theme?.colors.TEXT_SECONDARY}
+            label="Login Now"
+            color={theme?.colors.PRIMARY}
           />
-          <TouchableOpacity onPress={() => navigation.navigate('LogIn')}>
-            <Text
-              fontWeight="inter-regular"
-              variant="base"
-              label="Login Now"
-              color={theme?.colors.PRIMARY}
-            />
-          </TouchableOpacity>
-        </Section>
-      </Content>
-    </Container>
+        </TouchableOpacity>
+      </Section>
+    </Layout>
   );
 }
 

@@ -11,13 +11,12 @@ import useTheme from '../../theme/useTheme';
 import {useDispatch} from 'react-redux';
 import {loginSuccess} from '../../store/user/userActions';
 import {
-  Content,
-  Container,
   Button,
   Section,
   Spacer,
   Text,
   TextInput,
+  Layout,
 } from '../../components/atoms';
 import {LogoLabel} from '../../components/molecules';
 
@@ -56,66 +55,59 @@ function LogInScreen({navigation}: Props) {
     },
   });
   return (
-    <Container>
-      <Content
-        hasHeader
-        contentContainerStyle={{
-          ...styles.container,
-          backgroundColor: theme?.colors.BACKGROUND1,
-        }}>
-        <LogoLabel
-          title="Nightlife Awaits!"
-          subtitle="Access your account and get ready for an unforgettable night of fun and celebration."
+    <Layout contentContainerStyle={styles.container}>
+      <LogoLabel
+        title="Nightlife Awaits!"
+        subtitle="Access your account and get ready for an unforgettable night of fun and celebration."
+      />
+      <TextInput
+        value={formik.values.phone}
+        label="Phone Number"
+        errorText={formik.errors.phone}
+        onChangeText={formik.handleChange('phone')}
+        placeholder="Phone number"
+        isNumeric
+      />
+      <Spacer l />
+      <TextInput
+        value={formik.values.password}
+        label="Password"
+        errorText={formik.errors.password}
+        onChangeText={formik.handleChange('password')}
+        placeholder="Password"
+        type="password"
+      />
+      <Spacer sm />
+      <TouchableOpacity
+        style={styles.forgotPasswordLink}
+        onPress={() => navigation.navigate('ForgotPassword')}>
+        <Text label="Forgot Password?" color={theme?.colors.PRIMARY} />
+      </TouchableOpacity>
+      <Spacer lxx />
+      <Button
+        type="primary"
+        onPress={() => formik.handleSubmit()}
+        title="Sign In"
+        isLoading={isLoading}
+      />
+      <Spacer lxx />
+      <Section isRow>
+        <Text
+          fontWeight="inter-regular"
+          variant="base"
+          label="Don’t have an account yet? "
+          color={theme?.colors.TEXT_SECONDARY}
         />
-        <TextInput
-          value={formik.values.phone}
-          label="Phone Number"
-          errorText={formik.errors.phone}
-          onChangeText={formik.handleChange('phone')}
-          placeholder="Phone number"
-          isNumeric
-        />
-        <Spacer l />
-        <TextInput
-          value={formik.values.password}
-          label="Password"
-          errorText={formik.errors.password}
-          onChangeText={formik.handleChange('password')}
-          placeholder="Password"
-          type="password"
-        />
-        <Spacer sm />
-        <TouchableOpacity
-          style={styles.forgotPasswordLink}
-          onPress={() => navigation.navigate('ForgotPassword')}>
-          <Text label="Forgot Password?" color={theme?.colors.PRIMARY} />
-        </TouchableOpacity>
-        <Spacer lxx />
-        <Button
-          type="primary"
-          onPress={() => formik.handleSubmit()}
-          title="Sign In"
-          isLoading={isLoading}
-        />
-        <Spacer lxx />
-        <Section isRow>
+        <TouchableOpacity onPress={() => navigation.navigate('SignUp')}>
           <Text
             fontWeight="inter-regular"
             variant="base"
-            label="Don’t have an account yet? "
-            color={theme?.colors.TEXT_SECONDARY}
+            label="Register Now"
+            color={theme?.colors.PRIMARY}
           />
-          <TouchableOpacity onPress={() => navigation.navigate('SignUp')}>
-            <Text
-              fontWeight="inter-regular"
-              variant="base"
-              label="Register Now"
-              color={theme?.colors.PRIMARY}
-            />
-          </TouchableOpacity>
-        </Section>
-      </Content>
-    </Container>
+        </TouchableOpacity>
+      </Section>
+    </Layout>
   );
 }
 

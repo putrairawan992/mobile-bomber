@@ -1,15 +1,15 @@
 import * as React from 'react';
-
-import Container from '../components/atoms/Container';
+import {Layout} from '../components/atoms';
 import {Header} from '../components/molecules';
+import styles from './Styles';
 
 // type Props = NativeStackScreenProps<MainStackParams, 'Saved', 'MyStack'>;
 
 function EventScreen() {
   return (
-    <Container>
+    <Layout contentContainerStyle={styles.container}>
       <Header transparent />
-    </Container>
+    </Layout>
   );
 }
 

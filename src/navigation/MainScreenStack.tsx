@@ -120,7 +120,7 @@ function MainScreenStack() {
           tabBarIcon: ({focused}: TabBarProps) => (
             <TabBarContent
               focused={focused}
-              title="Event"
+              title="Profile"
               icon={<User focused={focused} size={20} />}
             />
           ),

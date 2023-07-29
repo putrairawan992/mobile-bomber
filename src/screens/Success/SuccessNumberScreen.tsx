@@ -2,7 +2,7 @@
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import * as React from 'react';
 import {Image, View} from 'react-native';
-import {Content, Container, Section, Text} from '../../components/atoms';
+import {Section, Text, Layout} from '../../components/atoms';
 import {AuthStackParams} from '../../navigation/AuthScreenStack';
 import {Images} from '../../theme';
 import useTheme from '../../theme/useTheme';
@@ -20,36 +20,31 @@ function SuccessNumberScreen({navigation}: Props) {
     navigation.navigate('LogIn');
   }, 2000);
   return (
-    <Container>
-      <Content
-        contentContainerStyle={{
-          ...(styles.container, {backgroundColor: theme?.colors.BACKGROUND1}),
-        }}>
-        <View style={styles.successContent}>
-          <Image
-            source={Images.Success}
-            style={styles.successImage}
-            resizeMode="contain"
-          />
+    <Layout contentContainerStyle={styles.container}>
+      <View style={styles.successContent}>
+        <Image
+          source={Images.Success}
+          style={styles.successImage}
+          resizeMode="contain"
+        />
+        <Text
+          variant="ultra-large"
+          fontWeight="bold"
+          label="Success"
+          color={theme?.colors.TEXT_PRIMARY}
+          style={{marginBottom: 33}}
+        />
+        <Section padding="0 38">
           <Text
-            variant="ultra-large"
-            fontWeight="bold"
-            label="Success"
-            color={theme?.colors.TEXT_PRIMARY}
-            style={{marginBottom: 33}}
+            variant="base"
+            fontWeight="inter-regular"
+            label="Congratulations your number has been confirmed."
+            color={theme?.colors.TEXT_SECONDARY}
+            style={{textAlign: 'center'}}
           />
-          <Section padding="0 38">
-            <Text
-              variant="base"
-              fontWeight="inter-regular"
-              label="Congratulations your number has been confirmed."
-              color={theme?.colors.TEXT_SECONDARY}
-              style={{textAlign: 'center'}}
-            />
-          </Section>
-        </View>
-      </Content>
-    </Container>
+        </Section>
+      </View>
+    </Layout>
   );
 }
 

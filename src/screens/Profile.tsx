@@ -1,15 +1,15 @@
 import * as React from 'react';
-
-import Container from '../components/atoms/Container';
+import {Layout} from '../components/atoms';
+import styles from './Styles';
 import {Header} from '../components/molecules';
 
 // type Props = NativeStackScreenProps<MainStackParams, 'Profile', 'MyStack'>;
 
 function ProfileScreen() {
   return (
-    <Container>
+    <Layout contentContainerStyle={styles.container}>
       <Header transparent />
-    </Container>
+    </Layout>
   );
 }
 

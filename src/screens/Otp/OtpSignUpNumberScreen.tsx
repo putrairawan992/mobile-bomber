@@ -1,6 +1,5 @@
-/* eslint-disable react-native/no-inline-styles */
 import * as React from 'react';
-import {Content, Container, Section, Text} from '../../components/atoms';
+import {Section, Text, Layout} from '../../components/atoms';
 import {useContext, useState} from 'react';
 import {StyleSheet, View} from 'react-native';
 import OtpInputs from 'react-native-otp-inputs';
@@ -36,79 +35,72 @@ function OtpSignUpNumberScreen({route, navigation}: Props) {
     }, 1000);
   }, []);
   return (
-    <Container>
-      <Content
-        hasHeader
-        contentContainerStyle={{
-          ...styles.container,
-          backgroundColor: theme?.colors.BACKGROUND1,
-        }}>
-        <View style={styles.signupLoginInputGroup}>
-          <LogoLabel
-            title="Confirm Your Number"
-            subtitle={`Enter the code we sent over SMS to  ${route.params.phone}:`}
-          />
-          {otpInputFill ? (
-            <OtpInputs
-              handleChange={code => {
-                if (optConfirm === code) {
-                  setOtpInputFill(false);
-                  setTimeout(() => {
-                    setOtpInputFill(true);
-                    navigation.navigate('SuccessNumber');
-                  }, 3000);
-                } else if (code.length === 6 && optConfirm !== code) {
-                  setOtpInputFill(false);
-                  setTimeout(() => {
-                    setIsShowToast(true);
-                    setType('error');
-                    setToastMessage('Wrong otp number');
-                    setOtpInputFill(true);
-                    navigation.navigate('OtpSignUp', {
-                      phone: route.params.phone,
-                    });
-                  }, 3000);
-                }
-              }}
-              numberOfInputs={6}
-              ref={otpRef}
-              style={styles.otpInputContainer}
-              inputStyles={s.otpStyle}
-              autofillFromClipboard={false}
-            />
-          ) : (
-            <View style={styles.loaderContent}>
-              <LoadingDots
-                animation="pulse"
-                dots={4}
-                color={theme?.colors.PRIMARY}
-                size={15}
-              />
-            </View>
-          )}
-          <Section isRow>
-            <Text
-              fontWeight="inter-regular"
-              variant="base"
-              label="Didn’t get a code? "
-              color={theme?.colors.TEXT_SECONDARY}
-            />
-            <Text
-              fontWeight="inter-regular"
-              variant="base"
-              label="Resent"
-              color={theme?.colors.PRIMARY}
-            />
-          </Section>
-        </View>
-        <ModalToast
-          isVisible={isShowToast}
-          onCloseModal={() => setIsShowToast(false)}
-          message={toastMessage}
-          type={type}
+    <Layout contentContainerStyle={styles.container}>
+      <View style={styles.signupLoginInputGroup}>
+        <LogoLabel
+          title="Confirm Your Number"
+          subtitle={`Enter the code we sent over SMS to  ${route.params.phone}:`}
         />
-      </Content>
-    </Container>
+        {otpInputFill ? (
+          <OtpInputs
+            handleChange={code => {
+              if (optConfirm === code) {
+                setOtpInputFill(false);
+                setTimeout(() => {
+                  setOtpInputFill(true);
+                  navigation.navigate('SuccessNumber');
+                }, 3000);
+              } else if (code.length === 6 && optConfirm !== code) {
+                setOtpInputFill(false);
+                setTimeout(() => {
+                  setIsShowToast(true);
+                  setType('error');
+                  setToastMessage('Wrong otp number');
+                  setOtpInputFill(true);
+                  navigation.navigate('OtpSignUp', {
+                    phone: route.params.phone,
+                  });
+                }, 3000);
+              }
+            }}
+            numberOfInputs={6}
+            ref={otpRef}
+            style={styles.otpInputContainer}
+            inputStyles={s.otpStyle}
+            autofillFromClipboard={false}
+          />
+        ) : (
+          <View style={styles.loaderContent}>
+            <LoadingDots
+              animation="pulse"
+              dots={4}
+              color={theme?.colors.PRIMARY}
+              size={15}
+            />
+          </View>
+        )}
+        <Section isRow>
+          <Text
+            fontWeight="inter-regular"
+            variant="base"
+            label="Didn’t get a code? "
+            color={theme?.colors.TEXT_SECONDARY}
+          />
+          <Text
+            fontWeight="inter-regular"
+            variant="base"
+            label="Resent"
+            color={theme?.colors.PRIMARY}
+          />
+        </Section>
+      </View>
+      <ModalToast
+        isVisible={isShowToast}
+        onCloseModal={() => setIsShowToast(false)}
+        message={toastMessage}
+        type={type}
+      />
+    </Layout>
   );
 }
 
