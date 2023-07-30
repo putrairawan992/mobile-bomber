@@ -4,16 +4,16 @@ const styles = EStyleSheet.create({
   container: {
     flex: 1,
   },
-  section: {
-    paddingHorizontal: 16,
+  piils: {
+    padding: 4,
+    backgroundColor: '#2D2D2D',
+    borderRadius: 4,
+    marginRight: 4,
   },
-  headerLogo: {
+  scheduleContainer: {
     position: 'absolute',
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
-    alignItems: 'center',
+    bottom: 16,
+    left: 16,
   },
 });
 

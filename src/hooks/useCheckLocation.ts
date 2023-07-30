@@ -3,7 +3,7 @@ import Geolocation from 'react-native-geolocation-service';
 import {LocationInterface} from '../interfaces/UserInterface';
 import {usePermission} from './usePermission';
 
-export const useAttendanceCheckLocation = () => {
+export const useCheckLocation = () => {
   const [currentLocation, setCurrentLocation] =
     useState<LocationInterface | null>(null);
   const {isFineLocationGranted, fineLocationPermission} = usePermission();

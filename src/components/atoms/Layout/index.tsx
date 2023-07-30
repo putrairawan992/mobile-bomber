@@ -40,7 +40,7 @@ export const Layout = ({
         ]}>
         <KeyboardAwareScrollView
           scrollEnabled={isScrollable}
-          contentContainerStyle={contentContainerStyle}
+          contentContainerStyle={{...contentContainerStyle}}
           bounces={false}
           keyboardShouldPersistTaps={keyboardShouldPersistTaps || 'handled'}
           showsVerticalScrollIndicator={showsVerticalScrollIndicator || false}>

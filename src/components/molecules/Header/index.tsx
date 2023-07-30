@@ -11,6 +11,7 @@ import useTheme from '../../../theme/useTheme';
 import {Text} from '../../atoms';
 import {Images} from '../../../theme';
 import {Logo, LogoText} from '../../../assets/icons';
+import {ArrowLeft} from 'iconsax-react-native';
 
 interface HeaderPropsI {
   style?: CSSProperties;
@@ -58,11 +59,7 @@ function Header({
             onPress={() => {
               navigation.goBack();
             }}>
-            <Image
-              source={Images.LeftArrowBlack}
-              style={styles.leftArrow}
-              resizeMode="contain"
-            />
+            <ArrowLeft size={24} color={theme?.colors.ICON} />
           </TouchableOpacity>
         </HeaderLeft>
       )}

@@ -17,7 +17,7 @@ import {Header} from '../components/molecules';
 import {PlaceCategory} from '../components/organism';
 import {TopPlaces} from '../components/organism/Places/TopPlaces';
 import {UserAchievement} from '../components/organism/User/UserAchievement';
-import {useAttendanceCheckLocation} from '../hooks/useAttendanceCheckLocation';
+import {useCheckLocation} from '../hooks/useCheckLocation';
 import {usePermission} from '../hooks/usePermission';
 import {PlaceCategoryInterface} from '../interfaces/PlaceInterface';
 import {UserLocationInterface} from '../interfaces/UserInterface';
@@ -39,7 +39,7 @@ function NightlifeScreen({navigation}: Props) {
   const theme = useTheme();
   const [searchValue, setSearchValue] = React.useState<string>('');
   const {isFineLocationGranted} = usePermission();
-  const {currentLocation, getOneTimeLocation} = useAttendanceCheckLocation();
+  const {currentLocation, getOneTimeLocation} = useCheckLocation();
   const dispatch = useDispatch();
   useEffect(() => {
     if (isFineLocationGranted) {

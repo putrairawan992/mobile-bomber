@@ -17,3 +17,14 @@ export interface PlaceInterface {
   isAuctionMode: boolean;
   category: string[];
 }
+
+export interface PlaceOverviewFeaturesInterface {
+  title: string;
+  subtitle: string;
+  icon: React.ReactNode;
+}
+
+export interface PlaceOverviewInterface {
+  about: string;
+  features: PlaceOverviewFeaturesInterface[];
+}

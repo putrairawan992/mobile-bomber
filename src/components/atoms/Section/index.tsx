@@ -14,6 +14,7 @@ interface SectionPropsI {
   isCenter?: boolean;
   style?: ViewStyle;
   padding?: string;
+  rounded?: number;
 }
 
 export const Section = ({
@@ -27,6 +28,7 @@ export const Section = ({
   isCenter,
   style,
   padding,
+  rounded,
   ...restOfProps
 }: SectionPropsI) => {
   const paddingVertical = parseInt(padding?.split(' ')[0] as string);
@@ -48,6 +50,7 @@ export const Section = ({
           ...(borderRadius && {borderRadius}),
           ...(backgroundColor && {backgroundColor}),
           ...(isCenter && {alignSelf: 'center', alignItems: 'center'}),
+          ...(rounded && {borderRadius: rounded}),
         },
         style,
       ]}

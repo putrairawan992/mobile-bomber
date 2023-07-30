@@ -1,4 +1,8 @@
-import {PlaceInterface} from '../interfaces/PlaceInterface';
+import {HorizontalMenuInterface} from '../components/molecules/Menu/HorizontalMenu';
+import {
+  PlaceInterface,
+  PlaceOverviewInterface,
+} from '../interfaces/PlaceInterface';
 import {UserAchievementInterface} from '../interfaces/UserInterface';
 
 export const USER_ACHIEVEMENT: UserAchievementInterface = {
@@ -34,7 +38,7 @@ export const PLACES_DATA: PlaceInterface[] = [
     category: ['Trance', 'Rooftop'],
   },
   {
-    id: '1',
+    id: '3',
     name: 'OMNI',
     address: '110, Taiwan, Taipei City, Xinyi District, Songshou Rd, 12號7樓',
     featuredToday: ['DJ Alison Wonderland'],
@@ -46,7 +50,7 @@ export const PLACES_DATA: PlaceInterface[] = [
     category: ['Dubstep', 'Rooftop', 'Freeflow'],
   },
   {
-    id: '1',
+    id: '4',
     name: 'Wave',
     address: '110, Taiwan, Taipei City, Xinyi District, Songshou Rd, 12號7樓',
     featuredToday: ['DJ Skrillex', 'Daft Punk'],
@@ -58,3 +62,44 @@ export const PLACES_DATA: PlaceInterface[] = [
     category: ['EDM', 'LGBT', 'Freeflow'],
   },
 ];
+
+export const PLACE_MENU: HorizontalMenuInterface[] = [
+  {
+    id: 1,
+    title: 'Overview',
+  },
+  {
+    id: 2,
+    title: 'Offers',
+  },
+  {
+    id: 3,
+    title: 'Photos',
+  },
+  {
+    id: 4,
+    title: 'Review',
+  },
+];
+
+export const PLACE_OVERVIEW: PlaceOverviewInterface = {
+  about:
+    'RUFF Taipei 創立於2020年9月提供HIP HOP 音樂，獨特的派對場地，歌手與藝術家，流行與潮流品牌，新鮮調酒與經典調酒等多元元素，座落於台北夜生活主要地點信義區，不定期舉辦特別活動。 歡迎熱愛HIP HOP及夜店文化的你／妳一同加入我們的大家庭。',
+  features: [
+    {
+      title: 'Rated #1 Hiphop Nightclub in Taiwan',
+      subtitle: 'Rated #1 Hiphop Nightclub in Taiwan',
+      icon: 'rated',
+    },
+    {
+      title: 'House Made Clothing Brand: Ruff Design',
+      subtitle: 'Rated #1 Hiphop Nightclub in Taiwan',
+      icon: 'clothing',
+    },
+    {
+      title: 'Live performance for signers and rappers',
+      subtitle: 'Rated #1 Hiphop Nightclub in Taiwan',
+      icon: 'live',
+    },
+  ],
+};

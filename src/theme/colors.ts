@@ -29,7 +29,7 @@ const PLACEHOLDER = '#F5F5F5';
 const RED = '#FE2C2C';
 
 const common = {
-  SUCCESS: EMERALD,
+  SUCCESS: '#0CA35F',
   ERROR: DANGER,
   TRANS_WHITE: '#FFFFFF50',
   TRANS_BLACK: 'rgba(0,0,0,0.45)',
