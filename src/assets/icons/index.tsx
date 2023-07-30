@@ -8,6 +8,7 @@ import {Karaoke} from './Karaoke';
 import {Logo} from './Logo';
 import {LogoText} from './LogoText';
 import {Pin} from './Pin';
+import {Star} from './Star';
 import {User} from './User';
 import {WineBottle} from './WineBottle';
 
@@ -24,4 +25,5 @@ export {
   Beer,
   WineBottle,
   Checklist,
+  Star,
 };

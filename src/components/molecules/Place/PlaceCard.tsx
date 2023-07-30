@@ -63,7 +63,7 @@ export const PlaceCard = ({
             opacity: 0.4,
           }}
           resizeMode="cover">
-          {renderSchedule()}
+          {isPlaceDetail && renderSchedule()}
           <Section padding="16px 16px">
             {isPlaceDetail && (
               <Section isRow isBetween>

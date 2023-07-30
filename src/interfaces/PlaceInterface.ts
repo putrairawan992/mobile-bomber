@@ -6,6 +6,11 @@ export interface PlaceCategoryInterface {
   icon: React.ReactNode;
 }
 
+export interface PlacePhotoInterface {
+  title: string;
+  url: string;
+}
+
 export interface PlaceInterface {
   id: string;
   name: string;
@@ -16,6 +21,7 @@ export interface PlaceInterface {
   logo: string;
   isAuctionMode: boolean;
   category: string[];
+  photos: PlacePhotoInterface[];
 }
 
 export interface PlaceOverviewFeaturesInterface {

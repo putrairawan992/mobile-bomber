@@ -31,6 +31,7 @@ const RED = '#FE2C2C';
 const common = {
   SUCCESS: '#0CA35F',
   ERROR: DANGER,
+  WARNING: '#EF9533',
   TRANS_WHITE: '#FFFFFF50',
   TRANS_BLACK: 'rgba(0,0,0,0.45)',
   LIGHT: WHITE,

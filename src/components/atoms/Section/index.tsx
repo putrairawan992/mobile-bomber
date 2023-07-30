@@ -15,6 +15,7 @@ interface SectionPropsI {
   style?: ViewStyle;
   padding?: string;
   rounded?: number;
+  onLayout?: any;
 }
 
 export const Section = ({
@@ -29,12 +30,14 @@ export const Section = ({
   style,
   padding,
   rounded,
+  onLayout,
   ...restOfProps
 }: SectionPropsI) => {
   const paddingVertical = parseInt(padding?.split(' ')[0] as string);
   const paddingHorizontal = parseInt(padding?.split(' ')[1] as string);
   return (
     <View
+      onLayout={onLayout}
       style={[
         {
           flexDirection: isRow ? 'row' : 'column',

@@ -24,6 +24,20 @@ export const PLACES_DATA: PlaceInterface[] = [
     logo: 'https://wanderbucket.s3.ap-southeast-1.amazonaws.com/logo/wave.png',
     isAuctionMode: false,
     category: ['EDM', 'Rooftop', 'LGBT'],
+    photos: [
+      {
+        title: 'Vibe',
+        url: 'https://media2.miaminewtimes.com/mia/imager/u/slideshow/14183885/ultra-music-festival-2022-day-three-credit-michele-eve-sandberg_01.jpg?cb=1648474163',
+      },
+      {
+        title: 'Guest',
+        url: 'https://media2.miaminewtimes.com/mia/imager/u/slideshow/14171623/ultra-music-fesitival-2022-day-one-credit-michele-eve-sandberg_42.jpg?cb=1648306092',
+      },
+      {
+        title: 'F&B',
+        url: 'https://static.standard.co.uk/2022/05/09/15/newFile-6.jpg',
+      },
+    ],
   },
   {
     id: '2',
@@ -36,6 +50,20 @@ export const PLACES_DATA: PlaceInterface[] = [
     logo: 'https://wanderbucket.s3.ap-southeast-1.amazonaws.com/logo/kor.png',
     isAuctionMode: false,
     category: ['Trance', 'Rooftop'],
+    photos: [
+      {
+        title: 'Vibe',
+        url: 'https://media2.miaminewtimes.com/mia/imager/u/slideshow/14183885/ultra-music-festival-2022-day-three-credit-michele-eve-sandberg_01.jpg?cb=1648474163',
+      },
+      {
+        title: 'Guest',
+        url: 'https://media2.miaminewtimes.com/mia/imager/u/slideshow/14171623/ultra-music-fesitival-2022-day-one-credit-michele-eve-sandberg_42.jpg?cb=1648306092',
+      },
+      {
+        title: 'F&B',
+        url: 'https://static.standard.co.uk/2022/05/09/15/newFile-6.jpg',
+      },
+    ],
   },
   {
     id: '3',
@@ -48,6 +76,20 @@ export const PLACES_DATA: PlaceInterface[] = [
     logo: 'https://wanderbucket.s3.ap-southeast-1.amazonaws.com/logo/omni.png',
     isAuctionMode: true,
     category: ['Dubstep', 'Rooftop', 'Freeflow'],
+    photos: [
+      {
+        title: 'Vibe',
+        url: 'https://media2.miaminewtimes.com/mia/imager/u/slideshow/14183885/ultra-music-festival-2022-day-three-credit-michele-eve-sandberg_01.jpg?cb=1648474163',
+      },
+      {
+        title: 'Guest',
+        url: 'https://media2.miaminewtimes.com/mia/imager/u/slideshow/14171623/ultra-music-fesitival-2022-day-one-credit-michele-eve-sandberg_42.jpg?cb=1648306092',
+      },
+      {
+        title: 'F&B',
+        url: 'https://static.standard.co.uk/2022/05/09/15/newFile-6.jpg',
+      },
+    ],
   },
   {
     id: '4',
@@ -60,6 +102,20 @@ export const PLACES_DATA: PlaceInterface[] = [
     logo: 'https://wanderbucket.s3.ap-southeast-1.amazonaws.com/logo/wave.png',
     isAuctionMode: false,
     category: ['EDM', 'LGBT', 'Freeflow'],
+    photos: [
+      {
+        title: 'Vibe',
+        url: 'https://media2.miaminewtimes.com/mia/imager/u/slideshow/14183885/ultra-music-festival-2022-day-three-credit-michele-eve-sandberg_01.jpg?cb=1648474163',
+      },
+      {
+        title: 'Guest',
+        url: 'https://media2.miaminewtimes.com/mia/imager/u/slideshow/14171623/ultra-music-fesitival-2022-day-one-credit-michele-eve-sandberg_42.jpg?cb=1648306092',
+      },
+      {
+        title: 'F&B',
+        url: 'https://static.standard.co.uk/2022/05/09/15/newFile-6.jpg',
+      },
+    ],
   },
 ];
 

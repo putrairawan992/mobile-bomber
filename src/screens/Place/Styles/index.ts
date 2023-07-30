@@ -15,6 +15,12 @@ const styles = EStyleSheet.create({
     bottom: 0,
     alignItems: 'center',
   },
+  avatar: {
+    width: 32,
+    height: 32,
+    backgroundColor: '#D9D9D9',
+    borderRadius: 50,
+  },
 });
 
 export default styles;
