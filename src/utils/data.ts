@@ -1,4 +1,5 @@
 import {HorizontalMenuInterface} from '../components/molecules/Menu/HorizontalMenu';
+import {CardNotificationAppsInterface} from '../components/molecules/Notification/CardNotificationApps';
 import {
   PlaceInterface,
   PlaceOverviewInterface,
@@ -159,3 +160,33 @@ export const PLACE_OVERVIEW: PlaceOverviewInterface = {
     },
   ],
 };
+
+export const TODAY_APPS_NOTIFICATION: CardNotificationAppsInterface[] = [
+  {
+    image:
+      'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8cGVyc29ufGVufDB8fDB8fHww&auto=format&fit=crop&w=400&q=60',
+    text: 'Wave confirmed your order for Group Walk in Ticket. Check your my event page for get your ticket',
+    time: '30h ago',
+  },
+  {
+    image:
+      'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8cGVyc29ufGVufDB8fDB8fHww&auto=format&fit=crop&w=400&q=60',
+    text: 'Wave confirmed your order for Group Walk in Ticket. Check your my event page for get your ticket',
+    time: '30h ago',
+  },
+];
+
+export const YESTERDAY_APPS_NOTIFICATION: CardNotificationAppsInterface[] = [
+  {
+    image:
+      'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8cGVyc29ufGVufDB8fDB8fHww&auto=format&fit=crop&w=400&q=60',
+    text: 'Wave confirmed your order for Group Walk in Ticket. Check your my event page for get your ticket',
+    time: '30h ago',
+  },
+  {
+    image:
+      'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8cGVyc29ufGVufDB8fDB8fHww&auto=format&fit=crop&w=400&q=60',
+    text: 'Wave confirmed your order for Group Walk in Ticket. Check your my event page for get your ticket',
+    time: '30h ago',
+  },
+];

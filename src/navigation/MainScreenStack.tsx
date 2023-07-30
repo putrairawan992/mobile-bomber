@@ -12,6 +12,7 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {PlaceDetail} from '../screens/Place/PlaceDetail';
 import {getFocusedRouteNameFromRoute} from '@react-navigation/native';
 import {ViewStyle} from 'react-native';
+import NotificationScreen from '../screens/Notification';
 
 export type MainStackParams = {
   Nightlife: undefined;
@@ -31,25 +32,28 @@ interface TabBarContentProps {
 }
 
 export type NightlifeStackParams = {
-  Nightlife: undefined;
+  NightlifeTabs: undefined;
   PlaceDetail: {
     placeId: string;
   };
+  Notification: undefined;
 };
 const Stack = createNativeStackNavigator<NightlifeStackParams>(); // creates object for Stack Navigator
 
 const NightlifeScreenNavigator = () => {
   return (
     <Stack.Navigator
+      initialRouteName="NightlifeTabs"
       screenOptions={{
         headerShown: false,
       }}>
-      <Stack.Screen name="Nightlife" component={NightlifeScreen} />
+      <Stack.Screen name="NightlifeTabs" component={NightlifeScreen} />
       <Stack.Screen
         name="PlaceDetail"
         component={PlaceDetail}
         initialParams={{placeId: ''}}
       />
+      <Stack.Screen name="Notification" component={NotificationScreen} />
     </Stack.Navigator>
   );
 };
@@ -98,7 +102,7 @@ function MainScreenStack() {
           // eslint-disable-next-line @typescript-eslint/no-shadow
           tabBarStyle: (route => {
             const routeName = getFocusedRouteNameFromRoute(route) ?? '';
-            const tabHiddenRoutes = ['PlaceDetail'];
+            const tabHiddenRoutes = ['PlaceDetail', 'Notification'];
             if (tabHiddenRoutes.includes(routeName)) {
               return {display: 'none'};
             } else {

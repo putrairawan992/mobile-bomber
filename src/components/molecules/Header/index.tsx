@@ -47,6 +47,7 @@ function Header({
   filterBtn,
   onFilterBtnPress,
   hasLogo,
+  onNotificationPress,
 }: HeaderPropsI) {
   const theme = useTheme();
   const navigation = useNavigation();
@@ -106,7 +107,7 @@ function Header({
           variant="large"
           fontWeight="bold"
           label={title}
-          color={theme?.colors.TEXT_PRIMARY}
+          color={theme?.colors.WARNING}
           style={[
             {
               paddingHorizontal: 10,
@@ -132,6 +133,11 @@ function Header({
           onLocationPress={() => {
             if (onLocationPress) {
               onLocationPress();
+            }
+          }}
+          onNotificationPress={() => {
+            if (onNotificationPress) {
+              onNotificationPress();
             }
           }}>
           {/* {children} */}

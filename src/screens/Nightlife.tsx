@@ -31,7 +31,7 @@ import styles from './Styles';
 
 type Props = NativeStackScreenProps<
   NightlifeStackParams,
-  'Nightlife',
+  'NightlifeTabs',
   'MyStack'
 >;
 
@@ -99,7 +99,8 @@ function NightlifeScreen({navigation}: Props) {
             hasLocation
             hasNotification
             hasLogo
-            onLocationPress={() => console.log('joss')}
+            onLocationPress={() => undefined}
+            onNotificationPress={() => navigation.navigate('Notification')}
           />
         </EntryAnimation>
         <EntryAnimation index={1}>

@@ -16,6 +16,7 @@ interface SectionPropsI {
   padding?: string;
   rounded?: number;
   onLayout?: any;
+  isAlignStart?: boolean;
 }
 
 export const Section = ({
@@ -31,6 +32,7 @@ export const Section = ({
   padding,
   rounded,
   onLayout,
+  isAlignStart,
   ...restOfProps
 }: SectionPropsI) => {
   const paddingVertical = parseInt(padding?.split(' ')[0] as string);
@@ -45,7 +47,7 @@ export const Section = ({
           ...(isBetween && {justifyContent: 'space-between'}),
           ...(isEvenly && {justifyContent: 'space-evenly'}),
           ...(isAround && {justifyContent: 'space-around'}),
-          ...(isRow && {alignItems: 'center'}),
+          ...(isRow && {alignItems: isAlignStart ? 'flex-start' : 'center'}),
           ...(padding && {
             paddingVertical: paddingVertical,
             paddingHorizontal: paddingHorizontal,
