@@ -1,12 +1,14 @@
-/* eslint-disable react-native/no-inline-styles */
-import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import * as React from 'react';
+
+import {Button, Layout, Section, Text} from '../../components/atoms';
 import {Image, View} from 'react-native';
-import {Section, Text, Button, Layout} from '../../components/atoms';
+
 import {AuthStackParams} from '../../navigation/AuthScreenStack';
 import {Images} from '../../theme';
-import useTheme from '../../theme/useTheme';
+/* eslint-disable react-native/no-inline-styles */
+import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import styles from './Styles/SuccessStyle';
+import useTheme from '../../theme/useTheme';
 
 type Props = NativeStackScreenProps<
   AuthStackParams,
@@ -34,7 +36,6 @@ function SuccessPasswordScreen({navigation}: Props) {
         <Section padding="0 38">
           <Text
             variant="base"
-            fontWeight="inter-regular"
             label=" Congratulations your password has been changed."
             color={theme?.colors.TEXT_SECONDARY}
             style={{textAlign: 'center'}}

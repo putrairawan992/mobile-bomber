@@ -70,14 +70,12 @@ function ForgotPasswordScreen({navigation}: Props) {
 
       <Section style={{marginTop: 28}} isRow>
         <Text
-          fontWeight="inter-regular"
           variant="base"
           label="Remember the password? "
           color={theme?.colors.TEXT_SECONDARY}
         />
         <TouchableOpacity onPress={() => navigation.navigate('LogIn')}>
           <Text
-            fontWeight="inter-regular"
             variant="base"
             label="Login Now"
             color={theme?.colors.PRIMARY}

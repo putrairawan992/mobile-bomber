@@ -93,14 +93,12 @@ function LogInScreen({navigation}: Props) {
       <Spacer lxx />
       <Section isRow>
         <Text
-          fontWeight="inter-regular"
           variant="base"
           label="Don’t have an account yet? "
           color={theme?.colors.TEXT_SECONDARY}
         />
         <TouchableOpacity onPress={() => navigation.navigate('SignUp')}>
           <Text
-            fontWeight="inter-regular"
             variant="base"
             label="Register Now"
             color={theme?.colors.PRIMARY}

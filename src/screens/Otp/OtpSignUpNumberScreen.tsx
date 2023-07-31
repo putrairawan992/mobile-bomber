@@ -81,17 +81,11 @@ function OtpSignUpNumberScreen({route, navigation}: Props) {
         )}
         <Section isRow>
           <Text
-            fontWeight="inter-regular"
             variant="base"
             label="Didn’t get a code? "
             color={theme?.colors.TEXT_SECONDARY}
           />
-          <Text
-            fontWeight="inter-regular"
-            variant="base"
-            label="Resent"
-            color={theme?.colors.PRIMARY}
-          />
+          <Text variant="base" label="Resent" color={theme?.colors.PRIMARY} />
         </Section>
       </View>
       <ModalToast

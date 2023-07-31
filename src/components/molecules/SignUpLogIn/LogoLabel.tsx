@@ -23,7 +23,6 @@ export const LogoLabel = ({title, subtitle}: LogoLabelPropsI) => {
       </GradientText>
       <Text
         variant="base"
-        fontWeight="inter-regular"
         label={subtitle}
         color={theme?.colors.TEXT_PRIMARY}
         style={{marginBottom: 56}}
