@@ -56,7 +56,7 @@ function Button({
       borderColor: 'transparent',
     },
     outlined: {
-      backgroundColor: theme?.colors.BACKGROUND1,
+      backgroundColor: theme?.colors.TEXT_PRIMARY,
       borderColor: theme?.colors.PRIMARY,
     },
     danger: {
@@ -79,57 +79,101 @@ function Button({
 
   return (
     <ScaleAnimation onPress={onPress} disabled={false} scaleTo={0.97}>
-      <LinearGradient
-        colors={['#A060FA', '#C800CC']}
-        start={{x: 0, y: 0}}
-        end={{x: 1, y: 0}}
-        style={[
-          s.ButtonV2,
-          {
-            borderWidth:
-              type === 'outlined' || type === 'secondaryOutlined' ? 1 : 0,
-            borderColor:
-              mapStyling[type as keyof typeof mapStyling].borderColor,
-            width: width ?? 'auto',
-            borderRadius: noRound ? 0 : 8,
-          },
-          style,
-        ]}
-        {...restOfProps}>
-        {isLoading ? (
-          <ActivityIndicator
-            size="small"
-            color={
-              type === 'secondaryOutlined'
-                ? theme?.colors.SECONDARY
-                : type === 'outlined'
-                ? theme?.colors.PRIMARY
-                : theme?.colors.TEXT_PRIMARY
-            }
-          />
-        ) : (
-          <View style={{flexDirection: 'row', alignItems: 'center'}}>
-            <Text
-              variant="large"
-              color={
-                type === 'primary' ||
-                type === 'secondary' ||
-                type === 'danger' ||
-                type === 'disabled'
-                  ? theme?.colors.TEXT_PRIMARY
-                  : type === 'outlined'
-                  ? 'active'
-                  : type === 'secondaryOutlined'
-                  ? 'primary2'
-                  : 'b1'
-              }
-              label={title}
-              fontWeight="bold"
+      {type === 'primary' ? (
+        <LinearGradient
+          colors={['#A060FA', '#C800CC']}
+          start={{x: 0, y: 0}}
+          end={{x: 1, y: 0}}
+          style={[
+            s.Button,
+            {
+              borderColor:
+                mapStyling[type as keyof typeof mapStyling].borderColor,
+              width: width ?? 'auto',
+              borderRadius: noRound ? 0 : 8,
+            },
+            style,
+          ]}
+          {...restOfProps}>
+          {isLoading ? (
+            <ActivityIndicator
+              size="small"
+              color={theme?.colors.TEXT_PRIMARY}
             />
-            {icon}
-          </View>
-        )}
-      </LinearGradient>
+          ) : (
+            <View style={{flexDirection: 'row', alignItems: 'center'}}>
+              <Text
+                variant="base"
+                color={
+                  type === 'primary' ||
+                  type === 'secondary' ||
+                  type === 'danger' ||
+                  type === 'disabled'
+                    ? theme?.colors.TEXT_PRIMARY
+                    : type === 'outlined'
+                    ? 'active'
+                    : type === 'secondaryOutlined'
+                    ? 'primary2'
+                    : 'b1'
+                }
+                label={title}
+                fontWeight="bold"
+              />
+              {icon}
+            </View>
+          )}
+        </LinearGradient>
+      ) : (
+        <View
+          style={[
+            s.Button,
+            {
+              backgroundColor:
+                mapStyling[type as keyof typeof mapStyling].backgroundColor,
+              borderWidth:
+                type === 'outlined' || type === 'secondaryOutlined' ? 1.5 : 0,
+              borderColor:
+                mapStyling[type as keyof typeof mapStyling].borderColor,
+              width: width ?? 'auto',
+              borderRadius: noRound ? 0 : 8,
+            },
+            style,
+          ]}
+          {...restOfProps}>
+          {isLoading ? (
+            <ActivityIndicator
+              size="small"
+              color={
+                type === 'secondaryOutlined'
+                  ? theme?.colors.SECONDARY
+                  : type === 'outlined'
+                  ? theme?.colors.PRIMARY
+                  : theme?.colors.TEXT_PRIMARY
+              }
+            />
+          ) : (
+            <View style={{flexDirection: 'row', alignItems: 'center'}}>
+              <Text
+                variant="base"
+                color={
+                  type === 'secondary' ||
+                  type === 'danger' ||
+                  type === 'disabled'
+                    ? theme?.colors.TEXT_PRIMARY
+                    : type === 'outlined'
+                    ? theme?.colors.PRIMARY
+                    : type === 'secondaryOutlined'
+                    ? 'primary2'
+                    : 'b1'
+                }
+                label={title}
+                fontWeight="bold"
+              />
+              {icon}
+            </View>
+          )}
+        </View>
+      )}
     </ScaleAnimation>
   );
 }
@@ -139,7 +183,7 @@ export default Button;
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const styles = (theme: ThemeInterface) =>
   StyleSheet.create({
-    ButtonV2: {
+    Button: {
       paddingHorizontal: 20,
       paddingVertical: 12,
       alignItems: 'center',
