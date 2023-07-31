@@ -8,7 +8,7 @@ import {
   Video,
   WristClock,
 } from 'iconsax-react-native';
-import {Gap, Layout, Section, Text} from '../../../components/atoms';
+import {Button, Gap, Layout, Section, Text} from '../../../components/atoms';
 import {Header, HorizontalMenu} from '../../../components/molecules';
 import {Image, ScrollView, View} from 'react-native';
 import {PLACES_DATA, PLACE_MENU, PLACE_OVERVIEW} from '../../../utils/data';
@@ -281,6 +281,15 @@ export const PlaceDetail = ({route}: Props) => {
         {PlacePhotos()}
         <Gap height={32} />
         {PlaceReview()}
+        <Gap height={16} />
+        <Button
+          type="primary"
+          onPress={() => undefined}
+          title="Booking Table"
+        />
+        <Gap height={8} />
+        <Button type="outlined" onPress={() => undefined} title="Walk In" />
+        <Gap height={24} />
       </ScrollView>
     </Layout>
   );
