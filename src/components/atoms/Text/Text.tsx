@@ -29,13 +29,16 @@ type TextLineHeightType =
   | '34px';
 
 export const fontFamilyMapper: Record<FontWeightType, FontFamilyType> = {
-  'extra-bold': 'Poppins-ExtraBold',
-  bold: 'Poppins-Bold',
-  'semi-bold': 'Poppins-SemiBold',
-  regular: 'Poppins-Regular',
-  light: 'Poppins-Light',
-  thin: 'Poppins-Thin',
-  'inter-regular': 'Inter',
+  'extra-bold': 'Inter-ExtraBold',
+  bold: 'Inter-Bold',
+  'semi-bold': 'Inter-SemiBold',
+  medium: 'Inter-Medium',
+  regular: 'Inter-Regular',
+  light: 'Inter-Light',
+  thin: 'Inter-Thin',
+  'raleway-bold': 'Raleway-Bold',
+  'raleway-medium': 'Raleway-Medium',
+  'raleway-regular': 'Raleway-Regular',
 };
 
 const textLineHeightMapper: Record<TextVariantType, TextLineHeightType> = {
@@ -62,7 +65,7 @@ const fontSizeMapper: Record<TextVariantType, TextFontSizeType> = {
 
 const StyledText = styled(RNText)<TextProps>`
   color: ${props => props.color || colors.white};
-  font-family: ${props => fontFamilyMapper[props.fontWeight || 'regular']};
+  font-family: ${props => fontFamilyMapper[props.fontWeight || 'medium']};
   font-size: ${props => fontSizeMapper[props.variant || 'medium']};
   font-style: ${({fontStyle = 'normal'}) => fontStyle};
   line-height: ${props => textLineHeightMapper[props.variant || 'medium']};

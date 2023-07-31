@@ -2,22 +2,34 @@ import {ReactElement} from 'react';
 import {TextProps as RNTextProps} from 'react-native';
 
 export type FontFamilyType =
-  | 'Inter'
   | 'Poppins-ExtraBold'
   | 'Poppins-Bold'
   | 'Poppins-SemiBold'
   | 'Poppins-Regular'
   | 'Poppins-Light'
-  | 'Poppins-Thin';
+  | 'Poppins-Thin'
+  | 'Inter-ExtraBold'
+  | 'Inter-Bold'
+  | 'Inter-SemiBold'
+  | 'Inter-Regular'
+  | 'Inter-Medium'
+  | 'Inter-Light'
+  | 'Inter-Thin'
+  | 'Raleway-Bold'
+  | 'Raleway-Medium'
+  | 'Raleway-Regular';
 
 export type FontWeightType =
-  | 'inter-regular'
   | 'extra-bold'
   | 'bold'
   | 'semi-bold'
+  | 'medium'
   | 'regular'
   | 'light'
-  | 'thin';
+  | 'thin'
+  | 'raleway-bold'
+  | 'raleway-medium'
+  | 'raleway-regular';
 export type TextAlignType = 'left' | 'center' | 'right' | 'justify';
 export type TextDecorationType = 'underline' | 'none' | 'line-through';
 export type TextTransformType =

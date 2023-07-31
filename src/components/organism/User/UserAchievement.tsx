@@ -39,10 +39,7 @@ export const UserAchievement = ({data}: UserAchievementProps) => {
         </GradientText>
         <Section isRow>
           <Checklist size={12} style={{marginRight: 6}} />
-          <Text
-            fontWeight="inter-regular"
-            label={`${data.start}/${data.end} task completed`}
-          />
+          <Text label={`${data.start}/${data.end} task completed`} />
         </Section>
       </Section>
       <Spacer sm />

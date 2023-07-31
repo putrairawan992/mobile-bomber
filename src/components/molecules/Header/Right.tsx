@@ -49,7 +49,6 @@ function HeaderRight({
           }}>
           <Pin color={theme?.colors.ICON} size={16} style={{marginRight: 4}} />
           <Text
-            fontWeight="inter-regular"
             label={
               userLocation.address
                 ? `${userLocation.city}, ${userLocation.country}`
@@ -116,7 +115,7 @@ function HeaderRight({
               onclearTextPress();
             }
           }}>
-          <Text fontWeight="inter-regular" label="Clear" />
+          <Text label="Clear" />
         </TouchableOpacity>
       )}
     </>

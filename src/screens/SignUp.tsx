@@ -90,14 +90,12 @@ export const SignUp = ({navigation}: Props) => {
       <Spacer lxx />
       <Section isRow>
         <Text
-          fontWeight="inter-regular"
           variant="base"
           label="Already have an account? "
           color={theme?.colors.TEXT_SECONDARY}
         />
         <TouchableOpacity onPress={() => navigation.navigate('LogIn')}>
           <Text
-            fontWeight="inter-regular"
             variant="base"
             label="Login Now"
             color={theme?.colors.PRIMARY}
