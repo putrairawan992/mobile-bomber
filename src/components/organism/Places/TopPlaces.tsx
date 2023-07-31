@@ -5,7 +5,7 @@ import {PlaceInterface} from '../../../interfaces/PlaceInterface';
 import useTheme from '../../../theme/useTheme';
 import {HEIGHT, WIDTH} from '../../../utils/config';
 import {Gap, Section, Spacer, Text} from '../../atoms';
-import {PlaceCard} from '../../molecules/Place/PlaceCard';
+import {PlaceCard} from './PlaceCard';
 
 interface PlaceCategoryProps {
   title: string;

@@ -102,7 +102,7 @@ function MainScreenStack() {
           // eslint-disable-next-line @typescript-eslint/no-shadow
           tabBarStyle: (route => {
             const routeName = getFocusedRouteNameFromRoute(route) ?? '';
-            const tabHiddenRoutes = ['PlaceDetail', 'Notification'];
+            const tabHiddenRoutes = ['Notification'];
             if (tabHiddenRoutes.includes(routeName)) {
               return {display: 'none'};
             } else {

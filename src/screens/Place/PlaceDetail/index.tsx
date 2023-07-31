@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable react-native/no-inline-styles */
 import {
   Call,
   Location,
@@ -16,17 +18,14 @@ import {
   PlacePhotoInterface,
 } from '../../../interfaces/PlaceInterface';
 import React, {useEffect, useState} from 'react';
-
-/* eslint-disable @typescript-eslint/no-unused-vars */
-/* eslint-disable react-native/no-inline-styles */
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {NightlifeStackParams} from '../../../navigation/MainScreenStack';
-import {PlaceCard} from '../../../components/molecules/Place/PlaceCard';
 import {Star} from '../../../assets/icons';
 import {randomNumber} from '../../../utils/function';
 import styles from '../Styles';
 import {useImageAspectRatio} from '../../../hooks/useImageAspectRatio';
 import useTheme from '../../../theme/useTheme';
+import {PlaceCard} from '../../../components/organism';
 
 type Props = NativeStackScreenProps<
   NightlifeStackParams,
