@@ -1,5 +1,6 @@
 import {HorizontalMenuInterface} from '../components/molecules/Menu/HorizontalMenu';
 import {CardNotificationAppsInterface} from '../components/molecules/Notification/CardNotificationApps';
+
 import {
   PlaceEventsInterface,
   PlaceInterface,
