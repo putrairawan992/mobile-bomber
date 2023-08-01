@@ -110,6 +110,7 @@ const ChatSendBtn = require('../assets/images/ChatSendBtn.png');
 const ReviewsUserImg1 = require('../assets/images/ReviewsUserImg1.png');
 const ReviewsUserImg2 = require('../assets/images/ReviewsUserImg2.png');
 const ReviewsUserImg3 = require('../assets/images/ReviewsUserImg3.png');
+const WaveImg = require('../assets/images/wave.png');
 
 export {
   BackHome,
@@ -222,4 +223,5 @@ export {
   ReviewsUserImg1,
   ReviewsUserImg2,
   ReviewsUserImg3,
+  WaveImg,
 };

@@ -1,8 +1,15 @@
-import EStyleSheet from 'react-native-extended-stylesheet';
+import {StyleSheet} from 'react-native';
+import colors from '../../styles/colors';
 
-const styles = EStyleSheet.create({
+const styles = StyleSheet.create({
   container: {
     flex: 1,
+  },
+  eventHeaderTitle: {
+    color: colors.white,
+  },
+  eventThemeContainer: {
+    paddingHorizontal: 10,
   },
 });
 
