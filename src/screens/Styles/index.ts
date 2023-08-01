@@ -11,6 +11,16 @@ const styles = StyleSheet.create({
   eventThemeContainer: {
     paddingHorizontal: 10,
   },
+  bookingButton: {
+    position: 'absolute',
+    paddingHorizontal: 16,
+    paddingTop: 16,
+    paddingBottom: 24,
+    bottom: 0,
+    width: '100%',
+    backgroundColor: '#9F9E9F',
+    alignItems: 'center',
+  },
 });
 
 export default styles;
