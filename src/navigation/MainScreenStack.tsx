@@ -13,6 +13,7 @@ import {PlaceDetail} from '../screens/Place/PlaceDetail';
 import {getFocusedRouteNameFromRoute} from '@react-navigation/native';
 import {ViewStyle} from 'react-native';
 import NotificationScreen from '../screens/Notification';
+import BookingTableScreen from '../screens/BookingTable';
 
 export type MainStackParams = {
   Nightlife: undefined;
@@ -37,6 +38,9 @@ export type NightlifeStackParams = {
     placeId: string;
   };
   Notification: undefined;
+  BookingTable: {
+    placeId: string;
+  };
 };
 const Stack = createNativeStackNavigator<NightlifeStackParams>(); // creates object for Stack Navigator
 
@@ -51,6 +55,11 @@ const NightlifeScreenNavigator = () => {
       <Stack.Screen
         name="PlaceDetail"
         component={PlaceDetail}
+        initialParams={{placeId: ''}}
+      />
+      <Stack.Screen
+        name="BookingTable"
+        component={BookingTableScreen}
         initialParams={{placeId: ''}}
       />
       <Stack.Screen name="Notification" component={NotificationScreen} />
@@ -102,7 +111,7 @@ function MainScreenStack() {
           // eslint-disable-next-line @typescript-eslint/no-shadow
           tabBarStyle: (route => {
             const routeName = getFocusedRouteNameFromRoute(route) ?? '';
-            const tabHiddenRoutes = ['Notification'];
+            const tabHiddenRoutes = ['Notification', 'BookingTable'];
             if (tabHiddenRoutes.includes(routeName)) {
               return {display: 'none'};
             } else {

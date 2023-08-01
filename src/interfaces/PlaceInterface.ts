@@ -34,3 +34,14 @@ export interface PlaceOverviewInterface {
   about: string;
   features: PlaceOverviewFeaturesInterface[];
 }
+
+export interface EventInterface {
+  photo_url: string | null;
+  name: string;
+  time: string;
+}
+
+export interface PlaceEventsInterface {
+  date: string;
+  events: EventInterface[];
+}

@@ -1,10 +1,12 @@
 import {EntryAnimation} from './animations/EntryAnimation';
 import {ScaleAnimation} from './animations/ScaleAnimation';
+import {Avatar} from './Avatar';
 import Button from './Button';
 import {TextInput} from './Form/TextInput';
 import {Gap} from './Gap';
 import {Layout} from './Layout';
 import {Section} from './Section';
+import {TouchableSection} from './Section/TouchableSection';
 import Spacer from './Spacer/Spacer';
 import GradientText from './Text/GradientText';
 import Text from './Text/Text';
@@ -20,4 +22,6 @@ export {
   GradientText,
   Gap,
   Layout,
+  Avatar,
+  TouchableSection,
 };
