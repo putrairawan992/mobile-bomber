@@ -23,10 +23,11 @@ type Props = {
   style?: ViewStyle;
   horizontal?: boolean;
   static?: boolean;
+  width?: number;
 };
 
 function Spacer(props: Props) {
-  const {style = {}, horizontal = false} = props;
+  const {style = {}, horizontal = false, width} = props;
   const theme = useTheme();
   let space = Spacing.xxl;
   if (props.height) {
@@ -66,7 +67,7 @@ function Spacer(props: Props) {
             ? theme?.colors.PRIMARY
             : theme?.colors.BACKGROUND,
           height: horizontal ? '100%' : space,
-          width: horizontal ? space : '100%',
+          width: width ? width : horizontal ? space : '100%',
         },
       ]}
     />

@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable react-native/no-inline-styles */
 import React, {CSSProperties} from 'react';
-import {View, Image, TouchableOpacity} from 'react-native';
+import {View, Image, TouchableOpacity, TextStyle} from 'react-native';
 import styles from './Styles';
 import HeaderLeftLoaction from './LeftLocation';
 import HeaderRight from './Right';
@@ -20,6 +20,7 @@ interface HeaderPropsI {
   hasBackBtn?: boolean;
   hasLocation?: boolean;
   title?: string;
+  titleStyle?: TextStyle;
   onBackPress?: () => void;
   onLocationPress?: () => void;
   onProfilePress?: () => void;
@@ -48,6 +49,7 @@ function Header({
   onFilterBtnPress,
   hasLogo,
   onNotificationPress,
+  titleStyle,
 }: HeaderPropsI) {
   const theme = useTheme();
   const navigation = useNavigation();
@@ -113,6 +115,7 @@ function Header({
               paddingHorizontal: 10,
               marginLeft: 'auto',
               marginRight: 'auto',
+              ...titleStyle,
             },
           ]}
         />
