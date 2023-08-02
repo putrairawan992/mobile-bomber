@@ -5,6 +5,7 @@ import {shallowEqual, useSelector} from 'react-redux';
 import AuthScreenStack from './AuthScreenStack';
 import {ReduxState} from '../store';
 import MainScreenStack from './MainScreenStack';
+import {navigationRef} from './RootNavigation';
 
 function Routes() {
   const {isLogin} = useSelector(
@@ -23,7 +24,7 @@ function Routes() {
   // }, [dispatch]);
 
   return (
-    <NavigationContainer>
+    <NavigationContainer ref={navigationRef}>
       {isLogin ? <MainScreenStack /> : <AuthScreenStack />}
     </NavigationContainer>
   );

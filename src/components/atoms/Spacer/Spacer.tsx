@@ -24,10 +24,11 @@ type Props = {
   horizontal?: boolean;
   static?: boolean;
   width?: number;
+  className?: string;
 };
 
 function Spacer(props: Props) {
-  const {style = {}, horizontal = false, width} = props;
+  const {style = {}, horizontal = false, width, className} = props;
   const theme = useTheme();
   let space = Spacing.xxl;
   if (props.height) {
@@ -60,6 +61,7 @@ function Spacer(props: Props) {
 
   return (
     <View
+      className={className}
       style={[
         style,
         {

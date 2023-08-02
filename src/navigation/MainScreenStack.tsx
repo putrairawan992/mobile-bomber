@@ -10,20 +10,18 @@ import useTheme from '../theme/useTheme';
 import {Community, Flare, HalfMoon, User} from '../assets/icons';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {PlaceDetail} from '../screens/Place/PlaceDetail';
-import {getFocusedRouteNameFromRoute} from '@react-navigation/native';
 import {ViewStyle} from 'react-native';
 import NotificationScreen from '../screens/Notification';
+import MyBookingDetail from '../screens/MyBookingDetail';
 
 export type MainStackParams = {
-  Nightlife: undefined;
-  Event: undefined;
-  Friends: undefined;
-  Profile: undefined;
+  Main: undefined;
+  PlaceDetail: {
+    placeId: string;
+  };
+  Notification: undefined;
+  MyBookingDetail: undefined;
 };
-
-interface TabBarProps {
-  focused: boolean;
-}
 
 interface TabBarContentProps {
   focused: boolean;
@@ -31,38 +29,10 @@ interface TabBarContentProps {
   icon: ReactNode;
 }
 
-export type NightlifeStackParams = {
-  NightlifeTabs: undefined;
-  PlaceDetail: {
-    placeId: string;
-  };
-  Notification: undefined;
-};
-const Stack = createNativeStackNavigator<NightlifeStackParams>(); // creates object for Stack Navigator
+const Tab = createBottomTabNavigator();
+const Stack = createNativeStackNavigator<MainStackParams>();
 
-const NightlifeScreenNavigator = () => {
-  return (
-    <Stack.Navigator
-      initialRouteName="NightlifeTabs"
-      screenOptions={{
-        headerShown: false,
-      }}>
-      <Stack.Screen name="NightlifeTabs" component={NightlifeScreen} />
-      <Stack.Screen
-        name="PlaceDetail"
-        component={PlaceDetail}
-        initialParams={{placeId: ''}}
-      />
-      <Stack.Screen name="Notification" component={NotificationScreen} />
-    </Stack.Navigator>
-  );
-};
-
-export {NightlifeScreenNavigator};
-
-const Tab = createBottomTabNavigator<MainStackParams>();
-
-function MainScreenStack() {
+function Main() {
   const TabBarContent = (item: TabBarContentProps) => {
     return (
       <>
@@ -83,6 +53,7 @@ function MainScreenStack() {
       </>
     );
   };
+
   const theme = useTheme();
 
   const TabBarStyle: ViewStyle = {
@@ -90,26 +61,18 @@ function MainScreenStack() {
     backgroundColor: theme?.colors.BACKGROUND2,
     borderTopColor: 'transparent',
   };
+
   return (
     <Tab.Navigator
       screenOptions={{
         headerShown: false,
       }}>
       <Tab.Screen
-        name="Nightlife"
-        component={NightlifeScreenNavigator}
-        options={({route}) => ({
-          // eslint-disable-next-line @typescript-eslint/no-shadow
-          tabBarStyle: (route => {
-            const routeName = getFocusedRouteNameFromRoute(route) ?? '';
-            const tabHiddenRoutes = ['Notification'];
-            if (tabHiddenRoutes.includes(routeName)) {
-              return {display: 'none'};
-            } else {
-              return TabBarStyle;
-            }
-          })(route),
-          tabBarIcon: ({focused}: TabBarProps) => (
+        name="NightlifeTabs"
+        component={NightlifeScreen}
+        options={() => ({
+          tabBarStyle: TabBarStyle,
+          tabBarIcon: ({focused}) => (
             <TabBarContent
               focused={focused}
               title="Nightlife"
@@ -126,7 +89,7 @@ function MainScreenStack() {
         name="Event"
         component={EventScreen}
         options={() => ({
-          tabBarIcon: ({focused}: TabBarProps) => (
+          tabBarIcon: ({focused}) => (
             <TabBarContent
               focused={focused}
               title="Event"
@@ -144,7 +107,7 @@ function MainScreenStack() {
         name="Friends"
         component={FriendsScreen}
         options={() => ({
-          tabBarIcon: ({focused}: TabBarProps) => (
+          tabBarIcon: ({focused}) => (
             <TabBarContent
               focused={focused}
               title="Friends"
@@ -162,7 +125,7 @@ function MainScreenStack() {
         name="Profile"
         component={ProfileScreen}
         options={() => ({
-          tabBarIcon: ({focused}: TabBarProps) => (
+          tabBarIcon: ({focused}) => (
             <TabBarContent
               focused={focused}
               title="Profile"
@@ -179,5 +142,20 @@ function MainScreenStack() {
     </Tab.Navigator>
   );
 }
+
+const MainScreenStack = () => {
+  return (
+    <Stack.Navigator
+      initialRouteName="Main"
+      screenOptions={{
+        headerShown: false,
+      }}>
+      <Stack.Screen name="Main" component={Main} />
+      <Stack.Screen name="Notification" component={NotificationScreen} />
+      <Stack.Screen name="PlaceDetail" component={PlaceDetail} />
+      <Stack.Screen name="MyBookingDetail" component={MyBookingDetail} />
+    </Stack.Navigator>
+  );
+};
 
 export default MainScreenStack;
