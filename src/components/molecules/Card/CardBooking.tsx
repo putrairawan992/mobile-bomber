@@ -4,6 +4,7 @@ import DefaultText from '../../atoms/Text/DefaultText';
 import {Spacer} from '../../atoms';
 import {WaveImg} from '../../../theme/Images';
 import {Profile2User} from 'iconsax-react-native';
+import {navigationRef} from '../../../navigation/RootNavigation';
 
 interface CardBooking {
   type: 'Paid' | 'Unpaid' | 'Canceled' | 'Finished';
@@ -13,7 +14,8 @@ export default function CardBooking({type}: CardBooking) {
   return (
     <TouchableOpacity
       activeOpacity={0.7}
-      className="mx-5 p-3 bg-neutral-800 rounded-xl mb-3">
+      className="mx-5 p-3 bg-neutral-800 rounded-xl mb-3"
+      onPress={() => navigationRef.navigate('MyBookingDetail' as never)}>
       <View className="flex-row items-center">
         <DefaultText
           title={'ID : 2221421'}

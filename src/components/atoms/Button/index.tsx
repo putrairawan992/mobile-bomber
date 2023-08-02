@@ -27,6 +27,8 @@ interface ButtonProps {
   width?: number;
   icon?: JSX.Element;
   noRound?: boolean;
+  LeftComponent?: JSX.Element;
+  className?: string;
 }
 function Button({
   title,
@@ -37,6 +39,8 @@ function Button({
   icon,
   width,
   noRound,
+  LeftComponent,
+  className,
   ...restOfProps
 }: ButtonProps) {
   const theme = useTheme();
@@ -102,6 +106,7 @@ function Button({
             />
           ) : (
             <View style={{flexDirection: 'row', alignItems: 'center'}}>
+              {LeftComponent ?? null}
               <Text
                 variant="base"
                 color={
@@ -139,6 +144,7 @@ function Button({
             },
             style,
           ]}
+          className={className}
           {...restOfProps}>
           {isLoading ? (
             <ActivityIndicator
