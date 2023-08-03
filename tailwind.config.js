@@ -10,6 +10,9 @@ module.exports = {
         'poppins-regular': 'Poppins-Regular',
         'poppins-semibold': 'Poppins-SemiBold',
         'poppins-bold': 'Poppins-Bold',
+        'raleway-regular': 'Raleway-Regular',
+        'raleway-medium': 'Raleway-medium',
+        'raleway-bold': 'Raleway-Bold',
       },
       colors: {
         screen: '#1E1E1E',

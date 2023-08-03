@@ -27,6 +27,9 @@ interface ButtonProps {
   width?: number;
   icon?: JSX.Element;
   noRound?: boolean;
+  LeftComponent?: JSX.Element;
+  className?: string;
+  buttonPrimaryColors?: string[];
 }
 function Button({
   title,
@@ -37,6 +40,9 @@ function Button({
   icon,
   width,
   noRound,
+  LeftComponent,
+  className,
+  buttonPrimaryColors,
   ...restOfProps
 }: ButtonProps) {
   const theme = useTheme();
@@ -81,7 +87,7 @@ function Button({
     <ScaleAnimation onPress={onPress} disabled={false} scaleTo={0.97}>
       {type === 'primary' ? (
         <LinearGradient
-          colors={['#A060FA', '#C800CC']}
+          colors={buttonPrimaryColors ?? ['#A060FA', '#C800CC']}
           start={{x: 0, y: 0}}
           end={{x: 1, y: 0}}
           style={[
@@ -102,6 +108,7 @@ function Button({
             />
           ) : (
             <View style={{flexDirection: 'row', alignItems: 'center'}}>
+              {LeftComponent ?? null}
               <Text
                 variant="base"
                 color={
@@ -139,6 +146,7 @@ function Button({
             },
             style,
           ]}
+          className={className}
           {...restOfProps}>
           {isLoading ? (
             <ActivityIndicator

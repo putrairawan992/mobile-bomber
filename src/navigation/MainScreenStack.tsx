@@ -13,6 +13,7 @@ import {PlaceDetail} from '../screens/Place/PlaceDetail';
 import {getFocusedRouteNameFromRoute} from '@react-navigation/native';
 import {ViewStyle} from 'react-native';
 import NotificationScreen from '../screens/Notification';
+import MyBookingDetail from '../screens/MyBookingDetail';
 import BookingTableScreen from '../screens/BookingTable';
 
 export type MainStackParams = {
@@ -41,6 +42,8 @@ export type NightlifeStackParams = {
   BookingTable: {
     placeId: string;
   };
+  Main: undefined;
+  MyBookingDetail: undefined;
 };
 const Stack = createNativeStackNavigator<NightlifeStackParams>(); // creates object for Stack Navigator
 
@@ -71,7 +74,7 @@ export {NightlifeScreenNavigator};
 
 const Tab = createBottomTabNavigator<MainStackParams>();
 
-function MainScreenStack() {
+function Main() {
   const TabBarContent = (item: TabBarContentProps) => {
     return (
       <>
@@ -192,5 +195,20 @@ function MainScreenStack() {
     </Tab.Navigator>
   );
 }
+
+const MainScreenStack = () => {
+  return (
+    <Stack.Navigator
+      initialRouteName="Main"
+      screenOptions={{
+        headerShown: false,
+      }}>
+      <Stack.Screen name="Main" component={Main} />
+      <Stack.Screen name="Notification" component={NotificationScreen} />
+      <Stack.Screen name="PlaceDetail" component={PlaceDetail} />
+      <Stack.Screen name="MyBookingDetail" component={MyBookingDetail} />
+    </Stack.Navigator>
+  );
+};
 
 export default MainScreenStack;

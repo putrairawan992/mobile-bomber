@@ -14,7 +14,6 @@ import useTheme from '../../../theme/useTheme';
 import useThemedStyles from '../../../theme/useThemedStyles';
 import {Text} from '..';
 import colors from '../../../styles/colors';
-import {ThemeInterface} from '../../../theme/ThemeProvider';
 import {SHADOWS} from '../../../utils/config';
 import {Search} from '../../../assets/icons/Search';
 
@@ -27,6 +26,7 @@ type Props = React.ComponentProps<typeof RNTextInput> & {
   rightIcon?: JSX.Element;
   type?: 'password' | 'search';
   style?: React.CSSProperties;
+  textInputBackgroundColor?: string;
 };
 
 export const TextInput = React.forwardRef((props: Props, ref) => {
@@ -43,6 +43,7 @@ export const TextInput = React.forwardRef((props: Props, ref) => {
     isNumeric,
     rightIcon,
     width,
+    textInputBackgroundColor,
     ...restOfProps
   } = props;
   const [isFocused, setIsFocused] = React.useState<boolean>(false);
@@ -89,7 +90,8 @@ export const TextInput = React.forwardRef((props: Props, ref) => {
           borderColor,
           alignItems: 'center',
           justifyContent: 'space-between',
-          backgroundColor: theme?.colors.BACKGROUND2,
+          backgroundColor:
+            textInputBackgroundColor ?? theme?.colors.BACKGROUND2,
           ...(width && {width}),
         }}>
         <RNTextInput
@@ -100,7 +102,8 @@ export const TextInput = React.forwardRef((props: Props, ref) => {
               height: textArea ? 160 : 50,
               textAlignVertical: textArea ? 'top' : 'center',
               width: rightIcon || type === 'password' ? '90%' : '100%',
-              backgroundColor: theme?.colors.BACKGROUND2,
+              backgroundColor:
+                textInputBackgroundColor ?? theme?.colors.BACKGROUND2,
             },
           ]}
           {...restOfProps}
@@ -147,7 +150,7 @@ export const TextInput = React.forwardRef((props: Props, ref) => {
   );
 });
 
-const styles = (theme: ThemeInterface) =>
+const styles = () =>
   StyleSheet.create({
     container: {
       flexDirection: 'column',
@@ -157,7 +160,6 @@ const styles = (theme: ThemeInterface) =>
       fontSize: 14,
       fontFamily: 'Inter',
       lineHeight: 16,
-      backgroundColor: theme.colors.BACKGROUND2,
       ...SHADOWS.default,
     },
   });
