@@ -1,14 +1,34 @@
-import {Image, ScrollView, TouchableOpacity, View} from 'react-native';
-import React from 'react';
-import {WaveLogoImg} from '../../../theme/Images';
+import {
+  FlatList,
+  Image,
+  ScrollView,
+  StyleSheet,
+  TouchableOpacity,
+  View,
+} from 'react-native';
+import React, {useState} from 'react';
+import {MusicDjImg, WaveLogoImg} from '../../../theme/Images';
 import DefaultText from '../../../components/atoms/Text/DefaultText';
-import {Button, Spacer} from '../../../components/atoms';
+import {Button, GradientText, Spacer} from '../../../components/atoms';
 import {CalendarAdd, Profile2User, ArchiveAdd} from 'iconsax-react-native';
 import colors from '../../../styles/colors';
 import QRCode from 'react-native-qrcode-svg';
 import LinearGradient from 'react-native-linear-gradient';
+import CardBookingOrder from '../../../components/molecules/Card/CardBookingOrder';
+import ModalDetailTicket from '../../../components/molecules/Modal/ModalDetailTicket';
+import ModalInviteFriends from '../../../components/molecules/Modal/ModalInviteFriends';
 
 export default function Ticket() {
+  const [showDetailTicket, setShowDetailTicket] = useState<boolean>(false);
+  const [showInviteFriends, setShowInviteFriends] = useState<boolean>(false);
+  const [friendInvited, setFriendInvited] = useState<string[]>([]);
+
+  const onFriendInvited = (value: string[]) => {
+    setFriendInvited(value);
+  };
+
+  // next: state for invited friends
+
   return (
     <ScrollView showsVerticalScrollIndicator={false}>
       <View className="px-5 py-8">
@@ -33,7 +53,9 @@ export default function Ticket() {
                 title="PAID"
                 titleClassName="font-inter-bold text-base text-green-700"
               />
-              <TouchableOpacity activeOpacity={0.7} onPress={() => {}}>
+              <TouchableOpacity
+                activeOpacity={0.7}
+                onPress={() => setShowDetailTicket(true)}>
                 <DefaultText
                   title="Detail click here"
                   titleClassName="text-xs text-neutral-500"
@@ -74,14 +96,18 @@ export default function Ticket() {
               title="No one invited"
               titleClassName="flex-1 font-inter-medium text-neutral-400 mx-1"
             />
-            <TouchableOpacity activeOpacity={0.7}>
+            <TouchableOpacity
+              activeOpacity={0.7}
+              onPress={() => setShowInviteFriends(true)}>
               <LinearGradient
                 className="p-[1] rounded-sm"
                 colors={['#AA5AFA', '#C111D5']}
                 start={{x: 0, y: 0}}
                 end={{x: 1, y: 0}}>
                 <View className="px-3 py-[5] bg-neutral-800 rounded-sm">
-                  <DefaultText title="Invite friends" />
+                  <DefaultText
+                    title={friendInvited ? 'Check' : 'Invite friends'}
+                  />
                 </View>
               </LinearGradient>
             </TouchableOpacity>
@@ -103,7 +129,93 @@ export default function Ticket() {
             <DefaultText title="Detail Booking" titleClassName="text-center" />
           </TouchableOpacity>
         </View>
+
+        <Spacer height={20} />
+        <View className="bg-neutral-800 py-4 rounded-lg">
+          <DefaultText
+            title="Your Order"
+            titleClassName="text-base font-inter-semibold ml-4"
+          />
+          <Spacer height={10} />
+          <FlatList
+            data={[1, 2, 3]}
+            keyExtractor={(_, key) => key.toString()}
+            horizontal={true}
+            showsHorizontalScrollIndicator={false}
+            renderItem={() => <CardBookingOrder />}
+            contentContainerStyle={styles.orderContainer}
+          />
+          <View className="px-4">
+            <Spacer height={15} />
+            <Button type="primary" onPress={() => {}} title="Add new order" />
+          </View>
+        </View>
+
+        <Spacer height={20} />
+        <View className="bg-neutral-800 px-5 py-5 rounded-lg overflow-hidden">
+          <Image
+            source={MusicDjImg}
+            resizeMode="cover"
+            className="absolute z-0"
+          />
+          <View className="z-10">
+            <GradientText
+              colors={['#A060FA', '#C800CC']}
+              style={styles.titleSong}>
+              Play your favourites song in stage
+            </GradientText>
+            <Spacer height={10} />
+            <DefaultText
+              title="Take control of the night and set the vibe. Request your favorite tracks and make the dancefloor come alive!"
+              titleClassName="font-inter-medium text-center leading-5"
+            />
+            <Spacer height={10} />
+            <Button
+              type="primary"
+              buttonPrimaryColors={['#F37B12', '#FFE419']}
+              onPress={() => {}}
+              title="Try Now"
+            />
+          </View>
+        </View>
+
+        <Spacer height={20} />
+        <View className="bg-neutral-800 p-4 rounded-lg">
+          <DefaultText
+            title="Friends"
+            titleClassName="text-base font-inter-semibold"
+          />
+          <Spacer height={10} />
+          <DefaultText
+            title="Oops you will go alone, invite them and shake the party"
+            titleClassName="text-center font-inter-medium text-neutral-400"
+          />
+          <Spacer height={15} />
+          <Button type="primary" onPress={() => {}} title="Invite Friend" />
+        </View>
       </View>
+
+      <ModalDetailTicket
+        show={showDetailTicket}
+        hide={() => setShowDetailTicket(false)}
+      />
+
+      <ModalInviteFriends
+        show={showInviteFriends}
+        hide={() => setShowInviteFriends(false)}
+        onFriendInvited={onFriendInvited}
+      />
     </ScrollView>
   );
 }
+
+const styles = StyleSheet.create({
+  orderContainer: {
+    paddingHorizontal: 10,
+  },
+  titleSong: {
+    textAlign: 'center',
+    fontSize: 18,
+    fontFamily: 'Inter-Bold',
+  },
+});
