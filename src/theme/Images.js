@@ -112,6 +112,7 @@ const ReviewsUserImg2 = require('../assets/images/ReviewsUserImg2.png');
 const ReviewsUserImg3 = require('../assets/images/ReviewsUserImg3.png');
 const WaveImg = require('../assets/images/wave.png');
 const WaveLogoImg = require('../assets/images/wave_logo.png');
+const MusicDjImg = require('../assets/images/music_dj.png');
 
 export {
   BackHome,
@@ -226,4 +227,5 @@ export {
   ReviewsUserImg3,
   WaveImg,
   WaveLogoImg,
+  MusicDjImg,
 };
