@@ -35,14 +35,17 @@ export const Layout = ({
       />
       <KeyboardAwareScrollView
         scrollEnabled={isScrollable}
-        contentContainerStyle={{...contentContainerStyle}}
+        contentContainerStyle={{
+          flex: 1,
+          backgroundColor: backgroundColor ?? theme?.colors.BACKGROUND1,
+          ...contentContainerStyle,
+        }}
         bounces={false}
         keyboardShouldPersistTaps={keyboardShouldPersistTaps || 'handled'}
         showsVerticalScrollIndicator={showsVerticalScrollIndicator || false}>
         <View
           style={{
             flex: 1,
-            backgroundColor: backgroundColor ?? theme?.colors.BACKGROUND1,
             ...style,
           }}>
           {children as JSX.Element}

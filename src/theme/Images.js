@@ -120,6 +120,10 @@ const IcCalendarPlus = require('../assets/images/calendar_plus.png');
 const IcDetailBooking = require('../assets/images/detail_booking.png');
 const IcPeopleThree = require('../assets/images/people_three.png');
 const IcChevronRight = require('../assets/images/chevron_right.png');
+const ImgWineryOrder = require('../assets/images/winery_order.png');
+const IcClock = require('../assets/images/clock.png');
+const IcDelete = require('../assets/images/delete.png');
+const IcUpload = require('../assets/images/upload.png');
 
 export {
   BackHome,
@@ -242,4 +246,8 @@ export {
   IcDetailBooking,
   IcPeopleThree,
   IcChevronRight,
+  ImgWineryOrder,
+  IcClock,
+  IcDelete,
+  IcUpload,
 };

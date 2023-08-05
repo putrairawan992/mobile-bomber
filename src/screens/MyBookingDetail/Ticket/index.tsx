@@ -22,6 +22,7 @@ import LinearGradient from 'react-native-linear-gradient';
 import CardBookingOrder from '../../../components/molecules/Card/CardBookingOrder';
 import ModalDetailTicket from '../../../components/molecules/Modal/ModalDetailTicket';
 import ModalInviteFriends from '../../../components/molecules/Modal/ModalInviteFriends';
+import {navigationRef} from '../../../navigation/RootNavigation';
 
 export default function Ticket() {
   const [showDetailTicket, setShowDetailTicket] = useState<boolean>(false);
@@ -175,7 +176,8 @@ export default function Ticket() {
           <Spacer height={10} />
           <TouchableOpacity
             activeOpacity={0.7}
-            className="border-[1px] border-white px-3 py-[10px] rounded-md flex-row justify-center">
+            className="border-[1px] border-white px-3 py-[10px] rounded-md flex-row justify-center"
+            onPress={() => navigationRef.navigate('WineryOrder' as never)}>
             <Image
               source={IcDetailBooking}
               resizeMode="contain"
