@@ -7,11 +7,16 @@ import {
   View,
 } from 'react-native';
 import React, {useState} from 'react';
-import {MusicDjImg, WaveLogoImg} from '../../../theme/Images';
+import {
+  IcCalendarPlus,
+  IcChevronRight,
+  IcDetailBooking,
+  IcPeopleThree,
+  MusicDjImg,
+  WaveLogoImg,
+} from '../../../theme/Images';
 import DefaultText from '../../../components/atoms/Text/DefaultText';
-import {Button, GradientText, Spacer} from '../../../components/atoms';
-import {CalendarAdd, Profile2User, ArchiveAdd} from 'iconsax-react-native';
-import colors from '../../../styles/colors';
+import {Button, Gap, GradientText, Spacer} from '../../../components/atoms';
 import QRCode from 'react-native-qrcode-svg';
 import LinearGradient from 'react-native-linear-gradient';
 import CardBookingOrder from '../../../components/molecules/Card/CardBookingOrder';
@@ -26,8 +31,6 @@ export default function Ticket() {
   const onFriendInvited = (value: string[]) => {
     setFriendInvited(value);
   };
-
-  // next: state for invited friends
 
   return (
     <ScrollView showsVerticalScrollIndicator={false}>
@@ -74,7 +77,11 @@ export default function Ticket() {
               title="Monday, 14 June 2023"
               titleClassName="text-base font-inter-medium mr-3"
             />
-            <CalendarAdd color={colors.white} size={18} />
+            <Image
+              source={IcCalendarPlus}
+              resizeMode="contain"
+              className="w-[20] h-[20]"
+            />
           </View>
           <Spacer height={10} />
           <View className="items-center bg-black rounded-lg p-2 w-full">
@@ -91,11 +98,49 @@ export default function Ticket() {
           />
           <View className="w-full h-[0.5] bg-neutral-700 my-4" />
           <View className="flex-row items-center">
-            <Profile2User size={16} color={colors.silver} />
-            <DefaultText
-              title="No one invited"
-              titleClassName="flex-1 font-inter-medium text-neutral-400 mx-1"
-            />
+            {friendInvited.length > 0 ? (
+              <View className="flex-row items-center flex-1">
+                <Image
+                  source={{
+                    uri: 'https://images.unsplash.com/photo-1547425260-76bcadfb4f2c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8cGVyc29ufGVufDB8fDB8fHww&auto=format&fit=crop&w=400&q=60',
+                  }}
+                  resizeMode="cover"
+                  className="w-[27] h-[27] rounded-full bg-neutral-700 border-[1px] border-white"
+                />
+                <Image
+                  source={{
+                    uri: 'https://images.unsplash.com/photo-1547425260-76bcadfb4f2c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8cGVyc29ufGVufDB8fDB8fHww&auto=format&fit=crop&w=400&q=60',
+                  }}
+                  resizeMode="cover"
+                  className="w-[27] h-[27] rounded-full bg-neutral-700 border-[1px] border-white -ml-2"
+                />
+                <Image
+                  source={{
+                    uri: 'https://images.unsplash.com/photo-1547425260-76bcadfb4f2c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8cGVyc29ufGVufDB8fDB8fHww&auto=format&fit=crop&w=400&q=60',
+                  }}
+                  resizeMode="cover"
+                  className="w-[27] h-[27] rounded-full bg-neutral-700 border-[1px] border-white -ml-2"
+                />
+                <Gap width={10} />
+                <DefaultText
+                  title="15 Invited 3 Accepted"
+                  titleClassName="font-inter-medium text-neutral-300"
+                />
+              </View>
+            ) : (
+              <>
+                <Image
+                  source={IcPeopleThree}
+                  resizeMode="contain"
+                  className="w-[20] h-[20]"
+                />
+                <DefaultText
+                  title="No one invited"
+                  titleClassName="flex-1 font-inter-medium text-neutral-400 mx-1"
+                />
+              </>
+            )}
+
             <TouchableOpacity
               activeOpacity={0.7}
               onPress={() => setShowInviteFriends(true)}>
@@ -106,7 +151,9 @@ export default function Ticket() {
                 end={{x: 1, y: 0}}>
                 <View className="px-3 py-[5] bg-neutral-800 rounded-sm">
                   <DefaultText
-                    title={friendInvited ? 'Check' : 'Invite friends'}
+                    title={
+                      friendInvited.length > 0 ? 'Check' : 'Invite friends'
+                    }
                   />
                 </View>
               </LinearGradient>
@@ -114,18 +161,26 @@ export default function Ticket() {
           </View>
           <View className="w-full h-[0.5] bg-neutral-700 my-4" />
           <Button
+            TextComponent={<DefaultText title="Save to calendar" />}
             type="primary"
             onPress={() => {}}
-            title="Save to calendar"
             LeftComponent={
-              <CalendarAdd className="mr-1" color={colors.white} size={18} />
+              <Image
+                source={IcCalendarPlus}
+                resizeMode="contain"
+                className="w-[16] h-[16] mr-1"
+              />
             }
           />
           <Spacer height={10} />
           <TouchableOpacity
             activeOpacity={0.7}
-            className="border-[1px] border-white p-3 rounded-md flex-row justify-center">
-            <ArchiveAdd className="mr-1" color={colors.white} size={18} />
+            className="border-[1px] border-white px-3 py-[10px] rounded-md flex-row justify-center">
+            <Image
+              source={IcDetailBooking}
+              resizeMode="contain"
+              className="w-[16] h-[16] mr-1"
+            />
             <DefaultText title="Detail Booking" titleClassName="text-center" />
           </TouchableOpacity>
         </View>
@@ -147,7 +202,12 @@ export default function Ticket() {
           />
           <View className="px-4">
             <Spacer height={15} />
-            <Button type="primary" onPress={() => {}} title="Add new order" />
+            <Button
+              TextComponent={<DefaultText title="Add new order" />}
+              type="primary"
+              onPress={() => {}}
+              style={styles.button}
+            />
           </View>
         </View>
 
@@ -171,10 +231,11 @@ export default function Ticket() {
             />
             <Spacer height={10} />
             <Button
+              TextComponent={<DefaultText title="Try now" />}
               type="primary"
               buttonPrimaryColors={['#F37B12', '#FFE419']}
               onPress={() => {}}
-              title="Try Now"
+              style={styles.button}
             />
           </View>
         </View>
@@ -186,12 +247,62 @@ export default function Ticket() {
             titleClassName="text-base font-inter-semibold"
           />
           <Spacer height={10} />
-          <DefaultText
-            title="Oops you will go alone, invite them and shake the party"
-            titleClassName="text-center font-inter-medium text-neutral-400"
-          />
+          {friendInvited.length > 0 ? (
+            <TouchableOpacity
+              activeOpacity={0.7}
+              className="flex-row items-center my-1">
+              <Image
+                source={{
+                  uri: 'https://images.unsplash.com/photo-1547425260-76bcadfb4f2c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8cGVyc29ufGVufDB8fDB8fHww&auto=format&fit=crop&w=400&q=60',
+                }}
+                resizeMode="cover"
+                className="w-[27] h-[27] rounded-full bg-neutral-700 border-[1px] border-white"
+              />
+              <Image
+                source={{
+                  uri: 'https://images.unsplash.com/photo-1547425260-76bcadfb4f2c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8cGVyc29ufGVufDB8fDB8fHww&auto=format&fit=crop&w=400&q=60',
+                }}
+                resizeMode="cover"
+                className="w-[27] h-[27] rounded-full bg-neutral-700 border-[1px] border-white -ml-2"
+              />
+              <Image
+                source={{
+                  uri: 'https://images.unsplash.com/photo-1547425260-76bcadfb4f2c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8cGVyc29ufGVufDB8fDB8fHww&auto=format&fit=crop&w=400&q=60',
+                }}
+                resizeMode="cover"
+                className="w-[27] h-[27] rounded-full bg-neutral-700 border-[1px] border-white -ml-2"
+              />
+              <Gap width={10} />
+              <DefaultText
+                title="15 Invited 3 Accepted"
+                titleClassName="font-inter-medium text-neutral-300 flex-1"
+              />
+              <Image
+                source={IcChevronRight}
+                resizeMode="contain"
+                className="w-[5] h-[9]"
+              />
+            </TouchableOpacity>
+          ) : (
+            <DefaultText
+              title="Oops you will go alone, invite them and shake the party"
+              titleClassName="text-center font-inter-medium text-neutral-400"
+            />
+          )}
+
           <Spacer height={15} />
-          <Button type="primary" onPress={() => {}} title="Invite Friend" />
+          <Button
+            TextComponent={
+              <DefaultText
+                title={
+                  friendInvited.length > 0 ? 'Check them out' : 'Invite Friend'
+                }
+                titleClassName="font-raleway-bold"
+              />
+            }
+            type="primary"
+            onPress={() => setShowInviteFriends(true)}
+          />
         </View>
       </View>
 
@@ -217,5 +328,8 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontSize: 18,
     fontFamily: 'Inter-Bold',
+  },
+  button: {
+    borderRadius: 5,
   },
 });

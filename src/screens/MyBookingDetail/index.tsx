@@ -31,7 +31,7 @@ export default function MyBookingDetail() {
               onPress={() => ref.current?.setPage(index)}
               activeOpacity={0.7}
               key={item}
-              className={`flex-1 py-3 border-b-[1px] ${
+              className={`flex-1 py-3 border-b-[2px] ${
                 index === initialPage ? 'border-b-secondary' : 'border-b-white'
               }`}>
               <DefaultText

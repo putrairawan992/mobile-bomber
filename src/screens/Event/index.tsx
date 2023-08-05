@@ -38,7 +38,7 @@ export default function EventScreen() {
               onPress={() => ref.current?.setPage(index)}
               activeOpacity={0.7}
               key={item}
-              className={`flex-1 py-3 border-b-[1px] ${
+              className={`flex-1 py-3 border-b-[2px] ${
                 index === initialPage ? 'border-b-secondary' : 'border-b-white'
               }`}>
               <DefaultText
@@ -52,7 +52,7 @@ export default function EventScreen() {
         })}
       </View>
 
-      <Spacer height={10} />
+      <Spacer height={15} />
       <View>
         <FlatList
           horizontal={true}
@@ -90,16 +90,16 @@ export default function EventScreen() {
         ref={ref}
         onPageSelected={e => setInitialPage(e.nativeEvent.position)}>
         <View key="1">
-          <Paid />
+          <Paid activeTheme={activeTheme} />
         </View>
         <View key="2">
-          <Unpaid />
+          <Unpaid activeTheme={activeTheme} />
         </View>
         <View key="3">
-          <Canceled />
+          <Canceled activeTheme={activeTheme} />
         </View>
         <View key="4">
-          <Finished />
+          <Finished activeTheme={activeTheme} />
         </View>
       </PagerView>
     </Layout>
