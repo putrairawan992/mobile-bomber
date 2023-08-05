@@ -2,19 +2,20 @@ import {Community, Flare, HalfMoon, User} from '../assets/icons';
 import {GradientText, Text} from '../components/atoms';
 /* eslint-disable react-native/no-inline-styles */
 import React, {ReactNode} from 'react';
+
+import BookingTableScreen from '../screens/Booking/BookingTable';
 import EventScreen from '../screens/Event';
 import FriendsScreen from '../screens/Friends';
 import NightlifeScreen from '../screens/Nightlife';
-import ProfileScreen from '../screens/Profile';
-import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import useTheme from '../theme/useTheme';
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import {PlaceDetail} from '../screens/Place/PlaceDetail';
-import {getFocusedRouteNameFromRoute} from '@react-navigation/native';
-import {ViewStyle} from 'react-native';
 import NotificationScreen from '../screens/Notification';
 import MyBookingDetail from '../screens/MyBookingDetail';
-import BookingTableScreen from '../screens/BookingTable';
+import {PlaceDetail} from '../screens/Place/PlaceDetail';
+import ProfileScreen from '../screens/Profile';
+import {ViewStyle} from 'react-native';
+import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import {getFocusedRouteNameFromRoute} from '@react-navigation/native';
+import useTheme from '../theme/useTheme';
 
 export type MainStackParams = {
   Nightlife: undefined;
@@ -207,6 +208,7 @@ const MainScreenStack = () => {
       <Stack.Screen name="Notification" component={NotificationScreen} />
       <Stack.Screen name="PlaceDetail" component={PlaceDetail} />
       <Stack.Screen name="MyBookingDetail" component={MyBookingDetail} />
+      <Stack.Screen name="BookingTable" component={BookingTableScreen} />
     </Stack.Navigator>
   );
 };
