@@ -13,6 +13,7 @@ import {PlaceDetail} from '../screens/Place/PlaceDetail';
 import {ViewStyle} from 'react-native';
 import NotificationScreen from '../screens/Notification';
 import MyBookingDetail from '../screens/MyBookingDetail';
+import BookingTableScreen from '../screens/BookingTable';
 
 export type MainStackParams = {
   Main: undefined;
@@ -21,6 +22,7 @@ export type MainStackParams = {
   };
   Notification: undefined;
   MyBookingDetail: undefined;
+  BookingTable: undefined;
 };
 
 interface TabBarContentProps {
@@ -154,6 +156,7 @@ const MainScreenStack = () => {
       <Stack.Screen name="Notification" component={NotificationScreen} />
       <Stack.Screen name="PlaceDetail" component={PlaceDetail} />
       <Stack.Screen name="MyBookingDetail" component={MyBookingDetail} />
+      <Stack.Screen name="BookingTable" component={BookingTableScreen} />
     </Stack.Navigator>
   );
 };

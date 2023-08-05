@@ -8,6 +8,9 @@ import {Header} from '../../components/molecules';
 import useTheme from '../../theme/useTheme';
 import {WIDTH} from '../../utils/config';
 import NotificationApps from './NotificationApps';
+import NotificationBill from './NotificationBill';
+import NotificationFriends from './NotificationFriends';
+import NotificationInvitation from './NotificationInvitation';
 import styles from './Styles';
 
 // type Props = NativeStackScreenProps<MainStackParams, 'Saved', 'MyStack'>;
@@ -62,13 +65,13 @@ function NotificationScreen() {
             <NotificationApps />
           </View>
           <View key="2">
-            <NotificationApps />
+            <NotificationInvitation />
           </View>
           <View key="3">
-            <NotificationApps />
+            <NotificationBill />
           </View>
           <View key="4">
-            <NotificationApps />
+            <NotificationFriends />
           </View>
         </PagerView>
       </Section>
