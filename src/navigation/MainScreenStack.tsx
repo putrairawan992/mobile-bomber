@@ -1,26 +1,44 @@
+import {Community, Flare, HalfMoon, User} from '../assets/icons';
+import {GradientText, Text} from '../components/atoms';
 /* eslint-disable react-native/no-inline-styles */
 import React, {ReactNode} from 'react';
-import {GradientText, Text} from '../components/atoms';
+
+import BookingTableScreen from '../screens/Booking/BookingTable';
 import EventScreen from '../screens/Event';
 import FriendsScreen from '../screens/Friends';
-import NightlifeScreen from '../screens/Nightlife';
-import ProfileScreen from '../screens/Profile';
-import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import useTheme from '../theme/useTheme';
-import {Community, Flare, HalfMoon, User} from '../assets/icons';
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import {PlaceDetail} from '../screens/Place/PlaceDetail';
-import {getFocusedRouteNameFromRoute} from '@react-navigation/native';
-import {ViewStyle} from 'react-native';
 import NotificationScreen from '../screens/Notification';
 import MyBookingDetail from '../screens/MyBookingDetail';
-import BookingTableScreen from '../screens/BookingTable';
+import {PlaceDetail} from '../screens/Place/PlaceDetail';
+import ProfileScreen from '../screens/Profile';
+import {ViewStyle} from 'react-native';
+import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import useTheme from '../theme/useTheme';
+import NightlifeScreen from '../screens/Nightlife';
+import {BookingWalkInScreen} from '../screens/Booking/BookingWalkIn';
+import {WalkInTicketScreen} from '../screens/Booking/BookingWalkIn/WalkInTicket';
 
 export type MainStackParams = {
   Nightlife: undefined;
   Event: undefined;
   Friends: undefined;
   Profile: undefined;
+  PlaceDetail: {
+    placeId: string;
+  };
+  Notification: undefined;
+  BookingTable: {
+    placeId: string;
+  };
+  Main: undefined;
+  MyBookingDetail: undefined;
+  BookingWalkIn: {
+    placeId: string;
+  };
+  WalkInTicket: {
+    placeId: string;
+    date: string;
+  };
 };
 
 interface TabBarProps {
@@ -33,45 +51,7 @@ interface TabBarContentProps {
   icon: ReactNode;
 }
 
-export type NightlifeStackParams = {
-  NightlifeTabs: undefined;
-  PlaceDetail: {
-    placeId: string;
-  };
-  Notification: undefined;
-  BookingTable: {
-    placeId: string;
-  };
-  Main: undefined;
-  MyBookingDetail: undefined;
-};
-const Stack = createNativeStackNavigator<NightlifeStackParams>(); // creates object for Stack Navigator
-
-const NightlifeScreenNavigator = () => {
-  return (
-    <Stack.Navigator
-      initialRouteName="NightlifeTabs"
-      screenOptions={{
-        headerShown: false,
-      }}>
-      <Stack.Screen name="NightlifeTabs" component={NightlifeScreen} />
-      <Stack.Screen
-        name="PlaceDetail"
-        component={PlaceDetail}
-        initialParams={{placeId: ''}}
-      />
-      <Stack.Screen
-        name="BookingTable"
-        component={BookingTableScreen}
-        initialParams={{placeId: ''}}
-      />
-      <Stack.Screen name="Notification" component={NotificationScreen} />
-    </Stack.Navigator>
-  );
-};
-
-export {NightlifeScreenNavigator};
-
+const Stack = createNativeStackNavigator<MainStackParams>(); // creates object for Stack Navigator
 const Tab = createBottomTabNavigator<MainStackParams>();
 
 function Main() {
@@ -109,22 +89,8 @@ function Main() {
       }}>
       <Tab.Screen
         name="Nightlife"
-        component={NightlifeScreenNavigator}
-        options={({route}) => ({
-          // eslint-disable-next-line @typescript-eslint/no-shadow
-          tabBarStyle: (route => {
-            const routeName = getFocusedRouteNameFromRoute(route) ?? '';
-            const tabHiddenRoutes = [
-              'Notification',
-              'BookingTable',
-              'PlaceDetail',
-            ];
-            if (tabHiddenRoutes.includes(routeName)) {
-              return {display: 'none'};
-            } else {
-              return TabBarStyle;
-            }
-          })(route),
+        component={NightlifeScreen}
+        options={() => ({
           tabBarIcon: ({focused}: TabBarProps) => (
             <TabBarContent
               focused={focused}
@@ -136,6 +102,7 @@ function Main() {
           tabBarLabel() {
             return false;
           },
+          tabBarStyle: TabBarStyle,
         })}
       />
       <Tab.Screen
@@ -207,6 +174,21 @@ const MainScreenStack = () => {
       <Stack.Screen name="Notification" component={NotificationScreen} />
       <Stack.Screen name="PlaceDetail" component={PlaceDetail} />
       <Stack.Screen name="MyBookingDetail" component={MyBookingDetail} />
+      <Stack.Screen
+        name="BookingTable"
+        component={BookingTableScreen}
+        initialParams={{placeId: ''}}
+      />
+      <Stack.Screen
+        name="BookingWalkIn"
+        component={BookingWalkInScreen}
+        initialParams={{placeId: ''}}
+      />
+      <Stack.Screen
+        name="WalkInTicket"
+        component={WalkInTicketScreen}
+        initialParams={{placeId: '', date: ''}}
+      />
     </Stack.Navigator>
   );
 };
