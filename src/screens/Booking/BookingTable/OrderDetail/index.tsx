@@ -186,7 +186,11 @@ export const TableOrderDetail = ({
           ios_backgroundColor="#3e3e3e"
           onValueChange={toggleSwitchPayFull}
           value={isFullPayment}
-          style={{transform: [{scaleX: 0.6}, {scaleY: 0.6}]}}
+          style={{
+            ...(Platform.OS === 'ios' && {
+              transform: [{scaleX: 0.6}, {scaleY: 0.6}],
+            }),
+          }}
         />
       </Section>
       <Gap height={12} />
