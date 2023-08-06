@@ -135,7 +135,11 @@ export const GroupOrderDetail = ({
                 ios_backgroundColor="#3e3e3e"
                 onValueChange={toggleSwitch}
                 value={isInviteFriend}
-                style={{transform: [{scaleX: 0.6}, {scaleY: 0.6}]}}
+                style={{
+                  ...(Platform.OS === 'ios' && {
+                    transform: [{scaleX: 0.6}, {scaleY: 0.6}],
+                  }),
+                }}
               />
             </Section>
             <Gap height={4} />
