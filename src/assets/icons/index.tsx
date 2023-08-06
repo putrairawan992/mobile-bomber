@@ -2,9 +2,11 @@ import {Beer} from './Beer';
 import {Building} from './Building';
 import {Calendar} from './Calendar';
 import {Checklist} from './Checklist';
+import {CircleDot} from './CircleDot';
 import {Community} from './Community';
 import {Couple} from './Couple';
 import {CoupleBold} from './CoupleBold';
+import {Coupon} from './Coupon';
 import {DiscoLight} from './DiscoLight';
 import {Dollar} from './Dollar';
 import {Flare} from './Flare';
@@ -42,4 +44,6 @@ export {
   King,
   Building,
   Calendar,
+  CircleDot,
+  Coupon,
 };

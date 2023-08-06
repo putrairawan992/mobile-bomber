@@ -10,6 +10,11 @@ const styles = EStyleSheet.create({
   sheetContentContainer: {
     backgroundColor: '#171717',
   },
+  bottomSheetHandleStyle: {
+    backgroundColor: '#1E1E1E',
+    borderTopRightRadius: 14,
+    borderTopLeftRadius: 14,
+  },
 });
 
 export default styles;

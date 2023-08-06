@@ -39,7 +39,7 @@ import styles from '../../Styles';
 import useTheme from '../../../theme/useTheme';
 import {BookingInvitation} from './BookingInvitation';
 import {UserInterface} from '../../../interfaces/UserInterface';
-import {NightlifeStackParams} from '../../../navigation/MainScreenStack';
+import {MainStackParams} from '../../../navigation/MainScreenStack';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import TableListContainer from './TableList/TableListContainer';
 import {BookingCalendar} from '../BookingCalendar';
@@ -47,11 +47,7 @@ import {TableOrderDetail} from './OrderDetail';
 import {TablePriviliege} from './TableList/TablePriviliege';
 import {Colors} from '../../../theme';
 
-type Props = NativeStackScreenProps<
-  NightlifeStackParams,
-  'BookingTable',
-  'MyStack'
->;
+type Props = NativeStackScreenProps<MainStackParams, 'BookingTable', 'MyStack'>;
 
 if (Platform.OS === 'android') {
   if (UIManager.setLayoutAnimationEnabledExperimental) {
@@ -83,11 +79,15 @@ function BookingTableScreen({route}: Props) {
   const bookingSheetRef = React.useRef<BottomSheet>(null);
   const snapPoints = React.useMemo(() => ['70'], []);
   const [isPayFull, setIsPayFull] = useState(false);
-  const toggleSwitch = () => setIsPayFull(previousState => !previousState);
+  const [isSplitBill, setIsSplitBill] = useState(false);
+  const toggleSwitchPayFull = () =>
+    setIsPayFull(previousState => !previousState);
+  const toggleSwitchSplitBill = () =>
+    setIsSplitBill(previousState => !previousState);
   const handleSheetChanges = React.useCallback((index: number) => {
     setSheetIndex(index);
   }, []);
-  console.log(bookingSheetRef.current);
+
   useEffect(() => {
     setTimeout(() => {
       step === 0 && onShowCalendar(true);
@@ -352,7 +352,9 @@ function BookingTableScreen({route}: Props) {
           placeData={placeData}
           selectedTable={selectedTable}
           isFullPayment={isPayFull}
-          toggleSwitch={toggleSwitch}
+          isSplitBill={isSplitBill}
+          toggleSwitchPayFull={toggleSwitchPayFull}
+          toggleSwitchSplitBill={toggleSwitchSplitBill}
           selectedDate={selectedDate}
         />
       </BottomSheet>

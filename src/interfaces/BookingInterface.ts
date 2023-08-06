@@ -11,3 +11,12 @@ export interface ListItemInterface {
   icon: React.ReactNode;
   isShowBorder?: boolean;
 }
+
+export interface TicketInterface {
+  id: string;
+  title: string;
+  qty: number;
+  price: number;
+  description: string;
+  features: string[];
+}

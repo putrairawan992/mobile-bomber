@@ -15,6 +15,8 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import useTheme from '../theme/useTheme';
 import NightlifeScreen from '../screens/Nightlife';
+import {BookingWalkInScreen} from '../screens/Booking/BookingWalkIn';
+import {WalkInTicketScreen} from '../screens/Booking/BookingWalkIn/WalkInTicket';
 
 export type MainStackParams = {
   Nightlife: undefined;
@@ -30,6 +32,13 @@ export type MainStackParams = {
   };
   Main: undefined;
   MyBookingDetail: undefined;
+  BookingWalkIn: {
+    placeId: string;
+  };
+  WalkInTicket: {
+    placeId: string;
+    date: string;
+  };
 };
 
 interface TabBarProps {
@@ -165,7 +174,21 @@ const MainScreenStack = () => {
       <Stack.Screen name="Notification" component={NotificationScreen} />
       <Stack.Screen name="PlaceDetail" component={PlaceDetail} />
       <Stack.Screen name="MyBookingDetail" component={MyBookingDetail} />
-      <Stack.Screen name="BookingTable" component={BookingTableScreen} />
+      <Stack.Screen
+        name="BookingTable"
+        component={BookingTableScreen}
+        initialParams={{placeId: ''}}
+      />
+      <Stack.Screen
+        name="BookingWalkIn"
+        component={BookingWalkInScreen}
+        initialParams={{placeId: ''}}
+      />
+      <Stack.Screen
+        name="WalkInTicket"
+        component={WalkInTicketScreen}
+        initialParams={{placeId: '', date: ''}}
+      />
     </Stack.Navigator>
   );
 };

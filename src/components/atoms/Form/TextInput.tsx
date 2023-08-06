@@ -6,6 +6,7 @@ import {
   StyleSheet,
   View,
   TouchableOpacity,
+  Platform,
 } from 'react-native';
 
 import Spacer from '../Spacer/Spacer';
@@ -85,7 +86,7 @@ export const TextInput = React.forwardRef((props: Props, ref) => {
         style={{
           flexDirection: 'row',
           paddingHorizontal: 22,
-          paddingVertical: 10,
+          paddingVertical: Platform.OS === 'ios' ? 10 : undefined,
           borderRadius: 8,
           borderWidth,
           borderColor,

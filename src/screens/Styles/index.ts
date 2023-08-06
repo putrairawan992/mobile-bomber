@@ -21,6 +21,11 @@ const styles = StyleSheet.create({
     backgroundColor: '#9F9E9F',
     alignItems: 'center',
   },
+  bottomSheetHandleStyle: {
+    backgroundColor: '#1E1E1E',
+    borderTopRightRadius: 14,
+    borderTopLeftRadius: 14,
+  },
 });
 
 export default styles;

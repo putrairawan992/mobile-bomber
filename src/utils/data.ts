@@ -1,6 +1,6 @@
 import {HorizontalMenuInterface} from '../components/molecules/Menu/HorizontalMenu';
 import {CardNotificationAppsInterface} from '../components/molecules/Notification/CardNotificationApps';
-import {TableInterface} from '../interfaces/BookingInterface';
+import {TableInterface, TicketInterface} from '../interfaces/BookingInterface';
 
 import {
   PlaceEventsInterface,
@@ -372,5 +372,46 @@ export const USER_DATA: UserInterface[] = [
     phone: '0811111111',
     photo_url:
       'https://i0.wp.com/media.ghgossip.com/wp-content/uploads/2022/11/10192356/maria.jpg?resize=488%2C629&ssl=1',
+  },
+];
+
+export const TICKETS_DATA: TicketInterface[] = [
+  {
+    id: '1',
+    title: 'Couples Package',
+    qty: 50,
+    price: 3000,
+    description: 'A package deal for couples with exclusive benefits.',
+    features: [
+      'Complimentary bottle of champagne.',
+      'Dance floor access near the DJ booth.',
+    ],
+  },
+  {
+    id: '2',
+    title: 'VIP Ticket',
+    qty: 10,
+    price: 3000,
+    description:
+      'Access to exclusive VIP areas, faster entry lines, and a separate bar/lounge area with dedicated staff.',
+    features: ['VIP lounge access', 'Express entry', 'Exclusive bar service.'],
+  },
+  {
+    id: '3',
+    title: 'Group Package',
+    qty: 10,
+    price: 3000,
+    description:
+      'Access to exclusive VIP areas, faster entry lines, and a separate bar/lounge area with dedicated staff.',
+    features: ['VIP lounge access', 'Min 10 People', 'Exclusive bar service.'],
+  },
+  {
+    id: '4',
+    title: 'Dance Floor Access',
+    qty: 100,
+    price: 1000,
+    description:
+      'Exclusive access to the main dance floor for a prime spot to enjoy music and dance.',
+    features: ['Dance floor access near the DJ booth.'],
   },
 ];

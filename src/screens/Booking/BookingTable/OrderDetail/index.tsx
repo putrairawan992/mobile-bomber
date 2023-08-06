@@ -1,9 +1,9 @@
 /* eslint-disable react-native/no-inline-styles */
 import {BottomSheetScrollView} from '@gorhom/bottom-sheet';
-import {AddCircle} from 'iconsax-react-native';
+import {AddCircle, ArrowLeft} from 'iconsax-react-native';
 import React from 'react';
-import {Image, Switch, View} from 'react-native';
-import {Building, Calendar} from '../../../../assets/icons';
+import {Image, Platform, Switch, TouchableOpacity, View} from 'react-native';
+import {Building, Calendar, CircleDot, Coupon} from '../../../../assets/icons';
 import {
   Button,
   Gap,
@@ -22,8 +22,13 @@ interface TableOrderDetailProps {
   placeData: PlaceInterface | null;
   selectedTable: TableInterface | null;
   isFullPayment: boolean;
-  toggleSwitch: () => void;
+  isSplitBill: boolean;
+  toggleSwitchSplitBill: () => void;
+  toggleSwitchPayFull: () => void;
   selectedDate: string;
+  isWalkIn?: boolean;
+  hasBackNavigation?: boolean;
+  onBackNavigation?: () => void;
 }
 
 export const TableOrderDetail = ({
@@ -31,16 +36,27 @@ export const TableOrderDetail = ({
   selectedTable,
   isFullPayment,
   selectedDate,
-  toggleSwitch,
+  isSplitBill,
+  toggleSwitchSplitBill,
+  toggleSwitchPayFull,
+  isWalkIn,
+  hasBackNavigation,
+  onBackNavigation,
 }: TableOrderDetailProps) => {
   const theme = useTheme();
-  console.log(isFullPayment);
   return (
     <BottomSheetScrollView
       contentContainerStyle={{
         backgroundColor: theme?.colors.BACKGROUND1,
         paddingHorizontal: 16,
       }}>
+      {hasBackNavigation && (
+        <TouchableOpacity
+          style={{position: 'absolute', zIndex: 999, left: 16}}
+          onPress={onBackNavigation}>
+          <ArrowLeft size={24} color={theme?.colors.ICON} />
+        </TouchableOpacity>
+      )}
       <Section isCenter padding="10px 0px">
         <GradientText
           xAxis={1}
@@ -101,7 +117,7 @@ export const TableOrderDetail = ({
             }}
           />
           <Gap height={10} />
-          <Section isRow>
+          <Section isRow isBetween={isWalkIn ? true : false}>
             <Section isRow>
               <Image
                 source={Images.UserCrown}
@@ -115,17 +131,21 @@ export const TableOrderDetail = ({
                 color={Colors['black-30']}
               />
             </Section>
-            <Gap width={24} />
-            <Section isRow>
-              <Building size={16} />
-              <Gap width={4} />
-              <Text
-                variant="small"
-                fontWeight="medium"
-                label={selectedTable?.text}
-                color={Colors['black-30']}
-              />
-            </Section>
+            {!isWalkIn && (
+              <>
+                <Gap width={24} />
+                <Section isRow>
+                  <Building size={16} />
+                  <Gap width={4} />
+                  <Text
+                    variant="small"
+                    fontWeight="medium"
+                    label={selectedTable?.text}
+                    color={Colors['black-30']}
+                  />
+                </Section>
+              </>
+            )}
             <Gap width={24} />
             <Section isRow>
               <Calendar size={16} />
@@ -160,15 +180,14 @@ export const TableOrderDetail = ({
             color={Colors['black-40']}
           />
         </Section>
-        <View style={{width: 40, height: 30, right: 12}}>
-          <Switch
-            trackColor={{false: '#767577', true: '#81b0ff'}}
-            thumbColor={isFullPayment ? theme?.colors.PRIMARY : '#f4f3f4'}
-            ios_backgroundColor="#3e3e3e"
-            onValueChange={toggleSwitch}
-            value={isFullPayment}
-          />
-        </View>
+        <Switch
+          trackColor={{false: '#767577', true: theme?.colors.WARNING}}
+          thumbColor={'#f4f3f4'}
+          ios_backgroundColor="#3e3e3e"
+          onValueChange={toggleSwitchPayFull}
+          value={isFullPayment}
+          style={{transform: [{scaleX: 0.6}, {scaleY: 0.6}]}}
+        />
       </Section>
       <Gap height={12} />
       <Section
@@ -258,10 +277,47 @@ export const TableOrderDetail = ({
           <AddCircle color={theme?.colors.ICON} size={24} />
         </Section>
         <Gap height={20} />
-        <Section>
+        <Section isRow>
+          <CircleDot size={16} color={Colors['info-500']} />
+          <Gap width={4} />
           <Text fontWeight="medium" label="VISA +64" />
         </Section>
       </Section>
+      <Gap height={20} />
+      <Section
+        padding="16px 16px"
+        backgroundColor={theme?.colors.SECTION}
+        rounded={8}
+        isRow
+        isBetween>
+        <Text fontWeight="bold" label="Split bill" />
+        <Switch
+          trackColor={{false: '#767577', true: theme?.colors.WARNING}}
+          thumbColor={'#f4f3f4'}
+          ios_backgroundColor="#3e3e3e"
+          onValueChange={toggleSwitchSplitBill}
+          value={isSplitBill}
+          style={{
+            ...(Platform.OS === 'ios' && {
+              transform: [{scaleX: 0.6}, {scaleY: 0.6}],
+            }),
+          }}
+        />
+      </Section>
+      <Gap height={20} />
+      <Section
+        padding="16px 16px"
+        backgroundColor={theme?.colors.SECTION}
+        rounded={8}
+        isRow
+        style={{flex: 1}}>
+        <Coupon size={32} color={Colors['warning-500']} />
+        <Text
+          fontWeight="bold"
+          label="      Apply promo to get special discount"
+        />
+      </Section>
+
       <Gap height={20} />
       <Button type="primary" title="Confirm" onPress={() => undefined} />
       <Gap height={20} />

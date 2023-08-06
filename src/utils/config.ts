@@ -44,3 +44,18 @@ export const SHADOWS = {
 export const DUMMY_IMAGE = `https://source.unsplash.com/random/600x600?sig=${randomNumber(
   2,
 )}`;
+
+export const gradientMapping = {
+  'Couples Package': {
+    color: ['#F6D056', '#ED984E', '#FC3F31'],
+  },
+  'VIP Ticket': {
+    color: ['#4E6AFF', '#77BAAD'],
+  },
+  'Group Package': {
+    color: ['#4E6AFF', '#B778D4'],
+  },
+  'Dance Floor Access': {
+    color: ['#A060FA', '#C800CC'],
+  },
+};
