@@ -1,4 +1,5 @@
 import {Dimensions} from 'react-native';
+import {randomNumber} from './function';
 
 export const WIDTH = Dimensions.get('window').width;
 export const HEIGHT = Dimensions.get('window').height;
@@ -39,3 +40,7 @@ export const SHADOWS = {
     elevation: 4,
   },
 };
+
+export const DUMMY_IMAGE = `https://source.unsplash.com/random/600x600?sig=${randomNumber(
+  2,
+)}`;

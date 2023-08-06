@@ -1,12 +1,16 @@
 import {HorizontalMenuInterface} from '../components/molecules/Menu/HorizontalMenu';
 import {CardNotificationAppsInterface} from '../components/molecules/Notification/CardNotificationApps';
+import {TableInterface} from '../interfaces/BookingInterface';
 
 import {
   PlaceEventsInterface,
   PlaceInterface,
   PlaceOverviewInterface,
 } from '../interfaces/PlaceInterface';
-import {UserAchievementInterface} from '../interfaces/UserInterface';
+import {
+  UserAchievementInterface,
+  UserInterface,
+} from '../interfaces/UserInterface';
 
 export const USER_ACHIEVEMENT: UserAchievementInterface = {
   currentLevel: 'VIP-GOLD',
@@ -306,5 +310,67 @@ export const PLACE_EVENTS: PlaceEventsInterface[] = [
         time: '12am - 3am',
       },
     ],
+  },
+];
+
+export const TABLE_DATA: TableInterface[] = [
+  {
+    text: 'Table 1A',
+    minOrder: 400,
+  },
+  {
+    text: 'Table 1B',
+    minOrder: 400,
+  },
+  {
+    text: 'Table 2A',
+    minOrder: 600,
+  },
+  {
+    text: 'Table 2B',
+    minOrder: 600,
+  },
+  {
+    text: 'Sofa 1A',
+    minOrder: 1200,
+  },
+  {
+    text: 'Sofa 1B',
+    minOrder: 1200,
+  },
+];
+
+export const USER_DATA: UserInterface[] = [
+  {
+    userId: '1',
+    fullName: 'Lisandro',
+    username: 'lisandro',
+    phone: '0811111111',
+    photo_url:
+      'https://s.hs-data.com/bilder/spieler/gross/376639.jpg?fallback=png',
+  },
+  {
+    userId: '2',
+    fullName: 'Mason Mount',
+    username: 'mason_mount',
+    phone: '0811111111',
+    photo_url:
+      'https://s.hs-data.com/bilder/spieler/gross/337447.jpg?fallback=png',
+  },
+  {
+    userId: '3',
+    fullName: 'Harry Maguire',
+    username: 'h_maguire',
+    phone: '0811111111',
+    photo_url:
+      'https://img.a.transfermarkt.technology/portrait/header/177907-1663841733.jpg?lm=1',
+  },
+  {
+    userId: '5',
+    fullName: 'Maria Mercedes',
+    username: 'maria_77',
+    phone: '0811111111',
+    photo_url:
+      'https://i0.wp.com/media.ghgossip.com/wp-content/uploads/2022/11/10192356/maria.jpg?resize=488%2C629&ssl=1',
   },
 ];
