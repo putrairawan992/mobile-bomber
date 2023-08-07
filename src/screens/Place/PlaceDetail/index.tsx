@@ -19,7 +19,7 @@ import {
 } from '../../../interfaces/PlaceInterface';
 import React, {useEffect, useState} from 'react';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
-import {NightlifeStackParams} from '../../../navigation/MainScreenStack';
+import {MainStackParams} from '../../../navigation/MainScreenStack';
 import {Star} from '../../../assets/icons';
 import {randomNumber} from '../../../utils/function';
 import styles from '../Styles';
@@ -27,11 +27,7 @@ import {useImageAspectRatio} from '../../../hooks/useImageAspectRatio';
 import useTheme from '../../../theme/useTheme';
 import {PlaceCard} from '../../../components/organism';
 
-type Props = NativeStackScreenProps<
-  NightlifeStackParams,
-  'PlaceDetail',
-  'MyStack'
->;
+type Props = NativeStackScreenProps<MainStackParams, 'PlaceDetail', 'MyStack'>;
 export const PlaceDetail = ({route, navigation}: Props) => {
   const placeId = route.params.placeId;
   const theme = useTheme();
@@ -288,7 +284,11 @@ export const PlaceDetail = ({route, navigation}: Props) => {
           title="Booking Table"
         />
         <Gap height={8} />
-        <Button type="outlined" onPress={() => undefined} title="Walk In" />
+        <Button
+          type="outlined"
+          onPress={() => navigation.navigate('BookingWalkIn', {placeId})}
+          title="Walk In"
+        />
         <Gap height={24} />
       </ScrollView>
     </Layout>

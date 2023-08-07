@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
+/* eslint-disable-line @typescript-eslint/no-var-requires*/
 const BackHome = require('../assets/images/BackHome.png');
 const LeftArrowBlack = require('../assets/images/LeftArrowBlack.png');
 const ChatWithOwner = require('../assets/images/ChatWithOwner.png');
@@ -124,6 +125,7 @@ const ImgWineryOrder = require('../assets/images/winery_order.png');
 const IcClock = require('../assets/images/clock.png');
 const IcDelete = require('../assets/images/delete.png');
 const IcUpload = require('../assets/images/upload.png');
+const UserCrown = require('../assets/images/UserCrown.png');
 
 export {
   BackHome,
@@ -250,4 +252,5 @@ export {
   IcClock,
   IcDelete,
   IcUpload,
+  UserCrown,
 };
