@@ -37,7 +37,9 @@ export type MainStackParams = {
     date: string;
   };
   MyBookingDetail: undefined;
-  BookingTable: undefined;
+  BookingTable: {
+    placeId: string;
+  };
   WineryOrder: undefined;
 };
 
@@ -172,7 +174,6 @@ const MainScreenStack = () => {
       <Stack.Screen name="Notification" component={NotificationScreen} />
       <Stack.Screen name="PlaceDetail" component={PlaceDetail} />
       <Stack.Screen name="MyBookingDetail" component={MyBookingDetail} />
-      <Stack.Screen name="BookingTable" component={BookingTableScreen} />
       <Stack.Screen name="WineryOrder" component={WineryOrder} />
       <Stack.Screen
         name="BookingTable"
