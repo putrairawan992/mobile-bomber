@@ -1,6 +1,6 @@
+// eslint-disable-line @typescript-eslint/no-unused-vars
 import {Community, Flare, HalfMoon, User} from '../assets/icons';
 import {GradientText, Text} from '../components/atoms';
-/* eslint-disable react-native/no-inline-styles */
 import React, {ReactNode} from 'react';
 
 import BookingTableScreen from '../screens/Booking/BookingTable';
@@ -17,6 +17,7 @@ import useTheme from '../theme/useTheme';
 import NightlifeScreen from '../screens/Nightlife';
 import {BookingWalkInScreen} from '../screens/Booking/BookingWalkIn';
 import {WalkInTicketScreen} from '../screens/Booking/BookingWalkIn/WalkInTicket';
+import WineryOrder from '../screens/WineryOrder';
 
 export type MainStackParams = {
   Nightlife: undefined;
@@ -27,11 +28,7 @@ export type MainStackParams = {
     placeId: string;
   };
   Notification: undefined;
-  BookingTable: {
-    placeId: string;
-  };
   Main: undefined;
-  MyBookingDetail: undefined;
   BookingWalkIn: {
     placeId: string;
   };
@@ -39,11 +36,10 @@ export type MainStackParams = {
     placeId: string;
     date: string;
   };
+  MyBookingDetail: undefined;
+  BookingTable: undefined;
+  WineryOrder: undefined;
 };
-
-interface TabBarProps {
-  focused: boolean;
-}
 
 interface TabBarContentProps {
   focused: boolean;
@@ -75,6 +71,7 @@ function Main() {
       </>
     );
   };
+
   const theme = useTheme();
 
   const TabBarStyle: ViewStyle = {
@@ -82,6 +79,7 @@ function Main() {
     backgroundColor: theme?.colors.BACKGROUND2,
     borderTopColor: 'transparent',
   };
+
   return (
     <Tab.Navigator
       screenOptions={{
@@ -91,7 +89,8 @@ function Main() {
         name="Nightlife"
         component={NightlifeScreen}
         options={() => ({
-          tabBarIcon: ({focused}: TabBarProps) => (
+          tabBarStyle: TabBarStyle,
+          tabBarIcon: ({focused}) => (
             <TabBarContent
               focused={focused}
               title="Nightlife"
@@ -102,14 +101,13 @@ function Main() {
           tabBarLabel() {
             return false;
           },
-          tabBarStyle: TabBarStyle,
         })}
       />
       <Tab.Screen
         name="Event"
         component={EventScreen}
         options={() => ({
-          tabBarIcon: ({focused}: TabBarProps) => (
+          tabBarIcon: ({focused}) => (
             <TabBarContent
               focused={focused}
               title="Event"
@@ -127,7 +125,7 @@ function Main() {
         name="Friends"
         component={FriendsScreen}
         options={() => ({
-          tabBarIcon: ({focused}: TabBarProps) => (
+          tabBarIcon: ({focused}) => (
             <TabBarContent
               focused={focused}
               title="Friends"
@@ -145,7 +143,7 @@ function Main() {
         name="Profile"
         component={ProfileScreen}
         options={() => ({
-          tabBarIcon: ({focused}: TabBarProps) => (
+          tabBarIcon: ({focused}) => (
             <TabBarContent
               focused={focused}
               title="Profile"
@@ -174,6 +172,8 @@ const MainScreenStack = () => {
       <Stack.Screen name="Notification" component={NotificationScreen} />
       <Stack.Screen name="PlaceDetail" component={PlaceDetail} />
       <Stack.Screen name="MyBookingDetail" component={MyBookingDetail} />
+      <Stack.Screen name="BookingTable" component={BookingTableScreen} />
+      <Stack.Screen name="WineryOrder" component={WineryOrder} />
       <Stack.Screen
         name="BookingTable"
         component={BookingTableScreen}

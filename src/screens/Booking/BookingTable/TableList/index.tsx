@@ -1,3 +1,4 @@
+/* eslint-disable-line @typescript-eslint/no-shadow */
 import React from 'react';
 import {View, TouchableOpacity, StyleSheet} from 'react-native';
 import {Section} from '../../../../components/atoms';

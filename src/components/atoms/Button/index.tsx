@@ -11,7 +11,7 @@ import useThemedStyles from '../../../theme/useThemedStyles';
 import {ScaleAnimation} from '../animations/ScaleAnimation';
 
 interface ButtonProps {
-  title: string;
+  title?: string;
   onPress: () => void;
   isLoading?: boolean;
   type:
@@ -30,6 +30,7 @@ interface ButtonProps {
   LeftComponent?: JSX.Element;
   className?: string;
   buttonPrimaryColors?: string[];
+  TextComponent?: JSX.Element;
 }
 function Button({
   title,
@@ -43,6 +44,7 @@ function Button({
   LeftComponent,
   className,
   buttonPrimaryColors,
+  TextComponent,
   ...restOfProps
 }: ButtonProps) {
   const theme = useTheme();
@@ -110,23 +112,26 @@ function Button({
           ) : (
             <View style={{flexDirection: 'row', alignItems: 'center'}}>
               {LeftComponent ?? null}
-              <Text
-                variant="base"
-                color={
-                  type === 'primary' ||
-                  type === 'secondary' ||
-                  type === 'danger' ||
-                  type === 'disabled'
-                    ? theme?.colors.TEXT_PRIMARY
-                    : type === 'outlined'
-                    ? 'active'
-                    : type === 'secondaryOutlined'
-                    ? 'primary2'
-                    : 'b1'
-                }
-                label={title}
-                fontWeight="bold"
-              />
+              {TextComponent ?? (
+                <Text
+                  variant="base"
+                  color={
+                    type === 'primary' ||
+                    type === 'secondary' ||
+                    type === 'danger' ||
+                    type === 'disabled'
+                      ? theme?.colors.TEXT_PRIMARY
+                      : type === 'outlined'
+                      ? 'active'
+                      : type === 'secondaryOutlined'
+                      ? 'primary2'
+                      : 'b1'
+                  }
+                  label={title}
+                  fontWeight="bold"
+                />
+              )}
+
               {icon}
             </View>
           )}

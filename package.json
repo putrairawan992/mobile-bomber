@@ -68,6 +68,7 @@
     "react-native-screens": "3.20.0",
     "react-native-snap-carousel": "^3.9.1",
     "react-native-svg": "^13.10.0",
+    "react-native-switch": "^1.5.1",
     "react-redux": "7.2.6",
     "redux": "4.2.0",
     "redux-thunk": "2.4.1",

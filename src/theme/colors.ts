@@ -1,5 +1,6 @@
 /* eslint-disable object-shorthand */
 /* eslint-disable @typescript-eslint/no-unused-vars */
+// eslint-comments/no-unused-disable
 const SUN_FLOWER = '#f1c40f';
 const ASBESTOS = '#7f8c8d';
 const MIDNIGHT_BLUE = '#2c3e50';

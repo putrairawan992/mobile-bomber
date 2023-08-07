@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
+/* eslint-disable-line @typescript-eslint/no-var-requires*/
 const BackHome = require('../assets/images/BackHome.png');
 const LeftArrowBlack = require('../assets/images/LeftArrowBlack.png');
 const ChatWithOwner = require('../assets/images/ChatWithOwner.png');
@@ -113,6 +114,17 @@ const ReviewsUserImg3 = require('../assets/images/ReviewsUserImg3.png');
 const WaveImg = require('../assets/images/wave.png');
 const WaveLogoImg = require('../assets/images/wave_logo.png');
 const MusicDjImg = require('../assets/images/music_dj.png');
+const IcPeopleTwo = require('../assets/images/people_two.png');
+const IcCoupon = require('../assets/images/coupon.png');
+const IcGlass = require('../assets/images/glass.png');
+const IcCalendarPlus = require('../assets/images/calendar_plus.png');
+const IcDetailBooking = require('../assets/images/detail_booking.png');
+const IcPeopleThree = require('../assets/images/people_three.png');
+const IcChevronRight = require('../assets/images/chevron_right.png');
+const ImgWineryOrder = require('../assets/images/winery_order.png');
+const IcClock = require('../assets/images/clock.png');
+const IcDelete = require('../assets/images/delete.png');
+const IcUpload = require('../assets/images/upload.png');
 const UserCrown = require('../assets/images/UserCrown.png');
 
 export {
@@ -229,5 +241,16 @@ export {
   WaveImg,
   WaveLogoImg,
   MusicDjImg,
+  IcCoupon,
+  IcPeopleTwo,
+  IcGlass,
+  IcCalendarPlus,
+  IcDetailBooking,
+  IcPeopleThree,
+  IcChevronRight,
+  ImgWineryOrder,
+  IcClock,
+  IcDelete,
+  IcUpload,
   UserCrown,
 };

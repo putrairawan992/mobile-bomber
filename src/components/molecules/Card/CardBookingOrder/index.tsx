@@ -1,7 +1,7 @@
 import {Image, View, useWindowDimensions} from 'react-native';
 import React from 'react';
-import DefaultText from '../../atoms/Text/DefaultText';
-import {Spacer} from '../../atoms';
+import DefaultText from '../../../atoms/Text/DefaultText';
+import {Spacer} from '../../../atoms';
 
 export default function CardBookingOrder() {
   const {width} = useWindowDimensions();

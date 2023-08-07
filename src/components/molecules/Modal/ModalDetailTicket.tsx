@@ -23,7 +23,7 @@ export default function ModalDetailTicket({show, hide}: ModalDetailTicket) {
           Payment Detail
         </GradientText>
         <Spacer height={15} />
-        <View className="bg-[#2D2D2D] p-3 rounded-lg">
+        <View className="bg-[#2D2D2D] p-4 rounded-xl">
           <DefaultText
             title="Booking Detail"
             titleClassName="text-base font-inter-semibold"
