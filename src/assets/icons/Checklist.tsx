@@ -16,7 +16,14 @@ export const Checklist = (props: Props) => {
       width={props.size}
       height={props.size}
       style={props.style}>
-      <Rect width="11" height="11" x="0.5" y="0.998" fill="#0A824C" rx="2.5" />
+      <Rect
+        width="11"
+        height="11"
+        x="0.5"
+        y="0.998"
+        fill={props.color ?? '#0A824C'}
+        rx="2.5"
+      />
       <Path
         fill="#fff"
         fillRule="evenodd"
@@ -28,7 +35,7 @@ export const Checklist = (props: Props) => {
         height="11"
         x="0.5"
         y="0.998"
-        stroke="#0A824C"
+        stroke={props.color ?? '#0A824C'}
         rx="2.5"
       />
     </Svg>
