@@ -1,7 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react-native/no-inline-styles */
-/* eslint-disable-line @typescript-eslint/no-shadow */
-/* eslint-disable-line @typescript-eslint/no-unused-vars */
 import * as React from 'react';
 
 import {
@@ -21,9 +19,9 @@ import {
 import {
   LayoutAnimation,
   Platform,
+  Pressable,
   TouchableOpacity,
   UIManager,
-  View,
 } from 'react-native';
 import {
   PLACES_DATA,
@@ -39,7 +37,6 @@ import {dateFormatter} from '../../../utils/dateFormatter';
 import {generateCalendarEvents} from '../../../utils/function';
 import styles from '../../Styles';
 import useTheme from '../../../theme/useTheme';
-import {BookingInvitation} from './BookingInvitation';
 import {UserInterface} from '../../../interfaces/UserInterface';
 import {MainStackParams} from '../../../navigation/MainScreenStack';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
@@ -48,6 +45,7 @@ import {BookingCalendar} from '../BookingCalendar';
 import {TableOrderDetail} from './OrderDetail';
 import {TablePriviliege} from './TableList/TablePriviliege';
 import {Colors} from '../../../theme';
+import {FriendsInvitation} from '../../../components/organism';
 
 type Props = NativeStackScreenProps<MainStackParams, 'BookingTable', 'MyStack'>;
 
@@ -302,7 +300,7 @@ function BookingTableScreen({route}: Props) {
         </TouchableSection>
         {isShowInvitation && (
           <Section style={{flex: 1}}>
-            <BookingInvitation
+            <FriendsInvitation
               data={USER_DATA}
               onInvite={handleInvite}
               selectedInvitation={selectedInvitation}
@@ -338,7 +336,10 @@ function BookingTableScreen({route}: Props) {
         snapPoints={snapPoints}
         backdropComponent={({style}) =>
           sheetIndex === 0 ? (
-            <View style={[style, {backgroundColor: 'rgba(0, 0, 0, 0.60)'}]} />
+            <Pressable
+              onPress={() => bookingSheetRef.current?.close()}
+              style={[style, {backgroundColor: 'rgba(0, 0, 0, 0.60)'}]}
+            />
           ) : (
             <></>
           )
@@ -348,7 +349,7 @@ function BookingTableScreen({route}: Props) {
           borderTopRightRadius: 14,
           borderTopLeftRadius: 14,
         }}
-        handleIndicatorStyle={{backgroundColor: Colors.white}}
+        handleIndicatorStyle={{backgroundColor: Colors['black-70']}}
         onChange={handleSheetChanges}>
         <TableOrderDetail
           placeData={placeData}

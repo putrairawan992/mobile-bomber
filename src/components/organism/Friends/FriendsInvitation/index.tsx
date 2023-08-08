@@ -3,6 +3,9 @@ import React from 'react';
 import {createRef, useState} from 'react';
 import {TouchableOpacity, View} from 'react-native';
 import PagerView from 'react-native-pager-view';
+import {UserInterface} from '../../../../interfaces/UserInterface';
+import useTheme from '../../../../theme/useTheme';
+import {WIDTH} from '../../../../utils/config';
 import {
   Avatar,
   EntryAnimation,
@@ -10,10 +13,8 @@ import {
   Section,
   Text,
   TextInput,
-} from '../../../components/atoms';
-import {UserInterface} from '../../../interfaces/UserInterface';
-import useTheme from '../../../theme/useTheme';
-import {WIDTH} from '../../../utils/config';
+} from '../../../atoms';
+import {TabMenu} from '../../../molecules';
 import styles from '../Styles';
 
 interface BookingInvitationInterface {
@@ -22,7 +23,7 @@ interface BookingInvitationInterface {
   selectedInvitation: UserInterface[];
 }
 
-export const BookingInvitation = ({
+export const FriendsInvitation = ({
   data,
   onInvite,
   selectedInvitation,
@@ -125,29 +126,13 @@ export const BookingInvitation = ({
         {menu.map((item, index) => {
           const isSelected = index === initialPage;
           return (
-            <TouchableOpacity
-              onPress={() => ref.current?.setPage(index)}
-              activeOpacity={0.7}
-              key={item}
-              style={{
-                width: (WIDTH - 32) / menu.length,
-                paddingHorizontal: 12,
-                borderBottomWidth: 2,
-                borderBottomColor: isSelected
-                  ? theme?.colors.PRIMARY
-                  : theme?.colors.TEXT_PRIMARY,
-              }}>
-              <Text
-                label={item}
-                color={
-                  isSelected
-                    ? theme?.colors.PRIMARY
-                    : theme?.colors.TEXT_PRIMARY
-                }
-                textAlign="center"
-              />
-              <Gap height={12} />
-            </TouchableOpacity>
+            <TabMenu
+              onPress={idx => ref.current?.setPage(idx)}
+              isSelected={isSelected}
+              width={WIDTH / menu.length}
+              item={item}
+              index={index}
+            />
           );
         })}
       </Section>
