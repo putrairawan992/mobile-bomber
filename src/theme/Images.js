@@ -126,6 +126,8 @@ const IcClock = require('../assets/images/clock.png');
 const IcDelete = require('../assets/images/delete.png');
 const IcUpload = require('../assets/images/upload.png');
 const UserCrown = require('../assets/images/UserCrown.png');
+const IcBookRounded = require('../assets/images/book_rounded.png');
+const ImgBackgroundDj = require('../assets/images/background_dj.png');
 
 export {
   BackHome,
@@ -253,4 +255,6 @@ export {
   IcDelete,
   IcUpload,
   UserCrown,
+  IcBookRounded,
+  ImgBackgroundDj,
 };

@@ -18,6 +18,9 @@ import NightlifeScreen from '../screens/Nightlife';
 import {BookingWalkInScreen} from '../screens/Booking/BookingWalkIn';
 import {WalkInTicketScreen} from '../screens/Booking/BookingWalkIn/WalkInTicket';
 import WineryOrder from '../screens/WineryOrder';
+import SongPlaylist from '../screens/SongPlaylist';
+import RequestSong from '../screens/RequestSong';
+import HistoryRequestSong from '../screens/HistoryRequestSong';
 
 export type MainStackParams = {
   Nightlife: undefined;
@@ -41,6 +44,9 @@ export type MainStackParams = {
     placeId: string;
   };
   WineryOrder: undefined;
+  SongPlaylist: undefined;
+  RequestSong: undefined;
+  HistoryRequestSong: undefined;
 };
 
 interface TabBarContentProps {
@@ -190,6 +196,9 @@ const MainScreenStack = () => {
         component={WalkInTicketScreen}
         initialParams={{placeId: '', date: ''}}
       />
+      <Stack.Screen name="SongPlaylist" component={SongPlaylist} />
+      <Stack.Screen name="RequestSong" component={RequestSong} />
+      <Stack.Screen name="HistoryRequestSong" component={HistoryRequestSong} />
     </Stack.Navigator>
   );
 };

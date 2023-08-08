@@ -107,7 +107,7 @@ export const TextInput = React.forwardRef((props: Props, ref) => {
             styling.input,
             {
               color,
-              height: textInputHeight ?? textArea ? 160 : 50,
+              height: textInputHeight ? textInputHeight : textArea ? 160 : 30,
               textAlignVertical: textArea ? 'top' : 'center',
               width: rightIcon || type === 'password' ? '90%' : '100%',
               backgroundColor:

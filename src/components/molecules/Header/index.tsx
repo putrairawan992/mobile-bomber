@@ -31,6 +31,7 @@ interface HeaderPropsI {
   hasNotification?: boolean;
   onNotificationPress?: () => void;
   hasLogo?: boolean;
+  RightComponent?: JSX.Element;
 }
 
 function Header({
@@ -50,6 +51,7 @@ function Header({
   hasLogo,
   onNotificationPress,
   titleStyle,
+  RightComponent,
 }: HeaderPropsI) {
   const theme = useTheme();
   const navigation = useNavigation();
@@ -166,6 +168,8 @@ function Header({
           }}
         />
       )}
+
+      {RightComponent ?? null}
     </View>
   );
 }
