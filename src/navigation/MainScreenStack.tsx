@@ -1,11 +1,10 @@
-// eslint-disable-line @typescript-eslint/no-unused-vars
+/* eslint-disable react-native/no-inline-styles */
 import {Community, Flare, HalfMoon, User} from '../assets/icons';
 import {GradientText, Text} from '../components/atoms';
 import React, {ReactNode} from 'react';
 
 import BookingTableScreen from '../screens/Booking/BookingTable';
 import EventScreen from '../screens/Event';
-import FriendsScreen from '../screens/Friends';
 import NotificationScreen from '../screens/Notification';
 import MyBookingDetail from '../screens/MyBookingDetail';
 import {PlaceDetail} from '../screens/Place/PlaceDetail';
@@ -21,6 +20,7 @@ import WineryOrder from '../screens/WineryOrder';
 import SongPlaylist from '../screens/SongPlaylist';
 import RequestSong from '../screens/RequestSong';
 import HistoryRequestSong from '../screens/HistoryRequestSong';
+import FriendsScreen from '../screens/Friends';
 
 export type MainStackParams = {
   Nightlife: undefined;

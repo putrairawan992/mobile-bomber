@@ -1,6 +1,10 @@
 import {HorizontalMenuInterface} from '../components/molecules/Menu/HorizontalMenu';
 import {CardNotificationAppsInterface} from '../components/molecules/Notification/CardNotificationApps';
-import {TableInterface, TicketInterface} from '../interfaces/BookingInterface';
+import {
+  PartyInterface,
+  TableInterface,
+  TicketInterface,
+} from '../interfaces/BookingInterface';
 
 import {
   PlaceEventsInterface,
@@ -348,6 +352,9 @@ export const USER_DATA: UserInterface[] = [
     phone: '0811111111',
     photo_url:
       'https://s.hs-data.com/bilder/spieler/gross/376639.jpg?fallback=png',
+    age: 26,
+    bio: 'Just ordinary girl from ohama 🥰',
+    email: 'lisandromartinez@gmail.com',
   },
   {
     userId: '2',
@@ -356,6 +363,9 @@ export const USER_DATA: UserInterface[] = [
     phone: '0811111111',
     photo_url:
       'https://s.hs-data.com/bilder/spieler/gross/337447.jpg?fallback=png',
+    age: 22,
+    bio: 'Just married',
+    email: 'masonmount19@gmail.com',
   },
   {
     userId: '3',
@@ -364,14 +374,31 @@ export const USER_DATA: UserInterface[] = [
     phone: '0811111111',
     photo_url:
       'https://img.a.transfermarkt.technology/portrait/header/177907-1663841733.jpg?lm=1',
+    age: 32,
+    bio: 'No  party without you 🥳',
+    email: 'h_maguire@gmail.com',
   },
   {
     userId: '5',
-    fullName: 'Maria Mercedes',
-    username: 'maria_77',
+    fullName: 'Jill Valentine',
+    username: 'jill_v66',
     phone: '0811111111',
     photo_url:
-      'https://i0.wp.com/media.ghgossip.com/wp-content/uploads/2022/11/10192356/maria.jpg?resize=488%2C629&ssl=1',
+      'https://e0.pxfuel.com/wallpapers/52/767/desktop-wallpaper-jill-valentine-in-resident-evil-3-remake-iphone-background-and-resident-evil-3-phone.jpg',
+    age: 21,
+    bio: 'Lets hang out',
+    email: 'jill_v@gmail.com',
+  },
+  {
+    userId: '4',
+    fullName: 'Tifa Lockhart',
+    username: 'tiffa_ff',
+    phone: '0811111111',
+    photo_url:
+      'https://w0.peakpx.com/wallpaper/307/340/HD-wallpaper-tifa-lockhart-final-fantasy-vii.jpg',
+    age: 21,
+    bio: 'Lets drinks',
+    email: 'tiffa@gmail.com',
   },
 ];
 
@@ -413,5 +440,26 @@ export const TICKETS_DATA: TicketInterface[] = [
     description:
       'Exclusive access to the main dance floor for a prime spot to enjoy music and dance.',
     features: ['Dance floor access near the DJ booth.'],
+  },
+];
+
+export const PARTY_DATA: PartyInterface[] = [
+  {
+    name: 'Wave Taipei',
+    logo: 'https://www.vhv.rs/dpng/d/467-4679035_night-club-logo-png-images-nightclub-logo-png.png',
+    ticket: 'VIP Ticket',
+    date: 'Sat, 14 June - 19:30',
+    quota: 10,
+    joined: 0,
+    table: 'Table X4',
+  },
+  {
+    name: 'Levels Nightclub',
+    logo: 'https://www.pickfu.com/blog/wp-content/uploads/2019/04/nightclub-logo-design-1.png',
+    ticket: 'VIP Ticket',
+    date: 'Wed, 23 June - 20:30',
+    quota: 6,
+    joined: 2,
+    table: 'Table Z2',
   },
 ];
