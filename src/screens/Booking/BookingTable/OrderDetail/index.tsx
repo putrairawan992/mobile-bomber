@@ -2,13 +2,14 @@
 import {BottomSheetScrollView} from '@gorhom/bottom-sheet';
 import {AddCircle, ArrowLeft} from 'iconsax-react-native';
 import React from 'react';
-import {Image, Platform, Switch, TouchableOpacity, View} from 'react-native';
+import {Image, TouchableOpacity, View} from 'react-native';
 import {Building, Calendar, CircleDot, Coupon} from '../../../../assets/icons';
 import {
   Button,
   Gap,
   GradientText,
   Section,
+  Switch,
   Text,
 } from '../../../../components/atoms';
 import {TableInterface} from '../../../../interfaces/BookingInterface';
@@ -181,16 +182,9 @@ export const TableOrderDetail = ({
           />
         </Section>
         <Switch
-          trackColor={{false: '#767577', true: theme?.colors.WARNING}}
-          thumbColor={'#f4f3f4'}
-          ios_backgroundColor="#3e3e3e"
-          onValueChange={toggleSwitchPayFull}
           value={isFullPayment}
-          style={{
-            ...(Platform.OS === 'ios' && {
-              transform: [{scaleX: 0.6}, {scaleY: 0.6}],
-            }),
-          }}
+          onValueChange={() => toggleSwitchPayFull()}
+          backgroundInactive={Colors.black}
         />
       </Section>
       <Gap height={12} />
@@ -296,16 +290,9 @@ export const TableOrderDetail = ({
         isBetween>
         <Text fontWeight="bold" label="Split bill" />
         <Switch
-          trackColor={{false: '#767577', true: theme?.colors.WARNING}}
-          thumbColor={'#f4f3f4'}
-          ios_backgroundColor="#3e3e3e"
-          onValueChange={toggleSwitchSplitBill}
           value={isSplitBill}
-          style={{
-            ...(Platform.OS === 'ios' && {
-              transform: [{scaleX: 0.6}, {scaleY: 0.6}],
-            }),
-          }}
+          onValueChange={() => toggleSwitchSplitBill()}
+          backgroundInactive={Colors.black}
         />
       </Section>
       <Gap height={20} />
