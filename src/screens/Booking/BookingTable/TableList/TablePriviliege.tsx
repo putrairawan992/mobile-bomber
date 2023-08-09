@@ -9,6 +9,7 @@ import {
 import {Colors} from '../../../../theme';
 import {currency} from '../../../../utils/function';
 
+
 interface TablePriviliegeProps {
   tableData: TableInterface | null;
 }

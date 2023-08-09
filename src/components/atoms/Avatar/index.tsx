@@ -22,7 +22,7 @@ export const Avatar = ({
   alt,
   name,
   username,
-  onPress,
+  onPress
 }: AvatarProps) => {
   const theme = useTheme();
   const [isError, setIsError] = useState<boolean>(false);
@@ -78,6 +78,20 @@ export const Avatar = ({
             onError={() => setIsError(true)}
           />
         </TouchableOpacity>
+      )}
+      {name && username && (
+        <>
+          <Gap width={8} />
+          <Section>
+            <Text label={name} />
+            <Gap height={4} />
+            <Text
+              variant="extra-small"
+              color="#9F9E9F"
+              label={`@${username}`}
+            />
+          </Section>
+        </>
       )}
       {name && username && (
         <>

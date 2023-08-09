@@ -6,6 +6,7 @@ import {
   TicketInterface,
 } from '../interfaces/BookingInterface';
 
+
 import {
   PlaceEventsInterface,
   PlaceInterface,
@@ -355,6 +356,7 @@ export const USER_DATA: UserInterface[] = [
     age: 26,
     bio: 'Just ordinary girl from ohama 🥰',
     email: 'lisandromartinez@gmail.com',
+
   },
   {
     userId: '2',
@@ -399,6 +401,15 @@ export const USER_DATA: UserInterface[] = [
     age: 21,
     bio: 'Lets drinks',
     email: 'tiffa@gmail.com',
+=======
+  },
+  {
+    userId: '5',
+    fullName: 'Maria Mercedes',
+    username: 'maria_77',
+    phone: '0811111111',
+    photo_url:
+      'https://i0.wp.com/media.ghgossip.com/wp-content/uploads/2022/11/10192356/maria.jpg?resize=488%2C629&ssl=1',
   },
 ];
 
@@ -442,6 +453,7 @@ export const TICKETS_DATA: TicketInterface[] = [
     features: ['Dance floor access near the DJ booth.'],
   },
 ];
+
 
 export const PARTY_DATA: PartyInterface[] = [
   {

@@ -191,6 +191,7 @@ function Header({
           {/* {children} */}
         </HeaderRight>
       )}
+
     </View>
   );
 }

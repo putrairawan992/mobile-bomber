@@ -5,7 +5,7 @@ import {Section} from '../../../../components/atoms';
 import {ThemeInterface} from '../../../../theme/ThemeProvider';
 import useTheme from '../../../../theme/useTheme';
 import useThemedStyles from '../../../../theme/useThemedStyles';
-import {WIDTH} from '../../../../utils/config';
+import { WIDTH } from '../../../../utils/config';
 import Text from '../../../../components/atoms/Text/Text';
 import {currency} from '../../../../utils/function';
 
@@ -41,6 +41,7 @@ export default function RadioButton({
   );
 }
 
+// eslint-disable-next-line @typescript-eslint/no-shadow
 const styles = (theme: ThemeInterface) =>
   StyleSheet.create({
     mainContainer: {

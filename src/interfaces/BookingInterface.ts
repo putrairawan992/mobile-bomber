@@ -30,3 +30,4 @@ export interface PartyInterface {
   quota: number;
   table: string;
 }
+
