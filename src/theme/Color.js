@@ -25,6 +25,16 @@ const Colors = {
   boxShadowLighterBlack: 'rgba(0, 0, 0, 0.1)',
   lighterPink: '#f15f5f4d',
   locationDarkGray: '#374151',
+  'black-30': '#B3B4B5',
+  'black-40': '#919CAC',
+  'black-50': '#666',
+  'black-60': '#4D4D4D',
+  'white-70': '#EFF4FB',
+  'gray-400': '#898E9A',
+  'gray-900': '#16171A',
+  'gray-600': '#565B67',
+  'info-500': '#3CA6EC',
+  'warning-500': '#EF9533',
 };
 
 export default Colors;

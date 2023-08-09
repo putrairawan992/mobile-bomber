@@ -15,11 +15,16 @@ const styles = StyleSheet.create({
     position: 'absolute',
     paddingHorizontal: 16,
     paddingTop: 16,
-    paddingBottom: 24,
+    paddingBottom: 16,
     bottom: 0,
     width: '100%',
     backgroundColor: '#9F9E9F',
     alignItems: 'center',
+  },
+  bottomSheetHandleStyle: {
+    backgroundColor: '#1E1E1E',
+    borderTopRightRadius: 14,
+    borderTopLeftRadius: 14,
   },
 });
 
