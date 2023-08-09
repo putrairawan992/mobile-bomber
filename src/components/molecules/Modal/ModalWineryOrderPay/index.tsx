@@ -1,11 +1,10 @@
 import {Image, ScrollView, TouchableOpacity, View} from 'react-native';
-import React, {createRef, useState} from 'react';
+import React, {useState} from 'react';
 import Modal from 'react-native-modal';
 import DefaultText from '../../../atoms/Text/DefaultText';
 import {Gap} from '../../../atoms';
 import Switch from '../../../atoms/Switch';
 import LinearGradient from 'react-native-linear-gradient';
-import PagerView from 'react-native-pager-view';
 import {FlatList} from 'react-native';
 import {Checklist} from '../../../../assets/icons';
 import colors from '../../../../styles/colors';
@@ -25,8 +24,6 @@ export default function ModalWineryOrderPay({
   const [payment, setPayment] = useState<string>('visa');
   const [menu] = useState<string[]>(['Equally', 'Customized', 'Weighted']);
   const [initialPage, setInitialPage] = useState<number>(0);
-
-  const ref = createRef<PagerView>();
 
   return (
     <Modal
@@ -112,7 +109,6 @@ export default function ModalWineryOrderPay({
                 <Switch
                   value={splitBill}
                   onValueChange={value => setSplitBill(value)}
-                  backgroundActive={colors.royalBlue}
                 />
               </View>
 
@@ -127,7 +123,7 @@ export default function ModalWineryOrderPay({
                       renderItem={({index, item}) => {
                         return (
                           <TouchableOpacity
-                            onPress={() => ref.current?.setPage(index)}
+                            onPress={() => setInitialPage(index)}
                             activeOpacity={0.7}
                             className="mr-4 py-2">
                             <DefaultText
@@ -143,23 +139,7 @@ export default function ModalWineryOrderPay({
                       }}
                     />
                   </View>
-                  <PagerView
-                    className="min-h-[150]"
-                    initialPage={initialPage}
-                    ref={ref}
-                    onPageSelected={e =>
-                      setInitialPage(e.nativeEvent.position)
-                    }>
-                    <View key="1">
-                      <SplitBill />
-                    </View>
-                    <View key="2">
-                      <SplitBill />
-                    </View>
-                    <View key="3">
-                      <SplitBill />
-                    </View>
-                  </PagerView>
+                  <SplitBill />
                 </>
               )}
             </View>
