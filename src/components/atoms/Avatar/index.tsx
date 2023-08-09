@@ -93,6 +93,20 @@ export const Avatar = ({
           </Section>
         </>
       )}
+      {name && username && (
+        <>
+          <Gap width={8} />
+          <Section>
+            <Text label={name} />
+            <Gap height={4} />
+            <Text
+              variant="extra-small"
+              color="#9F9E9F"
+              label={`@${username}`}
+            />
+          </Section>
+        </>
+      )}
     </Section>
   );
 };

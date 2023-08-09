@@ -41,6 +41,7 @@ export default function RadioButton({
   );
 }
 
+// eslint-disable-next-line @typescript-eslint/no-shadow
 const styles = (theme: ThemeInterface) =>
   StyleSheet.create({
     mainContainer: {
