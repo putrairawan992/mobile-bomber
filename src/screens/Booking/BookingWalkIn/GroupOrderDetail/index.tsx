@@ -1,16 +1,14 @@
 import {Add, ArrowLeft, Minus} from 'iconsax-react-native';
-import {Button, Gap, Section, Text} from '../../../../components/atoms';
+import {Button, Gap, Section, Switch, Text} from '../../../../components/atoms';
 import {
   LayoutAnimation,
   Platform,
-  Switch,
   TouchableOpacity,
   UIManager,
   View,
 } from 'react-native';
 import React, {useCallback, useState} from 'react';
 
-import {BookingInvitation} from '../../BookingTable/BookingInvitation';
 /* eslint-disable react-native/no-inline-styles */
 import {BottomSheetScrollView} from '@gorhom/bottom-sheet';
 import {Colors} from '../../../../theme';
@@ -18,6 +16,8 @@ import {TicketInterface} from '../../../../interfaces/BookingInterface';
 import {USER_DATA} from '../../../../utils/data';
 import {UserInterface} from '../../../../interfaces/UserInterface';
 import useTheme from '../../../../theme/useTheme';
+import {FriendsInvitation} from '../../../../components/organism';
+import {currency} from '../../../../utils/function';
 
 if (Platform.OS === 'android') {
   if (UIManager.setLayoutAnimationEnabledExperimental) {
@@ -119,7 +119,9 @@ export const GroupOrderDetail = ({
             </Section>
             <Text
               fontWeight="bold"
-              label={`Total: NT ${people * Number(selectedTicket?.price)}`}
+              label={`Total: ${currency(
+                people * Number(selectedTicket?.price),
+              )}`}
             />
           </Section>
           <Gap height={12} />
@@ -130,16 +132,9 @@ export const GroupOrderDetail = ({
             <Section isRow isBetween>
               <Text fontWeight="bold" label="Invite friend" />
               <Switch
-                trackColor={{false: '#767577', true: theme?.colors.WARNING}}
-                thumbColor={'#f4f3f4'}
-                ios_backgroundColor="#3e3e3e"
-                onValueChange={toggleSwitch}
                 value={isInviteFriend}
-                style={{
-                  ...(Platform.OS === 'ios' && {
-                    transform: [{scaleX: 0.6}, {scaleY: 0.6}],
-                  }),
-                }}
+                onValueChange={() => toggleSwitch()}
+                backgroundInactive={Colors.black}
               />
             </Section>
             <Gap height={4} />
@@ -169,7 +164,7 @@ export const GroupOrderDetail = ({
             textAlign="center"
           />
           <Section style={{flex: 1}}>
-            <BookingInvitation
+            <FriendsInvitation
               data={USER_DATA}
               onInvite={handleInvite}
               selectedInvitation={selectedInvitation}

@@ -91,7 +91,6 @@ export const TextInput = React.forwardRef((props: Props, ref) => {
         style={{
           flexDirection: 'row',
           paddingHorizontal: 22,
-          paddingVertical: Platform.OS === 'ios' ? 10 : undefined,
           borderRadius: 8,
           borderWidth,
           borderColor,

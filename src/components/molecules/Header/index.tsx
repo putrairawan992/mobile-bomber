@@ -30,6 +30,8 @@ interface HeaderPropsI {
   onFilterBtnPress?: () => void;
   hasNotification?: boolean;
   onNotificationPress?: () => void;
+  rightCustomComponent?: JSX.Element;
+  onRightCustomComponentPress?: () => void;
   hasLogo?: boolean;
   RightComponent?: JSX.Element;
 }
@@ -52,6 +54,8 @@ function Header({
   onNotificationPress,
   titleStyle,
   RightComponent,
+  rightCustomComponent,
+  onRightCustomComponentPress,
 }: HeaderPropsI) {
   const theme = useTheme();
   const navigation = useNavigation();
@@ -135,6 +139,12 @@ function Header({
         <HeaderRight
           hasLocation
           hasNotification
+          rightCustomComponent={rightCustomComponent}
+          onRightCustomComponentPress={() => {
+            if (onRightCustomComponentPress) {
+              onRightCustomComponentPress();
+            }
+          }}
           onLocationPress={() => {
             if (onLocationPress) {
               onLocationPress();
@@ -170,6 +180,17 @@ function Header({
       )}
 
       {RightComponent ?? null}
+      {!!rightCustomComponent && (
+        <HeaderRight
+          rightCustomComponent={rightCustomComponent}
+          onRightCustomComponentPress={() => {
+            if (onRightCustomComponentPress) {
+              onRightCustomComponentPress();
+            }
+          }}>
+          {/* {children} */}
+        </HeaderRight>
+      )}
     </View>
   );
 }
