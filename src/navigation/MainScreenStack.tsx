@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-inline-styles */
 // eslint-disable-line @typescript-eslint/no-unused-vars
 import {Community, Flare, HalfMoon, User} from '../assets/icons';
 import {GradientText, Text} from '../components/atoms';

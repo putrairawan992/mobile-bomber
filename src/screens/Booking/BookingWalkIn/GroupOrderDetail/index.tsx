@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-inline-styles */
 import {Add, ArrowLeft, Minus} from 'iconsax-react-native';
 import {Button, Gap, Section, Text} from '../../../../components/atoms';
 import {
@@ -9,15 +10,15 @@ import {
   View,
 } from 'react-native';
 import React, {useCallback, useState} from 'react';
-
-import {BookingInvitation} from '../../BookingTable/BookingInvitation';
-/* eslint-disable react-native/no-inline-styles */
-import {BottomSheetScrollView} from '@gorhom/bottom-sheet';
+import { BottomSheetScrollView } from '@gorhom/bottom-sheet';
 import {Colors} from '../../../../theme';
 import {TicketInterface} from '../../../../interfaces/BookingInterface';
 import {USER_DATA} from '../../../../utils/data';
 import {UserInterface} from '../../../../interfaces/UserInterface';
 import useTheme from '../../../../theme/useTheme';
+import {FriendsInvitation} from '../../../../components/organism';
+import {currency} from '../../../../utils/function';
+
 
 if (Platform.OS === 'android') {
   if (UIManager.setLayoutAnimationEnabledExperimental) {
@@ -119,7 +120,9 @@ export const GroupOrderDetail = ({
             </Section>
             <Text
               fontWeight="bold"
-              label={`Total: NT ${people * Number(selectedTicket?.price)}`}
+              label={`Total: ${currency(
+                people * Number(selectedTicket?.price),
+              )}`}
             />
           </Section>
           <Gap height={12} />
@@ -169,7 +172,7 @@ export const GroupOrderDetail = ({
             textAlign="center"
           />
           <Section style={{flex: 1}}>
-            <BookingInvitation
+            <FriendsInvitation
               data={USER_DATA}
               onInvite={handleInvite}
               selectedInvitation={selectedInvitation}

@@ -8,6 +8,7 @@ import {Layout} from './Layout';
 import {Section} from './Section';
 import {TouchableSection} from './Section/TouchableSection';
 import Spacer from './Spacer/Spacer';
+import Switch from './Switch';
 import DefaultText from './Text/DefaultText';
 import GradientText from './Text/GradientText';
 import Text from './Text/Text';
@@ -26,4 +27,5 @@ export {
   Avatar,
   TouchableSection,
   DefaultText,
+  Switch,
 };

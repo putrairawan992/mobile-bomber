@@ -20,3 +20,14 @@ export interface TicketInterface {
   description: string;
   features: string[];
 }
+
+export interface PartyInterface {
+  name: string;
+  logo: string;
+  ticket: string;
+  date: string;
+  joined: number;
+  quota: number;
+  table: string;
+}
+

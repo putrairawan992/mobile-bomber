@@ -1,5 +1,4 @@
-import {Platform, ScrollView, UIManager, View} from 'react-native';
-
+import {Platform,View, Pressable, ScrollView, UIManager} from 'react-native';
 import {Header} from '../../../../components/molecules';
 import {Gap, Layout, Section, Text} from '../../../../components/atoms';
 /* eslint-disable react-native/no-inline-styles */
@@ -105,13 +104,16 @@ export const WalkInTicketScreen = ({route}: Props) => {
         snapPoints={snapPoints}
         backdropComponent={({style}) =>
           sheetIndex === 0 ? (
-            <View style={[style, {backgroundColor: 'rgba(0, 0, 0, 0.60)'}]} />
+            <Pressable
+              onPress={() => bookingSheetRef.current?.close()}
+              style={[style, {backgroundColor: 'rgba(0, 0, 0, 0.60)'}]}
+            />
           ) : (
             <></>
           )
         }
         handleStyle={styles.bottomSheetHandleStyle}
-        handleIndicatorStyle={{backgroundColor: Colors.white}}
+        handleIndicatorStyle={{backgroundColor: Colors['black-70']}}
         onChange={handleSheetChanges}>
         {isGroupPackage && !isGroupOrderDetail ? (
           <GroupOrderDetail
