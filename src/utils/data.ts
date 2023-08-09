@@ -1,12 +1,16 @@
 import {HorizontalMenuInterface} from '../components/molecules/Menu/HorizontalMenu';
 import {CardNotificationAppsInterface} from '../components/molecules/Notification/CardNotificationApps';
+import {TableInterface, TicketInterface} from '../interfaces/BookingInterface';
 
 import {
   PlaceEventsInterface,
   PlaceInterface,
   PlaceOverviewInterface,
 } from '../interfaces/PlaceInterface';
-import {UserAchievementInterface} from '../interfaces/UserInterface';
+import {
+  UserAchievementInterface,
+  UserInterface,
+} from '../interfaces/UserInterface';
 
 export const USER_ACHIEVEMENT: UserAchievementInterface = {
   currentLevel: 'VIP-GOLD',
@@ -306,5 +310,108 @@ export const PLACE_EVENTS: PlaceEventsInterface[] = [
         time: '12am - 3am',
       },
     ],
+  },
+];
+
+export const TABLE_DATA: TableInterface[] = [
+  {
+    text: 'Table 1A',
+    minOrder: 400,
+  },
+  {
+    text: 'Table 1B',
+    minOrder: 400,
+  },
+  {
+    text: 'Table 2A',
+    minOrder: 600,
+  },
+  {
+    text: 'Table 2B',
+    minOrder: 600,
+  },
+  {
+    text: 'Sofa 1A',
+    minOrder: 1200,
+  },
+  {
+    text: 'Sofa 1B',
+    minOrder: 1200,
+  },
+];
+
+export const USER_DATA: UserInterface[] = [
+  {
+    userId: '1',
+    fullName: 'Lisandro',
+    username: 'lisandro',
+    phone: '0811111111',
+    photo_url:
+      'https://s.hs-data.com/bilder/spieler/gross/376639.jpg?fallback=png',
+  },
+  {
+    userId: '2',
+    fullName: 'Mason Mount',
+    username: 'mason_mount',
+    phone: '0811111111',
+    photo_url:
+      'https://s.hs-data.com/bilder/spieler/gross/337447.jpg?fallback=png',
+  },
+  {
+    userId: '3',
+    fullName: 'Harry Maguire',
+    username: 'h_maguire',
+    phone: '0811111111',
+    photo_url:
+      'https://img.a.transfermarkt.technology/portrait/header/177907-1663841733.jpg?lm=1',
+  },
+  {
+    userId: '5',
+    fullName: 'Maria Mercedes',
+    username: 'maria_77',
+    phone: '0811111111',
+    photo_url:
+      'https://i0.wp.com/media.ghgossip.com/wp-content/uploads/2022/11/10192356/maria.jpg?resize=488%2C629&ssl=1',
+  },
+];
+
+export const TICKETS_DATA: TicketInterface[] = [
+  {
+    id: '1',
+    title: 'Couples Package',
+    qty: 50,
+    price: 3000,
+    description: 'A package deal for couples with exclusive benefits.',
+    features: [
+      'Complimentary bottle of champagne.',
+      'Dance floor access near the DJ booth.',
+    ],
+  },
+  {
+    id: '2',
+    title: 'VIP Ticket',
+    qty: 10,
+    price: 3000,
+    description:
+      'Access to exclusive VIP areas, faster entry lines, and a separate bar/lounge area with dedicated staff.',
+    features: ['VIP lounge access', 'Express entry', 'Exclusive bar service.'],
+  },
+  {
+    id: '3',
+    title: 'Group Package',
+    qty: 10,
+    price: 3000,
+    description:
+      'Access to exclusive VIP areas, faster entry lines, and a separate bar/lounge area with dedicated staff.',
+    features: ['VIP lounge access', 'Min 10 People', 'Exclusive bar service.'],
+  },
+  {
+    id: '4',
+    title: 'Dance Floor Access',
+    qty: 100,
+    price: 1000,
+    description:
+      'Exclusive access to the main dance floor for a prime spot to enjoy music and dance.',
+    features: ['Dance floor access near the DJ booth.'],
   },
 ];

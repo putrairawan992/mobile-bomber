@@ -236,7 +236,7 @@ export default function Ticket() {
               TextComponent={<DefaultText title="Try now" />}
               type="primary"
               buttonPrimaryColors={['#F37B12', '#FFE419']}
-              onPress={() => {}}
+              onPress={() => navigationRef.navigate('SongPlaylist' as never)}
               style={styles.button}
             />
           </View>

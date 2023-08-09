@@ -2,7 +2,7 @@
 
 import * as React from 'react';
 
-import {ActivityIndicator, StyleSheet, View} from 'react-native';
+import {ActivityIndicator, StyleSheet, View, ViewStyle} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import {Text} from '..';
 import {ThemeInterface} from '../../../theme/ThemeProvider';
@@ -23,7 +23,7 @@ interface ButtonProps {
     | 'disabled'
     | 'secondaryOutlined'
     | 'textButton';
-  style?: React.CSSProperties;
+  style?: ViewStyle;
   width?: number;
   icon?: JSX.Element;
   noRound?: boolean;
@@ -95,6 +95,7 @@ function Button({
           style={[
             s.Button,
             {
+              paddingVertical: 12,
               borderColor:
                 mapStyling[type as keyof typeof mapStyling].borderColor,
               width: width ?? 'auto',
@@ -140,6 +141,7 @@ function Button({
           style={[
             s.Button,
             {
+              paddingVertical: 12,
               backgroundColor:
                 mapStyling[type as keyof typeof mapStyling].backgroundColor,
               borderWidth:
@@ -198,7 +200,6 @@ const styles = (theme: ThemeInterface) =>
   StyleSheet.create({
     Button: {
       paddingHorizontal: 20,
-      paddingVertical: 12,
       alignItems: 'center',
       justifyContent: 'center',
     },
