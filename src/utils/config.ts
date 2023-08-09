@@ -58,7 +58,4 @@ export const gradientMapping = {
   'Dance Floor Access': {
     color: ['#A060FA', '#C800CC'],
   },
-  textPrimary: {
-    color: ['#A060FA', '#C800CC'],
-  },
 };

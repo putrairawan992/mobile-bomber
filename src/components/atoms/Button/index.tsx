@@ -56,8 +56,8 @@ function Button({
       borderColor: 'transparent',
     },
     secondary: {
-      backgroundColor: 'transparent',
-      borderColor: theme?.colors.TEXT_PRIMARY,
+      backgroundColor: theme?.colors.SECONDARY,
+      borderColor: 'transparent',
     },
     disable: {
       backgroundColor: theme?.colors.CARD_BACKGROUND1,
@@ -145,11 +145,7 @@ function Button({
               backgroundColor:
                 mapStyling[type as keyof typeof mapStyling].backgroundColor,
               borderWidth:
-                type === 'outlined' ||
-                type === 'secondaryOutlined' ||
-                type === 'secondary'
-                  ? 1.5
-                  : 0,
+                type === 'outlined' || type === 'secondaryOutlined' ? 1.5 : 0,
               borderColor:
                 mapStyling[type as keyof typeof mapStyling].borderColor,
               width: width ?? 'auto',

@@ -177,7 +177,7 @@ export default function Ticket() {
           <TouchableOpacity
             activeOpacity={0.7}
             className="border-[1px] border-white px-3 py-[10px] rounded-md flex-row justify-center"
-            onPress={() => navigationRef.navigate('WineryOrder' as never)}>
+            onPress={() => {}}>
             <Image
               source={IcDetailBooking}
               resizeMode="contain"
@@ -207,7 +207,7 @@ export default function Ticket() {
             <Button
               TextComponent={<DefaultText title="Add new order" />}
               type="primary"
-              onPress={() => {}}
+              onPress={() => navigationRef.navigate('WineryOrder' as never)}
               style={styles.button}
             />
           </View>
@@ -236,7 +236,7 @@ export default function Ticket() {
               TextComponent={<DefaultText title="Try now" />}
               type="primary"
               buttonPrimaryColors={['#F37B12', '#FFE419']}
-              onPress={() => {}}
+              onPress={() => navigationRef.navigate('SongPlaylist' as never)}
               style={styles.button}
             />
           </View>

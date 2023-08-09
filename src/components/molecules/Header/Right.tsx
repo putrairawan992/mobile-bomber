@@ -20,8 +20,6 @@ function HeaderRight({
   onLocationPress,
   hasNotification,
   onNotificationPress,
-  rightCustomComponent,
-  onRightCustomComponentPress,
 }: any) {
   const theme = useTheme();
   const {userLocation} = useAppSelector(state => state.user);
@@ -118,17 +116,6 @@ function HeaderRight({
             }
           }}>
           <Text label="Clear" />
-        </TouchableOpacity>
-      )}
-      {!!rightCustomComponent && (
-        <TouchableOpacity
-          style={{position: 'absolute', right: 16, top: 16}}
-          onPress={() => {
-            if (onRightCustomComponentPress) {
-              onRightCustomComponentPress();
-            }
-          }}>
-          {rightCustomComponent}
         </TouchableOpacity>
       )}
     </>

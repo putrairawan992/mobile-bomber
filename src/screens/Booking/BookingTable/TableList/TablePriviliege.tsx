@@ -7,7 +7,6 @@ import {
   TableInterface,
 } from '../../../../interfaces/BookingInterface';
 import {Colors} from '../../../../theme';
-import {currency} from '../../../../utils/function';
 
 interface TablePriviliegeProps {
   tableData: TableInterface | null;
@@ -32,7 +31,7 @@ export const TablePriviliege = ({tableData}: TablePriviliegeProps) => {
     },
     {
       title: 'Minimum Order',
-      subtitle: currency(Number(tableData?.minOrder)),
+      subtitle: `NT ${tableData?.minOrder}`,
       icon: <Dollar color={Colors['white-70']} size={20} />,
     },
     {

@@ -7,7 +7,6 @@ import useTheme from '../../../../theme/useTheme';
 import useThemedStyles from '../../../../theme/useThemedStyles';
 import {WIDTH} from '../../../../utils/config';
 import Text from '../../../../components/atoms/Text/Text';
-import {currency} from '../../../../utils/function';
 
 interface RadioButtonProps {
   isChecked: boolean;
@@ -35,12 +34,13 @@ export default function RadioButton({
             <Text label={data.text} />
           </View>
         </Section>
-        <Text label={currency(data.minOrder)} color={theme?.colors.PRIMARY} />
+        <Text label={`NT ${data.minOrder}`} color={theme?.colors.PRIMARY} />
       </Section>
     </TouchableOpacity>
   );
 }
 
+// eslint-disable-next-line @typescript-eslint/no-shadow
 const styles = (theme: ThemeInterface) =>
   StyleSheet.create({
     mainContainer: {
