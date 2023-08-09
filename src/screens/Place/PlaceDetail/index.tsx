@@ -32,7 +32,7 @@ type Props = NativeStackScreenProps<
   'PlaceDetail',
   'MyStack'
 >;
-export const PlaceDetail = ({route}: Props) => {
+export const PlaceDetail = ({route, navigation}: Props) => {
   const placeId = route.params.placeId;
   const theme = useTheme();
   const [data, setData] = useState<PlaceInterface | undefined>(undefined);
@@ -284,7 +284,7 @@ export const PlaceDetail = ({route}: Props) => {
         <Gap height={16} />
         <Button
           type="primary"
-          onPress={() => undefined}
+          onPress={() => navigation.navigate('BookingTable', {placeId})}
           title="Booking Table"
         />
         <Gap height={8} />

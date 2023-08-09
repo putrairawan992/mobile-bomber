@@ -1,6 +1,6 @@
 /* eslint-disable react-native/no-inline-styles */
 import React, {ReactNode} from 'react';
-import {SafeAreaView, StatusBar, ViewStyle} from 'react-native';
+import {SafeAreaView, StatusBar, View, ViewStyle} from 'react-native';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import useTheme from '../../../theme/useTheme';
 
@@ -31,22 +31,26 @@ export const Layout = ({
         barStyle={'light-content'}
       />
       <SafeAreaView
-        style={[
-          {
+        style={{backgroundColor: backgroundColor ?? theme?.colors.BACKGROUND1}}
+      />
+      <KeyboardAwareScrollView
+        scrollEnabled={isScrollable}
+        contentContainerStyle={{
+          flex: 1,
+          backgroundColor: backgroundColor ?? theme?.colors.BACKGROUND1,
+          ...contentContainerStyle,
+        }}
+        bounces={false}
+        keyboardShouldPersistTaps={keyboardShouldPersistTaps || 'handled'}
+        showsVerticalScrollIndicator={showsVerticalScrollIndicator || false}>
+        <View
+          style={{
             flex: 1,
-            backgroundColor: backgroundColor ?? theme?.colors.BACKGROUND1,
-          },
-          {...style},
-        ]}>
-        <KeyboardAwareScrollView
-          scrollEnabled={isScrollable}
-          contentContainerStyle={{...contentContainerStyle}}
-          bounces={false}
-          keyboardShouldPersistTaps={keyboardShouldPersistTaps || 'handled'}
-          showsVerticalScrollIndicator={showsVerticalScrollIndicator || false}>
-          {children}
-        </KeyboardAwareScrollView>
-      </SafeAreaView>
+            ...style,
+          }}>
+          {children as JSX.Element}
+        </View>
+      </KeyboardAwareScrollView>
     </>
   );
 };

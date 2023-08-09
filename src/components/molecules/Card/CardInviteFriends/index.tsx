@@ -1,7 +1,7 @@
 import {Image, TouchableOpacity, View} from 'react-native';
 import React from 'react';
-import DefaultText from '../../atoms/Text/DefaultText';
-import {Spacer} from '../../atoms';
+import DefaultText from '../../../atoms/Text/DefaultText';
+import {Spacer} from '../../../atoms';
 
 interface CardInviteFriends {
   onPress: (value: string) => void;

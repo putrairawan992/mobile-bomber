@@ -6,6 +6,7 @@ import {
   StyleSheet,
   View,
   TouchableOpacity,
+  ViewStyle,
 } from 'react-native';
 
 import Spacer from '../Spacer/Spacer';
@@ -27,6 +28,8 @@ type Props = React.ComponentProps<typeof RNTextInput> & {
   type?: 'password' | 'search';
   style?: React.CSSProperties;
   textInputBackgroundColor?: string;
+  containerStyle?: ViewStyle;
+  textInputHeight?: number;
 };
 
 export const TextInput = React.forwardRef((props: Props, ref) => {
@@ -44,6 +47,8 @@ export const TextInput = React.forwardRef((props: Props, ref) => {
     rightIcon,
     width,
     textInputBackgroundColor,
+    containerStyle,
+    textInputHeight,
     ...restOfProps
   } = props;
   const [isFocused, setIsFocused] = React.useState<boolean>(false);
@@ -93,13 +98,14 @@ export const TextInput = React.forwardRef((props: Props, ref) => {
           backgroundColor:
             textInputBackgroundColor ?? theme?.colors.BACKGROUND2,
           ...(width && {width}),
+          ...containerStyle,
         }}>
         <RNTextInput
           style={[
             styling.input,
             {
               color,
-              height: textArea ? 160 : 50,
+              height: textInputHeight ?? textArea ? 160 : 50,
               textAlignVertical: textArea ? 'top' : 'center',
               width: rightIcon || type === 'password' ? '90%' : '100%',
               backgroundColor:

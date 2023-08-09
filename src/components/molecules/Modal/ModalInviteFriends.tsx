@@ -8,7 +8,7 @@ import {
 import React, {createRef, useState} from 'react';
 import Modal from 'react-native-modal';
 import DefaultText from '../../atoms/Text/DefaultText';
-import {Button, GradientText, Spacer, TextInput} from '../../atoms';
+import {Button, Gap, GradientText, Spacer, TextInput} from '../../atoms';
 import PagerView from 'react-native-pager-view';
 import CardInviteFriends from '../Card/CardInviteFriends';
 import {Image} from 'react-native';
@@ -80,10 +80,10 @@ export default function ModalInviteFriends({
                   title="Message them"
                   titleClassName="text-center font-inter-bold"
                 />
-                <Spacer height={10} />
+                <Gap height={15} />
                 <View className="bg-neutral-800 rounded-md p-3">
                   <RNTextInput
-                    className="font-poppins-regular m-0 p-0 min-h-[150] text-white"
+                    className="font-poppins-regular m-0 p-0 min-h-[120] text-white"
                     placeholder="Any additional notes? write here"
                     placeholderTextColor={colors.blackCoral}
                     textAlignVertical="top"
@@ -92,10 +92,10 @@ export default function ModalInviteFriends({
                 </View>
               </View>
             </View>
-            <Spacer height={20} />
+            <Gap height={30} />
             <TouchableOpacity
               activeOpacity={0.7}
-              className="bg-primary p-3"
+              className="bg-primary p-4"
               onPress={() => {
                 onFriendInvited(['1']);
                 hide();
@@ -150,7 +150,7 @@ export default function ModalInviteFriends({
                 <Squad />
               </View>
             </PagerView>
-            <View className="py-3">
+            <View className="py-4">
               <Button type="primary" onPress={() => {}} title="Invite Friend" />
             </View>
           </>
