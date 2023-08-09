@@ -2,7 +2,7 @@
 
 import * as React from 'react';
 
-import {ActivityIndicator, StyleSheet, View, ViewStyle} from 'react-native';
+import {ActivityIndicator, StyleSheet, View} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import {Text} from '..';
 import {ThemeInterface} from '../../../theme/ThemeProvider';
@@ -23,7 +23,7 @@ interface ButtonProps {
     | 'disabled'
     | 'secondaryOutlined'
     | 'textButton';
-  style?: ViewStyle;
+  style?: React.CSSProperties;
   width?: number;
   icon?: JSX.Element;
   noRound?: boolean;
@@ -56,8 +56,8 @@ function Button({
       borderColor: 'transparent',
     },
     secondary: {
-      backgroundColor: 'transparent',
-      borderColor: theme?.colors.TEXT_PRIMARY,
+      backgroundColor: theme?.colors.SECONDARY,
+      borderColor: 'transparent',
     },
     disable: {
       backgroundColor: theme?.colors.CARD_BACKGROUND1,
@@ -95,7 +95,6 @@ function Button({
           style={[
             s.Button,
             {
-              paddingVertical: 12,
               borderColor:
                 mapStyling[type as keyof typeof mapStyling].borderColor,
               width: width ?? 'auto',
@@ -141,15 +140,10 @@ function Button({
           style={[
             s.Button,
             {
-              paddingVertical: 12,
               backgroundColor:
                 mapStyling[type as keyof typeof mapStyling].backgroundColor,
               borderWidth:
-                type === 'outlined' ||
-                type === 'secondaryOutlined' ||
-                type === 'secondary'
-                  ? 1.5
-                  : 0,
+                type === 'outlined' || type === 'secondaryOutlined' ? 1.5 : 0,
               borderColor:
                 mapStyling[type as keyof typeof mapStyling].borderColor,
               width: width ?? 'auto',
@@ -204,6 +198,7 @@ const styles = (theme: ThemeInterface) =>
   StyleSheet.create({
     Button: {
       paddingHorizontal: 20,
+      paddingVertical: 12,
       alignItems: 'center',
       justifyContent: 'center',
     },

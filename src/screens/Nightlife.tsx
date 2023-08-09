@@ -21,7 +21,7 @@ import {useCheckLocation} from '../hooks/useCheckLocation';
 import {usePermission} from '../hooks/usePermission';
 import {PlaceCategoryInterface} from '../interfaces/PlaceInterface';
 import {UserLocationInterface} from '../interfaces/UserInterface';
-import {MainStackParams} from '../navigation/MainScreenStack';
+import {NightlifeStackParams} from '../navigation/MainScreenStack';
 import {LocationService} from '../service/LocationService';
 import {updateUserLocation} from '../store/user/userActions';
 import useTheme from '../theme/useTheme';
@@ -29,7 +29,11 @@ import {WIDTH} from '../utils/config';
 import {PLACES_DATA, USER_ACHIEVEMENT} from '../utils/data';
 import styles from './Styles';
 
-type Props = NativeStackScreenProps<MainStackParams, 'Nightlife', 'MyStack'>;
+type Props = NativeStackScreenProps<
+  NightlifeStackParams,
+  'NightlifeTabs',
+  'MyStack'
+>;
 
 function NightlifeScreen({navigation}: Props) {
   const theme = useTheme();

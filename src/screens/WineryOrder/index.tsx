@@ -12,6 +12,8 @@ import Beer from './Beer';
 import LinearGradient from 'react-native-linear-gradient';
 import ModalCartWineryOrder from '../../components/molecules/Modal/ModalCartWineryOrder.tsx';
 import ModalWineryOrderPay from '../../components/molecules/Modal/ModalWineryOrderPay';
+import ModalWineryOrderBillGenerator from '../../components/molecules/Modal/ModalWineryOrderBillGenerator';
+import ModalWineryOrderDetail from '../../components/molecules/Modal/ModalWineryOrderDetail';
 
 export default function WineryOrder() {
   const [menu] = useState<string[]>([
@@ -25,6 +27,8 @@ export default function WineryOrder() {
   const [search, setSearch] = useState<string>('');
   const [showCart, setShowCart] = useState<boolean>(false);
   const [showPay, setShowPay] = useState<boolean>(false);
+  const [showBillGenerator, setShowBillGenerator] = useState<boolean>(false);
+  const [showOrderDetail, setShowOrderDetail] = useState<boolean>(false);
 
   const ref = createRef<PagerView>();
 
@@ -108,7 +112,23 @@ export default function WineryOrder() {
         onCheckout={() => setShowPay(true)}
       />
 
-      <ModalWineryOrderPay show={showPay} hide={() => setShowPay(false)} />
+      <ModalWineryOrderPay
+        show={showPay}
+        hide={() => setShowPay(false)}
+        onPay={() => setShowBillGenerator(true)}
+      />
+
+      <ModalWineryOrderBillGenerator
+        show={showBillGenerator}
+        hide={() => setShowBillGenerator(false)}
+        onBack={() => setShowPay(true)}
+        onSubmit={() => setShowOrderDetail(true)}
+      />
+
+      <ModalWineryOrderDetail
+        show={showOrderDetail}
+        hide={() => setShowOrderDetail(false)}
+      />
     </Layout>
   );
 }

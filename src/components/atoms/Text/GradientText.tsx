@@ -8,17 +8,15 @@ interface GradientTextProps {
   colors: string[];
   [x: string]: any;
   xAxis?: number;
-  width?: number;
 }
 
-const GradientText = ({colors, xAxis, width, ...rest}: GradientTextProps) => {
+const GradientText = ({colors, xAxis, ...rest}: GradientTextProps) => {
   return (
     <MaskedView maskElement={<Text {...rest} />}>
       <LinearGradient
         colors={colors}
-        start={{x: 0.0, y: 1.0}}
-        end={{x: xAxis ?? 1.0, y: 1.0}}
-        style={{width: width ?? '100%'}}>
+        start={{x: 1, y: 0}}
+        end={{x: xAxis ?? 0.5, y: 0}}>
         <Text {...rest} style={[rest.style, {opacity: 0}]} />
       </LinearGradient>
     </MaskedView>

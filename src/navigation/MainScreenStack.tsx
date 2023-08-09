@@ -1,46 +1,29 @@
 /* eslint-disable react-native/no-inline-styles */
-// eslint-disable-line @typescript-eslint/no-unused-vars
-import {Community, Flare, HalfMoon, User} from '../assets/icons';
-import {GradientText, Text} from '../components/atoms';
 import React, {ReactNode} from 'react';
-
-import BookingTableScreen from '../screens/Booking/BookingTable';
+import {GradientText, Text} from '../components/atoms';
 import EventScreen from '../screens/Event';
+import FriendsScreen from '../screens/Friends';
+import NightlifeScreen from '../screens/Nightlife';
+import ProfileScreen from '../screens/Profile';
+import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import useTheme from '../theme/useTheme';
+import {Community, Flare, HalfMoon, User} from '../assets/icons';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import {PlaceDetail} from '../screens/Place/PlaceDetail';
+import {ViewStyle} from 'react-native';
 import NotificationScreen from '../screens/Notification';
 import MyBookingDetail from '../screens/MyBookingDetail';
-import {PlaceDetail} from '../screens/Place/PlaceDetail';
-import ProfileScreen from '../screens/Profile';
-import {ViewStyle} from 'react-native';
-import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import useTheme from '../theme/useTheme';
-import NightlifeScreen from '../screens/Nightlife';
-import {BookingWalkInScreen} from '../screens/Booking/BookingWalkIn';
-import {WalkInTicketScreen} from '../screens/Booking/BookingWalkIn/WalkInTicket';
+import BookingTableScreen from '../screens/BookingTable';
 import WineryOrder from '../screens/WineryOrder';
-import FriendsScreen from '../screens/Friends';
 
 export type MainStackParams = {
-  Nightlife: undefined;
-  Event: undefined;
-  Friends: undefined;
-  Profile: undefined;
+  Main: undefined;
   PlaceDetail: {
     placeId: string;
   };
   Notification: undefined;
-  Main: undefined;
-  BookingWalkIn: {
-    placeId: string;
-  };
-  WalkInTicket: {
-    placeId: string;
-    date: string;
-  };
   MyBookingDetail: undefined;
-  BookingTable: {
-    placeId: string;
-  };
+  BookingTable: undefined;
   WineryOrder: undefined;
 };
 
@@ -50,8 +33,8 @@ interface TabBarContentProps {
   icon: ReactNode;
 }
 
-const Stack = createNativeStackNavigator<MainStackParams>(); // creates object for Stack Navigator
-const Tab = createBottomTabNavigator<MainStackParams>();
+const Tab = createBottomTabNavigator();
+const Stack = createNativeStackNavigator<MainStackParams>();
 
 function Main() {
   const TabBarContent = (item: TabBarContentProps) => {
@@ -89,7 +72,7 @@ function Main() {
         headerShown: false,
       }}>
       <Tab.Screen
-        name="Nightlife"
+        name="NightlifeTabs"
         component={NightlifeScreen}
         options={() => ({
           tabBarStyle: TabBarStyle,
@@ -175,22 +158,8 @@ const MainScreenStack = () => {
       <Stack.Screen name="Notification" component={NotificationScreen} />
       <Stack.Screen name="PlaceDetail" component={PlaceDetail} />
       <Stack.Screen name="MyBookingDetail" component={MyBookingDetail} />
+      <Stack.Screen name="BookingTable" component={BookingTableScreen} />
       <Stack.Screen name="WineryOrder" component={WineryOrder} />
-      <Stack.Screen
-        name="BookingTable"
-        component={BookingTableScreen}
-        initialParams={{placeId: ''}}
-      />
-      <Stack.Screen
-        name="BookingWalkIn"
-        component={BookingWalkInScreen}
-        initialParams={{placeId: ''}}
-      />
-      <Stack.Screen
-        name="WalkInTicket"
-        component={WalkInTicketScreen}
-        initialParams={{placeId: '', date: ''}}
-      />
     </Stack.Navigator>
   );
 };

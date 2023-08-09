@@ -1,10 +1,11 @@
 /* eslint-disable react-native/no-inline-styles */
 import * as React from 'react';
 import {createRef, useState} from 'react';
-import {View} from 'react-native';
+import {TouchableOpacity, View} from 'react-native';
 import PagerView from 'react-native-pager-view';
-import {Gap, Layout, Section} from '../../components/atoms';
-import {Header, TabMenu} from '../../components/molecules';
+import {Gap, Layout, Section, Text} from '../../components/atoms';
+import {Header} from '../../components/molecules';
+import useTheme from '../../theme/useTheme';
 import {WIDTH} from '../../utils/config';
 import NotificationApps from './NotificationApps';
 import NotificationBill from './NotificationBill';
@@ -17,6 +18,7 @@ import styles from './Styles';
 function NotificationScreen() {
   const [menu] = useState<string[]>(['Apps', 'Invitation', 'Bill', 'Friends']);
   const [initialPage, setInitialPage] = useState<number>(0);
+  const theme = useTheme();
   const ref = createRef<PagerView>();
   return (
     <Layout contentContainerStyle={styles.container}>
@@ -26,13 +28,29 @@ function NotificationScreen() {
         {menu.map((item, index) => {
           const isSelected = index === initialPage;
           return (
-            <TabMenu
-              onPress={idx => ref.current?.setPage(idx)}
-              isSelected={isSelected}
-              width={WIDTH / menu.length}
-              item={item}
-              index={index}
-            />
+            <TouchableOpacity
+              onPress={() => ref.current?.setPage(index)}
+              activeOpacity={0.7}
+              key={item}
+              style={{
+                width: WIDTH / menu.length,
+                paddingHorizontal: 12,
+                borderBottomWidth: 2,
+                borderBottomColor: isSelected
+                  ? theme?.colors.PRIMARY
+                  : theme?.colors.TEXT_PRIMARY,
+              }}>
+              <Text
+                label={item}
+                color={
+                  isSelected
+                    ? theme?.colors.PRIMARY
+                    : theme?.colors.TEXT_PRIMARY
+                }
+                textAlign="center"
+              />
+              <Gap height={12} />
+            </TouchableOpacity>
           );
         })}
       </Section>

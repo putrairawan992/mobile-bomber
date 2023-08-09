@@ -1,7 +1,6 @@
 /* eslint-disable react-native/no-inline-styles */
 import React, {useState} from 'react';
-import {Image, TouchableOpacity, View} from 'react-native';
-import {Gap, Section} from '..';
+import {Image, View} from 'react-native';
 import {ImageInterface} from '../../../interfaces/Interface';
 import useTheme from '../../../theme/useTheme';
 import {getInitialNameForFallbackAvatar} from '../../../utils/function';
@@ -9,21 +8,11 @@ import Text from '../Text/Text';
 
 interface AvatarProps {
   url: string | null;
-  size?: 'small' | 'medium' | 'large' | 'x-large' | 'ultra-large';
+  size?: 'small' | 'medium' | 'large';
   alt: string;
-  name?: string;
-  username?: string;
-  onPress?: () => void;
 }
 
-export const Avatar = ({
-  url,
-  size = 'medium',
-  alt,
-  name,
-  username,
-  onPress,
-}: AvatarProps) => {
+export const Avatar = ({url, size = 'medium', alt}: AvatarProps) => {
   const theme = useTheme();
   const [isError, setIsError] = useState<boolean>(false);
   const mapSizing: Record<string, ImageInterface> = {
@@ -39,23 +28,15 @@ export const Avatar = ({
       width: 40,
       height: 40,
     },
-    'x-large': {
-      width: 56,
-      height: 56,
-    },
-    'ultra-large': {
-      width: 80,
-      height: 80,
-    },
   };
   return (
-    <Section isRow>
+    <View>
       {isError || url === null ? (
         <View
           style={{
             height: mapSizing[size as keyof typeof mapSizing].height,
             width: mapSizing[size as keyof typeof mapSizing].width,
-            borderRadius: mapSizing[size as keyof typeof mapSizing].width / 2,
+            borderRadius: 50,
             backgroundColor: theme?.colors.PRIMARY,
             alignItems: 'center',
             justifyContent: 'center',
@@ -66,33 +47,17 @@ export const Avatar = ({
           />
         </View>
       ) : (
-        <TouchableOpacity onPress={onPress}>
-          <Image
-            source={{uri: url}}
-            style={{
-              height: mapSizing[size as keyof typeof mapSizing].height,
-              width: mapSizing[size as keyof typeof mapSizing].width,
-              borderRadius: 50,
-            }}
-            resizeMode="cover"
-            onError={() => setIsError(true)}
-          />
-        </TouchableOpacity>
+        <Image
+          source={{uri: url}}
+          style={{
+            height: mapSizing[size as keyof typeof mapSizing].height,
+            width: mapSizing[size as keyof typeof mapSizing].width,
+            borderRadius: 50,
+          }}
+          resizeMode="cover"
+          onError={() => setIsError(true)}
+        />
       )}
-      {name && username && (
-        <>
-          <Gap width={8} />
-          <Section>
-            <Text label={name} />
-            <Gap height={4} />
-            <Text
-              variant="extra-small"
-              color="#9F9E9F"
-              label={`@${username}`}
-            />
-          </Section>
-        </>
-      )}
-    </Section>
+    </View>
   );
 };

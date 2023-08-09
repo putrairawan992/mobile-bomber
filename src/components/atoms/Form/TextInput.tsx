@@ -7,7 +7,6 @@ import {
   View,
   TouchableOpacity,
   ViewStyle,
-  Platform,
 } from 'react-native';
 
 import Spacer from '../Spacer/Spacer';
