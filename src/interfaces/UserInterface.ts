@@ -2,10 +2,13 @@ export interface UserInterface {
   userId: string;
   fullName?: string;
   email?: string;
-  token: string;
+  token?: string;
   password?: string;
   username: string;
   phone: string;
+  photo_url?: string | null;
+  age?: number;
+  bio?: string;
 }
 
 export interface LoginPayloadInterface {

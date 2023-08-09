@@ -1,5 +1,6 @@
 /* eslint-disable object-shorthand */
 /* eslint-disable @typescript-eslint/no-unused-vars */
+// eslint-comments/no-unused-disable
 const SUN_FLOWER = '#f1c40f';
 const ASBESTOS = '#7f8c8d';
 const MIDNIGHT_BLUE = '#2c3e50';
@@ -35,7 +36,6 @@ const common = {
   TRANS_WHITE: '#FFFFFF50',
   TRANS_BLACK: 'rgba(0,0,0,0.45)',
   LIGHT: WHITE,
-  DANGER: RED,
   PLACEHOLDER: PLACEHOLDER,
   DARK: '#323232',
   B6: '#969696',
@@ -45,6 +45,7 @@ const common = {
   TEXT_QTY: '#969696',
   B1: '#232323',
   INACTIVE: '#CBCBCB',
+  DANGER: '#EC1B04',
 };
 
 const light = {
@@ -52,6 +53,8 @@ const light = {
   BACKGROUND1: '#FAFAFA',
   BACKGROUND2: '#FFFFFF',
   SECTION: '#262626',
+  SECTION2: '#383838',
+  SECTION3: '#2D2D2D',
   TEXT_PRIMARY: '#0C0C26',
   TEXT_SECONDARY: '#777682',
   TEXT_LABEL: '#E1E2E5',
@@ -70,6 +73,8 @@ const dark = {
   BACKGROUND1: '#1E1E1E',
   BACKGROUND2: '#1A1A1A',
   SECTION: '#262626',
+  SECTION2: '#383838',
+  SECTION3: '#2D2D2D',
   TEXT_PRIMARY: '#FCFCFC',
   TEXT_SECONDARY: '#EFF0F2',
   TEXT_LABEL: '#E1E2E5',

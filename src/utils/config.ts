@@ -1,4 +1,5 @@
 import {Dimensions} from 'react-native';
+import {randomNumber} from './function';
 
 export const WIDTH = Dimensions.get('window').width;
 export const HEIGHT = Dimensions.get('window').height;
@@ -37,5 +38,27 @@ export const SHADOWS = {
     shadowRadius: 2,
     shadowOpacity: 0.4,
     elevation: 4,
+  },
+};
+
+export const DUMMY_IMAGE = `https://source.unsplash.com/random/600x600?sig=${randomNumber(
+  2,
+)}`;
+
+export const gradientMapping = {
+  'Couples Package': {
+    color: ['#F6D056', '#ED984E', '#FC3F31'],
+  },
+  'VIP Ticket': {
+    color: ['#4E6AFF', '#77BAAD'],
+  },
+  'Group Package': {
+    color: ['#4E6AFF', '#B778D4'],
+  },
+  'Dance Floor Access': {
+    color: ['#A060FA', '#C800CC'],
+  },
+  textPrimary: {
+    color: ['#A060FA', '#C800CC'],
   },
 };

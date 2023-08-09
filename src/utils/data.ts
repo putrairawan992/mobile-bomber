@@ -1,12 +1,20 @@
 import {HorizontalMenuInterface} from '../components/molecules/Menu/HorizontalMenu';
 import {CardNotificationAppsInterface} from '../components/molecules/Notification/CardNotificationApps';
+import {
+  PartyInterface,
+  TableInterface,
+  TicketInterface,
+} from '../interfaces/BookingInterface';
 
 import {
   PlaceEventsInterface,
   PlaceInterface,
   PlaceOverviewInterface,
 } from '../interfaces/PlaceInterface';
-import {UserAchievementInterface} from '../interfaces/UserInterface';
+import {
+  UserAchievementInterface,
+  UserInterface,
+} from '../interfaces/UserInterface';
 
 export const USER_ACHIEVEMENT: UserAchievementInterface = {
   currentLevel: 'VIP-GOLD',
@@ -306,5 +314,160 @@ export const PLACE_EVENTS: PlaceEventsInterface[] = [
         time: '12am - 3am',
       },
     ],
+  },
+];
+
+export const TABLE_DATA: TableInterface[] = [
+  {
+    text: 'Table 1A',
+    minOrder: 400,
+  },
+  {
+    text: 'Table 1B',
+    minOrder: 400,
+  },
+  {
+    text: 'Table 2A',
+    minOrder: 600,
+  },
+  {
+    text: 'Table 2B',
+    minOrder: 600,
+  },
+  {
+    text: 'Sofa 1A',
+    minOrder: 1200,
+  },
+  {
+    text: 'Sofa 1B',
+    minOrder: 1200,
+  },
+];
+
+export const USER_DATA: UserInterface[] = [
+  {
+    userId: '1',
+    fullName: 'Lisandro',
+    username: 'lisandro',
+    phone: '0811111111',
+    photo_url:
+      'https://s.hs-data.com/bilder/spieler/gross/376639.jpg?fallback=png',
+    age: 26,
+    bio: 'Just ordinary girl from ohama 🥰',
+    email: 'lisandromartinez@gmail.com',
+  },
+  {
+    userId: '2',
+    fullName: 'Mason Mount',
+    username: 'mason_mount',
+    phone: '0811111111',
+    photo_url:
+      'https://s.hs-data.com/bilder/spieler/gross/337447.jpg?fallback=png',
+    age: 22,
+    bio: 'Just married',
+    email: 'masonmount19@gmail.com',
+  },
+  {
+    userId: '3',
+    fullName: 'Harry Maguire',
+    username: 'h_maguire',
+    phone: '0811111111',
+    photo_url:
+      'https://img.a.transfermarkt.technology/portrait/header/177907-1663841733.jpg?lm=1',
+    age: 32,
+    bio: 'No  party without you 🥳',
+    email: 'h_maguire@gmail.com',
+  },
+  {
+    userId: '5',
+    fullName: 'Jill Valentine',
+    username: 'jill_v66',
+    phone: '0811111111',
+    photo_url:
+      'https://e0.pxfuel.com/wallpapers/52/767/desktop-wallpaper-jill-valentine-in-resident-evil-3-remake-iphone-background-and-resident-evil-3-phone.jpg',
+    age: 21,
+    bio: 'Lets hang out',
+    email: 'jill_v@gmail.com',
+  },
+  {
+    userId: '4',
+    fullName: 'Tifa Lockhart',
+    username: 'tiffa_ff',
+    phone: '0811111111',
+    photo_url:
+      'https://w0.peakpx.com/wallpaper/307/340/HD-wallpaper-tifa-lockhart-final-fantasy-vii.jpg',
+    age: 21,
+    bio: 'Lets drinks',
+    email: 'tiffa@gmail.com',
+  },
+  {
+    userId: '5',
+    fullName: 'Maria Mercedes',
+    username: 'maria_77',
+    phone: '0811111111',
+    photo_url:
+      'https://i0.wp.com/media.ghgossip.com/wp-content/uploads/2022/11/10192356/maria.jpg?resize=488%2C629&ssl=1',
+  },
+];
+
+export const TICKETS_DATA: TicketInterface[] = [
+  {
+    id: '1',
+    title: 'Couples Package',
+    qty: 50,
+    price: 3000,
+    description: 'A package deal for couples with exclusive benefits.',
+    features: [
+      'Complimentary bottle of champagne.',
+      'Dance floor access near the DJ booth.',
+    ],
+  },
+  {
+    id: '2',
+    title: 'VIP Ticket',
+    qty: 10,
+    price: 3000,
+    description:
+      'Access to exclusive VIP areas, faster entry lines, and a separate bar/lounge area with dedicated staff.',
+    features: ['VIP lounge access', 'Express entry', 'Exclusive bar service.'],
+  },
+  {
+    id: '3',
+    title: 'Group Package',
+    qty: 10,
+    price: 3000,
+    description:
+      'Access to exclusive VIP areas, faster entry lines, and a separate bar/lounge area with dedicated staff.',
+    features: ['VIP lounge access', 'Min 10 People', 'Exclusive bar service.'],
+  },
+  {
+    id: '4',
+    title: 'Dance Floor Access',
+    qty: 100,
+    price: 1000,
+    description:
+      'Exclusive access to the main dance floor for a prime spot to enjoy music and dance.',
+    features: ['Dance floor access near the DJ booth.'],
+  },
+];
+
+export const PARTY_DATA: PartyInterface[] = [
+  {
+    name: 'Wave Taipei',
+    logo: 'https://www.vhv.rs/dpng/d/467-4679035_night-club-logo-png-images-nightclub-logo-png.png',
+    ticket: 'VIP Ticket',
+    date: 'Sat, 14 June - 19:30',
+    quota: 10,
+    joined: 0,
+    table: 'Table X4',
+  },
+  {
+    name: 'Levels Nightclub',
+    logo: 'https://www.pickfu.com/blog/wp-content/uploads/2019/04/nightclub-logo-design-1.png',
+    ticket: 'VIP Ticket',
+    date: 'Wed, 23 June - 20:30',
+    quota: 6,
+    joined: 2,
+    table: 'Table Z2',
   },
 ];
