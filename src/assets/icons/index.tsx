@@ -21,12 +21,15 @@ import {King} from './King';
 import {Logo} from './Logo';
 import {LogoText} from './LogoText';
 import {Pin} from './Pin';
+
 import {Smiley} from './Smiley';
+
 import {Sofa} from './Sofa';
 import {Star} from './Star';
 import {User} from './User';
 import {UserCrown} from './UserCrown';
 import {UserGroup} from './UserGroup';
+
 import {WineBottle} from './WineBottle';
 
 export {
