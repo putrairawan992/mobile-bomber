@@ -91,6 +91,7 @@ export const TextInput = React.forwardRef((props: Props, ref) => {
         style={{
           flexDirection: 'row',
           paddingHorizontal: 22,
+          ...(Platform.OS === 'ios' && {paddingVertical: 10}),
           borderRadius: 8,
           borderWidth,
           borderColor,
@@ -106,7 +107,11 @@ export const TextInput = React.forwardRef((props: Props, ref) => {
             styling.input,
             {
               color,
-              height: textInputHeight ? textInputHeight : textArea ? 160 : 30,
+              height: textInputHeight
+                ? textInputHeight
+                : textArea
+                ? 160
+                : 'auto',
               textAlignVertical: textArea ? 'top' : 'center',
               width: rightIcon || type === 'password' ? '90%' : '100%',
               backgroundColor:
