@@ -1,4 +1,3 @@
-/* eslint-disable react-native/no-inline-styles */
 import {Platform, Pressable, ScrollView, UIManager} from 'react-native';
 import {Header} from '../../../../components/molecules';
 import {Gap, Layout, Section, Text} from '../../../../components/atoms';

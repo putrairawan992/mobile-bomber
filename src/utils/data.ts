@@ -408,6 +408,14 @@ export const USER_DATA: UserInterface[] = [
     photo_url:
       'https://i0.wp.com/media.ghgossip.com/wp-content/uploads/2022/11/10192356/maria.jpg?resize=488%2C629&ssl=1',
   },
+  {
+    userId: '5',
+    fullName: 'Maria Mercedes',
+    username: 'maria_77',
+    phone: '0811111111',
+    photo_url:
+      'https://i0.wp.com/media.ghgossip.com/wp-content/uploads/2022/11/10192356/maria.jpg?resize=488%2C629&ssl=1',
+  },
 ];
 
 export const TICKETS_DATA: TicketInterface[] = [
