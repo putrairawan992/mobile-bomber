@@ -84,3 +84,7 @@ export const getDaysInMonth = (month: number, year: number) =>
     .map((v, i) => new Date(year, month - 1, i + 1))
     .filter(v => v.getMonth() === month - 1)
     .map(z => dateFormatter(z, 'yyyy-MM-dd'));
+
+export function getWordStr(str: string, start: number, end: number) {
+  return str.split(/\s+/).slice(start, end).join(' ');
+}

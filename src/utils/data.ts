@@ -5,6 +5,7 @@ import {
   TableInterface,
   TicketInterface,
 } from '../interfaces/BookingInterface';
+import {InvitationNotificationInterface} from '../interfaces/NotificationInterface';
 
 import {
   PlaceEventsInterface,
@@ -23,6 +24,17 @@ export const USER_ACHIEVEMENT: UserAchievementInterface = {
   planLevel: 'Platinum',
 };
 
+export const Logo: Record<string, string> = {
+  magnum:
+    'https://wanderbucket.s3.ap-southeast-1.amazonaws.com/logo/magnum.png',
+  empire:
+    'https://wanderbucket.s3.ap-southeast-1.amazonaws.com/logo/empire.png',
+  kor: 'https://wanderbucket.s3.ap-southeast-1.amazonaws.com/logo/kor.png',
+  omni: 'https://wanderbucket.s3.ap-southeast-1.amazonaws.com/logo/omni.png',
+  sax: 'https://wanderbucket.s3.ap-southeast-1.amazonaws.com/logo/sax.png',
+  wrightAvenue:
+    'https://wanderbucket.s3.ap-southeast-1.amazonaws.com/logo/wrightvenue.png',
+};
 export const PLACES_DATA: PlaceInterface[] = [
   {
     id: '1',
@@ -173,31 +185,39 @@ export const PLACE_OVERVIEW: PlaceOverviewInterface = {
 
 export const TODAY_APPS_NOTIFICATION: CardNotificationAppsInterface[] = [
   {
-    image:
-      'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8cGVyc29ufGVufDB8fDB8fHww&auto=format&fit=crop&w=400&q=60',
-    text: 'Wave confirmed your order for Group Walk in Ticket. Check your my event page for get your ticket',
-    time: '30h ago',
+    image: Logo.sax,
+    name: 'Sax Nightclub',
+    ticket: 'Group Walk in',
+    description:
+      'confirmed your order for Check your my event page for get your ticket',
+    date: '2023-08-10T13:10:03.650540055',
   },
   {
-    image:
-      'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8cGVyc29ufGVufDB8fDB8fHww&auto=format&fit=crop&w=400&q=60',
-    text: 'Wave confirmed your order for Group Walk in Ticket. Check your my event page for get your ticket',
-    time: '30h ago',
+    image: Logo.empire,
+    name: 'Empire Nightclub',
+    ticket: 'Couple Group',
+    description:
+      'confirmed your order for Check your my event page for get your ticket',
+    date: '2023-08-10T008:15:03.650540055',
   },
 ];
 
 export const YESTERDAY_APPS_NOTIFICATION: CardNotificationAppsInterface[] = [
   {
-    image:
-      'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8cGVyc29ufGVufDB8fDB8fHww&auto=format&fit=crop&w=400&q=60',
-    text: 'Wave confirmed your order for Group Walk in Ticket. Check your my event page for get your ticket',
-    time: '30h ago',
+    image: Logo.wrightAvenue,
+    name: 'Wright Avenue',
+    ticket: 'VIP Ticket',
+    description:
+      'confirmed your order for  Check your my event page for get your ticket',
+    date: '2023-08-09T10:10:03.650540055',
   },
   {
-    image:
-      'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8cGVyc29ufGVufDB8fDB8fHww&auto=format&fit=crop&w=400&q=60',
-    text: 'Wave confirmed your order for Group Walk in Ticket. Check your my event page for get your ticket',
-    time: '30h ago',
+    image: Logo.magnum,
+    name: 'Magnum',
+    ticket: 'Group Walk in',
+    description:
+      'confirmed your order for  Check your my event page for get your ticket',
+    date: '2023-08-09T21:10:03.650540055',
   },
 ];
 
@@ -225,7 +245,7 @@ export const PLACE_EVENTS: PlaceEventsInterface[] = [
     ],
   },
   {
-    date: '2023-08-11',
+    date: '2023-08-08',
     events: [
       {
         photo_url:
@@ -379,7 +399,7 @@ export const USER_DATA: UserInterface[] = [
     email: 'h_maguire@gmail.com',
   },
   {
-    userId: '5',
+    userId: '4',
     fullName: 'Jill Valentine',
     username: 'jill_v66',
     phone: '0811111111',
@@ -390,7 +410,7 @@ export const USER_DATA: UserInterface[] = [
     email: 'jill_v@gmail.com',
   },
   {
-    userId: '4',
+    userId: '5',
     fullName: 'Tifa Lockhart',
     username: 'tiffa_ff',
     phone: '0811111111',
@@ -401,15 +421,7 @@ export const USER_DATA: UserInterface[] = [
     email: 'tiffa@gmail.com',
   },
   {
-    userId: '5',
-    fullName: 'Maria Mercedes',
-    username: 'maria_77',
-    phone: '0811111111',
-    photo_url:
-      'https://i0.wp.com/media.ghgossip.com/wp-content/uploads/2022/11/10192356/maria.jpg?resize=488%2C629&ssl=1',
-  },
-  {
-    userId: '5',
+    userId: '6',
     fullName: 'Maria Mercedes',
     username: 'maria_77',
     phone: '0811111111',
@@ -461,21 +473,135 @@ export const TICKETS_DATA: TicketInterface[] = [
 
 export const PARTY_DATA: PartyInterface[] = [
   {
+    id: 'ABC',
     name: 'Wave Taipei',
-    logo: 'https://www.vhv.rs/dpng/d/467-4679035_night-club-logo-png-images-nightclub-logo-png.png',
+    logo: Logo.sax,
     ticket: 'VIP Ticket',
-    date: 'Sat, 14 June - 19:30',
+    date: '2023-08-19T022:15:03.650540055',
     quota: 10,
     joined: 0,
     table: 'Table X4',
   },
   {
+    id: 'DEF',
     name: 'Levels Nightclub',
     logo: 'https://www.pickfu.com/blog/wp-content/uploads/2019/04/nightclub-logo-design-1.png',
     ticket: 'VIP Ticket',
-    date: 'Wed, 23 June - 20:30',
+    date: '2023-08-19T023:15:03.650540055',
     quota: 6,
     joined: 2,
     table: 'Table Z2',
+  },
+];
+
+export const INVITATION_NOTIFICATION: InvitationNotificationInterface[] = [
+  {
+    id: '1',
+    sender: {
+      userId: '5',
+      fullName: 'Tifa Lockhart',
+      username: 'tiffa_ff',
+      phone: '0811111111',
+      photo_url:
+        'https://w0.peakpx.com/wallpaper/307/340/HD-wallpaper-tifa-lockhart-final-fantasy-vii.jpg',
+      age: 21,
+      bio: 'Lets drinks',
+      email: 'tiffa@gmail.com',
+    },
+    message:
+      'Hi michael, i’m Tifa who meet you at the wave. Would you come to my table at ruff ? we will arrived around 11am ❤️',
+    date: '2023-08-10T008:15:03.650540055',
+    party: {
+      id: 'ABC',
+      name: 'Wave Taipei',
+      logo: Logo.sax,
+      ticket: 'VIP Ticket',
+      date: '2023-08-14T010:15:03.650540055',
+      quota: 10,
+      joined: 5,
+      table: 'Table X4',
+    },
+  },
+
+  {
+    id: '2',
+    sender: {
+      userId: '4',
+      fullName: 'Jill Valentine',
+      username: 'jill_v66',
+      phone: '0811111111',
+      photo_url:
+        'https://e0.pxfuel.com/wallpapers/52/767/desktop-wallpaper-jill-valentine-in-resident-evil-3-remake-iphone-background-and-resident-evil-3-phone.jpg',
+      age: 21,
+      bio: 'Lets hang out',
+      email: 'jill_v@gmail.com',
+    },
+    message:
+      'Hi michael, i’m Jill who meet you at the wave. Would you come to my table at ruff ? we will arrived around 11am ❤️',
+    date: '2023-08-10T010:15:03.650540055',
+    party: {
+      id: 'DEF',
+      name: 'Levels Nightclub',
+      logo: 'https://www.pickfu.com/blog/wp-content/uploads/2019/04/nightclub-logo-design-1.png',
+      ticket: 'VIP Ticket',
+      date: '2023-08-19T010:15:03.650540055',
+      quota: 6,
+      joined: 1,
+      table: 'Table Z2',
+    },
+  },
+  {
+    id: '3',
+    sender: {
+      userId: '3',
+      fullName: 'Harry Maguire',
+      username: 'h_maguire',
+      phone: '0811111111',
+      photo_url:
+        'https://img.a.transfermarkt.technology/portrait/header/177907-1663841733.jpg?lm=1',
+      age: 32,
+      bio: 'No  party without you 🥳',
+      email: 'h_maguire@gmail.com',
+    },
+    message:
+      'Hi michael, i’m Maguire who meet you at the wave. Would you come to my table at ruff ? we will arrived around 11am ❤️',
+    date: '2023-08-10T014:15:03.650540055',
+    party: {
+      id: 'ABC',
+      name: 'Wright Avenue',
+      logo: Logo.wrightAvenue,
+      ticket: 'VIP Ticket',
+      date: '2023-08-25T010:15:03.650540055',
+      quota: 6,
+      joined: 4,
+      table: 'Table Z2',
+    },
+  },
+  {
+    id: '4',
+    sender: {
+      userId: '2',
+      fullName: 'Mason Mount',
+      username: 'mason_mount',
+      phone: '0811111111',
+      photo_url:
+        'https://s.hs-data.com/bilder/spieler/gross/337447.jpg?fallback=png',
+      age: 22,
+      bio: 'Just married',
+      email: 'masonmount19@gmail.com',
+    },
+    message:
+      'Hi michael, i’m Mason who meet you at the wave. Would you come to my table at ruff ? we will arrived around 11am ❤️',
+    date: '2023-08-10T018:15:03.650540055',
+    party: {
+      id: 'DEF',
+      name: 'Magnum Nightclub',
+      logo: Logo.magnum,
+      ticket: 'VIP Ticket',
+      date: '2023-08-26T010:15:03.650540055',
+      quota: 6,
+      joined: 3,
+      table: 'Table Z2',
+    },
   },
 ];

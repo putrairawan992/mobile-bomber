@@ -20,7 +20,8 @@ export type DateFormatType =
   | 'yyyy'
   | 'yyy-MM'
   | 'yyyy-MM-dd'
-  | 'dd-MM-yyyy';
+  | 'dd-MM-yyyy'
+  | 'EEE dd MMM';
 
 export const dateFormatter = (date: Date, formatDate: DateFormatType) => {
   return dateFns.format(new Date(date), formatDate);
