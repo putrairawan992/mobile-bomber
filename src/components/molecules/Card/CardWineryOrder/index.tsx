@@ -11,17 +11,17 @@ export default function CardWineryOrder() {
           title={'Veuve Clicquot Brut Set x 6'}
           titleClassName="font-inter-medium"
         />
-        <Gap height={5} />
+        <Gap height={4} />
         <DefaultText
           title={'法國凱歌香檳 x 6'}
           titleClassName="font-inter-medium text-xs"
         />
-        <Gap height={10} />
+        <Gap height={4} />
         <DefaultText
           title={'NT 36,000'}
           titleClassName="font-inter-medium text-xs text-[#3ca6ec]"
         />
-        <Gap height={10} />
+        <Gap height={8} />
         <TouchableOpacity
           activeOpacity={0.7}
           className="bg-primary p-2 self-start rounded-md">
