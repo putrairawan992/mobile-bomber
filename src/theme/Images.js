@@ -129,6 +129,20 @@ const UserCrown = require('../assets/images/UserCrown.png');
 const IcBookRounded = require('../assets/images/book_rounded.png');
 const ImgBackgroundDj = require('../assets/images/background_dj.png');
 
+const IcPencil = require('../assets/images/pencil.png');
+const IcBusinessHub = require('../assets/images/business_hub.png');
+const IcHelp = require('../assets/images/help.png');
+const IcIdCard = require('../assets/images/id_card.png');
+const IcInbox = require('../assets/images/inbox.png');
+const IcLegal = require('../assets/images/legal.png');
+const IcMembership = require('../assets/images/membership.png');
+const IcPrivacy = require('../assets/images/privacy.png');
+const IcSetting = require('../assets/images/setting.png');
+const IcStar = require('../assets/images/star.png');
+const IcWallet = require('../assets/images/wallet.png');
+const IcProfile = require('../assets/images/profile_user.png');
+const IcNotification = require('../assets/images/notification_user.png');
+
 export {
   BackHome,
   LeftArrowBlack,
@@ -257,4 +271,17 @@ export {
   UserCrown,
   IcBookRounded,
   ImgBackgroundDj,
+  IcBusinessHub,
+  IcHelp,
+  IcIdCard,
+  IcInbox,
+  IcLegal,
+  IcMembership,
+  IcNotification,
+  IcPencil,
+  IcPrivacy,
+  IcProfile,
+  IcSetting,
+  IcStar,
+  IcWallet,
 };

@@ -22,6 +22,7 @@ import WineryOrder from '../screens/WineryOrder';
 import SongPlaylist from '../screens/SongPlaylist';
 import RequestSong from '../screens/RequestSong';
 import HistoryRequestSong from '../screens/HistoryRequestSong';
+import UpdateProfile from '../screens/UpdateProfile';
 
 export type MainStackParams = {
   Nightlife: undefined;
@@ -48,6 +49,7 @@ export type MainStackParams = {
   SongPlaylist: undefined;
   RequestSong: undefined;
   HistoryRequestSong: undefined;
+  UpdateProfile: undefined;
 };
 
 interface TabBarContentProps {
@@ -200,6 +202,7 @@ const MainScreenStack = () => {
       <Stack.Screen name="SongPlaylist" component={SongPlaylist} />
       <Stack.Screen name="RequestSong" component={RequestSong} />
       <Stack.Screen name="HistoryRequestSong" component={HistoryRequestSong} />
+      <Stack.Screen name="UpdateProfile" component={UpdateProfile} />
     </Stack.Navigator>
   );
 };
