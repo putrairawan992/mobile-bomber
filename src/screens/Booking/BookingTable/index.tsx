@@ -97,6 +97,7 @@ function BookingTableScreen({route}: Props) {
   }, []);
 
   const today = dateFormatter(new Date(), 'yyyy-MM-dd');
+  console.log(today);
 
   const allDay = getDaysInMonth(monthYear.month, monthYear.year).filter(
     i =>
