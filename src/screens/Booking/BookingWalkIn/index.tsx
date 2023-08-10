@@ -22,11 +22,16 @@ import {
 import useTheme from '../../../theme/useTheme';
 import {PLACE_EVENTS} from '../../../utils/data';
 import {dateFormatter} from '../../../utils/dateFormatter';
-import {generateCalendarEvents} from '../../../utils/function';
+import {
+  generateCalendarEvents,
+  generateCalendarOtherDay,
+  getDaysInMonth,
+} from '../../../utils/function';
 import {BookingCalendar} from '../BookingCalendar';
 import styles from '../../Styles';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {MainStackParams} from '../../../navigation/MainScreenStack';
+import {MonthYearInterface} from '../../../interfaces/Interface';
 
 if (Platform.OS === 'android') {
   if (UIManager.setLayoutAnimationEnabledExperimental) {
@@ -47,6 +52,10 @@ export const BookingWalkInScreen = ({route, navigation}: Props) => {
   const [isShowCalendar, setIsShowCalendar] = useState<boolean>(false);
   const [step, setStep] = useState<number>(0);
   const [isShowEvents, setIsShowEvents] = useState<boolean>(false);
+  const [monthYear, setMonthYear] = useState<MonthYearInterface>({
+    month: Number(dateFormatter(new Date(), 'M')),
+    year: Number(dateFormatter(new Date(), 'yyyy')),
+  });
 
   useEffect(() => {
     setTimeout(() => {
@@ -55,16 +64,47 @@ export const BookingWalkInScreen = ({route, navigation}: Props) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  const today = dateFormatter(new Date(), 'yyyy-MM-dd');
+
+  const allDay = getDaysInMonth(monthYear.month, monthYear.year).filter(
+    i =>
+      ![
+        ...PLACE_EVENTS.map(item => item.date),
+        ...[selectedDate],
+        ...[today],
+      ].includes(i),
+  );
+
   const MarkedDate = {
     [selectedDate]: {
       selected: true,
       disableTouchEvent: true,
-      selectedColor: '#2C437B',
+      selectedColor: '#1F5EFF',
       selectedTextColor: 'white',
       customStyles: {
         container: {
-          borderWidth: 1,
-          borderColor: 'red',
+          borderRadius: 8,
+        },
+        text: {
+          color: 'white',
+          fontWeight: '400',
+        },
+      },
+    },
+    [today]: {
+      selected: true,
+      disableTouchEvent: false,
+      customStyles: {
+        container: {
+          borderWidth: 2,
+          borderRadius: 8,
+          backgroundColor: '#2C437B',
+          borderColor: '#1F5EFF',
+        },
+        text: {
+          color: 'white',
+          fontWeight: '400',
+          bottom: 2,
         },
       },
     },
@@ -141,11 +181,18 @@ export const BookingWalkInScreen = ({route, navigation}: Props) => {
             data={Object.assign(
               MarkedDate,
               generateCalendarEvents(PLACE_EVENTS, selectedDate),
+              generateCalendarOtherDay(allDay),
             )}
             isShowEvents={isShowEvents}
             selectedEvent={selectedEvent}
             selectedDate={selectedDate}
             onConfirmDate={onConfirmDate}
+            onMonthChange={date =>
+              setMonthYear({
+                month: date.month,
+                year: date.year,
+              })
+            }
           />
         )}
         <Gap height={12} />

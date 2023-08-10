@@ -9,3 +9,8 @@ export interface OptionMenuInterface {
   icon: React.ReactNode;
   onPress: () => void;
 }
+
+export interface MonthYearInterface {
+  month: number;
+  year: number;
+}

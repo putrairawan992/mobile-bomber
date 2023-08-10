@@ -96,7 +96,7 @@ function NightlifeScreen({navigation}: Props) {
             hasNotification
             hasLogo
             onLocationPress={() => undefined}
-            onNotificationPress={() => navigation.navigate('Notification')}
+            onNotificationPress={() => navigation.navigate('Blank')}
           />
         </EntryAnimation>
         <EntryAnimation index={1}>
