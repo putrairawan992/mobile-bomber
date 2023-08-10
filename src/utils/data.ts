@@ -225,7 +225,7 @@ export const PLACE_EVENTS: PlaceEventsInterface[] = [
     ],
   },
   {
-    date: '2023-08-10',
+    date: '2023-08-11',
     events: [
       {
         photo_url:

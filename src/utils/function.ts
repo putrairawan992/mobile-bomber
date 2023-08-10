@@ -1,4 +1,5 @@
 import {PlaceEventsInterface} from '../interfaces/PlaceInterface';
+import {dateFormatter} from './dateFormatter';
 
 export const randomNumber = (digit: any) => {
   if (digit === 1) {
@@ -20,10 +21,43 @@ export const generateCalendarEvents = (
         date: item.date,
         style: {
           selected: selectedDate === item.date,
-          textColor: 'white',
-          selectedColor: '#2C437B',
           marked: true,
           dotColor: '#FFC107',
+          customStyles: {
+            container: {
+              borderRadius: 8,
+              backgroundColor:
+                selectedDate === item.date ? '#1F5EFF' : '#3B414A',
+            },
+            text: {
+              color: 'white',
+              fontWeight: '400',
+            },
+          },
+        },
+      };
+    })
+    .reduce((obj, cur) => ({...obj, [cur.date]: cur.style}), {});
+};
+
+export const generateCalendarOtherDay = (arr: string[]) => {
+  return arr
+    .map((item: string) => {
+      return {
+        date: item,
+        style: {
+          selected: true,
+          selectedColor: '#3B414A',
+          marked: false,
+          customStyles: {
+            container: {
+              borderRadius: 8,
+            },
+            text: {
+              color: 'white',
+              fontWeight: '400',
+            },
+          },
         },
       };
     })
@@ -43,3 +77,10 @@ export const getInitialNameForFallbackAvatar = ({name}: {name: string}) => {
 export const currency = (value: number) => {
   return 'NT ' + new Intl.NumberFormat('en-DE').format(value);
 };
+
+export const getDaysInMonth = (month: number, year: number) =>
+  new Array(31)
+    .fill('')
+    .map((v, i) => new Date(year, month - 1, i + 1))
+    .filter(v => v.getMonth() === month - 1)
+    .map(z => dateFormatter(z, 'yyyy-MM-dd'));
