@@ -88,7 +88,8 @@ function ProfileScreen() {
               <Gap height={10} />
               <TouchableOpacity
                 activeOpacity={0.7}
-                className="flex-row items-center">
+                className="flex-row items-center"
+                onPress={() => {}}>
                 <DefaultText title="check detail mission" />
                 <Gap width={5} />
                 <Image
@@ -156,7 +157,10 @@ function ProfileScreen() {
               </LinearGradient>
             </TouchableOpacity>
             <Gap width={20} />
-            <TouchableOpacity activeOpacity={0.7} className="flex-1">
+            <TouchableOpacity
+              activeOpacity={0.7}
+              className="flex-1"
+              onPress={() => navigationRef.navigate('VerificationID' as never)}>
               <LinearGradient
                 colors={['#F38012', '#FEDA18']}
                 className="p-3 rounded-md flex-row items-center justify-center">
