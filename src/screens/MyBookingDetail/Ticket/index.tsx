@@ -218,7 +218,7 @@ export default function Ticket() {
           <Image
             source={MusicDjImg}
             resizeMode="cover"
-            className="absolute z-0"
+            className="absolute z-0 opacity-[0.4]"
           />
           <View className="z-10">
             <GradientText
