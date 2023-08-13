@@ -20,6 +20,7 @@ module.exports = {
         warning: '#EF9533',
         primary: '#AA5AFA',
         secondary: '#C111D5',
+        'grey-one': '#292929',
       },
     },
   },

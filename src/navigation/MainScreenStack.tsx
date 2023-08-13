@@ -22,6 +22,10 @@ import WineryOrder from '../screens/WineryOrder';
 import SongPlaylist from '../screens/SongPlaylist';
 import RequestSong from '../screens/RequestSong';
 import HistoryRequestSong from '../screens/HistoryRequestSong';
+import UpdateProfile from '../screens/UpdateProfile';
+import VerificationID from '../screens/VerificationID';
+import VerificationID2 from '../screens/VerificationID2';
+import VerificationID3 from '../screens/VerificationID3';
 
 export type MainStackParams = {
   Nightlife: undefined;
@@ -48,6 +52,10 @@ export type MainStackParams = {
   SongPlaylist: undefined;
   RequestSong: undefined;
   HistoryRequestSong: undefined;
+  UpdateProfile: undefined;
+  VerificationID: undefined;
+  VerificationID2: undefined;
+  VerificationID3: undefined;
 };
 
 interface TabBarContentProps {
@@ -200,6 +208,10 @@ const MainScreenStack = () => {
       <Stack.Screen name="SongPlaylist" component={SongPlaylist} />
       <Stack.Screen name="RequestSong" component={RequestSong} />
       <Stack.Screen name="HistoryRequestSong" component={HistoryRequestSong} />
+      <Stack.Screen name="UpdateProfile" component={UpdateProfile} />
+      <Stack.Screen name="VerificationID" component={VerificationID} />
+      <Stack.Screen name="VerificationID2" component={VerificationID2} />
+      <Stack.Screen name="VerificationID3" component={VerificationID3} />
     </Stack.Navigator>
   );
 };
