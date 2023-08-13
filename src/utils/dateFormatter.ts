@@ -21,6 +21,7 @@ export type DateFormatType =
   | 'yyy-MM'
   | 'yyyy-MM-dd'
   | 'dd-MM-yyyy'
+  | 'EEE, dd MMM'
   | 'EEE dd MMM';
 
 export const dateFormatter = (date: Date, formatDate: DateFormatType) => {

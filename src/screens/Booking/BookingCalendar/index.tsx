@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable react-native/no-inline-styles */
 import {ArrowLeft2, ArrowRight2} from 'iconsax-react-native';
 import React from 'react';
@@ -82,12 +83,6 @@ export const BookingCalendar = ({
             index={idx}
           />
         ))}
-      {!!selectedDate && (
-        <>
-          <Button type="primary" title="Select" onPress={onConfirmDate} />
-          <Gap height={12} />
-        </>
-      )}
     </Section>
   );
 };

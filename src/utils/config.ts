@@ -61,4 +61,10 @@ export const gradientMapping = {
   textPrimary: {
     color: ['#A060FA', '#C800CC'],
   },
+  'Split bill': {
+    color: ['#A060FA', '#C800CC'],
+  },
+  'Food order': {
+    color: ['#4E6AFF', '#77BAAD'],
+  },
 };

@@ -20,6 +20,7 @@ import {Karaoke} from './Karaoke';
 import {King} from './King';
 import {Logo} from './Logo';
 import {LogoText} from './LogoText';
+import {MoneySquare} from './MoneySquare';
 import {Pin} from './Pin';
 
 import {Smiley} from './Smiley';
@@ -63,4 +64,5 @@ export {
   DoorGradient,
   GlassGradient,
   HouseGradient,
+  MoneySquare,
 };
