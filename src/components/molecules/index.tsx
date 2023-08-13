@@ -4,6 +4,7 @@ import {ListItem} from './List/ListItem';
 import HorizontalMenu from './Menu/HorizontalMenu';
 import {TabMenu} from './Menu/TabMenu';
 import {ModalToast} from './ModalToast/ModalToast';
+import {PillsGradient} from './Pills/PillsGradient';
 import {LogoLabel} from './SignUpLogIn/LogoLabel';
 import Welcome from './Welcome';
 
@@ -16,4 +17,5 @@ export {
   CalendarEventCard,
   TabMenu,
   ListItem,
+  PillsGradient,
 };

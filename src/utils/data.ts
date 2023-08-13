@@ -5,7 +5,10 @@ import {
   TableInterface,
   TicketInterface,
 } from '../interfaces/BookingInterface';
-import {InvitationNotificationInterface} from '../interfaces/NotificationInterface';
+import {
+  BillNotificationInterface,
+  InvitationNotificationInterface,
+} from '../interfaces/NotificationInterface';
 
 import {
   PlaceEventsInterface,
@@ -13,6 +16,7 @@ import {
   PlaceOverviewInterface,
 } from '../interfaces/PlaceInterface';
 import {
+  FriendRequestInterface,
   UserAchievementInterface,
   UserInterface,
 } from '../interfaces/UserInterface';
@@ -603,5 +607,122 @@ export const INVITATION_NOTIFICATION: InvitationNotificationInterface[] = [
       joined: 3,
       table: 'Table Z2',
     },
+  },
+];
+
+export const BILL_NOTIFICATION: BillNotificationInterface[] = [
+  {
+    id: 'aaa',
+    billNumber: 'WV99920-21',
+    hosted: 'Jean Chen',
+    booking: {
+      id: 'ABC',
+      name: 'Wave Taipei',
+      logo: Logo.sax,
+      ticket: 'VIP Ticket',
+      date: '2023-08-19T022:15:03.650540055',
+      quota: 10,
+      joined: 0,
+      table: 'Table X4',
+    },
+    price: 12000,
+    isSplitBill: true,
+    isFoodOrder: true,
+    date: '2023-08-14T010:15:03.650540055',
+  },
+  {
+    id: 'bbb',
+    billNumber: 'WV99920-32',
+    hosted: 'Jean Chen',
+    booking: {
+      id: 'CBA',
+      name: 'Wave Taipei',
+      logo: Logo.sax,
+      ticket: 'VIP Ticket',
+      date: '2023-08-26T022:15:03.650540055',
+      quota: 5,
+      joined: 2,
+      table: 'Table Z1',
+    },
+    price: 20000,
+    isSplitBill: false,
+    isFoodOrder: true,
+    date: '2023-08-19T010:15:03.650540055',
+  },
+  {
+    id: 'ccc',
+    billNumber: 'LN99923-11',
+    hosted: 'Jean Chen',
+    booking: {
+      id: 'DEF',
+      name: 'Levels Nightclub',
+      logo: 'https://www.pickfu.com/blog/wp-content/uploads/2019/04/nightclub-logo-design-1.png',
+      ticket: 'VIP Ticket',
+      date: '2023-08-27T023:15:03.650540055',
+      quota: 6,
+      joined: 2,
+      table: 'Table Z2',
+    },
+    price: 8000,
+    isSplitBill: true,
+    isFoodOrder: false,
+    date: '2023-08-10T014:15:03.650540055',
+  },
+  {
+    id: 'ddd',
+    billNumber: 'LN99924-27',
+    hosted: 'Jean Chen',
+    booking: {
+      id: 'FED',
+      name: 'Levels Nightclub',
+      logo: 'https://www.pickfu.com/blog/wp-content/uploads/2019/04/nightclub-logo-design-1.png',
+      ticket: 'VIP Ticket',
+      date: '2023-08-20T023:15:03.650540055',
+      quota: 8,
+      joined: 5,
+      table: 'Table K7',
+    },
+    price: 12000,
+    isSplitBill: true,
+    isFoodOrder: true,
+    date: '2023-08-26T010:15:03.650540055',
+  },
+];
+
+export const FRIEND_REQUEST: FriendRequestInterface[] = [
+  {
+    id: '1',
+    name: 'Jill Valentine',
+    photo_url:
+      'https://e0.pxfuel.com/wallpapers/52/767/desktop-wallpaper-jill-valentine-in-resident-evil-3-remake-iphone-background-and-resident-evil-3-phone.jpg',
+    date: '2023-08-10T010:15:03.650540055',
+  },
+  {
+    id: '2',
+    name: 'Lisandro',
+    photo_url:
+      'https://s.hs-data.com/bilder/spieler/gross/376639.jpg?fallback=png',
+    date: '2023-08-11T010:15:03.650540055',
+  },
+  {
+    id: '3',
+    name: 'Harry Maguire',
+    photo_url:
+      'https://img.a.transfermarkt.technology/portrait/header/177907-1663841733.jpg?lm=1',
+    date: '2023-08-11T022:15:03.650540055',
+  },
+  {
+    id: '4',
+    name: 'Mason Mount',
+    photo_url:
+      'https://s.hs-data.com/bilder/spieler/gross/337447.jpg?fallback=png',
+    date: '2023-08-13T012:15:03.650540055',
+  },
+  {
+    id: '5',
+    name: 'Tifa Lockhart',
+    photo_url:
+      'https://w0.peakpx.com/wallpaper/307/340/HD-wallpaper-tifa-lockhart-final-fantasy-vii.jpg',
+    date: '2023-08-02T010:15:03.650540055',
   },
 ];

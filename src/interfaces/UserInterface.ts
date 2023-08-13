@@ -50,3 +50,10 @@ export interface UserLocationInterface {
   latitude: number | null;
   longitude: number | null;
 }
+
+export interface FriendRequestInterface {
+  id: string;
+  name: string;
+  photo_url: string;
+  date: string;
+}

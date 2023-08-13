@@ -1,18 +1,21 @@
 import {FlatList} from 'react-native';
 import React from 'react';
 import CardNotificationFriends from '../../../components/molecules/Notification/CardNotificationFriends';
+import {FriendRequestInterface} from '../../../interfaces/UserInterface';
 
-export default function NotificationFriends() {
+interface NotificationFriendsProps {
+  data: FriendRequestInterface[];
+}
+
+export default function NotificationFriends({data}: NotificationFriendsProps) {
   return (
     <FlatList
-      data={[1, 2, 3, 4, 5]}
+      data={data}
       keyExtractor={(_, key) => key.toString()}
-      renderItem={({index}) => (
+      renderItem={({item, index}) => (
         <CardNotificationFriends
-          image="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8cGVyc29ufGVufDB8fDB8fHww&auto=format&fit=crop&w=400&q=60"
-          name="Jean Chen"
-          time="4 hours ago"
-          showBorder={[1, 2, 3, 4, 5].length === index + 1 ? false : true}
+          data={item}
+          isShowBorder={data.length === index + 1 ? false : true}
         />
       )}
       showsVerticalScrollIndicator={false}

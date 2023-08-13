@@ -29,7 +29,8 @@ export type FontWeightType =
   | 'thin'
   | 'raleway-bold'
   | 'raleway-medium'
-  | 'raleway-regular';
+  | 'raleway-regular'
+  | 'poppins-regular';
 export type TextAlignType = 'left' | 'center' | 'right' | 'justify';
 export type TextDecorationType = 'underline' | 'none' | 'line-through';
 export type TextTransformType =
