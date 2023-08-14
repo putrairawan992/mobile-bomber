@@ -14,46 +14,72 @@ import {UserInterface} from '../../../../interfaces/UserInterface';
 import {Colors} from '../../../../theme';
 import useTheme from '../../../../theme/useTheme';
 import {gradientMapping, WIDTH} from '../../../../utils/config';
+import {dateFormatter} from '../../../../utils/dateFormatter';
 import {Avatar, Button, Gap, GradientText, Section, Text} from '../../../atoms';
 
 interface FriendInviteConfirmationSheetProps {
   user: UserInterface | null;
   party: PartyInterface | null;
-  onBackPress: () => void;
+  onBackPress?: () => void;
+  type: 'invite' | 'approve';
+  invitationMessage?: string;
 }
 
 export const FriendInviteConfirmationSheet = ({
   user,
   party,
   onBackPress,
+  type,
+  invitationMessage,
 }: FriendInviteConfirmationSheetProps) => {
   const theme = useTheme();
   const aspectRatio = useImageAspectRatio(party?.logo as string);
+  const isInvite = type === 'invite';
   return (
     <Section
       padding="0px 16px"
       style={{flex: 1}}
       backgroundColor={theme?.colors.SECTION}>
-      <TouchableOpacity
-        style={{position: 'absolute', left: 16, top: 16}}
-        onPress={onBackPress}>
-        <ArrowLeft size={20} color={theme?.colors.ICON} />
-      </TouchableOpacity>
+      {isInvite && (
+        <TouchableOpacity
+          style={{position: 'absolute', left: 16, top: 16}}
+          onPress={onBackPress}>
+          <ArrowLeft size={20} color={theme?.colors.ICON} />
+        </TouchableOpacity>
+      )}
       <Section isCenter>
         <Gap height={15} />
-        <GradientText
-          width={WIDTH - 96}
-          xAxis={0.5}
-          colors={
-            gradientMapping['textPrimary' as keyof typeof gradientMapping].color
-          }
-          style={{
-            fontSize: 16,
-            fontFamily: 'Inter-Bold',
-            textAlign: 'center',
-          }}>
-          {`Are you sure invite ${user?.fullName} to party ?`}
-        </GradientText>
+        {isInvite ? (
+          <GradientText
+            width={WIDTH - 96}
+            xAxis={0.5}
+            colors={
+              gradientMapping['textPrimary' as keyof typeof gradientMapping]
+                .color
+            }
+            style={{
+              fontSize: 16,
+              fontFamily: 'Inter-Bold',
+              textAlign: 'center',
+            }}>
+            {`Are you sure invite ${user?.fullName} to party ?`}
+          </GradientText>
+        ) : (
+          <Section isRow>
+            <Text
+              variant="base"
+              fontWeight="bold"
+              color={Colors['warning-500']}
+              label={user?.fullName}
+            />
+            <Text
+              variant="base"
+              fontWeight="bold"
+              label=" Inviting you to party"
+            />
+          </Section>
+        )}
+
         <Gap height={6} />
         <Avatar
           size="ultra-large"
@@ -73,7 +99,7 @@ export const FriendInviteConfirmationSheet = ({
         backgroundColor={theme?.colors.SECTION2}
         rounded={8}>
         <Text
-          label={user?.bio}
+          label={isInvite ? user?.bio : invitationMessage}
           fontWeight="medium"
           color={Colors['black-20']}
         />
@@ -118,7 +144,11 @@ export const FriendInviteConfirmationSheet = ({
           <Section isRow>
             <CalendarGradient size={20} />
             <Gap width={12} />
-            <Text variant="small" fontWeight="medium" label={party?.date} />
+            <Text
+              variant="small"
+              fontWeight="medium"
+              label={dateFormatter(new Date(party?.date ?? ''), 'EEE dd MMM')}
+            />
           </Section>
           <Gap width={24} />
           <Section isRow>
@@ -153,9 +183,17 @@ export const FriendInviteConfirmationSheet = ({
           width: '100%',
           alignSelf: 'center',
         }}>
-        <Button type="primary" onPress={() => undefined} title="Invite" />
+        <Button
+          type="primary"
+          onPress={() => undefined}
+          title={isInvite ? 'Invite' : 'Approve'}
+        />
         <Gap height={8} />
-        <Button type="secondary" onPress={() => undefined} title="Cancel" />
+        <Button
+          type="secondary"
+          onPress={() => undefined}
+          title={isInvite ? 'Cancel' : 'Reject'}
+        />
       </Section>
     </Section>
   );

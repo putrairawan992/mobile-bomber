@@ -10,6 +10,7 @@ import React, {useCallback, useState} from 'react';
 import {
   LayoutAnimation,
   Platform,
+  ScrollView,
   TouchableOpacity,
   UIManager,
 } from 'react-native';
@@ -67,7 +68,7 @@ export const FriendsTab = ({
   );
 
   return (
-    <>
+    <ScrollView showsVerticalScrollIndicator={false}>
       <TouchableSection
         onPress={() => onExpand(!isExpandFavorites, 'favorites')}
         isRow
@@ -88,7 +89,13 @@ export const FriendsTab = ({
           />
           <Text
             fontWeight="medium"
-            label={` (${data.length})`}
+            label={` (${
+              data.filter(
+                (item: UserInterface) =>
+                  item.fullName &&
+                  item.fullName.match(new RegExp(searchValue, 'i')),
+              ).length
+            })`}
             color={isExpandFavorites ? theme?.colors.ICON : Colors['black-40']}
           />
         </Section>
@@ -152,7 +159,13 @@ export const FriendsTab = ({
           />
           <Text
             fontWeight="medium"
-            label={` (${data.length})`}
+            label={` (${
+              data.filter(
+                (item: UserInterface) =>
+                  item.fullName &&
+                  item.fullName.match(new RegExp(searchValue, 'i')),
+              ).length
+            })`}
             color={isExpandFriends ? theme?.colors.ICON : Colors['black-40']}
           />
         </Section>
@@ -202,6 +215,6 @@ export const FriendsTab = ({
             })}
         </Section>
       )}
-    </>
+    </ScrollView>
   );
 };
