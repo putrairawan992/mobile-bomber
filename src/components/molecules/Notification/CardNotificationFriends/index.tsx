@@ -1,10 +1,10 @@
 import {Image, TouchableOpacity, View} from 'react-native';
 import React from 'react';
 import {DefaultText, Gap} from '../../../atoms';
-import {CloseCircle} from 'iconsax-react-native';
 import {colors} from '../../../../utils/colors';
 import {FriendRequestInterface} from '../../../../interfaces/UserInterface';
 import moment from 'moment';
+import {Close} from '../../../../assets/icons';
 
 interface CardNotificationFriends {
   data: FriendRequestInterface;
@@ -51,7 +51,8 @@ export default function CardNotificationFriends({
       </TouchableOpacity>
       <Gap width={10} />
       <TouchableOpacity activeOpacity={0.7}>
-        <CloseCircle color={colors.white} size={24} />
+        <Close color={colors.white} size={21} />
+        {/* <CloseCircle color={colors.white} size={24} /> */}
       </TouchableOpacity>
     </View>
   );
