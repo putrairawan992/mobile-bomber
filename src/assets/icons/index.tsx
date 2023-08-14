@@ -4,6 +4,7 @@ import {Calendar} from './Calendar';
 import {CalendarGradient} from './CalendarGradient';
 import {Checklist} from './Checklist';
 import {CircleDot} from './CircleDot';
+import {Close} from './Close';
 import {Community} from './Community';
 import {Couple} from './Couple';
 import {CoupleBold} from './CoupleBold';
@@ -65,4 +66,5 @@ export {
   GlassGradient,
   HouseGradient,
   MoneySquare,
+  Close,
 };
