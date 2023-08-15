@@ -20,7 +20,7 @@ import {
   Platform,
   Pressable,
   TouchableOpacity,
-  UIManager
+  UIManager,
 } from 'react-native';
 import {
   PLACES_DATA,
