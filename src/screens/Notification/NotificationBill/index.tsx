@@ -1,14 +1,23 @@
 import {FlatList} from 'react-native';
 import React from 'react';
 import CardNotificationBill from '../../../components/molecules/Notification/CardNotificationBill';
+import {BillNotificationInterface} from '../../../interfaces/NotificationInterface';
 
-export default function NotificationBill() {
+interface NotificationBillProps {
+  data: BillNotificationInterface[];
+  onSelect: (billId: string) => void;
+}
+
+export default function NotificationBill({
+  data,
+  onSelect,
+}: NotificationBillProps) {
   return (
     <FlatList
-      data={[1, 2, 3, 4]}
+      data={data}
       keyExtractor={(_, key) => key.toString()}
-      renderItem={() => (
-        <CardNotificationBill name="Jean Chen" title="WAVE, TAIPEI" />
+      renderItem={({item, index}) => (
+        <CardNotificationBill data={item} index={index} onSelect={onSelect} />
       )}
       showsVerticalScrollIndicator={false}
     />

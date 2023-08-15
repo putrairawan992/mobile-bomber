@@ -144,11 +144,12 @@ export const BookingWalkInScreen = ({route, navigation}: Props) => {
     } else {
       onShowEvents(false);
     }
+    onConfirmDate();
   };
 
   const onConfirmDate = () => {
     setStep(1);
-    onShowCalendar(false);
+    // onShowCalendar(false);
     // setTimeout(() => {
     //   onShowTable(true);
     // }, 500);
