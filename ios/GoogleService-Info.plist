@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>641938372309-ft90jppnt0dgqdivk53cmanmm47r0tgk.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.641938372309-ft90jppnt0dgqdivk53cmanmm47r0tgk</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>641938372309-cgj20o4717tnvqh9lji09ie374d4rshb.apps.googleusercontent.com</string>
+	<key>API_KEY</key>
+	<string>AIzaSyD4VaN8_E80BPSABxCtgys4XeQWBNsCmlQ</string>
+	<key>GCM_SENDER_ID</key>
+	<string>641938372309</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.bomber</string>
+	<key>PROJECT_ID</key>
+	<string>bomber-app-2023</string>
+	<key>STORAGE_BUCKET</key>
+	<string>bomber-app-2023.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:641938372309:ios:a520f72052b5278030145c</string>
+</dict>
+</plist>
