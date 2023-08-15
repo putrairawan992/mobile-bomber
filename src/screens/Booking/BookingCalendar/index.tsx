@@ -1,8 +1,9 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable react-native/no-inline-styles */
 import {ArrowLeft2, ArrowRight2} from 'iconsax-react-native';
 import React from 'react';
 import {Calendar} from 'react-native-calendars';
-import {Direction} from 'react-native-calendars/src/types';
+import {DateData, Direction} from 'react-native-calendars/src/types';
 import {Button, Gap, Section, Text} from '../../../components/atoms';
 import {CalendarEventCard} from '../../../components/molecules';
 import {EventInterface} from '../../../interfaces/PlaceInterface';
@@ -16,6 +17,7 @@ interface BookingCalendarProps {
   selectedEvent: EventInterface[];
   selectedDate: string;
   onConfirmDate: () => void;
+  onMonthChange: (date: DateData) => void;
 }
 
 export const BookingCalendar = ({
@@ -25,6 +27,7 @@ export const BookingCalendar = ({
   selectedEvent,
   selectedDate,
   onConfirmDate,
+  onMonthChange,
 }: BookingCalendarProps) => {
   const theme = useTheme();
   return (
@@ -37,7 +40,9 @@ export const BookingCalendar = ({
         borderBottomStartRadius: 4,
       }}>
       <Calendar
+        markingType={'custom'}
         onDayPress={day => onSelectDate(day.dateString)}
+        onMonthChange={onMonthChange}
         headerStyle={{
           backgroundColor: '#171717',
         }}
@@ -61,15 +66,11 @@ export const BookingCalendar = ({
         theme={{
           backgroundColor: '#171717',
           calendarBackground: '#171717',
-          textSectionTitleColor: 'white',
-          textSectionTitleDisabledColor: 'gray',
           dayTextColor: theme?.colors.TEXT_PRIMARY,
-          todayTextColor: 'white',
-          selectedDayTextColor: 'white',
-          monthTextColor: 'white',
-          indicatorColor: 'white',
-          selectedDayBackgroundColor: '#333248',
-          arrowColor: 'white',
+          dotStyle: {
+            position: 'absolute',
+            top: -4,
+          },
         }}
       />
       <Gap height={12} />
@@ -82,12 +83,6 @@ export const BookingCalendar = ({
             index={idx}
           />
         ))}
-      {!!selectedDate && (
-        <>
-          <Button type="primary" title="Select" onPress={onConfirmDate} />
-          <Gap height={12} />
-        </>
-      )}
     </Section>
   );
 };

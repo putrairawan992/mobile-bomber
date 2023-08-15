@@ -144,6 +144,12 @@ const IcProfile = require('../assets/images/profile_user.png');
 const IcNotification = require('../assets/images/notification_user.png');
 const IcUploadSecond = require('../assets/images/ic_upload.png');
 const IcPicture = require('../assets/images/ic_picture.png');
+const IcGift = require('../assets/images/ic_gift.png');
+const IcBomber = require('../assets/images/ic_bomber.png');
+const IcMasterCard = require('../assets/images/master_card.png');
+const IcPlusRounded = require('../assets/images/ic_plus-rounded.png');
+const IcCheckHistory = require('../assets/images/ic_check-history.png');
+const IcRemoveCard = require('../assets/images/ic_remove-card.png');
 
 export {
   BackHome,
@@ -288,4 +294,10 @@ export {
   IcWallet,
   IcUploadSecond,
   IcPicture,
+  IcGift,
+  IcBomber,
+  IcMasterCard,
+  IcPlusRounded,
+  IcCheckHistory,
+  IcRemoveCard,
 };

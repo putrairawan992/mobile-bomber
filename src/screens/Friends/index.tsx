@@ -164,6 +164,7 @@ function FriendsScreen() {
             user={selectedUser}
             party={selectedParty}
             onBackPress={() => setSheetAction('inviteParty')}
+            type="invite"
           />
         ) : (
           <FriendBottomSheet data={selectedUser} />
