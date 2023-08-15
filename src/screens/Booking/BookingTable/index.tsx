@@ -203,14 +203,15 @@ function BookingTableScreen({route}: Props) {
     } else {
       onShowEvents(false);
     }
+    onConfirmDate();
   };
 
   const onConfirmDate = () => {
     setStep(1);
-    onShowCalendar(false);
-    setTimeout(() => {
-      onShowTable(true);
-    }, 500);
+    // onShowCalendar(false);
+    // setTimeout(() => {
+    //   onShowTable(true);
+    // }, 500);
   };
 
   const onTableSelect = (id: any) => {

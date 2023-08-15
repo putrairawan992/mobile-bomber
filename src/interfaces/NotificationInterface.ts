@@ -8,3 +8,14 @@ export interface InvitationNotificationInterface {
   party: PartyInterface;
   date: string;
 }
+
+export interface BillNotificationInterface {
+  id: string;
+  billNumber: string;
+  hosted: string;
+  booking: PartyInterface;
+  price: number;
+  isSplitBill: boolean;
+  isFoodOrder: boolean;
+  date: string;
+}

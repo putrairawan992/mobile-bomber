@@ -4,6 +4,7 @@ import {Calendar} from './Calendar';
 import {CalendarGradient} from './CalendarGradient';
 import {Checklist} from './Checklist';
 import {CircleDot} from './CircleDot';
+import {Close} from './Close';
 import {Community} from './Community';
 import {Couple} from './Couple';
 import {CoupleBold} from './CoupleBold';
@@ -20,6 +21,7 @@ import {Karaoke} from './Karaoke';
 import {King} from './King';
 import {Logo} from './Logo';
 import {LogoText} from './LogoText';
+import {MoneySquare} from './MoneySquare';
 import {Pin} from './Pin';
 
 import {Smiley} from './Smiley';
@@ -63,4 +65,6 @@ export {
   DoorGradient,
   GlassGradient,
   HouseGradient,
+  MoneySquare,
+  Close,
 };
