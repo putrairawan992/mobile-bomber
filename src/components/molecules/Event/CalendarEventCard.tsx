@@ -1,5 +1,6 @@
 import React from 'react';
 import {EventInterface} from '../../../interfaces/PlaceInterface';
+import {Colors} from '../../../theme';
 import {Avatar, EntryAnimation, Gap, Section, Text} from '../../atoms';
 
 interface CalendarEventCard {
@@ -23,8 +24,16 @@ const CalendarEventCard = ({data, isShowBorder, index}: CalendarEventCard) => {
         <Avatar url={data.photo_url} alt={data.name} />
         <Gap width={8} />
         <Section>
-          <Text label={data.name} fontWeight="semi-bold" color="#EFF4FB" />
-          <Text label={data.time} fontWeight="regular" color="#9F9E9F" />
+          <Text
+            label={data.name}
+            fontWeight="semi-bold"
+            color={Colors['white-70']}
+          />
+          <Text
+            label={data.time}
+            fontWeight="poppins-regular"
+            color="#9F9E9F"
+          />
         </Section>
       </Section>
     </EntryAnimation>

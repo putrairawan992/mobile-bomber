@@ -1,7 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react-native/no-inline-styles */
-/* eslint-disable-line @typescript-eslint/no-shadow */
-/* eslint-disable-line @typescript-eslint/no-unused-vars */
 import * as React from 'react';
 import {
   Button,
@@ -22,7 +20,7 @@ import {
   Platform,
   Pressable,
   TouchableOpacity,
-  UIManager
+  UIManager,
 } from 'react-native';
 import {
   PLACES_DATA,
@@ -35,7 +33,11 @@ import {useCallback, useEffect, useState} from 'react';
 import BottomSheet from '@gorhom/bottom-sheet';
 import {TableInterface} from '../../../interfaces/BookingInterface';
 import {dateFormatter} from '../../../utils/dateFormatter';
-import {generateCalendarEvents} from '../../../utils/function';
+import {
+  generateCalendarEvents,
+  generateCalendarOtherDay,
+  getDaysInMonth,
+} from '../../../utils/function';
 import styles from '../../Styles';
 import useTheme from '../../../theme/useTheme';
 import {UserInterface} from '../../../interfaces/UserInterface';
@@ -47,6 +49,7 @@ import {TableOrderDetail} from './OrderDetail';
 import {TablePriviliege} from './TableList/TablePriviliege';
 import {Colors} from '../../../theme';
 import {FriendsInvitation} from '../../../components/organism';
+import {MonthYearInterface} from '../../../interfaces/Interface';
 
 type Props = NativeStackScreenProps<MainStackParams, 'BookingTable', 'MyStack'>;
 
@@ -75,10 +78,14 @@ function BookingTableScreen({route}: Props) {
   const [selectedInvitation, setSelectedInvitation] = useState<UserInterface[]>(
     [],
   );
+  const [monthYear, setMonthYear] = useState<MonthYearInterface>({
+    month: Number(dateFormatter(new Date(), 'M')),
+    year: Number(dateFormatter(new Date(), 'yyyy')),
+  });
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [sheetIndex, setSheetIndex] = React.useState<number>(-1);
   const bookingSheetRef = React.useRef<BottomSheet>(null);
-  const snapPoints = React.useMemo(() => ['70'], []);
+  const snapPoints = React.useMemo(() => ['70', '90'], []);
   const [isPayFull, setIsPayFull] = useState(false);
   const [isSplitBill, setIsSplitBill] = useState(false);
   const toggleSwitchPayFull = () =>
@@ -88,6 +95,53 @@ function BookingTableScreen({route}: Props) {
   const handleSheetChanges = React.useCallback((index: number) => {
     setSheetIndex(index);
   }, []);
+
+  const today = dateFormatter(new Date(), 'yyyy-MM-dd');
+  console.log(today);
+
+  const allDay = getDaysInMonth(monthYear.month, monthYear.year).filter(
+    i =>
+      ![
+        ...PLACE_EVENTS.map(item => item.date),
+        ...[selectedDate],
+        ...[today],
+      ].includes(i),
+  );
+
+  const MarkedDate = {
+    [selectedDate]: {
+      selected: true,
+      disableTouchEvent: true,
+      selectedColor: '#1F5EFF',
+      selectedTextColor: 'white',
+      customStyles: {
+        container: {
+          borderRadius: 8,
+        },
+        text: {
+          color: 'white',
+          fontWeight: '400',
+        },
+      },
+    },
+    [today]: {
+      selected: true,
+      disableTouchEvent: false,
+      customStyles: {
+        container: {
+          borderWidth: 2,
+          borderRadius: 8,
+          backgroundColor: '#2C437B',
+          borderColor: '#1F5EFF',
+        },
+        text: {
+          color: 'white',
+          fontWeight: '400',
+          bottom: 2,
+        },
+      },
+    },
+  };
 
   useEffect(() => {
     setTimeout(() => {
@@ -135,21 +189,6 @@ function BookingTableScreen({route}: Props) {
     setIsShowInvitation(isShow);
   }, []);
 
-  const MarkedDate = {
-    [selectedDate]: {
-      selected: true,
-      disableTouchEvent: true,
-      selectedColor: '#2C437B',
-      selectedTextColor: 'white',
-      customStyles: {
-        container: {
-          borderWidth: 1,
-          borderColor: 'red',
-        },
-      },
-    },
-  };
-
   const onSelectDate = (day: string) => {
     setSelectedDate(day);
     const events =
@@ -164,14 +203,15 @@ function BookingTableScreen({route}: Props) {
     } else {
       onShowEvents(false);
     }
+    onConfirmDate();
   };
 
   const onConfirmDate = () => {
     setStep(1);
-    onShowCalendar(false);
-    setTimeout(() => {
-      onShowTable(true);
-    }, 500);
+    // onShowCalendar(false);
+    // setTimeout(() => {
+    //   onShowTable(true);
+    // }, 500);
   };
 
   const onTableSelect = (id: any) => {
@@ -233,11 +273,18 @@ function BookingTableScreen({route}: Props) {
             data={Object.assign(
               MarkedDate,
               generateCalendarEvents(PLACE_EVENTS, selectedDate),
+              generateCalendarOtherDay(allDay),
             )}
             isShowEvents={isShowEvents}
             selectedEvent={selectedEvent}
             selectedDate={selectedDate}
             onConfirmDate={onConfirmDate}
+            onMonthChange={date =>
+              setMonthYear({
+                month: date.month,
+                year: date.year,
+              })
+            }
           />
         )}
         <Gap height={12} />
@@ -336,7 +383,7 @@ function BookingTableScreen({route}: Props) {
         enablePanDownToClose
         snapPoints={snapPoints}
         backdropComponent={({style}) =>
-          sheetIndex === 0 ? (
+          sheetIndex >= 0 ? (
             <Pressable
               onPress={() => bookingSheetRef.current?.close()}
               style={[style, {backgroundColor: 'rgba(0, 0, 0, 0.60)'}]}

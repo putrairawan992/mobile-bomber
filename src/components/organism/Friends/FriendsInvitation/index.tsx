@@ -1,7 +1,7 @@
 /* eslint-disable react-native/no-inline-styles */
 import React from 'react';
 import {createRef, useState} from 'react';
-import {TouchableOpacity, View} from 'react-native';
+import {ScrollView, TouchableOpacity, View} from 'react-native';
 import PagerView from 'react-native-pager-view';
 import {UserInterface} from '../../../../interfaces/UserInterface';
 import useTheme from '../../../../theme/useTheme';
@@ -36,7 +36,7 @@ export const FriendsInvitation = ({
 
   const FriendsTab = () => {
     return (
-      <>
+      <ScrollView showsVerticalScrollIndicator={false}>
         {data
           .filter(
             (item: UserInterface) =>
@@ -76,13 +76,13 @@ export const FriendsInvitation = ({
               </EntryAnimation>
             );
           })}
-      </>
+      </ScrollView>
     );
   };
 
   const InvitationTab = () => {
     return (
-      <>
+      <ScrollView showsVerticalScrollIndicator={false}>
         {selectedInvitation.map((item: UserInterface, idx) => {
           return (
             <EntryAnimation index={idx} key={idx}>
@@ -108,7 +108,7 @@ export const FriendsInvitation = ({
             </EntryAnimation>
           );
         })}
-      </>
+      </ScrollView>
     );
   };
 

@@ -22,6 +22,7 @@ export interface TicketInterface {
 }
 
 export interface PartyInterface {
+  id: string;
   name: string;
   logo: string;
   ticket: string;

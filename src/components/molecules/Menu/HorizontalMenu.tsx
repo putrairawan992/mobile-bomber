@@ -1,9 +1,8 @@
 /* eslint-disable react-native/no-inline-styles */
 import * as React from 'react';
-import {View, ScrollView} from 'react-native';
+import {View, ScrollView, TouchableOpacity} from 'react-native';
 import useTheme from '../../../theme/useTheme';
 import {Gap, Section, Text} from '../../atoms';
-import {ScaleAnimation} from '../../atoms/animations/ScaleAnimation';
 
 export interface HorizontalMenuInterface {
   id: number;
@@ -22,17 +21,16 @@ const HorizontalSectionMenu = ({
   selectedMenu,
 }: HorizontalSectionMenuProps) => {
   const theme = useTheme();
-
   return (
     <Section isRow padding="16px 16px">
       <ScrollView horizontal showsHorizontalScrollIndicator={false}>
         {menu.map((item: HorizontalMenuInterface, i: number) => {
           let isSelected: boolean = Boolean(selectedMenu === item.id);
           return (
-            <ScaleAnimation
+            <TouchableOpacity
               onPress={() => handleSelect(item.id)}
-              disabled={false}
-              scaleTo={0.92}
+              // disabled={false}
+              // scaleTo={0.92}
               key={i}>
               <View
                 style={{
@@ -53,7 +51,7 @@ const HorizontalSectionMenu = ({
                 />
                 <Gap height={4} />
               </View>
-            </ScaleAnimation>
+            </TouchableOpacity>
           );
         })}
       </ScrollView>

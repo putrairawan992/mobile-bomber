@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "641938372309",
+    "project_id": "bomber-app-2023",
+    "storage_bucket": "bomber-app-2023.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:641938372309:android:3968ff3193f65f2b30145c",
+        "android_client_info": {
+          "package_name": "com.bomber"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "641938372309-cgj20o4717tnvqh9lji09ie374d4rshb.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.bomber",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
+          "client_id": "641938372309-29rnqijmc9jahdfh4lmr19hi0auoec21.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAjn69EOyvYWEnCpL66X9ZGDnImKNphllE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "641938372309-29rnqijmc9jahdfh4lmr19hi0auoec21.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "641938372309-ft90jppnt0dgqdivk53cmanmm47r0tgk.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.bomber"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

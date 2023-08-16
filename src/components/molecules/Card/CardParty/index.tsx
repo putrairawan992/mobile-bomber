@@ -4,6 +4,7 @@ import {Image, View} from 'react-native';
 import {useImageAspectRatio} from '../../../../hooks/useImageAspectRatio';
 import {PartyInterface} from '../../../../interfaces/BookingInterface';
 import {Colors} from '../../../../theme';
+import {dateFormatter} from '../../../../utils/dateFormatter';
 import {
   EntryAnimation,
   Gap,
@@ -62,7 +63,7 @@ export const CardParty = ({
               <Gap width={8} />
               <Text
                 variant="small"
-                label={data.date}
+                label={dateFormatter(new Date(data.date), 'EEE, dd MMM yyy')}
                 color={Colors['black-20']}
               />
             </Section>

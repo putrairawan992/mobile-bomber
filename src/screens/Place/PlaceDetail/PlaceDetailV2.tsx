@@ -8,35 +8,51 @@ import {
   Video,
   WristClock,
 } from 'iconsax-react-native';
-import {Button, Gap, Layout, Section, Text} from '../../../components/atoms';
-import {Header, HorizontalMenu} from '../../../components/molecules';
-import {Image, ScrollView, View} from 'react-native';
-import {PLACES_DATA, PLACE_MENU, PLACE_OVERVIEW} from '../../../utils/data';
+import React, {useEffect, useRef, useState} from 'react';
+import {
+  Animated,
+  Dimensions,
+  GestureResponderEvent,
+  Image,
+  PanResponder,
+  PanResponderGestureState,
+  Platform,
+  ScrollView,
+  StyleSheet,
+  TouchableOpacity,
+  View,
+} from 'react-native';
+import {Star} from '../../../assets/icons';
+import {Gap, Layout, Section, Text} from '../../../components/atoms';
+import {HorizontalMenu} from '../../../components/molecules';
+import {PlaceCard} from '../../../components/organism';
 import {
   PlaceInterface,
   PlaceOverviewFeaturesInterface,
   PlacePhotoInterface,
 } from '../../../interfaces/PlaceInterface';
-import React, {useEffect, useState} from 'react';
-import {NativeStackScreenProps} from '@react-navigation/native-stack';
-import {MainStackParams} from '../../../navigation/MainScreenStack';
-import {Star} from '../../../assets/icons';
-import {randomNumber} from '../../../utils/function';
-import styles from '../Styles';
-import {useImageAspectRatio} from '../../../hooks/useImageAspectRatio';
 import useTheme from '../../../theme/useTheme';
-import {PlaceCard} from '../../../components/organism';
+import {WIDTH} from '../../../utils/config';
+import {PLACES_DATA, PLACE_MENU, PLACE_OVERVIEW} from '../../../utils/data';
+import {randomNumber} from '../../../utils/function';
 
-type Props = NativeStackScreenProps<MainStackParams, 'PlaceDetail', 'MyStack'>;
-export const PlaceDetail = ({route, navigation}: Props) => {
-  const placeId = route.params.placeId;
-  const theme = useTheme();
+const {width} = Dimensions.get('window');
+const headerHeight = 300;
+const headerFinalHeight = 70;
+const imageSize = (headerHeight / 3) * 2;
+
+export default function PlaceDetailV2() {
+  const placeId = '2';
   const [data, setData] = useState<PlaceInterface | undefined>(undefined);
+  const scrollY = useRef(new Animated.Value(0)).current;
+  const [textWidth, setTextWidth] = useState(0);
   const [selectedMenu, setSelectedMenu] = useState<number>(1);
-  const [dataSourceCords, setDataSourceCords] = useState([] as number[]);
   const [scrollToIndex, setScrollToIndex] = useState<number>(0);
+  const [dataSourceCords, setDataSourceCords] = useState([] as number[]);
   const [ref, setRef] = useState<ScrollView>();
-  const aspectRatio = useImageAspectRatio(data?.logo as string);
+  const offset = headerHeight - headerFinalHeight;
+  const theme = useTheme();
+
   useEffect(() => {
     const getPlaceData = () => {
       if (placeId) {
@@ -58,6 +74,48 @@ export const PlaceDetail = ({route, navigation}: Props) => {
       });
     }
   };
+
+  const translateHeader = scrollY.interpolate({
+    inputRange: [0, offset],
+    outputRange: [0, -offset],
+    extrapolate: 'clamp',
+  });
+  const translateImageY = scrollY.interpolate({
+    inputRange: [0, offset],
+    outputRange: [0, -(headerFinalHeight - headerHeight) / 8],
+    extrapolate: 'clamp',
+  });
+  const translateCardY = scrollY.interpolate({
+    inputRange: [0, offset],
+    outputRange: [0, -20],
+    extrapolate: 'clamp',
+  });
+
+  const translateImageX = scrollY.interpolate({
+    inputRange: [0, offset],
+    outputRange: [
+      0,
+      -(width / 2) + (imageSize * headerFinalHeight) / headerHeight,
+    ],
+    extrapolate: 'clamp',
+  });
+  const scaleImage = scrollY.interpolate({
+    inputRange: [0, offset],
+    outputRange: [1, headerFinalHeight / headerHeight],
+    extrapolate: 'clamp',
+  });
+  const translateName = scrollY.interpolate({
+    inputRange: [0, offset / 2, offset],
+    outputRange: [0, 10, -width / 2 + textWidth / 2 + headerFinalHeight],
+    extrapolate: 'clamp',
+  });
+  const scaleName = scrollY.interpolate({
+    inputRange: [0, offset],
+    outputRange: [1, 0.8],
+    extrapolate: 'clamp',
+  });
+
+  const AnimatedTouchable = Animated.createAnimatedComponent(TouchableOpacity);
 
   const PlaceOverview = () => {
     return (
@@ -244,43 +302,23 @@ export const PlaceDetail = ({route, navigation}: Props) => {
       </Section>
     );
   };
-  const handleScroll = (event: any) => {
-    const positionX = event.nativeEvent.contentOffset.x;
-    const positionY = event.nativeEvent.contentOffset.y;
-    const selectedIndex = dataSourceCords.findIndex(item => positionY < item);
-    if (selectedIndex !== selectedMenu) {
-      setSelectedMenu(selectedIndex - 1);
-    }
-  };
+
+  PanResponder.create({
+    onMoveShouldSetPanResponder: Platform.select({
+      default: () => true,
+      android: (e: GestureResponderEvent, state: PanResponderGestureState) =>
+        Math.abs(state.dx) > 10 || Math.abs(state.dy) > 10,
+    }),
+  });
   return (
-    <Layout contentContainerStyle={styles.container} isScrollable={false}>
-      <Header transparent hasBackBtn style={{height: 70}} />
-      <View style={styles.headerLogo}>
-        <Image source={{uri: data?.logo}} style={{height: 56, aspectRatio}} />
-      </View>
-      {data && (
-        <PlaceCard item={data} onSelect={() => undefined} isPlaceDetail />
-      )}
-      <Gap height={12} />
-      <HorizontalMenu
-        menu={PLACE_MENU}
-        selectedMenu={selectedMenu}
-        handleSelect={(id: number) => {
-          scrollHandler(id);
-          setTimeout(() => {
-            setSelectedMenu(id);
-          }, 500);
-        }}
-      />
-      <Gap height={16} />
+    <Layout contentContainerStyle={styles.container}>
       <ScrollView
-        onScroll={handleScroll}
-        scrollEventThrottle={32}
-        style={styles.section}
-        // eslint-disable-next-line @typescript-eslint/no-shadow
-        ref={ref => {
-          setRef(ref as any);
-        }}>
+        contentContainerStyle={styles.scrollContainer}
+        showsVerticalScrollIndicator={false}
+        onScroll={Animated.event(
+          [{nativeEvent: {contentOffset: {y: scrollY}}}],
+          {useNativeDriver: false},
+        )}>
         {PlaceOverview()}
         <Gap height={32} />
         {PlaceOffers()}
@@ -289,19 +327,143 @@ export const PlaceDetail = ({route, navigation}: Props) => {
         <Gap height={32} />
         {PlaceReview()}
         <Gap height={16} />
-        <Button
-          type="primary"
-          onPress={() => navigation.navigate('BookingTable', {placeId})}
-          title="Booking Table"
-        />
-        <Gap height={8} />
-        <Button
-          type="outlined"
-          onPress={() => navigation.navigate('BookingWalkIn', {placeId})}
-          title="Walk In"
-        />
-        <Gap height={24} />
       </ScrollView>
+      <Animated.View
+        pointerEvents="none"
+        style={[styles.header, {transform: [{translateY: translateHeader}]}]}
+        {...PanResponder}>
+        <Animated.View
+          style={[
+            styles.image,
+            {
+              transform: [
+                {translateY: translateCardY},
+                // {translateX: translateImageX},
+                // {scale: scaleImage},
+              ],
+            },
+          ]}
+          // {...PanResponder}
+        >
+          {data && (
+            <PlaceCard item={data} onSelect={() => undefined} isPlaceDetail />
+          )}
+        </Animated.View>
+        <Animated.View
+          style={[
+            styles.horizontalMenu,
+            {
+              transform: [
+                {translateY: translateImageY},
+                // {translateX: translateImageX},
+                // {scale: scaleImage},
+              ],
+            },
+          ]}
+          {...PanResponder}>
+          {/* <TouchableOpacity
+              onPress={() => console.log('jossss')}
+              style={{zIndex: 1,height: 50, width: '100%', backgroundColor: 'red'}}
+            >
+              <View>
+                <Text label="Submit" />
+              </View>
+            </TouchableOpacity> */}
+          {/* <Section isRow padding="16px 16px" style={{flex: 1}}>
+              {PLACE_MENU.map((item: HorizontalMenuInterface, i: number) => {
+                let isSelected: boolean = Boolean(selectedMenu === item.id);
+                return (
+                  <TouchableOpacity
+                    onPress={() => console.log('jpss :', item.id)}
+                    key={i}>
+                    <View
+                      style={{
+                        marginRight: 20,
+                        width: 'auto',
+                        borderBottomWidth: 2,
+                        borderBottomColor: isSelected
+                          ? theme?.colors.PRIMARY
+                          : 'transparent',
+                      }}>
+                      <Text
+                        label={item.title}
+                        color={
+                          isSelected
+                            ? theme?.colors.PRIMARY
+                            : theme?.colors.TEXT_PRIMARY
+                        }
+                      />
+                      <Gap height={4} />
+                    </View>
+                  </TouchableOpacity>
+                );
+              })}
+            </Section> */}
+          <HorizontalMenu
+            menu={PLACE_MENU}
+            selectedMenu={selectedMenu}
+            handleSelect={(id: number) => {
+              console.log('selectt :', id);
+              setSelectedMenu(id);
+              scrollHandler(id);
+            }}
+          />
+        </Animated.View>
+      </Animated.View>
     </Layout>
   );
-};
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+  item: {
+    height: 100,
+    marginBottom: 5,
+    backgroundColor: 'grey',
+    marginHorizontal: 10,
+  },
+  header: {
+    height: headerHeight,
+    backgroundColor: '#171717',
+    position: 'absolute',
+    width: '100%',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  scrollContainer: {
+    paddingTop: headerHeight + 5,
+  },
+  image: {
+    height: 'auto',
+    width: WIDTH,
+    backgroundColor: '#171717',
+    overflow: 'hidden',
+  },
+  horizontalMenu: {
+    height: 'auto',
+    width: WIDTH,
+    backgroundColor: '#171717',
+    // overflow: 'hidden',
+  },
+  img: {
+    height: '100%',
+    width: '100%',
+  },
+  name: {
+    fontSize: 30,
+    color: '#000',
+    position: 'absolute',
+    bottom: 0,
+    height: headerFinalHeight,
+    textAlignVertical: 'center',
+    letterSpacing: 2,
+  },
+  avatar: {
+    width: 32,
+    height: 32,
+    backgroundColor: '#D9D9D9',
+    borderRadius: 50,
+  },
+});
