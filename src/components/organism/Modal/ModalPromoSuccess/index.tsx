@@ -20,8 +20,8 @@ export default function ModalPromoSuccess({
       isVisible={show}
       onBackButtonPress={hide}
       onBackdropPress={hide}>
-      <View className="absolute bottom-0 right-0 left-0 bg-container p-4 rounded-t-xl">
-        <View className="w-[50] h-[4] rounded-full bg-gray self-center" />
+      <View className="absolute bottom-0 right-0 left-0 bg-container p-4 rounded-t-xl bg-neutral-800">
+        <View className="w-[50] h-[4] rounded-full bg-neutral-600 self-center" />
         <Gap height={15} />
         <DefaultText
           title="Coupon Applied"
@@ -34,8 +34,14 @@ export default function ModalPromoSuccess({
         />
         <Gap height={30} />
         <Button
-          type="secondary"
-          title="Back to homepage"
+          buttonPrimaryColors={['#A060FA', '#A060FA']}
+          type="primary"
+          TextComponent={
+            <DefaultText
+              title="Back to homepage"
+              titleClassName="font-poppins-regular text-base"
+            />
+          }
           onPress={onBackHome}
         />
         <Gap height={15} />

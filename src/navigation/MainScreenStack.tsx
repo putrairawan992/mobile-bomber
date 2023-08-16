@@ -27,6 +27,7 @@ import VerificationID from '../screens/VerificationID';
 import VerificationID2 from '../screens/VerificationID2';
 import VerificationID3 from '../screens/VerificationID3';
 import PaymentPage from '../screens/PaymentPage';
+import Offers from '../screens/Offers';
 
 export type MainStackParams = {
   Nightlife: undefined;
@@ -58,6 +59,7 @@ export type MainStackParams = {
   VerificationID2: undefined;
   VerificationID3: undefined;
   PaymentPage: undefined;
+  Offers: undefined;
 };
 
 interface TabBarContentProps {
@@ -215,6 +217,7 @@ const MainScreenStack = () => {
       <Stack.Screen name="VerificationID2" component={VerificationID2} />
       <Stack.Screen name="VerificationID3" component={VerificationID3} />
       <Stack.Screen name="PaymentPage" component={PaymentPage} />
+      <Stack.Screen name="Offers" component={Offers} />
     </Stack.Navigator>
   );
 };
