@@ -20,7 +20,7 @@ import {
   Platform,
   Pressable,
   TouchableOpacity,
-  UIManager
+  UIManager,
 } from 'react-native';
 import {
   PLACES_DATA,
@@ -85,7 +85,7 @@ function BookingTableScreen({route}: Props) {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [sheetIndex, setSheetIndex] = React.useState<number>(-1);
   const bookingSheetRef = React.useRef<BottomSheet>(null);
-  const snapPoints = React.useMemo(() => ['70'], []);
+  const snapPoints = React.useMemo(() => ['70', '90'], []);
   const [isPayFull, setIsPayFull] = useState(false);
   const [isSplitBill, setIsSplitBill] = useState(false);
   const toggleSwitchPayFull = () =>
@@ -383,7 +383,7 @@ function BookingTableScreen({route}: Props) {
         enablePanDownToClose
         snapPoints={snapPoints}
         backdropComponent={({style}) =>
-          sheetIndex === 0 ? (
+          sheetIndex >= 0 ? (
             <Pressable
               onPress={() => bookingSheetRef.current?.close()}
               style={[style, {backgroundColor: 'rgba(0, 0, 0, 0.60)'}]}
