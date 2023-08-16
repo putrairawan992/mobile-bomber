@@ -150,6 +150,7 @@ const IcMasterCard = require('../assets/images/master_card.png');
 const IcPlusRounded = require('../assets/images/ic_plus-rounded.png');
 const IcCheckHistory = require('../assets/images/ic_check-history.png');
 const IcRemoveCard = require('../assets/images/ic_remove-card.png');
+const IcCheckRounded = require('../assets/images/ic_check-rounded.png');
 
 export {
   BackHome,
@@ -300,4 +301,5 @@ export {
   IcPlusRounded,
   IcCheckHistory,
   IcRemoveCard,
+  IcCheckRounded,
 };
