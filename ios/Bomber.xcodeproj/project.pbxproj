@@ -11,7 +11,7 @@
 		13B07FBC1A68108700A75B9A /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.mm */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
-		180991E62A8AC69B00F2D602 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 180991E52A8AC69A00F2D602 /* GoogleService-Info.plist */; };
+		1899D0C02A8E02A500861CBA /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1899D0BF2A8E02A500861CBA /* GoogleService-Info.plist */; };
 		19412EB381954D95A44D5EAB /* Poppins-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 251A0C7B6C7C49CA992BEB42 /* Poppins-Regular.ttf */; };
 		261230C91DFF41A79280740A /* Inter-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2892339111EB4D9398F1D599 /* Inter-Bold.ttf */; };
 		27C709E0EBB14C579159F8E9 /* Poppins-Thin.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2EA0C30499574447BE0456DA /* Poppins-Thin.ttf */; };
@@ -55,7 +55,7 @@
 		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = Bomber/Images.xcassets; sourceTree = "<group>"; };
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = Bomber/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = Bomber/main.m; sourceTree = "<group>"; };
-		180991E52A8AC69A00F2D602 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		1899D0BF2A8E02A500861CBA /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		1B9E56DE16BC48C49B42F692 /* Poppins-SemiBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Poppins-SemiBold.ttf"; path = "../src/assets/fonts/Poppins-SemiBold.ttf"; sourceTree = "<group>"; };
 		1C871ABB0A824472AC3B0325 /* Inter-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Inter-Regular.ttf"; path = "../src/assets/fonts/Inter-Regular.ttf"; sourceTree = "<group>"; };
 		251A0C7B6C7C49CA992BEB42 /* Poppins-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Poppins-Regular.ttf"; path = "../src/assets/fonts/Poppins-Regular.ttf"; sourceTree = "<group>"; };
@@ -154,7 +154,7 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
-				180991E52A8AC69A00F2D602 /* GoogleService-Info.plist */,
+				1899D0BF2A8E02A500861CBA /* GoogleService-Info.plist */,
 				13B07FAE1A68108700A75B9A /* Bomber */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				00E356EF1AD99517003FC87E /* BomberTests */,
@@ -328,7 +328,7 @@
 				AF4C517690B94866B3B58C5F /* Raleway-Bold.ttf in Resources */,
 				6480A486B7294C11BCC2700E /* Raleway-Medium.ttf in Resources */,
 				8E2EDC2B194D44D6943BB000 /* Raleway-Regular.ttf in Resources */,
-				180991E62A8AC69B00F2D602 /* GoogleService-Info.plist in Resources */,
+				1899D0C02A8E02A500861CBA /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -10,6 +10,7 @@ import WelcomeScreen from '../screens/Welcome/WelcomeScreen';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import ForgotPasswordScreen from '../screens/LogIn/ForgotPasswordScreen';
 import ResetPasswordScreen from '../screens/LogIn/ResetPasswordScreen';
+import OtpSignInNumberScreen from '../screens/Otp/OtpSignInNumberScreen';
 
 export type AuthStackParams = {
   Splash: undefined;
@@ -21,6 +22,10 @@ export type AuthStackParams = {
   };
   OtpSignUp: {
     phone: string;
+  };
+  OtpSignIn: {
+    phone: string;
+    isResend: boolean;
   };
   SuccessNumber: undefined;
   SuccessPassword: undefined;
@@ -48,6 +53,11 @@ function AuthScreenStack() {
         name="OtpSignUp"
         component={OtpSignUpNumberScreen}
         initialParams={{phone: ''}}
+      />
+      <AuthStack.Screen
+        name="OtpSignIn"
+        component={OtpSignInNumberScreen}
+        initialParams={{phone: '', isResend: false}}
       />
       <AuthStack.Screen name="SuccessNumber" component={SuccessNumberScreen} />
       <AuthStack.Screen
