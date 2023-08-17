@@ -14,6 +14,7 @@ import {
   IcIdCard,
   IcInbox,
   IcLegal,
+  IcLogOut,
   IcMembership,
   IcNotification,
   IcPencil,
@@ -28,8 +29,19 @@ import colors from '../styles/colors';
 import LinearGradient from 'react-native-linear-gradient';
 import CardProfileMenu from '../components/molecules/Card/CardProfileMenu';
 import {navigationRef} from '../navigation/RootNavigation';
+import {handleLogOut} from '../store/user/userActions';
+import {removeStorage} from '../service/storageService';
+import {useDispatch} from 'react-redux';
+import auth from '@react-native-firebase/auth';
 
 function ProfileScreen() {
+  const dispatch = useDispatch();
+  const onLogOut = async () => {
+    await removeStorage('refreshToken');
+    await removeStorage('userAuth');
+    await auth().signOut();
+    dispatch(handleLogOut());
+  };
   return (
     <Layout>
       <ScrollView showsVerticalScrollIndicator={false}>
@@ -208,6 +220,7 @@ function ProfileScreen() {
             title="Business hub"
             onPress={() => {}}
           />
+          <CardProfileMenu icon={IcLogOut} title="Log Out" onPress={onLogOut} />
         </View>
       </ScrollView>
     </Layout>

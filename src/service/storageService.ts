@@ -7,7 +7,7 @@ export type storageName =
   | 'accessToken'
   | 'refreshToken'
   | 'tokenExpiry'
-  | 'userProfile';
+  | 'userAuth';
 
 export const getStorage = async (name: storageName): Promise<string | null> => {
   return await AsyncStorage.getItem(name);

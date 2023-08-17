@@ -144,6 +144,7 @@ const IcProfile = require('../assets/images/profile_user.png');
 const IcNotification = require('../assets/images/notification_user.png');
 const IcUploadSecond = require('../assets/images/ic_upload.png');
 const IcPicture = require('../assets/images/ic_picture.png');
+const IcLogOut = require('../assets/images/log_out.png');
 
 export {
   BackHome,
@@ -288,4 +289,5 @@ export {
   IcWallet,
   IcUploadSecond,
   IcPicture,
+  IcLogOut,
 };

@@ -5,7 +5,7 @@ import {Colors} from '../../../theme';
 
 const styles = EStyleSheet.create({
   container: {
-    flex: isIphoneX() ? 1 : 0,
+    flex: 1,
     paddingTop: 50,
     paddingHorizontal: 0,
   },
