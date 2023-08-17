@@ -6,7 +6,7 @@ import AuthScreenStack from './AuthScreenStack';
 import {ReduxState} from '../store';
 import MainScreenStack from './MainScreenStack';
 import {navigationRef} from './RootNavigation';
-import {getStorage} from '../service/storageService';
+import {getStorage} from '../service/mmkvStorage';
 import {loginSuccess} from '../store/user/userActions';
 
 function Routes() {

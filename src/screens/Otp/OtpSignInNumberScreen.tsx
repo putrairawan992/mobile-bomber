@@ -15,7 +15,7 @@ import {LogoLabel, ModalToast} from '../../components/molecules';
 import auth from '@react-native-firebase/auth';
 import {useDispatch} from 'react-redux';
 import {loginSuccess} from '../../store/user/userActions';
-import {setStorage} from '../../service/storageService';
+import {setStorage} from '../../service/mmkvStorage';
 
 type Props = NativeStackScreenProps<AuthStackParams, 'OtpSignIn', 'MyStack'>;
 

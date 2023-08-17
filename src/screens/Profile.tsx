@@ -30,7 +30,7 @@ import LinearGradient from 'react-native-linear-gradient';
 import CardProfileMenu from '../components/molecules/Card/CardProfileMenu';
 import {navigationRef} from '../navigation/RootNavigation';
 import {handleLogOut} from '../store/user/userActions';
-import {removeStorage} from '../service/storageService';
+import {removeStorage} from '../service/mmkvStorage';
 import {useDispatch} from 'react-redux';
 import auth from '@react-native-firebase/auth';
 
