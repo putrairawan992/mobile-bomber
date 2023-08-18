@@ -17,44 +17,40 @@ import {
   Layout,
 } from '../../components/atoms';
 import {LogoLabel} from '../../components/molecules';
-import {useEffect} from 'react';
-import auth from '@react-native-firebase/auth';
 
 type Props = NativeStackScreenProps<AuthStackParams, 'LogIn', 'MyStack'>;
 
-function LogInScreen({navigation}: Props) {
+function LogInScreenWithPassword({navigation}: Props) {
   const theme = useTheme();
+
+  const [isLoading, setIsLoading] = React.useState<boolean>(false);
   const formik = useFormik<LoginPayloadInterface>({
     initialValues: {
+      password: '',
       phone: '',
     },
     validationSchema: Yup.object({
       phone: Yup.string().required('Phone number is required'),
+      password: Yup.string()
+        .required('Password is required')
+        .min(8, 'Password is too short - should be 8 chars minimum.'),
     }),
     // validateOnChange: false,
     enableReinitialize: true,
     onSubmit: () => {
-      navigation.navigate('OtpSignIn', {
-        phone: '+' + formik.values.phone,
-        isResend: false,
-      });
+      setIsLoading(true);
+      // setTimeout(() => {
+      //   dispatch(
+      //     loginSuccess({
+      //       userId: 'ABC123',
+      //       username: 'John Wick',
+      //       phone: formik.values.phone,
+      //       token: 'DEF456',
+      //     }),
+      //   );
+      // }, 3000);
     },
   });
-
-  const onAuthStateChanged = async (userAuth: any) => {
-    if (!userAuth) {
-      return;
-    } else {
-    }
-  };
-
-  useEffect(() => {
-    const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
-    return () => {
-      subscriber;
-    };
-  }, []);
-
   return (
     <Layout contentContainerStyle={styles.container}>
       <LogoLabel
@@ -69,6 +65,15 @@ function LogInScreen({navigation}: Props) {
         placeholder="Phone number"
         isNumeric
       />
+      <Spacer l />
+      <TextInput
+        value={formik.values.password}
+        label="Password"
+        errorText={formik.errors.password}
+        onChangeText={formik.handleChange('password')}
+        placeholder="Password"
+        type="password"
+      />
       <Spacer sm />
       <TouchableOpacity
         style={styles.forgotPasswordLink}
@@ -80,7 +85,7 @@ function LogInScreen({navigation}: Props) {
         type="primary"
         onPress={() => formik.handleSubmit()}
         title="Sign In"
-        isLoading={false}
+        isLoading={isLoading}
       />
       <Spacer lxx />
       <Section isRow>
@@ -101,4 +106,4 @@ function LogInScreen({navigation}: Props) {
   );
 }
 
-export default LogInScreen;
+export default LogInScreenWithPassword;

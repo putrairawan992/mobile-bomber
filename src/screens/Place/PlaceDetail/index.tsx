@@ -249,7 +249,14 @@ export const PlaceDetail = ({route, navigation}: Props) => {
       </Section>
     );
   };
-
+  const handleScroll = (event: any) => {
+    const positionX = event.nativeEvent.contentOffset.x;
+    const positionY = event.nativeEvent.contentOffset.y;
+    const selectedIndex = dataSourceCords.findIndex(item => positionY < item);
+    if (selectedIndex !== selectedMenu) {
+      setSelectedMenu(selectedIndex - 1);
+    }
+  };
   return (
     <Layout contentContainerStyle={styles.container} isScrollable={false}>
       <Header transparent hasBackBtn style={{height: 70}} />
@@ -264,12 +271,16 @@ export const PlaceDetail = ({route, navigation}: Props) => {
         menu={PLACE_MENU}
         selectedMenu={selectedMenu}
         handleSelect={(id: number) => {
-          setSelectedMenu(id);
           scrollHandler(id);
+          setTimeout(() => {
+            setSelectedMenu(id);
+          }, 500);
         }}
       />
       <Gap height={16} />
       <ScrollView
+        onScroll={handleScroll}
+        scrollEventThrottle={32}
         style={styles.section}
         // eslint-disable-next-line @typescript-eslint/no-shadow
         ref={ref => {

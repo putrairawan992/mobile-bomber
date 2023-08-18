@@ -85,7 +85,7 @@ function BookingTableScreen({route}: Props) {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [sheetIndex, setSheetIndex] = React.useState<number>(-1);
   const bookingSheetRef = React.useRef<BottomSheet>(null);
-  const snapPoints = React.useMemo(() => ['70'], []);
+  const snapPoints = React.useMemo(() => ['70', '90'], []);
   const [isPayFull, setIsPayFull] = useState(false);
   const [isSplitBill, setIsSplitBill] = useState(false);
   const toggleSwitchPayFull = () =>
@@ -97,7 +97,6 @@ function BookingTableScreen({route}: Props) {
   }, []);
 
   const today = dateFormatter(new Date(), 'yyyy-MM-dd');
-  console.log(today);
 
   const allDay = getDaysInMonth(monthYear.month, monthYear.year).filter(
     i =>
@@ -208,10 +207,6 @@ function BookingTableScreen({route}: Props) {
 
   const onConfirmDate = () => {
     setStep(1);
-    // onShowCalendar(false);
-    // setTimeout(() => {
-    //   onShowTable(true);
-    // }, 500);
   };
 
   const onTableSelect = (id: any) => {
@@ -383,7 +378,7 @@ function BookingTableScreen({route}: Props) {
         enablePanDownToClose
         snapPoints={snapPoints}
         backdropComponent={({style}) =>
-          sheetIndex === 0 ? (
+          sheetIndex >= 0 ? (
             <Pressable
               onPress={() => bookingSheetRef.current?.close()}
               style={[style, {backgroundColor: 'rgba(0, 0, 0, 0.60)'}]}
