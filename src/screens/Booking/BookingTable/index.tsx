@@ -97,7 +97,6 @@ function BookingTableScreen({route}: Props) {
   }, []);
 
   const today = dateFormatter(new Date(), 'yyyy-MM-dd');
-  console.log(today);
 
   const allDay = getDaysInMonth(monthYear.month, monthYear.year).filter(
     i =>
@@ -208,10 +207,6 @@ function BookingTableScreen({route}: Props) {
 
   const onConfirmDate = () => {
     setStep(1);
-    // onShowCalendar(false);
-    // setTimeout(() => {
-    //   onShowTable(true);
-    // }, 500);
   };
 
   const onTableSelect = (id: any) => {

@@ -34,6 +34,7 @@ interface HeaderPropsI {
   onRightCustomComponentPress?: () => void;
   hasLogo?: boolean;
   RightComponent?: JSX.Element;
+  CenterComponent?: JSX.Element;
 }
 
 function Header({
@@ -56,6 +57,7 @@ function Header({
   RightComponent,
   rightCustomComponent,
   onRightCustomComponentPress,
+  CenterComponent,
 }: HeaderPropsI) {
   const theme = useTheme();
   const navigation = useNavigation();
@@ -71,6 +73,12 @@ function Header({
             <ArrowLeft size={24} color={theme?.colors.ICON} />
           </TouchableOpacity>
         </HeaderLeft>
+      )}
+
+      {CenterComponent && (
+        <View className="flex-1 justify-center items-center">
+          {CenterComponent}
+        </View>
       )}
 
       {hasLogo && (

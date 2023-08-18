@@ -10,7 +10,7 @@ import {
 } from 'iconsax-react-native';
 import {Button, Gap, Layout, Section, Text} from '../../../components/atoms';
 import {Header, HorizontalMenu} from '../../../components/molecules';
-import {Image, ScrollView, View} from 'react-native';
+import {Image, ScrollView, TouchableOpacity, View} from 'react-native';
 import {PLACES_DATA, PLACE_MENU, PLACE_OVERVIEW} from '../../../utils/data';
 import {
   PlaceInterface,
@@ -26,6 +26,7 @@ import styles from '../Styles';
 import {useImageAspectRatio} from '../../../hooks/useImageAspectRatio';
 import useTheme from '../../../theme/useTheme';
 import {PlaceCard} from '../../../components/organism';
+import {navigationRef} from '../../../navigation/RootNavigation';
 
 type Props = NativeStackScreenProps<MainStackParams, 'PlaceDetail', 'MyStack'>;
 export const PlaceDetail = ({route, navigation}: Props) => {
@@ -143,7 +144,11 @@ export const PlaceDetail = ({route, navigation}: Props) => {
         rounded={8}>
         <Section isRow isBetween>
           <Text variant="base" fontWeight="bold" label="Available Offers" />
-          <Text label="See all offers" />
+          <TouchableOpacity
+            activeOpacity={0.7}
+            onPress={() => navigationRef.navigate('Offers' as never)}>
+            <Text label="See all offers" />
+          </TouchableOpacity>
         </Section>
         <Gap height={12} />
         <Section isRow isBetween>

@@ -14,6 +14,7 @@ import {
   IcIdCard,
   IcInbox,
   IcLegal,
+  IcLogOut,
   IcMembership,
   IcNotification,
   IcPencil,
@@ -28,8 +29,19 @@ import colors from '../styles/colors';
 import LinearGradient from 'react-native-linear-gradient';
 import CardProfileMenu from '../components/molecules/Card/CardProfileMenu';
 import {navigationRef} from '../navigation/RootNavigation';
+import {handleLogOut} from '../store/user/userActions';
+import {removeStorage} from '../service/mmkvStorage';
+import {useDispatch} from 'react-redux';
+import auth from '@react-native-firebase/auth';
 
 function ProfileScreen() {
+  const dispatch = useDispatch();
+  const onLogOut = async () => {
+    await removeStorage('refreshToken');
+    await removeStorage('userAuth');
+    await auth().signOut();
+    dispatch(handleLogOut());
+  };
   return (
     <Layout>
       <ScrollView showsVerticalScrollIndicator={false}>
@@ -141,7 +153,10 @@ function ProfileScreen() {
               </LinearGradient>
             </TouchableOpacity>
             <Gap width={20} />
-            <TouchableOpacity activeOpacity={0.7} className="flex-1">
+            <TouchableOpacity
+              activeOpacity={0.7}
+              className="flex-1"
+              onPress={() => navigationRef.navigate('PaymentPage' as never)}>
               <LinearGradient
                 colors={['#5980E9', '#70ACBB']}
                 className="p-3 rounded-md flex-row items-center justify-center">
@@ -208,6 +223,7 @@ function ProfileScreen() {
             title="Business hub"
             onPress={() => {}}
           />
+          <CardProfileMenu icon={IcLogOut} title="Log Out" onPress={onLogOut} />
         </View>
       </ScrollView>
     </Layout>
