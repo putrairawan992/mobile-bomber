@@ -207,10 +207,6 @@ function BookingTableScreen({route}: Props) {
 
   const onConfirmDate = () => {
     setStep(1);
-    // onShowCalendar(false);
-    // setTimeout(() => {
-    //   onShowTable(true);
-    // }, 500);
   };
 
   const onTableSelect = (id: any) => {

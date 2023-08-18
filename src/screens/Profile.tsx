@@ -153,7 +153,10 @@ function ProfileScreen() {
               </LinearGradient>
             </TouchableOpacity>
             <Gap width={20} />
-            <TouchableOpacity activeOpacity={0.7} className="flex-1">
+            <TouchableOpacity
+              activeOpacity={0.7}
+              className="flex-1"
+              onPress={() => navigationRef.navigate('PaymentPage' as never)}>
               <LinearGradient
                 colors={['#5980E9', '#70ACBB']}
                 className="p-3 rounded-md flex-row items-center justify-center">

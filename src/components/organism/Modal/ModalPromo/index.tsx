@@ -1,9 +1,10 @@
-import {TouchableOpacity, View} from 'react-native';
+import {Image, StyleSheet, TouchableOpacity, View} from 'react-native';
 import React from 'react';
 import Modal from 'react-native-modal';
-import {Button, DefaultText, Gap} from '../../../atoms';
+import {Button, DefaultText, Gap, GradientText} from '../../../atoms';
 import {colors} from '../../../../utils/colors';
-import {ArrowRight2, Information, People} from 'iconsax-react-native';
+import {ArrowRight2} from 'iconsax-react-native';
+import {IcDoor, IcWarning} from '../../../../theme/Images';
 
 interface ModalPromoProps {
   show: boolean;
@@ -18,13 +19,12 @@ export default function ModalPromo({show, hide, onUse}: ModalPromoProps) {
       isVisible={show}
       onBackButtonPress={hide}
       onBackdropPress={hide}>
-      <View className="absolute bottom-0 right-0 left-0 bg-container p-4 rounded-t-xl">
-        <View className="w-[50] h-[4] rounded-full bg-gray self-center" />
+      <View className="absolute bottom-0 right-0 left-0 bg-container p-4 rounded-t-xl bg-neutral-800">
+        <View className="w-[50] h-[4] rounded-full bg-neutral-600 self-center" />
         <Gap height={15} />
-        <DefaultText
-          title="50% Discount"
-          titleClassName="text-center text-[18px] font-inter-bold"
-        />
+        <GradientText colors={['#C800CC', '#A060FA']} style={styles.discount}>
+          50% discount
+        </GradientText>
         <Gap height={5} />
         <DefaultText title="1/2 coupon applied" titleClassName="text-center" />
         <Gap height={15} />
@@ -55,7 +55,11 @@ export default function ModalPromo({show, hide, onUse}: ModalPromoProps) {
         </View>
         <Gap height={15} />
         <View className="flex-row items-center border-[1px] border-white self-start rounded-full py-1 px-2">
-          <People color={colors.white} size={18} />
+          <Image
+            source={IcDoor}
+            resizeMode="contain"
+            className="w-[16] h-[16]"
+          />
           <DefaultText
             title="walk in only"
             titleClassName="font-inter-bold ml-1"
@@ -63,12 +67,16 @@ export default function ModalPromo({show, hide, onUse}: ModalPromoProps) {
         </View>
         <Gap height={20} />
         <TouchableOpacity activeOpacity={0.7} className="flex-row items-center">
-          <Information color={colors.white} size={20} />
+          <Image
+            source={IcWarning}
+            resizeMode="contain"
+            className="w-[16] h-[16]"
+          />
           <DefaultText
             title="Read Term and Conditions"
             titleClassName="flex-1 mx-2"
           />
-          <ArrowRight2 color={colors.white} size={24} />
+          <ArrowRight2 color={colors.white} size={20} />
         </TouchableOpacity>
         <Gap height={20} />
         <Button title="Use" onPress={onUse} type="primary" />
@@ -77,3 +85,11 @@ export default function ModalPromo({show, hide, onUse}: ModalPromoProps) {
     </Modal>
   );
 }
+
+const styles = StyleSheet.create({
+  discount: {
+    textAlign: 'center',
+    fontFamily: 'Inter-Bold',
+    fontSize: 18,
+  },
+});

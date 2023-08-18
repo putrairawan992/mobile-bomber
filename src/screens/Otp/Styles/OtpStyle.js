@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import EStyleSheet from 'react-native-extended-stylesheet';
-import {isIphoneX} from '../../../libs/Utils';
 import {Colors} from '../../../theme';
 
 const styles = EStyleSheet.create({

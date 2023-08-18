@@ -53,6 +53,7 @@ export default EStyleSheet.create({
     position: 'absolute',
     top: 10,
     left: 16,
+    zIndex: 999,
   },
   textSubChild: {
     marginLeft: 5,

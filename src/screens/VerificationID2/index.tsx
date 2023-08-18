@@ -4,16 +4,34 @@ import {
   View,
   TouchableOpacity,
   Image,
+  Platform,
 } from 'react-native';
-import React from 'react';
+import React, {useState} from 'react';
 import {DefaultText, Gap, Layout} from '../../components/atoms';
 import {Header} from '../../components/molecules';
 import colors from '../../styles/colors';
 import LinearGradient from 'react-native-linear-gradient';
 import {IcPicture, IcUploadSecond} from '../../theme/Images';
 import {navigationRef} from '../../navigation/RootNavigation';
+import {Asset, launchImageLibrary} from 'react-native-image-picker';
 
 export default function VerificationID2() {
+  const [frontImage, setFrontImage] = useState<Asset>();
+  const [backImage, setBackImage] = useState<Asset>();
+
+  const onPickImage = async (name: 'front' | 'back') => {
+    const result = await launchImageLibrary({mediaType: 'photo'});
+    if (result.assets) {
+      if (name === 'front') {
+        setFrontImage(result.assets[0]);
+      } else {
+        setBackImage(result.assets[0]);
+      }
+    }
+  };
+
+  console.log(frontImage?.uri);
+
   return (
     <Layout>
       <Header
@@ -50,24 +68,42 @@ export default function VerificationID2() {
               titleClassName="flex-1 ml-2"
             />
           </View>
-          <View className="bg-grey-one rounded-lg p-5 border-[2px] border-neutral-400 border-dotted">
-            <Image
-              source={IcUploadSecond}
-              resizeMode="contain"
-              className="w-[48] h-[48] self-center"
-            />
-            <Gap height={10} />
-            <DefaultText
-              title="Upload your ID Card"
-              titleClassName="font-inter-bold text-lg text-center"
-            />
-            <Gap height={10} />
+          {frontImage ? (
             <TouchableOpacity
               activeOpacity={0.7}
-              className="border-b-[1px] border-b-white self-center">
-              <DefaultText title="Browse files" titleClassName="" />
+              onPress={() => onPickImage('front')}>
+              <Image
+                source={{
+                  uri:
+                    Platform.OS === 'ios'
+                      ? frontImage.uri?.replace('file://', '/')
+                      : frontImage.uri,
+                }}
+                resizeMode="cover"
+                className="w-full h-[180] rounded-lg"
+              />
             </TouchableOpacity>
-          </View>
+          ) : (
+            <View className="bg-grey-one rounded-lg p-5 border-[2px] border-neutral-400 border-dotted">
+              <Image
+                source={IcUploadSecond}
+                resizeMode="contain"
+                className="w-[48] h-[48] self-center"
+              />
+              <Gap height={10} />
+              <DefaultText
+                title="Upload your ID Card"
+                titleClassName="font-inter-bold text-lg text-center"
+              />
+              <Gap height={10} />
+              <TouchableOpacity
+                activeOpacity={0.7}
+                className="border-b-[1px] border-b-white self-center"
+                onPress={() => onPickImage('front')}>
+                <DefaultText title="Browse files" titleClassName="" />
+              </TouchableOpacity>
+            </View>
+          )}
 
           <Gap height={15} />
           <View className="flex-row items-center mb-2">
@@ -81,24 +117,42 @@ export default function VerificationID2() {
               titleClassName="flex-1 ml-2"
             />
           </View>
-          <View className="bg-grey-one rounded-lg p-5 border-[2px] border-neutral-400 border-dotted">
-            <Image
-              source={IcUploadSecond}
-              resizeMode="contain"
-              className="w-[48] h-[48] self-center"
-            />
-            <Gap height={10} />
-            <DefaultText
-              title="Upload your ID Card"
-              titleClassName="font-inter-bold text-lg text-center"
-            />
-            <Gap height={10} />
+          {backImage ? (
             <TouchableOpacity
               activeOpacity={0.7}
-              className="border-b-[1px] border-b-white self-center">
-              <DefaultText title="Browse files" titleClassName="" />
+              onPress={() => onPickImage('back')}>
+              <Image
+                source={{
+                  uri:
+                    Platform.OS === 'ios'
+                      ? backImage.uri?.replace('file://', '/')
+                      : backImage.uri,
+                }}
+                resizeMode="cover"
+                className="w-full h-[180] rounded-lg"
+              />
             </TouchableOpacity>
-          </View>
+          ) : (
+            <View className="bg-grey-one rounded-lg p-5 border-[2px] border-neutral-400 border-dotted">
+              <Image
+                source={IcUploadSecond}
+                resizeMode="contain"
+                className="w-[48] h-[48] self-center"
+              />
+              <Gap height={10} />
+              <DefaultText
+                title="Upload your ID Card"
+                titleClassName="font-inter-bold text-lg text-center"
+              />
+              <Gap height={10} />
+              <TouchableOpacity
+                activeOpacity={0.7}
+                className="border-b-[1px] border-b-white self-center"
+                onPress={() => onPickImage('back')}>
+                <DefaultText title="Browse files" titleClassName="" />
+              </TouchableOpacity>
+            </View>
+          )}
         </View>
       </ScrollView>
 
