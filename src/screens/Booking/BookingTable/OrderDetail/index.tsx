@@ -1,11 +1,18 @@
 /* eslint-disable react-native/no-inline-styles */
 import {BottomSheetScrollView} from '@gorhom/bottom-sheet';
 import {AddCircle, ArrowLeft} from 'iconsax-react-native';
-import React from 'react';
+import React, {useState} from 'react';
 import {Image, Platform, Switch, TouchableOpacity, View} from 'react-native';
-import {Building, Calendar, CircleDot, Coupon} from '../../../../assets/icons';
+import {
+  Building,
+  Calendar,
+  CircleDot,
+  Close,
+  Coupon,
+} from '../../../../assets/icons';
 import {
   Button,
+  DefaultText,
   Gap,
   GradientText,
   Section,
@@ -17,6 +24,10 @@ import {Colors, Images} from '../../../../theme';
 import useTheme from '../../../../theme/useTheme';
 import {WIDTH} from '../../../../utils/config';
 import {dateFormatter} from '../../../../utils/dateFormatter';
+import {IcChevronRight} from '../../../../theme/Images';
+import {images} from '../../../../utils/images';
+import colors from '../../../../styles/colors';
+import ModalBookingTablePromotion from '../../../../components/molecules/Modal/ModalBookingTablePromotion';
 
 interface TableOrderDetailProps {
   placeData: PlaceInterface | null;
@@ -36,14 +47,17 @@ export const TableOrderDetail = ({
   selectedTable,
   isFullPayment,
   selectedDate,
-  isSplitBill,
-  toggleSwitchSplitBill,
+  // isSplitBill,
+  // toggleSwitchSplitBill,
   toggleSwitchPayFull,
   isWalkIn,
   hasBackNavigation,
   onBackNavigation,
 }: TableOrderDetailProps) => {
   const theme = useTheme();
+
+  const [showPromo, setShowPromo] = useState<boolean>(false);
+
   return (
     <BottomSheetScrollView
       contentContainerStyle={{
@@ -287,7 +301,7 @@ export const TableOrderDetail = ({
           <Text fontWeight="medium" label="VISA +64" />
         </Section>
       </Section>
-      <Gap height={20} />
+      {/* <Gap height={20} />
       <Section
         padding="16px 16px"
         backgroundColor={theme?.colors.SECTION}
@@ -307,24 +321,50 @@ export const TableOrderDetail = ({
             }),
           }}
         />
-      </Section>
+      </Section> */}
       <Gap height={20} />
       <Section
         padding="16px 16px"
         backgroundColor={theme?.colors.SECTION}
-        rounded={8}
-        isRow
-        style={{flex: 1}}>
-        <Coupon size={32} color={Colors['warning-500']} />
-        <Text
-          fontWeight="bold"
-          label="      Apply promo to get special discount"
-        />
+        rounded={8}>
+        <View className="flex-row mb-3">
+          <Image className="w-[48] h-[50]" source={images.discountPercent} />
+          <View className="bg-black flex-1 justify-center px-3 rounded-tr-lg rounded-br-lg border-[0.5px] border-neutral-600 border-l-transparent flex-row items-center">
+            <DefaultText
+              title="Discount 50% for ladies"
+              titleClassName="font-inter-semibold flex-1"
+            />
+            <TouchableOpacity activeOpacity={0.7}>
+              <Close size={22} color={colors.white} />
+            </TouchableOpacity>
+          </View>
+        </View>
+        <TouchableOpacity
+          activeOpacity={0.7}
+          onPress={() => setShowPromo(true)}>
+          <Section isRow>
+            <Coupon size={32} color={Colors['warning-500']} />
+            <DefaultText
+              title="Apply promo to get special discount"
+              titleClassName="flex-1 ml-3 mr-1 font-inter-bold"
+            />
+            <Image
+              source={IcChevronRight}
+              resizeMode="contain"
+              className="w-[7.5] h-[13.5]"
+            />
+          </Section>
+        </TouchableOpacity>
       </Section>
 
       <Gap height={20} />
       <Button type="primary" title="Pay" onPress={() => undefined} />
       <Gap height={20} />
+
+      <ModalBookingTablePromotion
+        show={showPromo}
+        hide={() => setShowPromo(false)}
+      />
     </BottomSheetScrollView>
   );
 };
