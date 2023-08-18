@@ -1,19 +1,21 @@
 export interface UserInterface {
   userId: string;
   fullName?: string;
-  email?: string;
-  token?: string;
+  email?: string | null;
   password?: string;
-  username: string;
+  username: string | null;
   phone: string;
-  photo_url?: string | null;
+  photoUrl?: string | null;
   age?: number;
   bio?: string;
+  creationTime: number;
+  lastSignInTime: number;
+  emailVerified: boolean;
 }
 
 export interface LoginPayloadInterface {
   phone: string;
-  password: string;
+  password?: string;
 }
 
 export interface SignUpPayloadInterface {

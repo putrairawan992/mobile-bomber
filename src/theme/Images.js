@@ -151,6 +151,11 @@ const IcPlusRounded = require('../assets/images/ic_plus-rounded.png');
 const IcCheckHistory = require('../assets/images/ic_check-history.png');
 const IcRemoveCard = require('../assets/images/ic_remove-card.png');
 const IcCheckRounded = require('../assets/images/ic_check-rounded.png');
+const ImgOmniClub = require('../assets/images/img_omni-club.png');
+const ImgProductPromo = require('../assets/images/img_product-promo.png');
+const IcWarning = require('../assets/images/ic_warning.png');
+const IcDoor = require('../assets/images/ic_door.png');
+const IcLogOut = require('../assets/images/log_out.png');
 
 export {
   BackHome,
@@ -302,4 +307,9 @@ export {
   IcCheckHistory,
   IcRemoveCard,
   IcCheckRounded,
+  ImgOmniClub,
+  ImgProductPromo,
+  IcWarning,
+  IcDoor,
+  IcLogOut,
 };
