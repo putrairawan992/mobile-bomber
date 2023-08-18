@@ -68,7 +68,7 @@ function Header({
           <TouchableOpacity
             style={styles.backBtn}
             onPress={() => {
-              navigation.goBack();
+              onBackPress ? onBackPress() : navigation.goBack();
             }}>
             <ArrowLeft size={24} color={theme?.colors.ICON} />
           </TouchableOpacity>
