@@ -358,7 +358,7 @@ export const TableOrderDetail = ({
       </Section>
 
       <Gap height={20} />
-      <Button type="primary" title="Confirm" onPress={() => undefined} />
+      <Button type="primary" title="Pay" onPress={() => undefined} />
       <Gap height={20} />
 
       <ModalBookingTablePromotion

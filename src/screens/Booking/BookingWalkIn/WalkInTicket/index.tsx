@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-inline-styles */
 import {Platform, Pressable, ScrollView, UIManager} from 'react-native';
 import {Header} from '../../../../components/molecules';
 import {Gap, Layout, Section, Text} from '../../../../components/atoms';
@@ -47,7 +48,7 @@ export const WalkInTicketScreen = ({route}: Props) => {
         ? ['50']
         : isGroupPackage && !isFirstStep
         ? ['80']
-        : ['70'],
+        : ['70', '90'],
     [isFirstStep, isGroupPackage],
   );
   const [isPayFull, setIsPayFull] = useState(false);
@@ -102,7 +103,7 @@ export const WalkInTicketScreen = ({route}: Props) => {
         enablePanDownToClose
         snapPoints={snapPoints}
         backdropComponent={({style}) =>
-          sheetIndex === 0 ? (
+          sheetIndex >= 0 ? (
             <Pressable
               onPress={() => bookingSheetRef.current?.close()}
               style={[style, {backgroundColor: 'rgba(0, 0, 0, 0.60)'}]}
