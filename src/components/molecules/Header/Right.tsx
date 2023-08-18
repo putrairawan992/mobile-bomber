@@ -52,7 +52,7 @@ function HeaderRight({
           <Pin color={theme?.colors.ICON} size={16} style={{marginRight: 4}} />
           <Text
             label={
-              userLocation.address
+              userLocation.city
                 ? `${userLocation.city}, ${userLocation.country}`
                 : 'Unknown'
             }
