@@ -45,3 +45,7 @@ export interface PlaceEventsInterface {
   date: string;
   events: EventInterface[];
 }
+
+export interface ResponseGetPlaceInterface {
+  PLACES_DATA: PlaceInterface[];
+}
