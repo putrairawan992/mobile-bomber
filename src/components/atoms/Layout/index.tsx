@@ -34,9 +34,12 @@ export const Layout = ({
         style={{backgroundColor: backgroundColor ?? theme?.colors.BACKGROUND1}}
       />
       <KeyboardAwareScrollView
+        extraScrollHeight={100} // (when scroll)to have extra height between keyboard and text input
+        enableOnAndroid={true}
+        extraHeight={80} // make some height so the keyboard wont cover other component
         scrollEnabled={isScrollable}
         contentContainerStyle={{
-          flex: 1,
+          flexGrow: 1,
           backgroundColor: backgroundColor ?? theme?.colors.BACKGROUND1,
           ...contentContainerStyle,
         }}

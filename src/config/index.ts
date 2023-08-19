@@ -10,6 +10,7 @@ const {
   FIREBASE_MESSAGING_SENDER_ID,
   FIREBASE_APP_ID,
   FIREBASE_MEASUREMENT_ID,
+  API_ENDPOINT,
 } = Config;
 
 export interface ConfigInterface {
@@ -22,6 +23,7 @@ export interface ConfigInterface {
   firebaseMessagingSenderId: string;
   firebaseAppId: string;
   firebaseMeasurementId: string;
+  apiEndpoint: string;
 }
 
 export default <ConfigInterface>{
@@ -34,4 +36,5 @@ export default <ConfigInterface>{
   firebaseMessagingSenderId: FIREBASE_MESSAGING_SENDER_ID,
   firebaseAppId: FIREBASE_APP_ID,
   firebaseMeasurementId: FIREBASE_MEASUREMENT_ID,
+  apiEndpoint: API_ENDPOINT,
 };

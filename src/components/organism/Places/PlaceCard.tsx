@@ -20,7 +20,11 @@ export const PlaceCard = ({
   isPlaceDetail = false,
 }: PlaceCardProps) => {
   const theme = useTheme();
-  const aspectRatio = useImageAspectRatio(item?.logo as string);
+  const aspectRatio = useImageAspectRatio(
+    typeof item?.logo === 'string'
+      ? (item.logo as string)
+      : (item?.logo[0] as string),
+  );
 
   const renderSchedule = () => {
     return (
@@ -45,7 +49,7 @@ export const PlaceCard = ({
 
   return (
     <ScaleAnimation
-      onPress={() => onSelect(item.id)}
+      onPress={() => onSelect(item.id.toString())}
       disabled={isPlaceDetail ? true : false}
       scaleTo={0.97}
       style={{
@@ -53,7 +57,12 @@ export const PlaceCard = ({
       }}>
       <>
         <ImageBackground
-          source={{uri: item.coverImage}}
+          source={{
+            uri:
+              typeof item?.coverImage === 'string'
+                ? item?.coverImage
+                : item?.coverImage[0],
+          }}
           style={{width: '100%', height: 231}}
           imageStyle={{
             ...(!isPlaceDetail && {
@@ -102,7 +111,12 @@ export const PlaceCard = ({
             ) : (
               <>
                 <Image
-                  source={{uri: item?.logo}}
+                  source={{
+                    uri:
+                      typeof item?.logo === 'string'
+                        ? (item.logo as string)
+                        : (item?.logo[0] as string),
+                  }}
                   style={{height: 56, aspectRatio, marginBottom: 50}}
                 />
                 <Text label="Featured Today" />
