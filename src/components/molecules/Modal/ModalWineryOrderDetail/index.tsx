@@ -47,7 +47,7 @@ export default function ModalWineryOrderDetail({
                     titleClassName="text-xs font-inter-medium text-neutral-400"
                   />
                 </View>
-                <DefaultText title="NT 36.000" />
+                <DefaultText title="NT 36,000" />
               </View>
               <View className="flex-row items-center mb-[10]">
                 <View className="flex-1">
@@ -60,7 +60,7 @@ export default function ModalWineryOrderDetail({
                     titleClassName="text-xs font-inter-medium text-neutral-400"
                   />
                 </View>
-                <DefaultText title="NT 36.000" />
+                <DefaultText title="NT 36,000" />
               </View>
               <Gap height={10} />
               <View className="flex-row items-center">
@@ -74,7 +74,7 @@ export default function ModalWineryOrderDetail({
                     titleClassName="text-xs font-inter-medium text-neutral-400"
                   />
                 </View>
-                <DefaultText title="NT 1.000" />
+                <DefaultText title="NT 1,000" />
               </View>
               <Gap height={10} />
               <View className="flex-row items-center">
@@ -82,7 +82,7 @@ export default function ModalWineryOrderDetail({
                   <DefaultText title="TOTAL" titleClassName="font-inter-bold" />
                 </View>
                 <DefaultText
-                  title="NT 31.500"
+                  title="NT 31,500"
                   titleClassName="font-inter-bold"
                 />
               </View>
@@ -146,7 +146,7 @@ const SplitBillItem = () => {
           titleClassName="font-poppins-semibold text-base"
         />
         <DefaultText
-          title={'NT 7.400'}
+          title={'NT 7,400'}
           titleClassName="font-poppins-regular text-neutral-400 text-xs"
         />
       </View>

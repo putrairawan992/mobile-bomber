@@ -21,7 +21,7 @@ export default function CardBooking({type}: CardBooking) {
           titleClassName="text-xs text-neutral-400 flex-1"
         />
         <DefaultText
-          title={'NT 42.000'}
+          title={'NT 42,000'}
           titleClassName="text-xs font-poppins-semibold text-yellow-600"
         />
       </View>

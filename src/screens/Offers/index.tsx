@@ -36,14 +36,14 @@ export default function Offers() {
             image={ImgProductPromo}
             title="FREE FLOW"
             subtitle="SPENT WITH MINIMUM PURCHASE
-            NT 40.000"
+            NT 40,000"
             time="14:10"
           />
           <CardPromo
             image={ImgProductPromo}
             title="FREE FLOW"
             subtitle="SPENT WITH MINIMUM PURCHASE
-            NT 40.000"
+            NT 40,000"
             time="14:10"
           />
         </ScrollView>
@@ -57,7 +57,7 @@ export default function Offers() {
         <CardCoupon
           type="free"
           title="Free 2 cocktail"
-          subtitle="Minimum purchase NT 15.000"
+          subtitle="Minimum purchase NT 15,000"
         />
         <CardCoupon
           type="discount"
@@ -67,7 +67,7 @@ export default function Offers() {
         />
         <CardCoupon
           type="discount"
-          title="Discount NT 3.000 for any Food"
+          title="Discount NT 3,000 for any Food"
           subtitle="Entry before 11pm"
         />
 
@@ -79,17 +79,17 @@ export default function Offers() {
         <Gap height={10} />
         <CardCoupon
           type="discount"
-          title="Discount NT 3.000 for any Food"
+          title="Discount NT 3,000 for any Food"
           subtitle="Entry before 11pm"
         />
         <CardCoupon
           type="discount"
-          title="Discount NT 3.000 for any Food"
+          title="Discount NT 3,000 for any Food"
           subtitle="Entry before 11pm"
         />
         <CardCoupon
           type="discount"
-          title="Discount NT 3.000 for any Food"
+          title="Discount NT 3,000 for any Food"
           subtitle="Entry before 11pm"
         />
       </ScrollView>

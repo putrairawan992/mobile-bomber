@@ -19,7 +19,7 @@ export default function CardSongPlaylist() {
             titleClassName="font-inter-medium flex-1"
           />
           <DefaultText
-            title="NT 150.000"
+            title="NT 150,000"
             titleClassName="font-inter-medium text-neutral-400"
           />
         </View>

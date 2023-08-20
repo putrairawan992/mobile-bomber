@@ -22,7 +22,7 @@ export default function MyBookingDetail() {
 
   return (
     <Layout contentContainerStyle={styles.container}>
-      <Header transparent title="My Booking" hasBackBtn />
+      <Header transparent title="Booking Detail" hasBackBtn />
       <Spacer height={10} />
       <View className="flex-row">
         {menu.map((item, index) => {

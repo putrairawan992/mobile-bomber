@@ -20,6 +20,8 @@ import colors from '../../styles/colors';
 import {IcBookRounded, ImgBackgroundDj} from '../../theme/Images';
 import CardSongPlaylist from '../../components/molecules/Card/CardSongPlaylist';
 import {navigationRef} from '../../navigation/RootNavigation';
+import LinearGradient from 'react-native-linear-gradient';
+import MaskedView from '@react-native-masked-view/masked-view';
 
 export default function SongPlaylist() {
   const {width, height} = useWindowDimensions();
@@ -32,7 +34,11 @@ export default function SongPlaylist() {
         title="Ask DJ"
         titleStyle={styles.headerTitle}
         RightComponent={
-          <TouchableOpacity activeOpacity={0.7}>
+          <TouchableOpacity
+            activeOpacity={0.7}
+            onPress={() =>
+              navigationRef.navigate('HistoryRequestSong' as never)
+            }>
             <Image
               source={IcBookRounded}
               resizeMode="contain"
@@ -51,21 +57,35 @@ export default function SongPlaylist() {
         }}
         className="absolute"
       />
-      <FlatList
-        data={[1, 2, 3, 4, 5]}
-        keyExtractor={(_, key) => key.toString()}
-        renderItem={() => <CardSongPlaylist />}
-        showsVerticalScrollIndicator={false}
-        ListHeaderComponent={
-          <GradientText
-            colors={['#A060FA', '#C800CC']}
-            xAxis={0.2}
-            style={styles.title}>
-            DJ Playlist
-          </GradientText>
-        }
-      />
-      <View className="pb-20 pt-5">
+
+      <MaskedView
+        style={styles.container}
+        maskElement={
+          <LinearGradient
+            start={{x: 0, y: 0.8}}
+            end={{x: 0, y: 1}}
+            style={styles.container}
+            colors={['black', 'transparent']}
+          />
+        }>
+        <FlatList
+          contentContainerStyle={styles.listContainer}
+          data={[1, 2, 3, 4, 5]}
+          keyExtractor={(_, key) => key.toString()}
+          renderItem={() => <CardSongPlaylist />}
+          showsVerticalScrollIndicator={false}
+          ListHeaderComponent={
+            <GradientText
+              colors={['#A060FA', '#C800CC']}
+              xAxis={0.2}
+              style={styles.title}>
+              DJ Playlist
+            </GradientText>
+          }
+        />
+      </MaskedView>
+
+      <View className="pb-10 pt-5">
         <DefaultText
           title="Want your song listed here ?"
           titleClassName="font-inter-bold text-base text-blue-500 text-center"
@@ -99,5 +119,11 @@ const styles = StyleSheet.create({
   buttonRequest: {
     alignSelf: 'center',
     paddingHorizontal: 70,
+  },
+  container: {
+    flex: 1,
+  },
+  listContainer: {
+    paddingBottom: 50,
   },
 });

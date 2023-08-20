@@ -3,7 +3,11 @@ import React from 'react';
 import {DefaultText, Gap} from '../../../atoms';
 import {ImgWineryOrder} from '../../../../theme/Images';
 
-export default function CardWineryOrder() {
+interface CardWineryOrder {
+  onAddToCart: () => void;
+}
+
+export default function CardWineryOrder({onAddToCart}: CardWineryOrder) {
   return (
     <View className="flex-row px-5 py-6">
       <View className="flex-1">
@@ -24,7 +28,8 @@ export default function CardWineryOrder() {
         <Gap height={8} />
         <TouchableOpacity
           activeOpacity={0.7}
-          className="bg-primary p-2 self-start rounded-md">
+          className="bg-primary p-2 self-start rounded-md"
+          onPress={() => onAddToCart()}>
           <DefaultText title="Add to cart" />
         </TouchableOpacity>
       </View>
