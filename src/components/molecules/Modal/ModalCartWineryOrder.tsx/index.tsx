@@ -55,7 +55,7 @@ export default function ModalCartWineryOrder({
                 titleClassName="flex-1 font-poppins-regular"
               />
               <DefaultText
-                title="NT 108.000"
+                title="NT 108,000"
                 titleClassName="font-poppins-bold text-primary"
               />
             </View>

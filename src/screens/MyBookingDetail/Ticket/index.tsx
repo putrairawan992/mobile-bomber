@@ -94,7 +94,7 @@ export default function Ticket() {
           </View>
           <Spacer height={10} />
           <DefaultText
-            title="Spent 14.000 / 350.000 NT"
+            title="Spent 14,000 / 350,000 NT"
             titleClassName="text-center font-inter-medium text-neutral-400"
           />
           <View className="w-full h-[0.5] bg-neutral-700 my-4" />
@@ -176,7 +176,7 @@ export default function Ticket() {
           <Spacer height={10} />
           <TouchableOpacity
             activeOpacity={0.7}
-            className="border-[1px] border-white px-3 py-[10px] rounded-md flex-row justify-center"
+            className="border-[1px] border-white px-3 py-[10px] rounded-md flex-row justify-center items-center"
             onPress={() => {}}>
             <Image
               source={IcDetailBooking}

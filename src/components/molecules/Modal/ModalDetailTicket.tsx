@@ -37,7 +37,7 @@ export default function ModalDetailTicket({show, hide}: ModalDetailTicket) {
                 titleClassName="text-xs font-inter-medium text-neutral-400"
               />
             </View>
-            <DefaultText title="30.000 NT" />
+            <DefaultText title="30,000 NT" />
           </View>
           <Spacer height={10} />
           <View className="flex-row items-center">
@@ -58,7 +58,7 @@ export default function ModalDetailTicket({show, hide}: ModalDetailTicket) {
                 titleClassName="font-inter-medium"
               />
             </View>
-            <DefaultText title="-1.500 NT" />
+            <DefaultText title="-1,500 NT" />
           </View>
           <Spacer height={10} />
           <View className="flex-row items-center">
@@ -72,14 +72,14 @@ export default function ModalDetailTicket({show, hide}: ModalDetailTicket) {
                 titleClassName="text-xs font-inter-medium text-neutral-400"
               />
             </View>
-            <DefaultText title="1.500 NT" />
+            <DefaultText title="1,500 NT" />
           </View>
           <Spacer height={10} />
           <View className="flex-row items-center">
             <View className="flex-1">
               <DefaultText title="TOTAL" titleClassName="font-inter-bold" />
             </View>
-            <DefaultText title="31.500 NT" titleClassName="font-inter-bold" />
+            <DefaultText title="31,500 NT" titleClassName="font-inter-bold" />
           </View>
           <View className="w-full h-[0.5] bg-neutral-500 my-3" />
           <DefaultText

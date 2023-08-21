@@ -123,7 +123,7 @@ const SplitBillItem = () => {
           titleClassName="font-poppins-semibold text-base"
         />
         <DefaultText
-          title={'NT 7.400'}
+          title={'NT 7,400'}
           titleClassName="font-poppins-regular text-neutral-400 text-xs"
         />
       </View>
