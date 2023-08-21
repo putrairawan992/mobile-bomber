@@ -1,18 +1,15 @@
-/* eslint-disable @typescript-eslint/no-floating-promises */
-/* eslint-disable @typescript-eslint/no-unsafe-return */
-/* eslint-disable @typescript-eslint/require-await */
-/* eslint-disable no-param-reassign */
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
 import axios from 'axios';
+import config from '../config';
 
 const ax = axios.create({
-  baseURL: 'https://restcountries.com/v3.1/',
+  baseURL: config.apiEndpoint,
 });
 
 ax.interceptors.request.use(
-  async (config: any) => {
-    config.headers['Content-Type'] = 'application/json';
-    return config;
+  async (configuration: any) => {
+    configuration.headers['Content-Type'] = 'application/json';
+    configuration.headers['x-api-key'] = config.apiKey;
+    return configuration;
   },
   (error: any) => {
     Promise.reject(error);
