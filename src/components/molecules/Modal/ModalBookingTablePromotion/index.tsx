@@ -43,7 +43,7 @@ export default function ModalBookingTablePromotion({
               <CardCoupon
                 type="free"
                 title="Free 2 cocktail"
-                subtitle="Minimum purchase NT 15.000"
+                subtitle="Minimum purchase NT 15,000"
                 containerClassName="mx-0"
                 contentClassName="bg-neutral-800"
                 onPress={() => hide()}
@@ -59,7 +59,7 @@ export default function ModalBookingTablePromotion({
               />
               <CardCoupon
                 type="discount"
-                title="Discount NT 3.000 for any Food"
+                title="Discount NT 3,000 for any Food"
                 subtitle="Entry before 11pm"
                 containerClassName="mx-0"
                 contentClassName="bg-neutral-800"
@@ -75,7 +75,7 @@ export default function ModalBookingTablePromotion({
               <Gap height={10} />
               <CardCoupon
                 type="discount"
-                title="Discount NT 3.000 for any Food"
+                title="Discount NT 3,000 for any Food"
                 subtitle="Entry before 11pm"
                 containerClassName="mx-0"
                 contentClassName="bg-neutral-800"
@@ -83,7 +83,7 @@ export default function ModalBookingTablePromotion({
               />
               <CardCoupon
                 type="discount"
-                title="Discount NT 3.000 for any Food"
+                title="Discount NT 3,000 for any Food"
                 subtitle="Entry before 11pm"
                 containerClassName="mx-0"
                 contentClassName="bg-neutral-800"
@@ -91,7 +91,7 @@ export default function ModalBookingTablePromotion({
               />
               <CardCoupon
                 type="discount"
-                title="Discount NT 3.000 for any Food"
+                title="Discount NT 3,000 for any Food"
                 subtitle="Entry before 11pm"
                 containerClassName="mx-0"
                 contentClassName="bg-neutral-800"

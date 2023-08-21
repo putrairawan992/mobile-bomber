@@ -16,7 +16,7 @@ export default function CardBookingOrder() {
           titleClassName="flex-1 font-poppins-regular text-neutral-500"
         />
         <DefaultText
-          title="Total 465.000 NT"
+          title="Total 465,000 NT"
           titleClassName="font-inter-medium text-yellow-600"
         />
       </View>

@@ -52,7 +52,11 @@ export default function RequestSong() {
                 className="p-[1px] rounded-lg mx-2">
                 <TouchableOpacity
                   activeOpacity={0.7}
-                  className="p-3 bg-screen rounded-lg flex-row items-center">
+                  className="p-3 bg-screen rounded-lg flex-row items-center"
+                  onPress={() => {
+                    setTitle('Butter');
+                    setArtist('BTS');
+                  }}>
                   <DefaultText title={'Butter'} subtitle={'BTS'} />
                   <Gap width={20} />
                   <DefaultText title={'3:14'} />
@@ -160,6 +164,7 @@ export default function RequestSong() {
             }
           />
         </View>
+        <Gap height={20} />
       </ScrollView>
     </Layout>
   );
