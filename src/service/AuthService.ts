@@ -2,6 +2,7 @@ import {APIResponse} from '../interfaces/BaseApiResponse';
 import {
   LoginPayloadInterface,
   SignUpPayloadInterface,
+  UserInterface,
 } from '../interfaces/UserInterface';
 import ax from './axios';
 
@@ -16,7 +17,7 @@ export const AuthService = {
   },
   postLogin: async (
     payload: LoginPayloadInterface,
-  ): Promise<APIResponse<unknown>> => {
+  ): Promise<APIResponse<UserInterface>> => {
     const response = await ax.post(`${URL}/customer_sign_in/`, payload);
     return response.data;
   },

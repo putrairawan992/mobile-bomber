@@ -1,9 +1,10 @@
 export interface UserInterface {
   id: string;
   fullName?: string;
+  name?: string;
   email?: string | null;
   password?: string;
-  username: string | null;
+  username: string;
   phone: string;
   photoUrl?: string | null;
   age?: number;
@@ -11,6 +12,7 @@ export interface UserInterface {
   creationTime?: number;
   lastSignInTime?: number;
   emailVerified?: boolean;
+  profilePictureUrl?: string | null;
 }
 
 export interface LoginPayloadInterface {
@@ -58,6 +60,6 @@ export interface UserLocationInterface {
 export interface FriendRequestInterface {
   id: string;
   name: string;
-  photo_url: string;
+  photoUrl: string;
   date: string;
 }

@@ -44,14 +44,12 @@ export const FriendsInvitation = ({
               item.fullName.match(new RegExp(searchValue, 'i')),
           )
           .map((item: UserInterface, idx) => {
-            const isInvited = selectedInvitation.find(
-              el => el.userId === item.userId,
-            );
+            const isInvited = selectedInvitation.find(el => el.id === item.id);
             return (
               <EntryAnimation index={idx} key={idx}>
                 <Section isRow isBetween style={{marginBottom: 20}}>
                   <Avatar
-                    url={item.photo_url ?? ''}
+                    url={item.photoUrl ?? ''}
                     size="x-large"
                     alt={item.fullName ?? ''}
                     name={item.fullName}
@@ -88,7 +86,7 @@ export const FriendsInvitation = ({
             <EntryAnimation index={idx} key={idx}>
               <Section isRow isBetween style={{marginBottom: 20}}>
                 <Avatar
-                  url={item.photo_url ?? ''}
+                  url={item.photoUrl ?? ''}
                   size="x-large"
                   alt={item.fullName ?? ''}
                   name={item.fullName}

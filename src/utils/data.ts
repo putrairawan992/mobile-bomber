@@ -230,19 +230,19 @@ export const PLACE_EVENTS: PlaceEventsInterface[] = [
     date: '2023-08-03',
     events: [
       {
-        photo_url:
+        photoUrl:
           'https://www.billboard.com/wp-content/uploads/media/alesso-2017-cr-Harrison-Boyce-billboard-1548.jpg?w=942&h=623&crop=1',
         name: 'DJ Alesso',
         time: '10pm - 1am',
       },
       {
-        photo_url:
+        photoUrl:
           'https://www.publica-news.com/img_content/150_20220428DJSoda270422.jpg',
         name: 'DJ Soda',
         time: '1am - 2am',
       },
       {
-        photo_url: 'https://images2.alphacoders.com/542/542031.jpg',
+        photoUrl: 'https://images2.alphacoders.com/542/542031.jpg',
         name: 'Linkin Park',
         time: '12am - 3am',
       },
@@ -252,19 +252,19 @@ export const PLACE_EVENTS: PlaceEventsInterface[] = [
     date: '2023-08-08',
     events: [
       {
-        photo_url:
+        photoUrl:
           'https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2022-06/unnamed_3.jpeg.webp?itok=fhBZmcG3',
         name: 'DJ Armin Van Buuren',
         time: '10pm - 1am',
       },
       {
-        photo_url:
+        photoUrl:
           'https://img.okezone.com/content/2016/10/28/205/1526591/avenged-sevenfold-rilis-album-the-stage-hari-ini-5QdGDRbNUE.jpg',
         name: 'Avenged Sevenfold',
         time: '1am - 2am',
       },
       {
-        photo_url:
+        photoUrl:
           'https://news.batampos.co.id/wp-content/uploads/2021/11/Tessa-Morena-300x450.jpeg',
         name: 'DJ Tessa Morena',
         time: '12am - 3am',
@@ -275,19 +275,19 @@ export const PLACE_EVENTS: PlaceEventsInterface[] = [
     date: '2023-08-15',
     events: [
       {
-        photo_url:
+        photoUrl:
           'https://mixmag.net/assets/uploads/images/_columns2/daft-punk-film-score-dario-argento.jpg',
         name: 'DJ Daft Punk',
         time: '10pm - 1am',
       },
       {
-        photo_url:
+        photoUrl:
           'https://img.okezone.com/okz/500/library/images/2019/08/22/ff6zqt7fsegj4sny1ctt_16101.jpg',
         name: 'DJ Duo Semangka',
         time: '1am - 2am',
       },
       {
-        photo_url:
+        photoUrl:
           'https://asset-a.grid.id/crop/0x0:0x0/700x465/photo/haifoto/original/30019_muse-apapun-bisa-terjadi-di-studio.jpg',
         name: 'Muse',
         time: '12am - 3am',
@@ -298,19 +298,19 @@ export const PLACE_EVENTS: PlaceEventsInterface[] = [
     date: '2023-08-18',
     events: [
       {
-        photo_url:
+        photoUrl:
           'https://www.france.tv/image/vignette_16x9/800/450/0/6/1/949125ec-5cb41b6dcc3270efaffc949b57cc4cf2f320ef6e9c160.jpg',
         name: 'DJ Skrillex',
         time: '10pm - 1am',
       },
       {
-        photo_url:
+        photoUrl:
           'https://img.indoclubbing.com/events/545392881447261916462162145846/event-4play-alexis-hotel-jakarta-cyberjapan-dancers_260.jpg',
         name: 'Cyberjapan',
         time: '1am - 2am',
       },
       {
-        photo_url: null,
+        photoUrl: null,
         name: 'Feel Koplo',
         time: '12am - 3am',
       },
@@ -320,19 +320,19 @@ export const PLACE_EVENTS: PlaceEventsInterface[] = [
     date: '2023-08-23',
     events: [
       {
-        photo_url:
+        photoUrl:
           'https://dillonfrancis.com/wp-content/uploads/2019/04/social.jpg',
         name: 'DJ Dillon Francis',
         time: '10pm - 1am',
       },
       {
-        photo_url:
+        photoUrl:
           'https://asset.kompas.com/crops/M1gl4V_Oii_A4HOKiYh4CWRiMGk=/0x0:1500x1000/750x500/data/photo/2020/05/22/5ec706987b43c.jpg',
         name: 'Weird Genius',
         time: '1am - 2am',
       },
       {
-        photo_url:
+        photoUrl:
           'https://manofmetropolis.com/wp-content/uploads/2019/09/Yellow_Claw_20193787_8-1140x802.jpg',
         name: 'Yellow Claw',
         time: '12am - 3am',
@@ -370,66 +370,66 @@ export const TABLE_DATA: TableInterface[] = [
 
 export const USER_DATA: UserInterface[] = [
   {
-    userId: '1',
+    id: '1',
     fullName: 'Lisandro',
     username: 'lisandro',
     phone: '0811111111',
-    photo_url:
+    photoUrl:
       'https://s.hs-data.com/bilder/spieler/gross/376639.jpg?fallback=png',
     age: 26,
     bio: 'Just ordinary girl from ohama 🥰',
     email: 'lisandromartinez@gmail.com',
   },
   {
-    userId: '2',
+    id: '2',
     fullName: 'Mason Mount',
     username: 'mason_mount',
     phone: '0811111111',
-    photo_url:
+    photoUrl:
       'https://s.hs-data.com/bilder/spieler/gross/337447.jpg?fallback=png',
     age: 22,
     bio: 'Just married',
     email: 'masonmount19@gmail.com',
   },
   {
-    userId: '3',
+    id: '3',
     fullName: 'Harry Maguire',
     username: 'h_maguire',
     phone: '0811111111',
-    photo_url:
+    photoUrl:
       'https://img.a.transfermarkt.technology/portrait/header/177907-1663841733.jpg?lm=1',
     age: 32,
     bio: 'No  party without you 🥳',
     email: 'h_maguire@gmail.com',
   },
   {
-    userId: '4',
+    id: '4',
     fullName: 'Jill Valentine',
     username: 'jill_v66',
     phone: '0811111111',
-    photo_url:
+    photoUrl:
       'https://e0.pxfuel.com/wallpapers/52/767/desktop-wallpaper-jill-valentine-in-resident-evil-3-remake-iphone-background-and-resident-evil-3-phone.jpg',
     age: 21,
     bio: 'Lets hang out',
     email: 'jill_v@gmail.com',
   },
   {
-    userId: '5',
+    id: '5',
     fullName: 'Tifa Lockhart',
     username: 'tiffa_ff',
     phone: '0811111111',
-    photo_url:
+    photoUrl:
       'https://w0.peakpx.com/wallpaper/307/340/HD-wallpaper-tifa-lockhart-final-fantasy-vii.jpg',
     age: 21,
     bio: 'Lets drinks',
     email: 'tiffa@gmail.com',
   },
   {
-    userId: '6',
+    id: '6',
     fullName: 'Maria Mercedes',
     username: 'maria_77',
     phone: '0811111111',
-    photo_url:
+    photoUrl:
       'https://i0.wp.com/media.ghgossip.com/wp-content/uploads/2022/11/10192356/maria.jpg?resize=488%2C629&ssl=1',
   },
 ];
@@ -502,11 +502,11 @@ export const INVITATION_NOTIFICATION: InvitationNotificationInterface[] = [
   {
     id: '1',
     sender: {
-      userId: '5',
+      id: '5',
       fullName: 'Tifa Lockhart',
       username: 'tiffa_ff',
       phone: '0811111111',
-      photo_url:
+      photoUrl:
         'https://w0.peakpx.com/wallpaper/307/340/HD-wallpaper-tifa-lockhart-final-fantasy-vii.jpg',
       age: 21,
       bio: 'Lets drinks',
@@ -530,11 +530,11 @@ export const INVITATION_NOTIFICATION: InvitationNotificationInterface[] = [
   {
     id: '2',
     sender: {
-      userId: '4',
+      id: '4',
       fullName: 'Jill Valentine',
       username: 'jill_v66',
       phone: '0811111111',
-      photo_url:
+      photoUrl:
         'https://e0.pxfuel.com/wallpapers/52/767/desktop-wallpaper-jill-valentine-in-resident-evil-3-remake-iphone-background-and-resident-evil-3-phone.jpg',
       age: 21,
       bio: 'Lets hang out',
@@ -557,11 +557,11 @@ export const INVITATION_NOTIFICATION: InvitationNotificationInterface[] = [
   {
     id: '3',
     sender: {
-      userId: '3',
+      id: '3',
       fullName: 'Harry Maguire',
       username: 'h_maguire',
       phone: '0811111111',
-      photo_url:
+      photoUrl:
         'https://img.a.transfermarkt.technology/portrait/header/177907-1663841733.jpg?lm=1',
       age: 32,
       bio: 'No  party without you 🥳',
@@ -584,11 +584,11 @@ export const INVITATION_NOTIFICATION: InvitationNotificationInterface[] = [
   {
     id: '4',
     sender: {
-      userId: '2',
+      id: '2',
       fullName: 'Mason Mount',
       username: 'mason_mount',
       phone: '0811111111',
-      photo_url:
+      photoUrl:
         'https://s.hs-data.com/bilder/spieler/gross/337447.jpg?fallback=png',
       age: 22,
       bio: 'Just married',
@@ -693,35 +693,35 @@ export const FRIEND_REQUEST: FriendRequestInterface[] = [
   {
     id: '1',
     name: 'Jill Valentine',
-    photo_url:
+    photoUrl:
       'https://e0.pxfuel.com/wallpapers/52/767/desktop-wallpaper-jill-valentine-in-resident-evil-3-remake-iphone-background-and-resident-evil-3-phone.jpg',
     date: '2023-08-10T010:15:03.650540055',
   },
   {
     id: '2',
     name: 'Lisandro',
-    photo_url:
+    photoUrl:
       'https://s.hs-data.com/bilder/spieler/gross/376639.jpg?fallback=png',
     date: '2023-08-11T010:15:03.650540055',
   },
   {
     id: '3',
     name: 'Harry Maguire',
-    photo_url:
+    photoUrl:
       'https://img.a.transfermarkt.technology/portrait/header/177907-1663841733.jpg?lm=1',
     date: '2023-08-11T022:15:03.650540055',
   },
   {
     id: '4',
     name: 'Mason Mount',
-    photo_url:
+    photoUrl:
       'https://s.hs-data.com/bilder/spieler/gross/337447.jpg?fallback=png',
     date: '2023-08-13T012:15:03.650540055',
   },
   {
     id: '5',
     name: 'Tifa Lockhart',
-    photo_url:
+    photoUrl:
       'https://w0.peakpx.com/wallpaper/307/340/HD-wallpaper-tifa-lockhart-final-fantasy-vii.jpg',
     date: '2023-08-02T010:15:03.650540055',
   },

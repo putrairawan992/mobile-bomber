@@ -23,7 +23,7 @@ export default function CardNotificationFriends({
       <Image
         className="w-[32] h-[32] bg-container rounded-full"
         source={{
-          uri: data.photo_url,
+          uri: data.photoUrl,
         }}
         resizeMode="cover"
       />
