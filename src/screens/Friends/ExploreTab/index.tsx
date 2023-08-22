@@ -23,7 +23,7 @@ export const ExploreTab = ({data, searchValue}: FriendsTabProps) => {
   const renderItem = ({item}: any) => (
     <Section style={{marginBottom: 8, flex: 1}}>
       <Image
-        source={{uri: item.photo_url}}
+        source={{uri: item.photoUrl}}
         style={{width, height: 222, borderRadius: 8}}
       />
       <Section padding="8px 12px">
@@ -46,7 +46,7 @@ export const ExploreTab = ({data, searchValue}: FriendsTabProps) => {
             item.fullName && item.fullName.match(new RegExp(searchValue, 'i')),
         )}
         renderItem={renderItem}
-        keyExtractor={item => item.userId}
+        keyExtractor={item => item.id}
         style={{flex: 1}}
         numColumns={2}
         columnWrapperStyle={{flex: 1, justifyContent: 'space-between'}}

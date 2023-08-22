@@ -75,14 +75,14 @@ function LogInScreen({navigation}: Props) {
       } else {
         navigation.navigate('OtpSignIn', {
           userData: {
-            id: 'FQ5OvkolZtSBZEMlG1R3gtowbQv1',
-            fullName: '',
-            email: 'lukman.reza@gmail.com',
-            username: 'rezalukman29',
+            id: login.data.id,
+            fullName: login.data.name,
+            email: login.data.email,
+            username: login.data.username,
             phone,
             bio: '',
             age: 0,
-            photoUrl: null,
+            photoUrl: login.data.profilePictureUrl,
           },
           isResend: false,
         });

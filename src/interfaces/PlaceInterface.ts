@@ -36,7 +36,7 @@ export interface PlaceOverviewInterface {
 }
 
 export interface EventInterface {
-  photo_url: string | null;
+  photoUrl: string | null;
   name: string;
   time: string;
 }
