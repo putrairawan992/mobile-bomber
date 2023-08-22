@@ -59,3 +59,10 @@ export interface ResponseGetBanner {
   cityId: string;
   result: ImageInterface[];
 }
+
+export interface PlaceOperationalTimeInterface {
+  day: string;
+  open: string | null;
+  close: string | null;
+  isClose: boolean;
+}

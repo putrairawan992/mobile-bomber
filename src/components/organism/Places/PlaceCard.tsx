@@ -1,7 +1,13 @@
 /* eslint-disable react-native/no-inline-styles */
 import {ArrowDown2, Gallery, Star1} from 'iconsax-react-native';
 import React from 'react';
-import {Image, ImageBackground, ScrollView, View} from 'react-native';
+import {
+  Image,
+  ImageBackground,
+  ScrollView,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import {useImageAspectRatio} from '../../../hooks/useImageAspectRatio';
 import {PlaceInterface} from '../../../interfaces/PlaceInterface';
 import useTheme from '../../../theme/useTheme';
@@ -12,12 +18,14 @@ interface PlaceCardProps {
   item: PlaceInterface;
   onSelect: (id: string) => void;
   isPlaceDetail?: boolean;
+  onOpenSchedule?: () => void;
 }
 
 export const PlaceCard = ({
   item,
   onSelect,
   isPlaceDetail = false,
+  onOpenSchedule,
 }: PlaceCardProps) => {
   const theme = useTheme();
   const aspectRatio = useImageAspectRatio(
@@ -30,7 +38,8 @@ export const PlaceCard = ({
           <Text label="Open Now" color={theme?.colors.SUCCESS} />
           <Text label=" | 10 pm - 4am" color={theme?.colors.TEXT_PRIMARY} />
           <Gap width={4} />
-          <View
+          <TouchableOpacity
+            onPress={onOpenSchedule}
             style={{
               padding: 2,
               borderRadius: 8,
@@ -38,7 +47,7 @@ export const PlaceCard = ({
               borderWidth: 1,
             }}>
             <ArrowDown2 size={14} color={theme?.colors.ICON} variant="Bold" />
-          </View>
+          </TouchableOpacity>
         </Section>
       </View>
     );
