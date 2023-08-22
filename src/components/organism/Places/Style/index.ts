@@ -9,6 +9,7 @@ const styles = EStyleSheet.create({
     backgroundColor: '#2D2D2D',
     borderRadius: 4,
     marginRight: 4,
+    marginBottom: 4,
   },
   scheduleContainer: {
     position: 'absolute',

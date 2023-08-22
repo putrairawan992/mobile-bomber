@@ -1,5 +1,5 @@
 export interface UserInterface {
-  userId: string;
+  id: string;
   fullName?: string;
   email?: string | null;
   password?: string;
@@ -8,21 +8,23 @@ export interface UserInterface {
   photoUrl?: string | null;
   age?: number;
   bio?: string;
-  creationTime: number;
-  lastSignInTime: number;
-  emailVerified: boolean;
+  creationTime?: number;
+  lastSignInTime?: number;
+  emailVerified?: boolean;
 }
 
 export interface LoginPayloadInterface {
   phone: string;
-  password?: string;
+  password: string;
 }
 
 export interface SignUpPayloadInterface {
   username: string;
   password: string;
   phone: string;
-  confirmPassword: string;
+  confirmPassword?: string;
+  email: string;
+  id?: string;
 }
 
 export interface ResetPasswordInterface {

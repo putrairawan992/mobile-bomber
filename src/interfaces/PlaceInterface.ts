@@ -49,3 +49,13 @@ export interface PlaceEventsInterface {
 export interface ResponseGetPlaceInterface {
   PLACES_DATA: PlaceInterface[];
 }
+
+interface ImageInterface {
+  imageUrl: string;
+  title: string;
+}
+
+export interface ResponseGetBanner {
+  cityId: string;
+  result: ImageInterface[];
+}
