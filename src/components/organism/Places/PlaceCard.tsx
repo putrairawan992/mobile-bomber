@@ -1,7 +1,7 @@
 /* eslint-disable react-native/no-inline-styles */
 import {ArrowDown2, Gallery, Star1} from 'iconsax-react-native';
 import React from 'react';
-import {Image, ImageBackground, View} from 'react-native';
+import {Image, ImageBackground, ScrollView, View} from 'react-native';
 import {useImageAspectRatio} from '../../../hooks/useImageAspectRatio';
 import {PlaceInterface} from '../../../interfaces/PlaceInterface';
 import useTheme from '../../../theme/useTheme';
@@ -21,11 +21,8 @@ export const PlaceCard = ({
 }: PlaceCardProps) => {
   const theme = useTheme();
   const aspectRatio = useImageAspectRatio(
-    typeof item?.logo === 'string'
-      ? (item.logo as string)
-      : (item?.logo[0] as string),
+    item?.logo ?? 'https://bomber.app/club-logo/wave.png',
   );
-
   const renderSchedule = () => {
     return (
       <View style={styles.scheduleContainer}>
@@ -58,10 +55,7 @@ export const PlaceCard = ({
       <>
         <ImageBackground
           source={{
-            uri:
-              typeof item?.coverImage === 'string'
-                ? item?.coverImage
-                : item?.coverImage[0],
+            uri: item?.coverImage,
           }}
           style={{width: '100%', height: 231}}
           imageStyle={{
@@ -93,16 +87,18 @@ export const PlaceCard = ({
                 </Section>
               </Section>
             )}
-            <Section isRow>
+            {/* <Section isRow style={{flexWrap: 'wrap', display: 'flex'}}> */}
+            <ScrollView horizontal>
               {Array.isArray(item.category) &&
-                item.category.map((cat: string, idx: number) => {
+                item.category[0].split(', ').map((cat: string, idx: number) => {
                   return (
                     <View key={`category_${idx}`} style={styles.piils}>
                       <Text variant="small" label={cat} />
                     </View>
                   );
                 })}
-            </Section>
+            </ScrollView>
+            {/* </Section> */}
             <Gap height={16} />
             {isPlaceDetail ? (
               <>
@@ -112,13 +108,11 @@ export const PlaceCard = ({
               <>
                 <Image
                   source={{
-                    uri:
-                      typeof item?.logo === 'string'
-                        ? (item.logo as string)
-                        : (item?.logo[0] as string),
+                    uri: item?.logo ?? 'https://bomber.app/club-logo/wave.png',
                   }}
                   style={{height: 56, aspectRatio, marginBottom: 50}}
                 />
+
                 <Text label="Featured Today" />
                 <Gap height={8} />
                 <Section isRow>

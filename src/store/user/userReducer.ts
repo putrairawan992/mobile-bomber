@@ -20,7 +20,7 @@ export interface UserStateI {
 
 const UserState: UserStateI = {
   user: {
-    userId: '',
+    id: '',
     username: '',
     phone: '',
     fullName: '',
@@ -62,7 +62,7 @@ const userReducer = (state = UserState, action: UserAction) => {
       return {
         ...state,
         user: {
-          userId: '',
+          id: '',
           username: '',
           phone: '',
           fullName: '',

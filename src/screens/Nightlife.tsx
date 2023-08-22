@@ -5,6 +5,7 @@ import {Image, ScrollView} from 'react-native';
 import {useDispatch} from 'react-redux';
 import {Beer, DiscoLight, Karaoke, WineBottle} from '../assets/icons';
 import {
+  CustomShimmer,
   EntryAnimation,
   Gap,
   Layout,
@@ -38,6 +39,8 @@ type Props = NativeStackScreenProps<MainStackParams, 'Nightlife', 'MyStack'>;
 function NightlifeScreen({navigation}: Props) {
   const theme = useTheme();
   const [searchValue, setSearchValue] = React.useState<string>('');
+  const [isLoading, setIsLoading] = React.useState<boolean>(false);
+  const [banner, setBanner] = React.useState<string>('');
   const [topFiveNightClub, setTopFiveNightClub] = React.useState<
     PlaceInterface[]
   >([]);
@@ -51,13 +54,22 @@ function NightlifeScreen({navigation}: Props) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const fetchTopFiveNightClub = async () => {
+  const fetchData = async () => {
     try {
-      const result = await NightlifeService.getTopFiveNightClub();
-      setTopFiveNightClub(result.PLACES_DATA);
-    } catch (error: any) {
-      console.log(error);
-    }
+      setIsLoading(true);
+      await Promise.all([
+        NightlifeService.getTopFiveNightClub(),
+        NightlifeService.getBanner({city_id: 1}),
+      ])
+        .then(response => {
+          setTopFiveNightClub(response[0].PLACES_DATA);
+          setBanner(response[1].result[0].imageUrl);
+        })
+        .catch(error => {
+          console.log(error);
+        })
+        .finally(() => setIsLoading(false));
+    } catch (error: any) {}
   };
 
   useEffect(() => {
@@ -73,7 +85,7 @@ function NightlifeScreen({navigation}: Props) {
     };
 
     fetchUserLocation();
-    fetchTopFiveNightClub();
+    fetchData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentLocation]);
 
@@ -126,16 +138,21 @@ function NightlifeScreen({navigation}: Props) {
             />
           </Section>
         </EntryAnimation>
+
         <EntryAnimation index={2}>
-          <Image
-            source={{
-              uri: 'https://d1hghorvcdp4xh.cloudfront.net/290/large/1681271342.jpg',
-            }}
-            style={{
-              width: WIDTH,
-              height: WIDTH,
-            }}
-          />
+          {isLoading || !banner ? (
+            <CustomShimmer width={WIDTH} height={WIDTH} />
+          ) : (
+            <Image
+              source={{
+                uri: banner,
+              }}
+              style={{
+                width: WIDTH,
+                height: WIDTH,
+              }}
+            />
+          )}
         </EntryAnimation>
         <Spacer sm />
         <EntryAnimation index={3}>
