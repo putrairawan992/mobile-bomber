@@ -6,7 +6,7 @@ import {
   Layout,
   Spacer,
 } from '../../components/atoms';
-import {Header} from '../../components/molecules';
+import {Header, ModalToast} from '../../components/molecules';
 import {
   FlatList,
   ScrollView,
@@ -30,6 +30,7 @@ import QRCode from 'react-native-qrcode-svg';
 import LinearGradient from 'react-native-linear-gradient';
 import ModalDetailTicket from '../../components/molecules/Modal/ModalDetailTicket';
 import ModalInviteFriends from '../../components/molecules/Modal/ModalInviteFriends';
+import RNCalendarEvents from 'react-native-calendar-events';
 
 export default function MyBookingDetail() {
   const [menu] = useState<string[]>([
@@ -45,6 +46,8 @@ export default function MyBookingDetail() {
   const [content2, setContent2] = useState<number>();
   const [content3, setContent3] = useState<number>();
   const [content4, setContent4] = useState<number>();
+  const [successSaveCalendar, setSuccessSaveCalendar] =
+    useState<boolean>(false);
 
   const ref = useRef<ScrollView>(null);
 
@@ -52,7 +55,22 @@ export default function MyBookingDetail() {
     setFriendInvited(value);
   };
 
-  console.log(content2, content3, content4);
+  const onSaveCalendar = () => {
+    RNCalendarEvents.requestPermissions()
+      .then(result => {
+        console.log('request calendar:', result);
+        RNCalendarEvents.saveEvent('Title of event', {
+          calendarId: '141',
+          startDate: '2023-08-24T19:26:00.000Z',
+          endDate: '2023-08-24T19:26:00.000Z',
+          location: 'Los Angeles, CA',
+          notes: 'Bring sunglasses',
+        })
+          .then(() => setSuccessSaveCalendar(true))
+          .catch(err => console.log('save event error: ', err));
+      })
+      .catch(err => console.log('err request permission calendar: ', err));
+  };
 
   return (
     <Layout contentContainerStyle={styles.parent}>
@@ -224,7 +242,7 @@ export default function MyBookingDetail() {
           <Button
             TextComponent={<DefaultText title="Save to calendar" />}
             type="primary"
-            onPress={() => {}}
+            onPress={onSaveCalendar}
             LeftComponent={
               <Image
                 source={IcCalendarPlus}
@@ -376,6 +394,13 @@ export default function MyBookingDetail() {
           show={showInviteFriends}
           hide={() => setShowInviteFriends(false)}
           onFriendInvited={onFriendInvited}
+        />
+
+        <ModalToast
+          isVisible={successSaveCalendar}
+          message="Success save to calendar"
+          onCloseModal={() => setSuccessSaveCalendar(false)}
+          type="success"
         />
       </ScrollView>
     </Layout>
