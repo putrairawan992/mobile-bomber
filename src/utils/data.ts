@@ -13,6 +13,7 @@ import {
 import {
   PlaceEventsInterface,
   PlaceInterface,
+  PlaceOperationalTimeInterface,
   PlaceOverviewInterface,
 } from '../interfaces/PlaceInterface';
 import {
@@ -724,5 +725,50 @@ export const FRIEND_REQUEST: FriendRequestInterface[] = [
     photoUrl:
       'https://w0.peakpx.com/wallpaper/307/340/HD-wallpaper-tifa-lockhart-final-fantasy-vii.jpg',
     date: '2023-08-02T010:15:03.650540055',
+  },
+];
+
+export const OPERATIONAL_TIME_DATA: PlaceOperationalTimeInterface[] = [
+  {
+    day: 'Monday',
+    open: '10 pm',
+    close: '4 am',
+    isClose: false,
+  },
+  {
+    day: 'Tuesday',
+    open: '10 pm',
+    close: '4 am',
+    isClose: false,
+  },
+  {
+    day: 'Wednesday',
+    open: '10 pm',
+    close: '4 am',
+    isClose: false,
+  },
+  {
+    day: 'Thursday',
+    open: null,
+    close: null,
+    isClose: true,
+  },
+  {
+    day: 'Friday',
+    open: '10 pm',
+    close: '4 am',
+    isClose: false,
+  },
+  {
+    day: 'Saturday',
+    open: null,
+    close: null,
+    isClose: true,
+  },
+  {
+    day: 'Sunday',
+    open: '10 pm',
+    close: '4 am',
+    isClose: false,
   },
 ];
