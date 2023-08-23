@@ -16,6 +16,7 @@ type Props = NativeStackScreenProps<AuthStackParams, 'SignUp', 'MyStack'>;
 
 export const SignUp = ({navigation}: Props) => {
   const theme = useTheme();
+  let EMAIL_REGX = /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$/;
   const formik = useFormik<SignUpPayloadInterface>({
     initialValues: {
       username: '',
@@ -27,6 +28,9 @@ export const SignUp = ({navigation}: Props) => {
     validationSchema: Yup.object({
       username: Yup.string().required('Username is required'),
       phone: Yup.string().required('Phone number is required'),
+      email: Yup.string()
+        .required('Email is required')
+        .matches(EMAIL_REGX, 'Invalid email address'),
       password: Yup.string()
         .required('Password is required')
         .min(8, 'Password is too short - should be 8 chars minimum.'),
@@ -34,7 +38,7 @@ export const SignUp = ({navigation}: Props) => {
         .oneOf([Yup.ref('password'), ''], 'Passwords must match')
         .required('Password confirmation is required'),
     }),
-    // validateOnChange: false,
+    validateOnChange: false,
     enableReinitialize: true,
     onSubmit: values => {
       navigation.navigate('OtpSignUp', {
@@ -57,7 +61,10 @@ export const SignUp = ({navigation}: Props) => {
         value={formik.values.username}
         label="Username"
         errorText={formik.errors.username}
-        onChangeText={formik.handleChange('username')}
+        onChangeText={value => {
+          formik.setFieldValue('username', value);
+          formik.setFieldError('username', undefined);
+        }}
         placeholder="Username"
       />
       <Spacer l />
@@ -65,7 +72,10 @@ export const SignUp = ({navigation}: Props) => {
         value={formik.values.phone}
         label="Phone Number"
         errorText={formik.errors.phone}
-        onChangeText={formik.handleChange('phone')}
+        onChangeText={value => {
+          formik.setFieldValue('phone', value);
+          formik.setFieldError('phone', undefined);
+        }}
         placeholder="Phone number"
         isNumeric
       />
@@ -74,7 +84,10 @@ export const SignUp = ({navigation}: Props) => {
         value={formik.values.email}
         label="Email Address"
         errorText={formik.errors.email}
-        onChangeText={formik.handleChange('email')}
+        onChangeText={value => {
+          formik.setFieldValue('email', value);
+          formik.setFieldError('email', undefined);
+        }}
         placeholder="Email address"
       />
       <Spacer l />
@@ -82,7 +95,10 @@ export const SignUp = ({navigation}: Props) => {
         value={formik.values.password}
         label="Password"
         errorText={formik.errors.password}
-        onChangeText={formik.handleChange('password')}
+        onChangeText={value => {
+          formik.setFieldValue('password', value);
+          formik.setFieldError('password', undefined);
+        }}
         placeholder="Password"
         type="password"
       />
@@ -91,7 +107,10 @@ export const SignUp = ({navigation}: Props) => {
         value={formik.values.confirmPassword}
         label="Confirm Password"
         errorText={formik.errors.confirmPassword}
-        onChangeText={formik.handleChange('confirmPassword')}
+        onChangeText={value => {
+          formik.setFieldValue('confirmPassword', value);
+          formik.setFieldError('confirmPassword', undefined);
+        }}
         placeholder="Confirm password"
         type="password"
       />
