@@ -10,8 +10,19 @@ import {
 } from 'iconsax-react-native';
 import {Button, Gap, Layout, Section, Text} from '../../../components/atoms';
 import {Header, HorizontalMenu} from '../../../components/molecules';
-import {Image, ScrollView, TouchableOpacity, View} from 'react-native';
-import {PLACES_DATA, PLACE_MENU, PLACE_OVERVIEW} from '../../../utils/data';
+import {
+  Image,
+  Pressable,
+  ScrollView,
+  TouchableOpacity,
+  View,
+} from 'react-native';
+import {
+  OPERATIONAL_TIME_DATA,
+  PLACES_DATA,
+  PLACE_MENU,
+  PLACE_OVERVIEW,
+} from '../../../utils/data';
 import {
   PlaceInterface,
   PlaceOverviewFeaturesInterface,
@@ -25,8 +36,10 @@ import {randomNumber} from '../../../utils/function';
 import styles from '../Styles';
 import {useImageAspectRatio} from '../../../hooks/useImageAspectRatio';
 import useTheme from '../../../theme/useTheme';
-import {PlaceCard} from '../../../components/organism';
+import {OperationalHoursSheet, PlaceCard} from '../../../components/organism';
 import {navigationRef} from '../../../navigation/RootNavigation';
+import BottomSheet, {BottomSheetModal} from '@gorhom/bottom-sheet';
+import {Colors} from '../../../theme';
 
 type Props = NativeStackScreenProps<MainStackParams, 'PlaceDetail', 'MyStack'>;
 export const PlaceDetail = ({route, navigation}: Props) => {
@@ -38,6 +51,10 @@ export const PlaceDetail = ({route, navigation}: Props) => {
   const [scrollToIndex, setScrollToIndex] = useState<number>(0);
   const [ref, setRef] = useState<ScrollView>();
   const aspectRatio = useImageAspectRatio(data?.logo as string);
+  const [sheetIndex, setSheetIndex] = React.useState<number>(-1);
+  const placeDetailSheetRef = React.useRef<BottomSheetModal>(null);
+  const snapPoints = React.useMemo(() => ['50'], []);
+
   useEffect(() => {
     const getPlaceData = () => {
       if (placeId) {
@@ -59,6 +76,10 @@ export const PlaceDetail = ({route, navigation}: Props) => {
       });
     }
   };
+
+  const handleSheetChanges = React.useCallback((index: number) => {
+    setSheetIndex(index);
+  }, []);
 
   const PlaceOverview = () => {
     return (
@@ -264,7 +285,12 @@ export const PlaceDetail = ({route, navigation}: Props) => {
         <Image source={{uri: data?.logo}} style={{height: 56, aspectRatio}} />
       </View>
       {data && (
-        <PlaceCard item={data} onSelect={() => undefined} isPlaceDetail />
+        <PlaceCard
+          item={data}
+          onSelect={() => undefined}
+          isPlaceDetail
+          onOpenSchedule={() => placeDetailSheetRef.current?.present()}
+        />
       )}
       <Gap height={12} />
       <HorizontalMenu
@@ -307,6 +333,30 @@ export const PlaceDetail = ({route, navigation}: Props) => {
         />
         <Gap height={24} />
       </ScrollView>
+      <BottomSheetModal
+        ref={placeDetailSheetRef}
+        index={0}
+        enablePanDownToClose
+        snapPoints={snapPoints}
+        backdropComponent={({style}) =>
+          sheetIndex === 0 ? (
+            <Pressable
+              onPress={() => placeDetailSheetRef.current?.close()}
+              style={[style, {backgroundColor: 'rgba(0, 0, 0, 0.60)'}]}
+            />
+          ) : (
+            <></>
+          )
+        }
+        handleStyle={{
+          backgroundColor: theme?.colors.BACKGROUND1,
+          borderTopRightRadius: 14,
+          borderTopLeftRadius: 14,
+        }}
+        handleIndicatorStyle={{backgroundColor: Colors['black-70']}}
+        onChange={handleSheetChanges}>
+        <OperationalHoursSheet data={OPERATIONAL_TIME_DATA} />
+      </BottomSheetModal>
     </Layout>
   );
 };

@@ -226,15 +226,13 @@ function BookingTableScreen({route}: Props) {
 
   const handleInvite = (data: UserInterface) => {
     let findItem: any = Boolean(
-      selectedInvitation.find((el: UserInterface) => el.userId === data.userId),
+      selectedInvitation.find((el: UserInterface) => el.id === data.id),
     );
     if (!findItem) {
       setSelectedInvitation([...selectedInvitation, data]);
     } else {
       setSelectedInvitation(
-        selectedInvitation.filter(
-          (el: UserInterface) => el.userId !== data.userId,
-        ),
+        selectedInvitation.filter((el: UserInterface) => el.id !== data.id),
       );
     }
   };

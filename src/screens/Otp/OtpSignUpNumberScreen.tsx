@@ -12,15 +12,22 @@ import {ModalToastContext} from '../../context/AppModalToastContext';
 import useThemedStyles from '../../theme/useThemedStyles';
 import {ThemeInterface} from '../../theme/ThemeProvider';
 import {LogoLabel, ModalToast} from '../../components/molecules';
+import auth from '@react-native-firebase/auth';
+import {AuthService} from '../../service/AuthService';
+import {useDispatch} from 'react-redux';
+import {setStorage} from '../../service/mmkvStorage';
+import {loginSuccess} from '../../store/user/userActions';
 
 type Props = NativeStackScreenProps<AuthStackParams, 'OtpSignUp', 'MyStack'>;
 
-function OtpSignUpNumberScreen({route, navigation}: Props) {
+function OtpSignUpNumberScreen({route}: Props) {
+  const dispatch = useDispatch();
   const theme = useTheme();
   const s = useThemedStyles(Styles);
-  const optConfirm = '123456';
   const otpRef = React.useRef<any>();
+  const data = route.params.payload;
   const [otpInputFill, setOtpInputFill] = useState(true);
+  const [confirmation, setConfirmation] = useState<any>(null);
   const {
     isShowToast,
     setIsShowToast,
@@ -30,37 +37,87 @@ function OtpSignUpNumberScreen({route, navigation}: Props) {
     setType,
   } = useContext(ModalToastContext);
   React.useEffect(() => {
+    signInWithMobileNumber();
     setTimeout(() => {
       otpRef?.current?.focus();
     }, 1000);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  const signInWithMobileNumber = async () => {
+    try {
+      const result: any = await auth().signInWithPhoneNumber(data.phone);
+      setConfirmation(result);
+    } catch (error: any) {
+      setIsShowToast(true);
+      setType('error');
+      setToastMessage('Please try again');
+    }
+  };
+
+  const openToast = (toastType: 'success' | 'error', message: string) => {
+    setIsShowToast(true);
+    setType(toastType);
+    setToastMessage(message);
+  };
+
+  const handleConfirmCode = async (code: string) => {
+    try {
+      const response = await confirmation.confirm(code);
+      const userAuth = {
+        id: response.user.uid,
+        fullName: '',
+        username: data.username,
+        phone: response.user.phoneNumber,
+        photoUrl: response.user.photoURL,
+        email: response.user.email,
+        creationTime: 0,
+        lastSignInTime: 0,
+        emailVerified: false,
+        age: 0,
+        bio: '',
+      };
+      const register = await AuthService.postRegister({
+        id: response.user.uid as string,
+        username: data.username,
+        phone: data.phone,
+        email: data.email,
+        password: data.password,
+      });
+      if (!register.error) {
+        await setStorage('userAuth', JSON.stringify(userAuth));
+        await setStorage(
+          'refreshToken',
+          JSON.stringify(response.user.uid + '_' + response.user.phoneNumber),
+        );
+        setOtpInputFill(true);
+        openToast('success', 'Register successfully');
+        setTimeout(() => {
+          dispatch(loginSuccess(userAuth));
+        }, 2000);
+      } else {
+        openToast('error', register.message);
+      }
+    } catch (error: any) {
+      openToast('error', 'Wrong otp code');
+      setOtpInputFill(true);
+    }
+  };
   return (
     <Layout contentContainerStyle={styles.container}>
       <View style={styles.signupLoginInputGroup}>
         <LogoLabel
           title="Confirm Your Number"
-          subtitle={`Enter the code we sent over SMS to  ${route.params.phone}:`}
+          subtitle={`Enter the code we sent over SMS to  ${data.phone}:`}
         />
         {otpInputFill ? (
           <OtpInputs
             handleChange={code => {
-              if (optConfirm === code) {
+              if (code.length === 6) {
                 setOtpInputFill(false);
                 setTimeout(() => {
-                  setOtpInputFill(true);
-                  navigation.navigate('SuccessNumber');
-                }, 3000);
-              } else if (code.length === 6 && optConfirm !== code) {
-                setOtpInputFill(false);
-                setTimeout(() => {
-                  setIsShowToast(true);
-                  setType('error');
-                  setToastMessage('Wrong otp number');
-                  setOtpInputFill(true);
-                  navigation.navigate('OtpSignUp', {
-                    phone: route.params.phone,
-                  });
-                }, 3000);
+                  handleConfirmCode(code);
+                }, 2000);
               }
             }}
             numberOfInputs={6}

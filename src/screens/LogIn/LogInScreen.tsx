@@ -16,29 +16,37 @@ import {
   TextInput,
   Layout,
 } from '../../components/atoms';
-import {LogoLabel} from '../../components/molecules';
-import {useEffect} from 'react';
+import {LogoLabel, ModalToast} from '../../components/molecules';
+import {useContext, useEffect, useState} from 'react';
 import auth from '@react-native-firebase/auth';
+import {AuthService} from '../../service/AuthService';
+import {ModalToastContext} from '../../context/AppModalToastContext';
 
 type Props = NativeStackScreenProps<AuthStackParams, 'LogIn', 'MyStack'>;
 
 function LogInScreen({navigation}: Props) {
   const theme = useTheme();
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const {
+    isShowToast,
+    setIsShowToast,
+    toastMessage,
+    setToastMessage,
+    type,
+    setType,
+  } = useContext(ModalToastContext);
   const formik = useFormik<LoginPayloadInterface>({
     initialValues: {
       phone: '',
+      password: '',
     },
     validationSchema: Yup.object({
       phone: Yup.string().required('Phone number is required'),
+      password: Yup.string().required('Password is required'),
     }),
-    // validateOnChange: false,
+    validateOnChange: false,
     enableReinitialize: true,
-    onSubmit: () => {
-      navigation.navigate('OtpSignIn', {
-        phone: '+' + formik.values.phone,
-        isResend: false,
-      });
-    },
+    onSubmit: values => handleSignIn('+' + values.phone, values.password),
   });
 
   const onAuthStateChanged = async (userAuth: any) => {
@@ -46,6 +54,41 @@ function LogInScreen({navigation}: Props) {
       return;
     } else {
     }
+  };
+
+  const openToast = (toastType: 'success' | 'error', message: string) => {
+    setIsShowToast(true);
+    setType(toastType);
+    setToastMessage(message);
+  };
+
+  const handleSignIn = async (phone: string, password: string) => {
+    try {
+      setIsLoading(true);
+      const login = await AuthService.postLogin({
+        phone,
+        password,
+      });
+      if (login.error) {
+        openToast('error', login.message);
+        setIsLoading(false);
+      } else {
+        navigation.navigate('OtpSignIn', {
+          userData: {
+            id: login.data.id,
+            fullName: login.data.name,
+            email: login.data.email,
+            username: login.data.username,
+            phone,
+            bio: '',
+            age: 0,
+            photoUrl: login.data.profilePictureUrl,
+          },
+          isResend: false,
+        });
+        setIsLoading(false);
+      }
+    } catch (error: any) {}
   };
 
   useEffect(() => {
@@ -65,9 +108,24 @@ function LogInScreen({navigation}: Props) {
         value={formik.values.phone}
         label="Phone Number"
         errorText={formik.errors.phone}
-        onChangeText={formik.handleChange('phone')}
+        onChangeText={value => {
+          formik.setFieldValue('phone', value);
+          formik.setFieldError('phone', undefined);
+        }}
         placeholder="Phone number"
         isNumeric
+      />
+      <Spacer l />
+      <TextInput
+        value={formik.values.password}
+        label="Password"
+        errorText={formik.errors.password}
+        onChangeText={value => {
+          formik.setFieldValue('password', value);
+          formik.setFieldError('password', undefined);
+        }}
+        placeholder="Password"
+        type="password"
       />
       <Spacer sm />
       <TouchableOpacity
@@ -80,7 +138,7 @@ function LogInScreen({navigation}: Props) {
         type="primary"
         onPress={() => formik.handleSubmit()}
         title="Sign In"
-        isLoading={false}
+        isLoading={isLoading}
       />
       <Spacer lxx />
       <Section isRow>
@@ -97,6 +155,12 @@ function LogInScreen({navigation}: Props) {
           />
         </TouchableOpacity>
       </Section>
+      <ModalToast
+        isVisible={isShowToast}
+        onCloseModal={() => setIsShowToast(false)}
+        message={toastMessage}
+        type={type}
+      />
     </Layout>
   );
 }

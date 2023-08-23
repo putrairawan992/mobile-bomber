@@ -37,6 +37,8 @@ const Colors = {
   'gray-600': '#565B67',
   'info-500': '#3CA6EC',
   'warning-500': '#EF9533',
+  'danger-400': '#F04835',
+  'success-500': '#0CA35F',
 };
 
 export default Colors;
