@@ -35,7 +35,7 @@ export default function CardNotificationInvitation({
         <Image
           className="w-[32] h-[32] bg-container rounded-full"
           source={{
-            uri: data.sender.photo_url as string,
+            uri: data.sender.photoUrl as string,
           }}
           resizeMode="cover"
         />

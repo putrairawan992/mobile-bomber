@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-inline-styles */
 import React from 'react';
 import {Section, Spacer, Text, Layout} from '../components/atoms';
 import {TouchableOpacity} from 'react-native';
@@ -21,9 +22,10 @@ export const SignUp = ({navigation}: Props) => {
       password: '',
       phone: '',
       confirmPassword: '',
+      email: '',
     },
     validationSchema: Yup.object({
-      username: Yup.string().required('username is required'),
+      username: Yup.string().required('Username is required'),
       phone: Yup.string().required('Phone number is required'),
       password: Yup.string()
         .required('Password is required')
@@ -34,9 +36,14 @@ export const SignUp = ({navigation}: Props) => {
     }),
     // validateOnChange: false,
     enableReinitialize: true,
-    onSubmit: () => {
+    onSubmit: values => {
       navigation.navigate('OtpSignUp', {
-        phone: formik.values.phone,
+        payload: {
+          username: values.username,
+          password: values.password,
+          phone: '+' + values.phone,
+          email: values.email,
+        },
       });
     },
   });
@@ -56,11 +63,19 @@ export const SignUp = ({navigation}: Props) => {
       <Spacer l />
       <TextInput
         value={formik.values.phone}
-        label="Phone number"
+        label="Phone Number"
         errorText={formik.errors.phone}
         onChangeText={formik.handleChange('phone')}
         placeholder="Phone number"
         isNumeric
+      />
+      <Spacer l />
+      <TextInput
+        value={formik.values.email}
+        label="Email Address"
+        errorText={formik.errors.email}
+        onChangeText={formik.handleChange('email')}
+        placeholder="Email address"
       />
       <Spacer l />
       <TextInput
@@ -88,7 +103,7 @@ export const SignUp = ({navigation}: Props) => {
         isLoading={false}
       />
       <Spacer lxx />
-      <Section isRow>
+      <Section isRow style={{marginBottom: 30}}>
         <Text
           variant="base"
           label="Already have an account? "

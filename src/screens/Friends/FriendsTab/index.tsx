@@ -123,7 +123,7 @@ export const FriendsTab = ({
                     isBetween
                     style={{marginBottom: 20}}>
                     <Avatar
-                      url={item.photo_url ?? ''}
+                      url={item.photoUrl ?? ''}
                       size="x-large"
                       alt={item.fullName ?? ''}
                       name={item.fullName}
@@ -193,7 +193,7 @@ export const FriendsTab = ({
                     isBetween
                     style={{marginBottom: 20}}>
                     <Avatar
-                      url={item.photo_url ?? ''}
+                      url={item.photoUrl ?? ''}
                       size="x-large"
                       alt={item.fullName ?? ''}
                       name={item.fullName}

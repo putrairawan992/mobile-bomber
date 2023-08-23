@@ -34,7 +34,7 @@ export const FriendBottomSheet = ({data}: FriendBottomSheetProps) => {
         <Gap height={4} />
         <Avatar
           size="ultra-large"
-          url={data?.photo_url ?? ''}
+          url={data?.photoUrl ?? ''}
           alt={data?.fullName as string}
         />
         <Gap height={15} />

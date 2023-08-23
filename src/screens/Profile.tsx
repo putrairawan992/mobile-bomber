@@ -33,8 +33,10 @@ import {handleLogOut} from '../store/user/userActions';
 import {removeStorage} from '../service/mmkvStorage';
 import {useDispatch} from 'react-redux';
 import auth from '@react-native-firebase/auth';
+import {useAppSelector} from '../hooks/hooks';
 
 function ProfileScreen() {
+  const {user} = useAppSelector(state => state.user);
   const dispatch = useDispatch();
   const onLogOut = async () => {
     await removeStorage('refreshToken');
@@ -67,7 +69,7 @@ function ProfileScreen() {
                 </TouchableOpacity>
               </View>
               <DefaultText
-                title={'@jean'}
+                title={`@${user.username}`}
                 titleClassName="text-neutral-400 text-xs"
               />
               <Gap height={8} />

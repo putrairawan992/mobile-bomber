@@ -4,6 +4,8 @@ import {Calendar} from './Calendar';
 import {CalendarGradient} from './CalendarGradient';
 import {Checklist} from './Checklist';
 import {CircleDot} from './CircleDot';
+import {Clock} from './Clock';
+import {ClockGradient} from './ClockGradient';
 import {Close} from './Close';
 import {Community} from './Community';
 import {Couple} from './Couple';
@@ -67,4 +69,6 @@ export {
   HouseGradient,
   MoneySquare,
   Close,
+  Clock,
+  ClockGradient,
 };
