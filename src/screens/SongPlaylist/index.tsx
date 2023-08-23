@@ -27,7 +27,9 @@ export default function SongPlaylist() {
   const {width, height} = useWindowDimensions();
 
   return (
-    <Layout backgroundColor={colors.black}>
+    <Layout
+      backgroundColor={colors.black}
+      contentContainerStyle={styles.container}>
       <Header
         hasBackBtn
         transparent
