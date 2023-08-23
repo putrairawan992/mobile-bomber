@@ -139,7 +139,14 @@ export default function ModalWineryOrderPay({
                       }}
                     />
                   </View>
-                  <SplitBill />
+                  {initialPage === 0 ? (
+                    <SplitBill />
+                  ) : (
+                    <DefaultText
+                      title="COOMING SOON"
+                      titleClassName="font-inter-bold text-center text-neutral-400 mt-2"
+                    />
+                  )}
                 </>
               )}
             </View>

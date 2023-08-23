@@ -88,5 +88,7 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+	<key>NSCalendarsUsageDescription</key>
+	<string>Bomber requires access to the calendar</string>
 </dict>
 </plist>
