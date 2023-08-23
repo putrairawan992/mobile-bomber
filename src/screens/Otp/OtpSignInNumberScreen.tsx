@@ -23,6 +23,7 @@ function OtpSignInNumberScreen({route}: Props) {
   const theme = useTheme();
   const s = useThemedStyles(Styles);
   const dispatch = useDispatch();
+  const userData = route.params.userData;
   const otpRef = React.useRef<any>();
   const [otpInputFill, setOtpInputFill] = useState(true);
   const [confirmation, setConfirmation] = useState<any>(null);
@@ -44,16 +45,18 @@ function OtpSignInNumberScreen({route}: Props) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  const openToast = (toastType: 'success' | 'error', message: string) => {
+    setIsShowToast(true);
+    setType(toastType);
+    setToastMessage(message);
+  };
+
   const signInWithMobileNumber = async () => {
     try {
-      const result: any = await auth().signInWithPhoneNumber(
-        route.params.phone,
-      );
+      const result: any = await auth().signInWithPhoneNumber(userData.phone);
       setConfirmation(result);
     } catch (error: any) {
-      setIsShowToast(true);
-      setType('error');
-      setToastMessage('Please try again');
+      openToast('error', 'Please try again');
     }
   };
 
@@ -61,25 +64,28 @@ function OtpSignInNumberScreen({route}: Props) {
     try {
       const response = await confirmation.confirm(code);
       const userAuth = {
-        userId: response.user.uid,
-        fullName: '',
-        username: response.user.displayName,
-        phone: response.user.phoneNumber,
-        photoUrl: response.user.photoURL,
-        email: response.user.email,
+        id: userData.id,
+        fullName: userData.fullName,
+        username: userData.username,
+        phone: userData.phone,
+        photoUrl: userData.photoUrl,
+        email: userData.email,
         creationTime: 0,
         lastSignInTime: 0,
         emailVerified: false,
-        age: 0,
-        bio: '',
+        age: userData.age,
+        bio: userData.bio,
       };
-      setOtpInputFill(true);
       await setStorage('userAuth', JSON.stringify(userAuth));
       await setStorage(
         'refreshToken',
         JSON.stringify(response.user.uid + '_' + response.user.phoneNumber),
       );
-      dispatch(loginSuccess(userAuth));
+      setOtpInputFill(true);
+      openToast('success', 'Login successfully');
+      setTimeout(() => {
+        dispatch(loginSuccess(userAuth));
+      }, 2000);
     } catch (error: any) {
       setIsShowToast(true);
       setType('error');
@@ -92,7 +98,7 @@ function OtpSignInNumberScreen({route}: Props) {
       <View style={styles.signupLoginInputGroup}>
         <LogoLabel
           title="Confirm Your Number"
-          subtitle={`Enter the code we sent over SMS to  ${route.params.phone}:`}
+          subtitle={`Enter the code we sent over SMS to  ${userData.phone}:`}
         />
         {otpInputFill ? (
           <OtpInputs
@@ -101,7 +107,7 @@ function OtpSignInNumberScreen({route}: Props) {
                 setOtpInputFill(false);
                 setTimeout(() => {
                   handleConfirmCode(code);
-                }, 3000);
+                }, 2000);
               }
             }}
             numberOfInputs={6}

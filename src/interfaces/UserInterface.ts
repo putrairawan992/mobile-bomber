@@ -1,28 +1,32 @@
 export interface UserInterface {
-  userId: string;
+  id: string;
   fullName?: string;
+  name?: string;
   email?: string | null;
   password?: string;
-  username: string | null;
+  username: string;
   phone: string;
   photoUrl?: string | null;
   age?: number;
   bio?: string;
-  creationTime: number;
-  lastSignInTime: number;
-  emailVerified: boolean;
+  creationTime?: number;
+  lastSignInTime?: number;
+  emailVerified?: boolean;
+  profilePictureUrl?: string | null;
 }
 
 export interface LoginPayloadInterface {
   phone: string;
-  password?: string;
+  password: string;
 }
 
 export interface SignUpPayloadInterface {
   username: string;
   password: string;
   phone: string;
-  confirmPassword: string;
+  confirmPassword?: string;
+  email: string;
+  id?: string;
 }
 
 export interface ResetPasswordInterface {
@@ -56,6 +60,6 @@ export interface UserLocationInterface {
 export interface FriendRequestInterface {
   id: string;
   name: string;
-  photo_url: string;
+  photoUrl: string;
   date: string;
 }

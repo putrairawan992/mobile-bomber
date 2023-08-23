@@ -83,7 +83,7 @@ export const FriendInviteConfirmationSheet = ({
         <Gap height={6} />
         <Avatar
           size="ultra-large"
-          url={user?.photo_url ?? ''}
+          url={user?.photoUrl ?? ''}
           alt={user?.fullName as string}
         />
         <Gap height={4} />

@@ -36,7 +36,7 @@ export interface PlaceOverviewInterface {
 }
 
 export interface EventInterface {
-  photo_url: string | null;
+  photoUrl: string | null;
   name: string;
   time: string;
 }
@@ -48,4 +48,21 @@ export interface PlaceEventsInterface {
 
 export interface ResponseGetPlaceInterface {
   PLACES_DATA: PlaceInterface[];
+}
+
+interface ImageInterface {
+  imageUrl: string;
+  title: string;
+}
+
+export interface ResponseGetBanner {
+  cityId: string;
+  result: ImageInterface[];
+}
+
+export interface PlaceOperationalTimeInterface {
+  day: string;
+  open: string | null;
+  close: string | null;
+  isClose: boolean;
 }
