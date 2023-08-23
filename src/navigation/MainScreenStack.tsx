@@ -81,13 +81,17 @@ function Main() {
             colors={['#EF9533', '#EF9533']}
             style={{
               fontSize: 14,
-              fontFamily: 'Poppins-Bold',
+              fontFamily: 'Poppins-Regular',
               lineHeight: 18,
             }}>
             {item.title}
           </GradientText>
         ) : (
-          <Text label={item.title} color="#FBFDFF" fontWeight="bold" />
+          <Text
+            label={item.title}
+            color="#FBFDFF"
+            fontWeight="poppins-regular"
+          />
         )}
       </>
     );
