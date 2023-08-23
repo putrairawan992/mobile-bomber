@@ -77,19 +77,19 @@ export default function WineryOrder() {
         ref={ref}
         onPageSelected={e => setInitialPage(e.nativeEvent.position)}>
         <View key="1">
-          <Champagne onAddToCart={() => setShowCart(true)} />
+          <Champagne />
         </View>
         <View key="2">
-          <Gin onAddToCart={() => setShowCart(true)} />
+          <Gin />
         </View>
         <View key="3">
-          <Vodka onAddToCart={() => setShowCart(true)} />
+          <Vodka />
         </View>
         <View key="4">
-          <Whiskey onAddToCart={() => setShowCart(true)} />
+          <Whiskey />
         </View>
         <View key="5">
-          <Beer onAddToCart={() => setShowCart(true)} />
+          <Beer />
         </View>
       </PagerView>
 

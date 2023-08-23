@@ -2,19 +2,15 @@ import {ScrollView} from 'react-native';
 import React from 'react';
 import CardWineryOrder from '../../../components/molecules/Card/CardWineryOrder';
 
-interface Gin {
-  onAddToCart: () => void;
-}
-
-export default function Gin({onAddToCart}: Gin) {
+export default function Gin() {
   return (
     <ScrollView showsVerticalScrollIndicator={false}>
-      <CardWineryOrder onAddToCart={onAddToCart} />
-      <CardWineryOrder onAddToCart={onAddToCart} />
-      <CardWineryOrder onAddToCart={onAddToCart} />
-      <CardWineryOrder onAddToCart={onAddToCart} />
-      <CardWineryOrder onAddToCart={onAddToCart} />
-      <CardWineryOrder onAddToCart={onAddToCart} />
+      <CardWineryOrder />
+      <CardWineryOrder />
+      <CardWineryOrder />
+      <CardWineryOrder />
+      <CardWineryOrder />
+      <CardWineryOrder />
     </ScrollView>
   );
 }

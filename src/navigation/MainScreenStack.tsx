@@ -78,7 +78,7 @@ function Main() {
         {item.icon}
         {item.focused ? (
           <GradientText
-            colors={['#FFE419', '#F27611']}
+            colors={['#EF9533', '#EF9533']}
             style={{
               fontSize: 14,
               fontFamily: 'Poppins-Bold',
@@ -131,7 +131,7 @@ function Main() {
           tabBarIcon: ({focused}) => (
             <TabBarContent
               focused={focused}
-              title="Event"
+              title="My Event"
               icon={<Flare focused={focused} size={20} />}
             />
           ),
