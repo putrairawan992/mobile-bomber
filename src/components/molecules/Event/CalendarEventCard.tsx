@@ -21,7 +21,7 @@ const CalendarEventCard = ({data, isShowBorder, index}: CalendarEventCard) => {
             borderBottomColor: '#393939',
           }),
         }}>
-        <Avatar url={data.photo_url} alt={data.name} />
+        <Avatar url={data.photoUrl} alt={data.name} />
         <Gap width={8} />
         <Section>
           <Text

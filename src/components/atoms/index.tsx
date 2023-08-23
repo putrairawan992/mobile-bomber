@@ -7,6 +7,7 @@ import {Gap} from './Gap';
 import {Layout} from './Layout';
 import {Section} from './Section';
 import {TouchableSection} from './Section/TouchableSection';
+import CustomShimmer from './Shimmer/CustomShimmer';
 import Spacer from './Spacer/Spacer';
 import Switch from './Switch';
 import DefaultText from './Text/DefaultText';
@@ -28,4 +29,5 @@ export {
   TouchableSection,
   DefaultText,
   Switch,
+  CustomShimmer,
 };

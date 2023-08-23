@@ -14,6 +14,7 @@ export type DateFormatType =
   | 'dd MMM yyyy'
   | 'EEEE'
   | 'eee'
+  | 'eeee'
   | 'd'
   | 'M'
   | 'MMM'

@@ -8089,6 +8089,11 @@ react-native-animated-ellipsis@^2.0.0:
     babel-preset-stage-2 "^6.24.1"
     prop-types "^15.5.10"
 
+react-native-calendar-events@^2.2.0:
+  version "2.2.0"
+  resolved "https://registry.yarnpkg.com/react-native-calendar-events/-/react-native-calendar-events-2.2.0.tgz#6cb78bf712457ca9928dae95b428c91e7b895ae0"
+  integrity sha512-tNUbhT6Ief0JM4OQzQAaz1ri0+MCcAoHptBcEXCz2g7q3A05pg62PR2Dio4F9t2fCAD7Y2+QggdY1ycAsF3Tsg==
+
 react-native-calendars@^1.1300.0:
   version "1.1300.0"
   resolved "https://registry.yarnpkg.com/react-native-calendars/-/react-native-calendars-1.1300.0.tgz#9bd7f1fbeeae8930d62d98fb4086f528a2b298c2"
@@ -8253,6 +8258,11 @@ react-native-screens@3.20.0:
   dependencies:
     react-freeze "^1.0.0"
     warn-once "^0.1.0"
+
+react-native-shimmer-placeholder@^2.0.9:
+  version "2.0.9"
+  resolved "https://registry.yarnpkg.com/react-native-shimmer-placeholder/-/react-native-shimmer-placeholder-2.0.9.tgz#0096932289bd9ec5747cd4f1c9d15f91ba02157a"
+  integrity sha512-s2pfAAO6uaybREYM2KcaxP3c2XlZvLfHfzmhMlGEoOhSKaoM92KpA1Hx0BeC75yilkliJuowqO/hFzvLB0h7hg==
 
 react-native-snap-carousel@^3.9.1:
   version "3.9.1"

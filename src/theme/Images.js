@@ -156,6 +156,7 @@ const ImgProductPromo = require('../assets/images/img_product-promo.png');
 const IcWarning = require('../assets/images/ic_warning.png');
 const IcDoor = require('../assets/images/ic_door.png');
 const IcLogOut = require('../assets/images/log_out.png');
+const IcTv = require('../assets/images/ic_tv.png');
 
 export {
   BackHome,
@@ -312,4 +313,5 @@ export {
   IcWarning,
   IcDoor,
   IcLogOut,
+  IcTv,
 };

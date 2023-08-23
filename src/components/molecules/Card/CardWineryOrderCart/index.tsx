@@ -3,7 +3,11 @@ import React, {useState} from 'react';
 import {DefaultText, Gap} from '../../../atoms';
 import {IcDelete, ImgWineryOrder} from '../../../../theme/Images';
 
-export default function CardWineryOrderCart() {
+interface CardWineryOrderCart {
+  onRemove: () => void;
+}
+
+export default function CardWineryOrderCart({onRemove}: CardWineryOrderCart) {
   const [value, setValue] = useState<number>(1);
 
   return (
@@ -44,7 +48,7 @@ export default function CardWineryOrderCart() {
         <View className="bg-black flex-row items-center rounded-md px-3 py-[6]">
           <TouchableOpacity
             activeOpacity={0.7}
-            onPress={() => value > 1 && setValue(value - 1)}>
+            onPress={() => (value > 1 ? setValue(value - 1) : onRemove())}>
             <DefaultText title="-" titleClassName="text-xl text-neutral-400" />
           </TouchableOpacity>
           <DefaultText title={value} titleClassName="font-poppins-bold mx-6" />
