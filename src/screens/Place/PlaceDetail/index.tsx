@@ -334,6 +334,12 @@ export const PlaceDetail = ({route, navigation}: Props) => {
             operation={data.operation.find(
               item => item.day === dateFormatter(new Date(), 'eeee'),
             )}
+            onOpenGallery={() =>
+              navigation.navigate('Gallery', {
+                placeId: data.id,
+                title: data.name,
+              })
+            }
           />
         </EntryAnimation>
       )}

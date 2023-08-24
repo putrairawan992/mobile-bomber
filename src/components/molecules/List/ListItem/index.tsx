@@ -25,16 +25,18 @@ export const ListItem = ({title, icon, onPress, index}: ListItemProps) => {
           borderBottomWidth: 1,
           marginBottom: 16,
         }}>
-        <Section isRow>
-          {!!icon && (
-            <>
-              {icon}
-              <Gap width={12} />
-            </>
-          )}
-          <Text variant="base" fontWeight="semi-bold" label={title} />
-        </Section>
-        <Gap height={16} />
+        <>
+          <Section isRow>
+            {!!icon && (
+              <>
+                {icon}
+                <Gap width={12} />
+              </>
+            )}
+            <Text variant="base" fontWeight="semi-bold" label={title} />
+          </Section>
+          <Gap height={16} />
+        </>
       </TouchableSection>
     </EntryAnimation>
   );

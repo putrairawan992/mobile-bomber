@@ -14,7 +14,13 @@ import {
   PlaceOperationalTimeInterface,
 } from '../../../interfaces/PlaceInterface';
 import useTheme from '../../../theme/useTheme';
-import {Gap, ScaleAnimation, Section, Text} from '../../atoms';
+import {
+  Gap,
+  ScaleAnimation,
+  Section,
+  Text,
+  TouchableSection,
+} from '../../atoms';
 import styles from './Style';
 import {Colors} from '../../../theme';
 
@@ -24,6 +30,7 @@ interface PlaceCardProps {
   isPlaceDetail?: boolean;
   onOpenSchedule?: () => void;
   operation?: PlaceOperationalTimeInterface | null;
+  onOpenGallery?: () => void;
 }
 
 export const PlaceCard = ({
@@ -32,6 +39,7 @@ export const PlaceCard = ({
   isPlaceDetail = false,
   onOpenSchedule,
   operation,
+  onOpenGallery,
 }: PlaceCardProps) => {
   const theme = useTheme();
   const aspectRatio = useImageAspectRatio(
@@ -99,15 +107,18 @@ export const PlaceCard = ({
                   fontWeight="extra-bold"
                   textTransform="uppercase"
                 />
-                <Section
+                <TouchableSection
+                  onPress={onOpenGallery}
                   isRow
                   padding="8px 8px"
                   backgroundColor="rgba(255, 255, 255, 0.4)"
                   style={{borderRadius: 8}}>
-                  <Gallery size={20} color={theme?.colors.ICON} />
-                  <Gap width={8} />
-                  <Text variant="small" fontWeight="bold" label="20" />
-                </Section>
+                  <>
+                    <Gallery size={20} color={theme?.colors.ICON} />
+                    <Gap width={8} />
+                    <Text variant="small" fontWeight="bold" label="20" />
+                  </>
+                </TouchableSection>
               </Section>
             )}
             {/* <Section isRow style={{flexWrap: 'wrap', display: 'flex'}}> */}

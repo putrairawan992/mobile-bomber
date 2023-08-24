@@ -29,6 +29,7 @@ import VerificationID3 from '../screens/VerificationID3';
 import PaymentPage from '../screens/PaymentPage';
 import Offers from '../screens/Offers';
 import {PlaceInterface} from '../interfaces/PlaceInterface';
+import {GalleryScreen} from '../screens/Gallery';
 
 export type MainStackParams = {
   Nightlife: undefined;
@@ -61,6 +62,10 @@ export type MainStackParams = {
   VerificationID3: undefined;
   PaymentPage: undefined;
   Offers: undefined;
+  Gallery: {
+    placeId: string;
+    title: string;
+  };
 };
 
 interface TabBarContentProps {
@@ -223,6 +228,16 @@ const MainScreenStack = () => {
       <Stack.Screen name="VerificationID3" component={VerificationID3} />
       <Stack.Screen name="PaymentPage" component={PaymentPage} />
       <Stack.Screen name="Offers" component={Offers} />
+      <Stack.Screen
+        name="Gallery"
+        component={GalleryScreen}
+        initialParams={{placeId: '', title: ''}}
+        options={{
+          presentation: 'fullScreenModal',
+          animationTypeForReplace: 'push',
+          animation: 'slide_from_right',
+        }}
+      />
     </Stack.Navigator>
   );
 };
