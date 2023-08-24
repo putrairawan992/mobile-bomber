@@ -8,6 +8,7 @@ import {Layout} from './Layout';
 import {Section} from './Section';
 import {TouchableSection} from './Section/TouchableSection';
 import CustomShimmer from './Shimmer/CustomShimmer';
+import ItemShimmer from './Shimmer/ItemShimmer';
 import Spacer from './Spacer/Spacer';
 import Switch from './Switch';
 import DefaultText from './Text/DefaultText';
@@ -30,4 +31,5 @@ export {
   DefaultText,
   Switch,
   CustomShimmer,
+  ItemShimmer,
 };

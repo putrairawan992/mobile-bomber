@@ -39,7 +39,7 @@ export const OperationalHoursSheet = ({data}: OperationalHoursSheetProps) => {
           {data.map((item, idx) => {
             const isClose = item.isClose;
             return (
-              <EntryAnimation index={idx + 1} key={item.day}>
+              <EntryAnimation index={idx + 1} key={`${item.day}_${idx}`}>
                 <Section isRow style={{marginVertical: 12}}>
                   {isClose ? (
                     <Clock color={Colors['danger-400']} size={16} />
@@ -58,14 +58,15 @@ export const OperationalHoursSheet = ({data}: OperationalHoursSheetProps) => {
                     color={isClose ? Colors['danger-400'] : undefined}
                   />
                   <Gap width={4} />
-                  {dateFormatter(new Date(), 'eeee') === item.day && (
-                    <Text
-                      label={'(Open)'}
-                      color={Colors['success-500']}
-                      variant="small"
-                      fontWeight="bold"
-                    />
-                  )}
+                  {dateFormatter(new Date(), 'eeee') === item.day &&
+                    !isClose && (
+                      <Text
+                        label={'(Open)'}
+                        color={Colors['success-500']}
+                        variant="small"
+                        fontWeight="bold"
+                      />
+                    )}
                 </Section>
               </EntryAnimation>
             );

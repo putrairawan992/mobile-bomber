@@ -9,16 +9,21 @@ import {
   View,
 } from 'react-native';
 import {useImageAspectRatio} from '../../../hooks/useImageAspectRatio';
-import {PlaceInterface} from '../../../interfaces/PlaceInterface';
+import {
+  PlaceInterface,
+  PlaceOperationalTimeInterface,
+} from '../../../interfaces/PlaceInterface';
 import useTheme from '../../../theme/useTheme';
 import {Gap, ScaleAnimation, Section, Text} from '../../atoms';
 import styles from './Style';
+import {Colors} from '../../../theme';
 
 interface PlaceCardProps {
   item: PlaceInterface;
   onSelect: (id: string) => void;
   isPlaceDetail?: boolean;
   onOpenSchedule?: () => void;
+  operation?: PlaceOperationalTimeInterface | null;
 }
 
 export const PlaceCard = ({
@@ -26,6 +31,7 @@ export const PlaceCard = ({
   onSelect,
   isPlaceDetail = false,
   onOpenSchedule,
+  operation,
 }: PlaceCardProps) => {
   const theme = useTheme();
   const aspectRatio = useImageAspectRatio(
@@ -35,8 +41,16 @@ export const PlaceCard = ({
     return (
       <View style={styles.scheduleContainer}>
         <Section isRow>
-          <Text label="Open Now" color={theme?.colors.SUCCESS} />
-          <Text label=" | 10 pm - 4am" color={theme?.colors.TEXT_PRIMARY} />
+          <Text
+            label={operation?.isClose ? 'Closed' : 'Open Now'}
+            color={
+              operation?.isClose ? Colors['danger-400'] : theme?.colors.SUCCESS
+            }
+          />
+          <Text
+            label={` | ${operation?.open} - ${operation?.close}`}
+            color={theme?.colors.TEXT_PRIMARY}
+          />
           <Gap width={4} />
           <TouchableOpacity
             onPress={onOpenSchedule}
@@ -75,7 +89,7 @@ export const PlaceCard = ({
             opacity: 0.4,
           }}
           resizeMode="cover">
-          {isPlaceDetail && renderSchedule()}
+          {isPlaceDetail && !!operation && renderSchedule()}
           <Section padding="16px 16px">
             {isPlaceDetail && (
               <Section isRow isBetween>

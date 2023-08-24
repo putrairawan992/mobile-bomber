@@ -28,6 +28,7 @@ import VerificationID2 from '../screens/VerificationID2';
 import VerificationID3 from '../screens/VerificationID3';
 import PaymentPage from '../screens/PaymentPage';
 import Offers from '../screens/Offers';
+import {PlaceInterface} from '../interfaces/PlaceInterface';
 
 export type MainStackParams = {
   Nightlife: undefined;
@@ -35,7 +36,7 @@ export type MainStackParams = {
   Friends: undefined;
   Profile: undefined;
   PlaceDetail: {
-    placeId: string;
+    placeData: PlaceInterface | null;
   };
   Notification: undefined;
   Main: undefined;

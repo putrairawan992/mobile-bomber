@@ -19,7 +19,7 @@ const CustomShimmer = ({height, width, style}: CustomShimmer) => {
       style={[
         // eslint-disable-next-line react-native/no-inline-styles
         {
-          opacity: 0.1,
+          opacity: 0.2,
           height,
           width,
         },
