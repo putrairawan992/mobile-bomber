@@ -62,6 +62,7 @@ function ProfileScreen() {
                 <Gap width={5} />
                 <TouchableOpacity
                   activeOpacity={0.7}
+                  className="p-[5px]"
                   onPress={() =>
                     navigationRef.navigate('UpdateProfile' as never)
                   }>
