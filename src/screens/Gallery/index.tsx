@@ -1,5 +1,5 @@
 /* eslint-disable react-native/no-inline-styles */
-import React, {createRef, useEffect, useState} from 'react';
+import React, {createRef, useState} from 'react';
 import styles from '../Styles';
 import {Header, TabMenu} from '../../components/molecules';
 import {Gap, Layout, Section, Text} from '../../components/atoms';
@@ -32,12 +32,12 @@ export const GalleryScreen = ({route}: Props) => {
     });
   };
 
-  useEffect(() => {
-    setData(
-      getImages(Number(imageLength.find((item, idx) => idx === initialPage))),
-    );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [initialPage]);
+  // useEffect(() => {
+  //   setData(
+  //     getImages(Number(imageLength.find((item, idx) => idx === initialPage))),
+  //   );
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [initialPage]);
   const renderGallery = () => {
     return (
       <Section style={{flex: 1, justifyContent: 'center'}}>
@@ -58,7 +58,7 @@ export const GalleryScreen = ({route}: Props) => {
             </TouchableOpacity>
           )}
           numColumns={3}
-          keyExtractor={(_, key) => key.toString()}
+          keyExtractor={item => item.id}
         />
       </Section>
     );
@@ -110,7 +110,20 @@ export const GalleryScreen = ({route}: Props) => {
           style={styles.container}
           initialPage={initialPage}
           ref={ref}
-          onPageSelected={e => setInitialPage(e.nativeEvent.position)}>
+          onPageSelected={e => {
+            setData(
+              getImages(
+                Number(
+                  imageLength.find(
+                    (item, idx) => idx === e.nativeEvent.position,
+                  ),
+                ),
+              ),
+            );
+            setTimeout(() => {
+              setInitialPage(e.nativeEvent.position);
+            }, 500);
+          }}>
           <View key="1">{renderGallery()}</View>
           <View key="2">{renderGallery()}</View>
           <View key="3">{renderGallery()}</View>
