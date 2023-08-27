@@ -128,10 +128,10 @@ export default function ModalWineryOrderPay({
                             className="mr-4 py-2">
                             <DefaultText
                               title={item}
-                              titleClassName={`text-center font-inter-bold ${
+                              titleClassName={`text-center ${
                                 index === initialPage
-                                  ? 'text-primary'
-                                  : 'text-white'
+                                  ? 'text-primary font-inter-bold'
+                                  : 'text-white font-inter-medium'
                               }`}
                             />
                           </TouchableOpacity>

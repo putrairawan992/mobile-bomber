@@ -2,13 +2,17 @@ import {Image, ScrollView, StyleSheet} from 'react-native';
 import React from 'react';
 import {DefaultText, Gap, Layout} from '../../components/atoms';
 import {Header} from '../../components/molecules';
-import {ImgOmniClub, ImgProductPromo} from '../../theme/Images';
+import {
+  ImgOmniClub,
+  ImgProductPromo,
+  ImgProductPromo2,
+} from '../../theme/Images';
 import CardCoupon from '../../components/molecules/Card/CardCoupon';
 import CardPromo from '../../components/molecules/Card/CardPromo';
 
 export default function Offers() {
   return (
-    <Layout>
+    <Layout contentContainerStyle={styles.container}>
       <Header
         hasBackBtn
         transparent
@@ -40,11 +44,21 @@ export default function Offers() {
             time="14:10"
           />
           <CardPromo
-            image={ImgProductPromo}
-            title="FREE FLOW"
+            image={ImgProductPromo2}
+            title="Disc up to 50%"
             subtitle="SPENT WITH MINIMUM PURCHASE
-            NT 40,000"
+              NT 40,000"
+            showLogo={false}
+            contentClassName="flex-row-reverse px-2"
+            imageClassName="w-[140] h-[116] absolute -bottom-12 -left-5"
+            backgroundColors={['#071322', '#16102E', '#4D045B']}
             time="14:10"
+            headerClassName="self-end"
+          />
+          <CardPromo
+            isBanner={true}
+            title="WINE TESTING"
+            subtitle="GET PRIVILEGES FOR TEST OUR NEWEST DRINK IF YOU COME USING PAJAMAS"
           />
         </ScrollView>
 
@@ -92,6 +106,7 @@ export default function Offers() {
           title="Discount NT 3,000 for any Food"
           subtitle="Entry before 11pm"
         />
+        <Gap height={30} />
       </ScrollView>
     </Layout>
   );
@@ -100,5 +115,8 @@ export default function Offers() {
 const styles = StyleSheet.create({
   promoContainer: {
     paddingHorizontal: 10,
+  },
+  container: {
+    flex: 1,
   },
 });
