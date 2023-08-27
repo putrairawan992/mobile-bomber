@@ -11,7 +11,7 @@ export interface PlacePhotoInterface {
   url: string;
 }
 
-export interface PlaceInterface {
+export interface PlaceInterface extends ResponseGetPlaceDetailInterface {
   id: string;
   name: string;
   featuredToday: string[];
@@ -65,4 +65,10 @@ export interface PlaceOperationalTimeInterface {
   open: string | null;
   close: string | null;
   isClose: boolean;
+}
+
+export interface ResponseGetPlaceDetailInterface {
+  about: string;
+  operation: PlaceOperationalTimeInterface[];
+  features: PlaceOverviewFeaturesInterface[];
 }

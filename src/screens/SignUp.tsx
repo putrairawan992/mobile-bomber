@@ -1,7 +1,7 @@
 /* eslint-disable react-native/no-inline-styles */
-import React from 'react';
-import {Section, Spacer, Text, Layout} from '../components/atoms';
-import {TouchableOpacity} from 'react-native';
+import React, {useState} from 'react';
+import {Section, Spacer, Text, Layout, Gap} from '../components/atoms';
+import {Platform, TouchableOpacity} from 'react-native';
 import useTheme from '../theme/useTheme';
 import * as Yup from 'yup';
 import {SignUpPayloadInterface} from '../interfaces/UserInterface';
@@ -11,11 +11,13 @@ import {useFormik} from 'formik';
 import {Button, TextInput} from '../components/atoms';
 import {LogoLabel} from '../components/molecules';
 import styles from './LogIn/Styles/LogInStyle';
+import CheckBox from '@react-native-community/checkbox';
 
 type Props = NativeStackScreenProps<AuthStackParams, 'SignUp', 'MyStack'>;
 
 export const SignUp = ({navigation}: Props) => {
   const theme = useTheme();
+  const [isAgree, setIsAgree] = useState<boolean>(false);
   const formik = useFormik<SignUpPayloadInterface>({
     initialValues: {
       username: '',
@@ -95,10 +97,32 @@ export const SignUp = ({navigation}: Props) => {
         placeholder="Confirm password"
         type="password"
       />
-      <Spacer lxx />
+      <Gap height={12} />
+      <Section isRow>
+        <CheckBox
+          disabled={false}
+          value={isAgree}
+          onValueChange={newValue => setIsAgree(newValue)}
+          boxType="square"
+          onCheckColor={theme?.colors.PRIMARY}
+          onTintColor={theme?.colors.PRIMARY}
+          onFillColor="#FFF"
+          style={{
+            marginRight: Platform.OS === 'android' ? 16 : 4,
+            width: 14,
+            height: 14,
+          }}
+        />
+        <Gap width={4} />
+        <Text
+          variant="small"
+          label="I have read and agree to the Terms and Conditions"
+        />
+      </Section>
+      <Gap height={28} />
       <Button
-        type="primary"
-        onPress={() => formik.handleSubmit()}
+        type={isAgree ? 'primary' : 'disabled'}
+        onPress={() => isAgree && formik.handleSubmit()}
         title="Sign Up"
         isLoading={false}
       />

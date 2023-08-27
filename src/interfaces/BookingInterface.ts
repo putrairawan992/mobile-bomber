@@ -31,3 +31,8 @@ export interface PartyInterface {
   quota: number;
   table: string;
 }
+
+export interface PayloadGetWalkInTicketInterface {
+  club_id: number;
+  date: string;
+}

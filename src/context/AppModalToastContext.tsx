@@ -23,7 +23,7 @@ export const ModalToastContext = createContext<ModalToastContextInterface>({
 
 function AppModalToastContext({children}: {children: React.ReactNode}) {
   const [isShowToast, setIsShowToast] = useState<boolean>(false);
-  const [toastMessage, setToastMessage] = useState('halo');
+  const [toastMessage, setToastMessage] = useState('');
   const [type, setType] = useState<ModalToastType>('success');
   return (
     <ModalToastContext.Provider

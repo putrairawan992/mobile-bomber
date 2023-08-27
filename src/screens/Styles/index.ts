@@ -26,6 +26,11 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 14,
     borderTopLeftRadius: 14,
   },
+  imageThumbnail: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: 100,
+  },
 });
 
 export default styles;

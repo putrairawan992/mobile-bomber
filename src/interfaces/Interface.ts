@@ -14,3 +14,8 @@ export interface MonthYearInterface {
   month: number;
   year: number;
 }
+
+export interface GalleryInterface {
+  id: string;
+  url: string;
+}
