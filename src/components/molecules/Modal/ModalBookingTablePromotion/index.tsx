@@ -10,12 +10,19 @@ import CardCoupon from '../../Card/CardCoupon';
 interface ModalBookingTablePromotion {
   show: boolean;
   hide: () => void;
+  onApplied: () => void;
 }
 
 export default function ModalBookingTablePromotion({
   show,
   hide,
+  onApplied,
 }: ModalBookingTablePromotion) {
+  const onSuccess = () => {
+    hide();
+    onApplied();
+  };
+
   return (
     <Modal
       className="m-0 p-0"
@@ -46,7 +53,7 @@ export default function ModalBookingTablePromotion({
                 subtitle="Minimum purchase NT 15,000"
                 containerClassName="mx-0"
                 contentClassName="bg-neutral-800"
-                onPress={() => hide()}
+                onSuccess={onSuccess}
               />
               <CardCoupon
                 type="discount"
@@ -55,7 +62,7 @@ export default function ModalBookingTablePromotion({
                 warning="4 hours before promo ended"
                 containerClassName="mx-0"
                 contentClassName="bg-neutral-800"
-                onPress={() => hide()}
+                onSuccess={onSuccess}
               />
               <CardCoupon
                 type="discount"
@@ -63,7 +70,7 @@ export default function ModalBookingTablePromotion({
                 subtitle="Entry before 11pm"
                 containerClassName="mx-0"
                 contentClassName="bg-neutral-800"
-                onPress={() => hide()}
+                onSuccess={onSuccess}
               />
             </View>
             <Gap height={20} />
@@ -79,7 +86,7 @@ export default function ModalBookingTablePromotion({
                 subtitle="Entry before 11pm"
                 containerClassName="mx-0"
                 contentClassName="bg-neutral-800"
-                onPress={() => hide()}
+                onSuccess={onSuccess}
               />
               <CardCoupon
                 type="discount"
@@ -87,7 +94,7 @@ export default function ModalBookingTablePromotion({
                 subtitle="Entry before 11pm"
                 containerClassName="mx-0"
                 contentClassName="bg-neutral-800"
-                onPress={() => hide()}
+                onSuccess={onSuccess}
               />
               <CardCoupon
                 type="discount"
@@ -95,7 +102,7 @@ export default function ModalBookingTablePromotion({
                 subtitle="Entry before 11pm"
                 containerClassName="mx-0"
                 contentClassName="bg-neutral-800"
-                onPress={() => hide()}
+                onSuccess={onSuccess}
               />
             </View>
 

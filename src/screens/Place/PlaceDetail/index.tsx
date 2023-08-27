@@ -40,6 +40,8 @@ import {OperationalHoursSheet, PlaceCard} from '../../../components/organism';
 import {navigationRef} from '../../../navigation/RootNavigation';
 import BottomSheet, {BottomSheetModal} from '@gorhom/bottom-sheet';
 import {Colors} from '../../../theme';
+import CardPromo from '../../../components/molecules/Card/CardPromo';
+import {ImgProductPromo, ImgProductPromo2} from '../../../theme/Images';
 
 type Props = NativeStackScreenProps<MainStackParams, 'PlaceDetail', 'MyStack'>;
 export const PlaceDetail = ({route, navigation}: Props) => {
@@ -172,22 +174,26 @@ export const PlaceDetail = ({route, navigation}: Props) => {
           </TouchableOpacity>
         </Section>
         <Gap height={12} />
-        <Section isRow isBetween>
-          <Image
-            source={{
-              uri: 'https://coconuts.co/wp-content/uploads/2018/09/Proof-free-flow.jpg',
-            }}
-            style={{width: 160, height: 160, borderRadius: 4}}
-            resizeMode="contain"
+        <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
+          <CardPromo
+            image={ImgProductPromo}
+            title="FREE FLOW"
+            subtitle="SPENT WITH MINIMUM PURCHASE
+            NT 40,000"
+            headerClassName="self-end"
           />
-          <Image
-            source={{
-              uri: 'https://d1629ugb7moz2f.cloudfront.net/events/5103/NVYxTQZhhux64ZJHNCoaNVEswy0fUQ2b51ZxZUn6.jpg',
-            }}
-            style={{width: 160, height: 160, borderRadius: 4}}
-            resizeMode="contain"
+          <CardPromo
+            image={ImgProductPromo2}
+            title="Disc up to 50%"
+            subtitle="SPENT WITH MINIMUM PURCHASE
+            NT 40,000"
+            showLogo={false}
+            contentClassName="flex-row-reverse px-3 py-3"
+            imageClassName="w-[140] h-[116] absolute -bottom-10 -left-5"
+            backgroundColors={['#071322', '#16102E', '#4D045B']}
           />
-        </Section>
+          <CardPromo isOther={true} />
+        </ScrollView>
       </Section>
     );
   };
