@@ -75,35 +75,43 @@ export const FriendsTab = ({
         isBetween
         padding="16px 16px"
         backgroundColor={theme?.colors.SECTION}>
-        <Section isRow>
-          <Star1
-            size={20}
-            color={isExpandFavorites ? theme?.colors.ICON : Colors['black-40']}
-          />
-          <Gap width={12} />
-          <Text
-            variant="base"
-            fontWeight="semi-bold"
-            label="Favorite List"
-            color={isExpandFavorites ? theme?.colors.ICON : Colors['black-40']}
-          />
-          <Text
-            fontWeight="medium"
-            label={` (${
-              data.filter(
-                (item: UserInterface) =>
-                  item.fullName &&
-                  item.fullName.match(new RegExp(searchValue, 'i')),
-              ).length
-            })`}
-            color={isExpandFavorites ? theme?.colors.ICON : Colors['black-40']}
-          />
-        </Section>
-        {isExpandFavorites ? (
-          <ArrowUp2 size={20} color={theme?.colors.ICON} />
-        ) : (
-          <ArrowDown2 size={20} color={theme?.colors.ICON} />
-        )}
+        <>
+          <Section isRow>
+            <Star1
+              size={20}
+              color={
+                isExpandFavorites ? theme?.colors.ICON : Colors['black-40']
+              }
+            />
+            <Gap width={12} />
+            <Text
+              variant="base"
+              fontWeight="semi-bold"
+              label="Favorite List"
+              color={
+                isExpandFavorites ? theme?.colors.ICON : Colors['black-40']
+              }
+            />
+            <Text
+              fontWeight="medium"
+              label={` (${
+                data.filter(
+                  (item: UserInterface) =>
+                    item.fullName &&
+                    item.fullName.match(new RegExp(searchValue, 'i')),
+                ).length
+              })`}
+              color={
+                isExpandFavorites ? theme?.colors.ICON : Colors['black-40']
+              }
+            />
+          </Section>
+          {isExpandFavorites ? (
+            <ArrowUp2 size={20} color={theme?.colors.ICON} />
+          ) : (
+            <ArrowDown2 size={20} color={theme?.colors.ICON} />
+          )}
+        </>
       </TouchableSection>
       <Gap height={24} />
       {isExpandFavorites && (
@@ -145,35 +153,37 @@ export const FriendsTab = ({
         isBetween
         padding="16px 16px"
         backgroundColor={theme?.colors.SECTION}>
-        <Section isRow>
-          <UserGroup
-            size={20}
-            color={isExpandFriends ? theme?.colors.ICON : Colors['black-40']}
-          />
-          <Gap width={12} />
-          <Text
-            variant="base"
-            fontWeight="semi-bold"
-            label="Friend"
-            color={isExpandFriends ? theme?.colors.ICON : Colors['black-40']}
-          />
-          <Text
-            fontWeight="medium"
-            label={` (${
-              data.filter(
-                (item: UserInterface) =>
-                  item.fullName &&
-                  item.fullName.match(new RegExp(searchValue, 'i')),
-              ).length
-            })`}
-            color={isExpandFriends ? theme?.colors.ICON : Colors['black-40']}
-          />
-        </Section>
-        {isExpandFriends ? (
-          <ArrowUp2 size={20} color={theme?.colors.ICON} />
-        ) : (
-          <ArrowDown2 size={20} color={theme?.colors.ICON} />
-        )}
+        <>
+          <Section isRow>
+            <UserGroup
+              size={20}
+              color={isExpandFriends ? theme?.colors.ICON : Colors['black-40']}
+            />
+            <Gap width={12} />
+            <Text
+              variant="base"
+              fontWeight="semi-bold"
+              label="Friend"
+              color={isExpandFriends ? theme?.colors.ICON : Colors['black-40']}
+            />
+            <Text
+              fontWeight="medium"
+              label={` (${
+                data.filter(
+                  (item: UserInterface) =>
+                    item.fullName &&
+                    item.fullName.match(new RegExp(searchValue, 'i')),
+                ).length
+              })`}
+              color={isExpandFriends ? theme?.colors.ICON : Colors['black-40']}
+            />
+          </Section>
+          {isExpandFriends ? (
+            <ArrowUp2 size={20} color={theme?.colors.ICON} />
+          ) : (
+            <ArrowDown2 size={20} color={theme?.colors.ICON} />
+          )}
+        </>
       </TouchableSection>
       <Gap height={24} />
       {isExpandFriends && (

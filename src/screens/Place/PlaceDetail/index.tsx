@@ -8,7 +8,16 @@ import {
   Video,
   WristClock,
 } from 'iconsax-react-native';
-import {Button, Gap, Layout, Section, Text} from '../../../components/atoms';
+import {
+  Button,
+  CustomShimmer,
+  EntryAnimation,
+  Gap,
+  ItemShimmer,
+  Layout,
+  Section,
+  Text,
+} from '../../../components/atoms';
 import {Header, HorizontalMenu} from '../../../components/molecules';
 import {
   Image,
@@ -42,12 +51,17 @@ import BottomSheet, {BottomSheetModal} from '@gorhom/bottom-sheet';
 import {Colors} from '../../../theme';
 import CardPromo from '../../../components/molecules/Card/CardPromo';
 import {ImgProductPromo, ImgProductPromo2} from '../../../theme/Images';
+import {NightlifeService} from '../../../service/NightlifeService';
+import reactotron from 'reactotron-react-native';
+import {WIDTH} from '../../../utils/config';
+import {dateFormatter} from '../../../utils/dateFormatter';
 
 type Props = NativeStackScreenProps<MainStackParams, 'PlaceDetail', 'MyStack'>;
 export const PlaceDetail = ({route, navigation}: Props) => {
-  const placeId = route.params.placeId;
+  const placeData = route.params.placeData;
   const theme = useTheme();
   const [data, setData] = useState<PlaceInterface | undefined>(undefined);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [selectedMenu, setSelectedMenu] = useState<number>(1);
   const [dataSourceCords, setDataSourceCords] = useState([] as number[]);
   const [scrollToIndex, setScrollToIndex] = useState<number>(0);
@@ -57,17 +71,21 @@ export const PlaceDetail = ({route, navigation}: Props) => {
   const placeDetailSheetRef = React.useRef<BottomSheetModal>(null);
   const snapPoints = React.useMemo(() => ['50'], []);
 
-  useEffect(() => {
-    const getPlaceData = () => {
-      if (placeId) {
-        setData(
-          PLACES_DATA.find((item: PlaceInterface) => item.id === placeId),
-        );
-      }
-    };
+  const getPlaceData = async () => {
+    try {
+      setIsLoading(true);
+      const response = await NightlifeService.getPlaceDetail({
+        club_id: Number(placeData?.id),
+      });
+      !!placeData && setData({...placeData, ...response});
+      setIsLoading(false);
+    } catch (error: any) {}
+  };
 
+  useEffect(() => {
     getPlaceData();
-  }, [placeId]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const scrollHandler = (key: number) => {
     if (dataSourceCords.length > scrollToIndex) {
@@ -85,72 +103,92 @@ export const PlaceDetail = ({route, navigation}: Props) => {
 
   const PlaceOverview = () => {
     return (
-      <Section
-        key={1} //keys will be needed for function
-        onLayout={(event: any) => {
-          const layout = event.nativeEvent.layout;
-          dataSourceCords[1] = layout.y; // we store this offset values in an array
-        }}
-        padding="12px 12px"
-        backgroundColor={theme?.colors.SECTION}
-        rounded={8}>
-        <Text variant="base" fontWeight="bold" label={`About ${data?.name}`} />
-        <Gap height={12} />
-        <Text label={PLACE_OVERVIEW.about} textAlign="justify" />
-        <Section padding="20px 0px">
-          {PLACE_OVERVIEW.features.map(
-            (item: PlaceOverviewFeaturesInterface) => {
-              return (
-                <Section key={item.title} isRow style={{marginBottom: 12}}>
-                  {item.icon === 'rated' && (
-                    <Speaker size={30} color={theme?.colors.ICON} />
-                  )}
-                  {item.icon === 'clothing' && (
-                    <WristClock size={30} color={theme?.colors.ICON} />
-                  )}
-                  {item.icon === 'live' && (
-                    <Video size={30} color={theme?.colors.ICON} />
-                  )}
+      <>
+        {isLoading ? (
+          <Section
+            padding="12px 12px"
+            backgroundColor={theme?.colors.SECTION}
+            rounded={8}>
+            <ItemShimmer
+              row={20}
+              width="100%"
+              height={24}
+              style={{marginBottom: 16, borderRadius: 8}}
+            />
+          </Section>
+        ) : (
+          <EntryAnimation index={1}>
+            <Section
+              key={1} //keys will be needed for function
+              onLayout={(event: any) => {
+                const layout = event.nativeEvent.layout;
+                dataSourceCords[1] = layout.y; // we store this offset values in an array
+              }}
+              padding="12px 12px"
+              backgroundColor={theme?.colors.SECTION}
+              rounded={8}>
+              <Text
+                variant="base"
+                fontWeight="bold"
+                label={`About ${data?.name}`}
+              />
+              <Gap height={12} />
+              <Text label={data?.about} textAlign="justify" />
+              <Section padding="20px 0px">
+                {data?.features.map((item: PlaceOverviewFeaturesInterface) => {
+                  return (
+                    <Section key={item.title} isRow style={{marginBottom: 12}}>
+                      {item.icon === 'rated' && (
+                        <Speaker size={30} color={theme?.colors.ICON} />
+                      )}
+                      {item.icon === 'clothing' && (
+                        <WristClock size={30} color={theme?.colors.ICON} />
+                      )}
+                      {item.icon === 'live' && (
+                        <Video size={30} color={theme?.colors.ICON} />
+                      )}
+                      <Gap width={12} />
+                      <Section>
+                        <Text label={item.title} />
+                        <Text
+                          label={item.subtitle}
+                          variant="extra-small"
+                          color={theme?.colors.TEXT_SECONDARY}
+                        />
+                      </Section>
+                    </Section>
+                  );
+                })}
+              </Section>
+              <Text label={data?.address} />
+              <Gap height={24} />
+              <Section isRow>
+                <Section isRow>
+                  <Location size={16} color={theme?.colors.ICON} />
+                  <Gap width={4} />
+                  <Text label="Get Direction" />
                   <Gap width={12} />
-                  <Section>
-                    <Text label={item.title} />
-                    <Text
-                      label={item.subtitle}
-                      variant="extra-small"
-                      color={theme?.colors.TEXT_SECONDARY}
-                    />
-                  </Section>
+                  <Text label="|" color={theme?.colors.INACTIVE_TABS} />
+                  <Gap width={12} />
                 </Section>
-              );
-            },
-          )}
-        </Section>
-        <Text label={data?.address} />
-        <Gap height={24} />
-        <Section isRow>
-          <Section isRow>
-            <Location size={16} color={theme?.colors.ICON} />
-            <Gap width={4} />
-            <Text label="Get Direction" />
-            <Gap width={12} />
-            <Text label="|" color={theme?.colors.INACTIVE_TABS} />
-            <Gap width={12} />
-          </Section>
-          <Section isRow>
-            <Call size={16} color={theme?.colors.ICON} />
-            <Gap width={4} />
-            <Text label="Call" />
-            <Gap width={12} />
-            <Text label="|" color={theme?.colors.INACTIVE_TABS} />
-            <Gap width={12} />
-          </Section>
-          <Section isRow>
-            <Share size={16} color={theme?.colors.ICON} />
-            <Gap width={4} />
-            <Text label="Share" />
-          </Section>
-        </Section>
-      </Section>
+                <Section isRow>
+                  <Call size={16} color={theme?.colors.ICON} />
+                  <Gap width={4} />
+                  <Text label="Call" />
+                  <Gap width={12} />
+                  <Text label="|" color={theme?.colors.INACTIVE_TABS} />
+                  <Gap width={12} />
+                </Section>
+                <Section isRow>
+                  <Share size={16} color={theme?.colors.ICON} />
+                  <Gap width={4} />
+                  <Text label="Share" />
+                </Section>
+              </Section>
+            </Section>
+          </EntryAnimation>
+        )}
+      </>
     );
   };
 
@@ -290,13 +328,26 @@ export const PlaceDetail = ({route, navigation}: Props) => {
       <View style={styles.headerLogo}>
         <Image source={{uri: data?.logo}} style={{height: 56, aspectRatio}} />
       </View>
-      {data && (
-        <PlaceCard
-          item={data}
-          onSelect={() => undefined}
-          isPlaceDetail
-          onOpenSchedule={() => placeDetailSheetRef.current?.present()}
-        />
+      {isLoading || !data ? (
+        <CustomShimmer width={WIDTH} height={230} />
+      ) : (
+        <EntryAnimation index={0}>
+          <PlaceCard
+            item={data}
+            onSelect={() => undefined}
+            isPlaceDetail
+            onOpenSchedule={() => placeDetailSheetRef.current?.present()}
+            operation={data.operation.find(
+              item => item.day === dateFormatter(new Date(), 'eeee'),
+            )}
+            onOpenGallery={() =>
+              navigation.navigate('Gallery', {
+                placeId: data.id,
+                title: data.name,
+              })
+            }
+          />
+        </EntryAnimation>
       )}
       <Gap height={12} />
       <HorizontalMenu
@@ -328,13 +379,21 @@ export const PlaceDetail = ({route, navigation}: Props) => {
         <Gap height={16} />
         <Button
           type="primary"
-          onPress={() => navigation.navigate('BookingTable', {placeId})}
+          onPress={() =>
+            navigation.navigate('BookingTable', {
+              placeId: placeData?.id as string,
+            })
+          }
           title="Booking Table"
         />
         <Gap height={8} />
         <Button
           type="outlined"
-          onPress={() => navigation.navigate('BookingWalkIn', {placeId})}
+          onPress={() =>
+            navigation.navigate('BookingWalkIn', {
+              placeId: placeData?.id as string,
+            })
+          }
           title="Walk In"
         />
         <Gap height={24} />
@@ -361,7 +420,7 @@ export const PlaceDetail = ({route, navigation}: Props) => {
         }}
         handleIndicatorStyle={{backgroundColor: Colors['black-70']}}
         onChange={handleSheetChanges}>
-        <OperationalHoursSheet data={OPERATIONAL_TIME_DATA} />
+        {!!data && <OperationalHoursSheet data={data.operation} />}
       </BottomSheetModal>
     </Layout>
   );

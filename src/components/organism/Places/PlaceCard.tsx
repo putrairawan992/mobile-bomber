@@ -9,16 +9,28 @@ import {
   View,
 } from 'react-native';
 import {useImageAspectRatio} from '../../../hooks/useImageAspectRatio';
-import {PlaceInterface} from '../../../interfaces/PlaceInterface';
+import {
+  PlaceInterface,
+  PlaceOperationalTimeInterface,
+} from '../../../interfaces/PlaceInterface';
 import useTheme from '../../../theme/useTheme';
-import {Gap, ScaleAnimation, Section, Text} from '../../atoms';
+import {
+  Gap,
+  ScaleAnimation,
+  Section,
+  Text,
+  TouchableSection,
+} from '../../atoms';
 import styles from './Style';
+import {Colors} from '../../../theme';
 
 interface PlaceCardProps {
   item: PlaceInterface;
   onSelect: (id: string) => void;
   isPlaceDetail?: boolean;
   onOpenSchedule?: () => void;
+  operation?: PlaceOperationalTimeInterface | null;
+  onOpenGallery?: () => void;
 }
 
 export const PlaceCard = ({
@@ -26,6 +38,8 @@ export const PlaceCard = ({
   onSelect,
   isPlaceDetail = false,
   onOpenSchedule,
+  operation,
+  onOpenGallery,
 }: PlaceCardProps) => {
   const theme = useTheme();
   const aspectRatio = useImageAspectRatio(
@@ -35,8 +49,16 @@ export const PlaceCard = ({
     return (
       <View style={styles.scheduleContainer}>
         <Section isRow>
-          <Text label="Open Now" color={theme?.colors.SUCCESS} />
-          <Text label=" | 10 pm - 4am" color={theme?.colors.TEXT_PRIMARY} />
+          <Text
+            label={operation?.isClose ? 'Closed' : 'Open Now'}
+            color={
+              operation?.isClose ? Colors['danger-400'] : theme?.colors.SUCCESS
+            }
+          />
+          <Text
+            label={` | ${operation?.open} - ${operation?.close}`}
+            color={theme?.colors.TEXT_PRIMARY}
+          />
           <Gap width={4} />
           <TouchableOpacity
             onPress={onOpenSchedule}
@@ -75,7 +97,7 @@ export const PlaceCard = ({
             opacity: 0.4,
           }}
           resizeMode="cover">
-          {isPlaceDetail && renderSchedule()}
+          {isPlaceDetail && !!operation && renderSchedule()}
           <Section padding="16px 16px">
             {isPlaceDetail && (
               <Section isRow isBetween>
@@ -85,15 +107,18 @@ export const PlaceCard = ({
                   fontWeight="extra-bold"
                   textTransform="uppercase"
                 />
-                <Section
+                <TouchableSection
+                  onPress={onOpenGallery}
                   isRow
                   padding="8px 8px"
                   backgroundColor="rgba(255, 255, 255, 0.4)"
                   style={{borderRadius: 8}}>
-                  <Gallery size={20} color={theme?.colors.ICON} />
-                  <Gap width={8} />
-                  <Text variant="small" fontWeight="bold" label="20" />
-                </Section>
+                  <>
+                    <Gallery size={20} color={theme?.colors.ICON} />
+                    <Gap width={8} />
+                    <Text variant="small" fontWeight="bold" label="20" />
+                  </>
+                </TouchableSection>
               </Section>
             )}
             {/* <Section isRow style={{flexWrap: 'wrap', display: 'flex'}}> */}

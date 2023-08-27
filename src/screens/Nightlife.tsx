@@ -113,7 +113,11 @@ function NightlifeScreen({navigation}: Props) {
   ];
 
   const onPlaceSelect = (id: string) =>
-    navigation.navigate('PlaceDetail', {placeId: id});
+    navigation.navigate('PlaceDetail', {
+      placeData:
+        topFiveNightClub.find(item => item.id.toString() === id.toString()) ??
+        null,
+    });
 
   return (
     <Layout contentContainerStyle={styles.container}>

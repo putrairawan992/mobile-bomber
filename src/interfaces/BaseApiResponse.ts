@@ -23,6 +23,7 @@ export interface APIResponse<T> {
   message: string;
   success: boolean;
   error?: boolean;
+  result: T;
 }
 
 export interface BaseResponsePagination<T> {
