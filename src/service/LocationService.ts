@@ -3,12 +3,13 @@ import {
   LocationInterface,
   UserLocationInterface,
 } from '../interfaces/UserInterface';
+import Config from 'react-native-config';
 
 export const LocationService = {
   geocodeReverse(payload: LocationInterface): Promise<UserLocationInterface> {
     return new Promise((resolved, rejected) => {
       fetch(
-        `https://api.geocodify.com/v2/reverse?api_key=bd32f0c46bda89c8c61bb841cb307cdc98f947cc&lat=${payload.latitude}&lng=${payload.longitude}`,
+        `https://api.geocodify.com/v2/reverse?api_key=${Config.API_GEOCODIFY}&lat=${payload.latitude}&lng=${payload.longitude}`,
         {
           method: 'get',
         },
