@@ -57,6 +57,7 @@ export const TableOrderDetail = ({
   const theme = useTheme();
 
   const [showPromo, setShowPromo] = useState<boolean>(false);
+  const [promoApplied, setPromoApplied] = useState<number[]>([]);
 
   return (
     <BottomSheetScrollView
@@ -327,18 +328,25 @@ export const TableOrderDetail = ({
         padding="16px 16px"
         backgroundColor={theme?.colors.SECTION}
         rounded={8}>
-        <View className="flex-row mb-3">
-          <Image className="w-[48] h-[50]" source={images.discountPercent} />
-          <View className="bg-black flex-1 justify-center px-3 rounded-tr-lg rounded-br-lg border-[0.5px] border-neutral-600 border-l-transparent flex-row items-center">
-            <DefaultText
-              title="Discount 50% for ladies"
-              titleClassName="font-inter-semibold flex-1"
-            />
-            <TouchableOpacity activeOpacity={0.7}>
-              <Close size={22} color={colors.white} />
-            </TouchableOpacity>
-          </View>
-        </View>
+        {promoApplied.map((promo, key) => {
+          return (
+            <View className="flex-row mb-3" key={key}>
+              <Image
+                className="w-[48] h-[50]"
+                source={images.discountPercent}
+              />
+              <View className="bg-black flex-1 justify-center px-3 rounded-tr-lg rounded-br-lg border-[0.5px] border-neutral-600 border-l-transparent flex-row items-center">
+                <DefaultText
+                  title="Discount 50% for ladies"
+                  titleClassName="font-inter-semibold flex-1"
+                />
+                <TouchableOpacity activeOpacity={0.7} onPress={() => {}}>
+                  <Close size={22} color={colors.white} />
+                </TouchableOpacity>
+              </View>
+            </View>
+          );
+        })}
         <TouchableOpacity
           activeOpacity={0.7}
           onPress={() => setShowPromo(true)}>
@@ -364,6 +372,9 @@ export const TableOrderDetail = ({
       <ModalBookingTablePromotion
         show={showPromo}
         hide={() => setShowPromo(false)}
+        onApplied={() =>
+          setPromoApplied([...promoApplied, new Date().valueOf()])
+        }
       />
     </BottomSheetScrollView>
   );

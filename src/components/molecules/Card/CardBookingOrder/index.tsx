@@ -8,7 +8,7 @@ export default function CardBookingOrder() {
 
   return (
     <View
-      className="bg-screen p-3 rounded-lg border-[1px] border-neutral-600 mx-2"
+      className="bg-screen p-3 rounded-md border-[2px] border-neutral-600 mx-2"
       style={{width: width / 1.4}}>
       <View className="flex-row items-center">
         <DefaultText
@@ -20,12 +20,12 @@ export default function CardBookingOrder() {
           titleClassName="font-inter-medium text-yellow-600"
         />
       </View>
-      <Spacer height={5} />
+      <Spacer height={2} />
       <DefaultText
-        title="Ready to server"
+        title="Ready to serve"
         titleClassName="font-poppins-semibold text-base text-green-700"
       />
-      <Spacer height={10} />
+      <Spacer height={12} />
       <View className="flex-row items-center">
         <View className="mr-5">
           <Image
@@ -51,7 +51,7 @@ export default function CardBookingOrder() {
           }}
         />
       </View>
-      <Spacer height={15} />
+      <Spacer height={24} />
       <DefaultText
         title="ordered 13 hours ago"
         titleClassName="text-neutral-500 font-poppins-regular"

@@ -28,6 +28,8 @@ import VerificationID2 from '../screens/VerificationID2';
 import VerificationID3 from '../screens/VerificationID3';
 import PaymentPage from '../screens/PaymentPage';
 import Offers from '../screens/Offers';
+import {PlaceInterface} from '../interfaces/PlaceInterface';
+import {GalleryScreen} from '../screens/Gallery';
 
 export type MainStackParams = {
   Nightlife: undefined;
@@ -35,7 +37,7 @@ export type MainStackParams = {
   Friends: undefined;
   Profile: undefined;
   PlaceDetail: {
-    placeId: string;
+    placeData: PlaceInterface | null;
   };
   Notification: undefined;
   Main: undefined;
@@ -60,6 +62,10 @@ export type MainStackParams = {
   VerificationID3: undefined;
   PaymentPage: undefined;
   Offers: undefined;
+  Gallery: {
+    placeId: string;
+    title: string;
+  };
 };
 
 interface TabBarContentProps {
@@ -81,13 +87,17 @@ function Main() {
             colors={['#EF9533', '#EF9533']}
             style={{
               fontSize: 14,
-              fontFamily: 'Poppins-Bold',
+              fontFamily: 'Poppins-Regular',
               lineHeight: 18,
             }}>
             {item.title}
           </GradientText>
         ) : (
-          <Text label={item.title} color="#FBFDFF" fontWeight="bold" />
+          <Text
+            label={item.title}
+            color="#FBFDFF"
+            fontWeight="poppins-regular"
+          />
         )}
       </>
     );
@@ -218,6 +228,16 @@ const MainScreenStack = () => {
       <Stack.Screen name="VerificationID3" component={VerificationID3} />
       <Stack.Screen name="PaymentPage" component={PaymentPage} />
       <Stack.Screen name="Offers" component={Offers} />
+      <Stack.Screen
+        name="Gallery"
+        component={GalleryScreen}
+        initialParams={{placeId: '', title: ''}}
+        options={{
+          presentation: 'fullScreenModal',
+          animationTypeForReplace: 'push',
+          animation: 'slide_from_right',
+        }}
+      />
     </Stack.Navigator>
   );
 };

@@ -1079,6 +1079,11 @@
   resolved "https://registry.yarnpkg.com/@expo/sdk-runtime-versions/-/sdk-runtime-versions-1.0.0.tgz#d7ebd21b19f1c6b0395e50d78da4416941c57f7c"
   integrity sha512-Doz2bfiPndXYFPMRwPyGa1k5QaKDVpY806UJj570epIiMzWaYyCtobasyfC++qfIXVb5Ocy7r3tP9d62hAQ7IQ==
 
+"@georstat/react-native-image-gallery@^1.1.0":
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/@georstat/react-native-image-gallery/-/react-native-image-gallery-1.1.0.tgz#85ec40cec9415f372c950a5d88e26c7123de3cc8"
+  integrity sha512-rRyZpEFWQXUAlzQqaMi3/r3ymFUKqoQd+Jx1BevUEurMcPAX5321x8BbJ0jo1j4JfWR/koZDwyRZgoitEO5QTA==
+
 "@gorhom/bottom-sheet@^4":
   version "4.4.7"
   resolved "https://registry.yarnpkg.com/@gorhom/bottom-sheet/-/bottom-sheet-4.4.7.tgz#fc80b3f0b7ebab056ce226f3aa3a89b2db8660dd"
@@ -1443,6 +1448,11 @@
   resolved "https://registry.yarnpkg.com/@react-native-clipboard/clipboard/-/clipboard-1.11.2.tgz#e826d0336b34e67294aaffa6878308900bc7d197"
   integrity sha512-bHyZVW62TuleiZsXNHS1Pv16fWc0fh8O9WvBzl4h2fykqZRW9a+Pv/RGTH56E3X2PqzHP38K5go8zmCZUoIsoQ==
 
+"@react-native-community/checkbox@0.5.12":
+  version "0.5.12"
+  resolved "https://registry.yarnpkg.com/@react-native-community/checkbox/-/checkbox-0.5.12.tgz#1f55a38bbcd5f10ca853db0c6a9f1c4beccc37af"
+  integrity sha512-Dd3eiAW7AkpRgndwKGdgQ6nNgEmZlVD8+KAOBqwjuZQ/M67BThXJ9Ni+ydpPjNm4e28KXmIILfkvhcDt0ZoFTQ==
+
 "@react-native-community/cli-clean@^9.2.1":
   version "9.2.1"
   resolved "https://registry.yarnpkg.com/@react-native-community/cli-clean/-/cli-clean-9.2.1.tgz#198c5dd39c432efb5374582073065ff75d67d018"
@@ -1616,6 +1626,13 @@
     graceful-fs "^4.1.3"
     prompts "^2.4.0"
     semver "^6.3.0"
+
+"@react-native-community/datetimepicker@^7.4.2":
+  version "7.4.2"
+  resolved "https://registry.yarnpkg.com/@react-native-community/datetimepicker/-/datetimepicker-7.4.2.tgz#7f02117fe59926c7430e95839821cf5c6d85b29c"
+  integrity sha512-+QztrvktEzMEjcmZuyg9yJ4X9i/ly3QBU+SulJeH71X/IxsBRdrEcMRWByYrIpbXhmkk9y+roATUJFT5Z3XwvA==
+  dependencies:
+    invariant "^2.2.4"
 
 "@react-native-community/eslint-config@^2.0.0":
   version "2.0.0"
@@ -3679,7 +3696,7 @@ date-fns@^2.30.0:
   dependencies:
     "@babel/runtime" "^7.21.0"
 
-dayjs@^1.8.15:
+dayjs@^1.11.9, dayjs@^1.8.15:
   version "1.11.9"
   resolved "https://registry.yarnpkg.com/dayjs/-/dayjs-1.11.9.tgz#9ca491933fadd0a60a2c19f6c237c03517d71d1a"
   integrity sha512-QvzAURSbQ0pKdIye2txOzNaHmxtUBXerpY0FJsFXUMKbIZeFm5ht1LS/jFsrncjnmtv8HsG0W2g6c0zUjZWmpA==
@@ -8197,6 +8214,13 @@ react-native-mmkv-storage@0.8.0:
   version "0.8.0"
   resolved "https://registry.yarnpkg.com/react-native-mmkv-storage/-/react-native-mmkv-storage-0.8.0.tgz#2ece5f441a6a818224a85315c68e105e0d6446b5"
   integrity sha512-L782Le5IuDYlDLGXF/qimbnzvkbYsSmV5PiDleo1DSS8Kr8Q31UK8YWtUICrDGQ9Fm7Xx4PxP9ffe2XzGeWaHQ==
+
+react-native-modal-datetime-picker@^17.1.0:
+  version "17.1.0"
+  resolved "https://registry.yarnpkg.com/react-native-modal-datetime-picker/-/react-native-modal-datetime-picker-17.1.0.tgz#74291bf92b830be285752f437841f52885c90e0b"
+  integrity sha512-jfTwfaCLtBffYbQ+pOGFLM+J5HmUh3vb9rT0JrrQPjxzecdc8pNYreB1c96+mVuq8bDCvaCdIeuEsslTqLJL0Q==
+  dependencies:
+    prop-types "^15.7.2"
 
 react-native-modal@^13.0.1:
   version "13.0.1"

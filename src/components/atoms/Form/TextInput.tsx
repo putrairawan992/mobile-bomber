@@ -18,6 +18,7 @@ import {Text} from '..';
 import colors from '../../../styles/colors';
 import {SHADOWS} from '../../../utils/config';
 import {Search} from '../../../assets/icons/Search';
+import {Colors} from '../../../theme';
 
 type Props = React.ComponentProps<typeof RNTextInput> & {
   label?: string;
@@ -78,14 +79,7 @@ export const TextInput = React.forwardRef((props: Props, ref) => {
 
   return (
     <View style={[styling.container, style]}>
-      {!!label && (
-        <Text
-          label={label}
-          variant="medium"
-          fontWeight="regular"
-          color={theme?.colors.TEXT_LABEL}
-        />
-      )}
+      {!!label && <Text label={label} color={Colors['gray-100']} />}
       <Spacer s />
       <View
         style={{

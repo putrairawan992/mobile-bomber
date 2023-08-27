@@ -1,8 +1,14 @@
 /* eslint-disable react-native/no-inline-styles */
 import {Platform, Pressable, ScrollView, UIManager} from 'react-native';
 import {Header} from '../../../../components/molecules';
-import {Gap, Layout, Section, Text} from '../../../../components/atoms';
-import React, {useState} from 'react';
+import {
+  Gap,
+  ItemShimmer,
+  Layout,
+  Section,
+  Text,
+} from '../../../../components/atoms';
+import React, {useEffect, useState} from 'react';
 import styles from '../../Styles';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {MainStackParams} from '../../../../navigation/MainScreenStack';
@@ -14,6 +20,7 @@ import {TableOrderDetail} from '../../BookingTable/OrderDetail';
 import {Colors} from '../../../../theme';
 import {GroupOrderDetail} from '../GroupOrderDetail';
 import {UserInterface} from '../../../../interfaces/UserInterface';
+import {NightlifeService} from '../../../../service/NightlifeService';
 
 if (Platform.OS === 'android') {
   if (UIManager.setLayoutAnimationEnabledExperimental) {
@@ -42,6 +49,28 @@ export const WalkInTicketScreen = ({route}: Props) => {
   const [selectedInvitation, setSelectedInvitation] = useState<UserInterface[]>(
     [],
   );
+  const [ticket, setTicket] = useState<TicketInterface[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+
+  const fetchWalkInTicket = async () => {
+    try {
+      setIsLoading(true);
+      const response = await NightlifeService.getWalkInTicket({
+        club_id: Number(route.params.placeId),
+        date: route.params.date,
+      });
+      setTicket(response.result);
+      setIsLoading(false);
+    } catch (error: any) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    fetchWalkInTicket();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   const snapPoints = React.useMemo(
     () =>
       isGroupPackage && isFirstStep
@@ -81,19 +110,31 @@ export const WalkInTicketScreen = ({route}: Props) => {
         <Gap height={24} />
         <Text variant="base" fontWeight="bold" label="Select Ticket" />
         <Gap height={24} />
-        <ScrollView
-          showsVerticalScrollIndicator={false}
-          style={{marginBottom: 100}}>
-          {Array.isArray(TICKETS_DATA) &&
-            TICKETS_DATA.map((item, idx) => (
-              <CardTicket
-                key={idx}
-                data={item}
-                index={idx}
-                onSelect={onSelectTicket}
-              />
-            ))}
-        </ScrollView>
+        {isLoading ? (
+          <ItemShimmer
+            row={3}
+            height={200}
+            width="100%"
+            style={{
+              borderRadius: 8,
+              marginBottom: 32,
+            }}
+          />
+        ) : (
+          <ScrollView
+            showsVerticalScrollIndicator={false}
+            style={{marginBottom: 100}}>
+            {Array.isArray(TICKETS_DATA) &&
+              ticket.map((item, idx) => (
+                <CardTicket
+                  key={idx}
+                  data={item}
+                  index={idx}
+                  onSelect={onSelectTicket}
+                />
+              ))}
+          </ScrollView>
+        )}
       </Section>
       <BottomSheet
         ref={bookingSheetRef}
