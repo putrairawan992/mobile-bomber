@@ -10,9 +10,15 @@ interface ModalPromoProps {
   show: boolean;
   hide: () => void;
   onUse: () => void;
+  BannerComponent?: JSX.Element;
 }
 
-export default function ModalPromo({show, hide, onUse}: ModalPromoProps) {
+export default function ModalPromo({
+  show,
+  hide,
+  onUse,
+  BannerComponent,
+}: ModalPromoProps) {
   return (
     <Modal
       className="m-0 p-0"
@@ -28,31 +34,33 @@ export default function ModalPromo({show, hide, onUse}: ModalPromoProps) {
         <Gap height={5} />
         <DefaultText title="1/2 coupon applied" titleClassName="text-center" />
         <Gap height={15} />
-        <View className="bg-gray-secondary p-3 rounded-lg">
-          <View className="flex-row items-center">
-            <View className="w-[5] h-[5] bg-white rounded-full" />
-            <DefaultText
-              title="Minimal order 2 cocktail"
-              titleClassName="flex-1 ml-1"
-            />
+        {BannerComponent ?? (
+          <View className="bg-gray-secondary p-3 rounded-lg">
+            <View className="flex-row items-center">
+              <View className="w-[5] h-[5] bg-white rounded-full" />
+              <DefaultText
+                title="Minimal order 2 cocktail"
+                titleClassName="flex-1 ml-1"
+              />
+            </View>
+            <Gap height={2.5} />
+            <View className="flex-row items-center">
+              <View className="w-[5] h-[5] bg-white rounded-full" />
+              <DefaultText
+                title="Only for dine in"
+                titleClassName="flex-1 ml-1"
+              />
+            </View>
+            <Gap height={2.5} />
+            <View className="flex-row items-center">
+              <View className="w-[5] h-[5] bg-white rounded-full" />
+              <DefaultText
+                title="Cannot use by special member"
+                titleClassName="flex-1 ml-1"
+              />
+            </View>
           </View>
-          <Gap height={2.5} />
-          <View className="flex-row items-center">
-            <View className="w-[5] h-[5] bg-white rounded-full" />
-            <DefaultText
-              title="Only for dine in"
-              titleClassName="flex-1 ml-1"
-            />
-          </View>
-          <Gap height={2.5} />
-          <View className="flex-row items-center">
-            <View className="w-[5] h-[5] bg-white rounded-full" />
-            <DefaultText
-              title="Cannot use by special member"
-              titleClassName="flex-1 ml-1"
-            />
-          </View>
-        </View>
+        )}
         <Gap height={15} />
         <View className="flex-row items-center border-[1px] border-white self-start rounded-full py-1 px-2">
           <Image

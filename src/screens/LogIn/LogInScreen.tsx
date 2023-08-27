@@ -44,7 +44,7 @@ function LogInScreen({navigation}: Props) {
       phone: Yup.string().required('Phone number is required'),
       password: Yup.string().required('Password is required'),
     }),
-    validateOnChange: false,
+    // validateOnChange: false,
     enableReinitialize: true,
     onSubmit: values => handleSignIn('+' + values.phone, values.password),
   });
@@ -108,10 +108,7 @@ function LogInScreen({navigation}: Props) {
         value={formik.values.phone}
         label="Phone Number"
         errorText={formik.errors.phone}
-        onChangeText={value => {
-          formik.setFieldValue('phone', value);
-          formik.setFieldError('phone', undefined);
-        }}
+        onChangeText={formik.handleChange('phone')}
         placeholder="Phone number"
         isNumeric
       />
@@ -120,10 +117,7 @@ function LogInScreen({navigation}: Props) {
         value={formik.values.password}
         label="Password"
         errorText={formik.errors.password}
-        onChangeText={value => {
-          formik.setFieldValue('password', value);
-          formik.setFieldError('password', undefined);
-        }}
+        onChangeText={formik.handleChange('password')}
         placeholder="Password"
         type="password"
       />

@@ -17,6 +17,8 @@ import LinearGradient from 'react-native-linear-gradient';
 import {IcClock, IcPencil, IcTv, IcUpload} from '../../../../theme/Images';
 import {Asset, launchImageLibrary} from 'react-native-image-picker';
 import {Close} from '../../../../assets/icons';
+import DateTimePickerModal from 'react-native-modal-datetime-picker';
+import dayjs from 'dayjs';
 
 interface ModalCartWineryOrder {
   show: boolean;
@@ -38,12 +40,19 @@ export default function ModalCartWineryOrder({
   const [subtitle, setSubtitle] = useState<string>('');
   const [image, setImage] = useState<Asset | undefined>();
   const [data, setData] = useState<number[]>([1, 2, 3]);
+  const [showTime, setShowTime] = useState<boolean>(false);
+  const [time, setTime] = useState<string>('');
 
   const onPickImage = async () => {
     const result = await launchImageLibrary({mediaType: 'photo'});
     if (result.assets) {
       setImage(result.assets[0]);
     }
+  };
+
+  const onConfirmTime = (selectedTime: any) => {
+    setShowTime(false);
+    setTime(dayjs(selectedTime).format('HH:mm'));
   };
 
   return (
@@ -78,7 +87,7 @@ export default function ModalCartWineryOrder({
             <Gap height={4} />
             <View className="flex-row items-center">
               <GradientText
-                colors={['#F38012', '#FEDA18']}
+                colors={['#f57600', '#FEDA18']}
                 style={styles.vipMessage}>
                 NDT 5,000 more to get VIP Message
               </GradientText>
@@ -118,10 +127,17 @@ export default function ModalCartWineryOrder({
                   <Gap height={15} />
                   <TouchableOpacity
                     activeOpacity={0.7}
-                    className="flex-row items-center bg-[#262626] px-3 py-3 rounded-md">
+                    className="flex-row items-center bg-[#262626] px-3 py-3 rounded-md"
+                    onPress={() => setShowTime(true)}>
                     <DefaultText
-                      title="When we should serve this"
-                      titleClassName="font-poppins-regular flex-1 text-[#555f6d]"
+                      title={
+                        time.length > 0 ? time : 'When we should serve this'
+                      }
+                      titleClassName={
+                        time.length > 0
+                          ? 'font-poppins-regular flex-1 text-white'
+                          : 'font-poppins-regular flex-1 text-[#555f6d]'
+                      }
                     />
                     <Image
                       source={IcClock}
@@ -132,7 +148,7 @@ export default function ModalCartWineryOrder({
                   <Gap height={10} />
                   <View className="bg-[#262626] px-3 py-3 rounded-md min-h-[100]">
                     <TextInput
-                      className="p-0 m-0 font-poppins-regular"
+                      className="p-0 m-0 font-poppins-regular text-white"
                       placeholder="Any additional notes? write here"
                       placeholderTextColor="#555f6d"
                       multiline={true}
@@ -237,7 +253,7 @@ export default function ModalCartWineryOrder({
                   <Gap height={10} />
                   <View className="bg-[#262626] px-3 py-3 rounded-md">
                     <TextInput
-                      className="p-0 m-0 font-poppins-regular"
+                      className="p-0 m-0 font-poppins-regular text-white"
                       placeholder="Subtitle"
                       placeholderTextColor="#555f6d"
                       value={subtitle}
@@ -303,6 +319,15 @@ export default function ModalCartWineryOrder({
             />
           </LinearGradient>
         </TouchableOpacity>
+
+        <DateTimePickerModal
+          isVisible={showTime}
+          is24Hour={true}
+          locale="en_GB"
+          mode="time"
+          onCancel={() => setShowTime(false)}
+          onConfirm={onConfirmTime}
+        />
       </View>
     </Modal>
   );
