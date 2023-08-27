@@ -443,7 +443,7 @@ PODS:
     - React-jsi (= 0.70.6)
     - React-logger (= 0.70.6)
     - React-perflogger (= 0.70.6)
-  - RNCalendarEvents (2.2.0):
+    - RNCalendarEvents (2.2.0):
     - React
   - RNCAsyncStorage (1.19.2):
     - React-Core
