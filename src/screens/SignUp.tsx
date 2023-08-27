@@ -1,7 +1,7 @@
 /* eslint-disable react-native/no-inline-styles */
 import React, {useState} from 'react';
 import {Section, Spacer, Text, Layout, Gap} from '../components/atoms';
-import {TouchableOpacity} from 'react-native';
+import {Platform, TouchableOpacity} from 'react-native';
 import useTheme from '../theme/useTheme';
 import * as Yup from 'yup';
 import {SignUpPayloadInterface} from '../interfaces/UserInterface';
@@ -108,7 +108,7 @@ export const SignUp = ({navigation}: Props) => {
           onTintColor={theme?.colors.PRIMARY}
           onFillColor="#FFF"
           style={{
-            marginRight: 4,
+            marginRight: Platform.OS === 'android' ? 16 : 4,
             width: 14,
             height: 14,
           }}
