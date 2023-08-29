@@ -5,6 +5,7 @@ import {
 } from '../interfaces/BookingInterface';
 import {
   BannerInterface,
+  GalleryCategoryInterface,
   PlaceInterface,
   ResponseGetPlaceDetailInterface,
   ResponseGetTableInterface,
@@ -51,6 +52,16 @@ export const NightlifeService = {
   }): Promise<APIResponse<ResponseGetTableInterface>> => {
     const response = await ax.get(
       `${URL}/get_all_table_base_on_date/${club_id}?year_month_day=${date}`,
+    );
+    return response.data;
+  },
+  getPlaceGallery: async ({
+    club_id,
+  }: {
+    club_id: string;
+  }): Promise<APIResponse<GalleryCategoryInterface[]>> => {
+    const response = await ax.get(
+      `${URL}/get_gallery_base_on_club_id/${club_id}`,
     );
     return response.data;
   },

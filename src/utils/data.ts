@@ -1,10 +1,6 @@
 import {HorizontalMenuInterface} from '../components/molecules/Menu/HorizontalMenu';
 import {CardNotificationAppsInterface} from '../components/molecules/Notification/CardNotificationApps';
-import {
-  PartyInterface,
-  TableInterface,
-  TicketInterface,
-} from '../interfaces/BookingInterface';
+import {PartyInterface} from '../interfaces/BookingInterface';
 import {
   BillNotificationInterface,
   InvitationNotificationInterface,
@@ -12,7 +8,6 @@ import {
 
 import {
   PlaceEventsInterface,
-  PlaceInterface,
   PlaceOperationalTimeInterface,
   PlaceOverviewInterface,
 } from '../interfaces/PlaceInterface';
@@ -40,112 +35,6 @@ export const Logo: Record<string, string> = {
   wrightAvenue:
     'https://wanderbucket.s3.ap-southeast-1.amazonaws.com/logo/wrightvenue.png',
 };
-export const PLACES_DATA: PlaceInterface[] = [
-  {
-    id: '1',
-    name: 'Wave',
-    address: '110, Taiwan, Taipei City, Xinyi District, Songshou Rd, 12號7樓',
-    featuredToday: ['DJ Alesso', 'Shaggy Dogs'],
-    rating: 4.1,
-    coverImage:
-      'https://musictech.com/wp-content/uploads/2023/06/alesso-bad-bunny-2022@2000x1500-1200x900.jpg',
-    logo: 'https://wanderbucket.s3.ap-southeast-1.amazonaws.com/logo/wave.png',
-    isAuctionMode: false,
-    category: ['EDM', 'Rooftop', 'LGBT'],
-    photos: [
-      {
-        title: 'Vibe',
-        url: 'https://media2.miaminewtimes.com/mia/imager/u/slideshow/14183885/ultra-music-festival-2022-day-three-credit-michele-eve-sandberg_01.jpg?cb=1648474163',
-      },
-      {
-        title: 'Guest',
-        url: 'https://media2.miaminewtimes.com/mia/imager/u/slideshow/14171623/ultra-music-fesitival-2022-day-one-credit-michele-eve-sandberg_42.jpg?cb=1648306092',
-      },
-      {
-        title: 'F&B',
-        url: 'https://static.standard.co.uk/2022/05/09/15/newFile-6.jpg',
-      },
-    ],
-  },
-  {
-    id: '2',
-    name: 'Kor',
-    address: '110, Taiwan, Taipei City, Xinyi District, Songshou Rd, 12號7樓',
-    featuredToday: ['DJ Zedd', 'DJ Soda'],
-    rating: 4.1,
-    coverImage:
-      'https://globalkepri.com/assets/berita/original/71760587436-7.jpg',
-    logo: 'https://wanderbucket.s3.ap-southeast-1.amazonaws.com/logo/kor.png',
-    isAuctionMode: false,
-    category: ['Trance', 'Rooftop'],
-    photos: [
-      {
-        title: 'Vibe',
-        url: 'https://media2.miaminewtimes.com/mia/imager/u/slideshow/14183885/ultra-music-festival-2022-day-three-credit-michele-eve-sandberg_01.jpg?cb=1648474163',
-      },
-      {
-        title: 'Guest',
-        url: 'https://media2.miaminewtimes.com/mia/imager/u/slideshow/14171623/ultra-music-fesitival-2022-day-one-credit-michele-eve-sandberg_42.jpg?cb=1648306092',
-      },
-      {
-        title: 'F&B',
-        url: 'https://static.standard.co.uk/2022/05/09/15/newFile-6.jpg',
-      },
-    ],
-  },
-  {
-    id: '3',
-    name: 'OMNI',
-    address: '110, Taiwan, Taipei City, Xinyi District, Songshou Rd, 12號7樓',
-    featuredToday: ['DJ Alison Wonderland'],
-    rating: 4.1,
-    coverImage:
-      'https://www.youredm.com/wp-content/uploads/2019/01/alison-wonderland-working-her-magic-decadence-az-2018-rukes.jpg',
-    logo: 'https://wanderbucket.s3.ap-southeast-1.amazonaws.com/logo/omni.png',
-    isAuctionMode: true,
-    category: ['Dubstep', 'Rooftop', 'Freeflow'],
-    photos: [
-      {
-        title: 'Vibe',
-        url: 'https://media2.miaminewtimes.com/mia/imager/u/slideshow/14183885/ultra-music-festival-2022-day-three-credit-michele-eve-sandberg_01.jpg?cb=1648474163',
-      },
-      {
-        title: 'Guest',
-        url: 'https://media2.miaminewtimes.com/mia/imager/u/slideshow/14171623/ultra-music-fesitival-2022-day-one-credit-michele-eve-sandberg_42.jpg?cb=1648306092',
-      },
-      {
-        title: 'F&B',
-        url: 'https://static.standard.co.uk/2022/05/09/15/newFile-6.jpg',
-      },
-    ],
-  },
-  {
-    id: '4',
-    name: 'Wave',
-    address: '110, Taiwan, Taipei City, Xinyi District, Songshou Rd, 12號7樓',
-    featuredToday: ['DJ Skrillex', 'Daft Punk'],
-    rating: 4.1,
-    coverImage:
-      'https://ca-times.brightspotcdn.com/dims4/default/d4d8369/2147483647/strip/true/crop/2048x1589+0+0/resize/1200x931!/format/webp/quality/80/?url=https%3A%2F%2Fcalifornia-times-brightspot.s3.amazonaws.com%2Fec%2F9c%2Fbb5cedd15d7588da7ccbee3be5bb%2Fla-xpm-photo-2013-apr-10-la-et-ms-daft-punk-random-access-memories-may-17-in-small-australian-town-20130410',
-    logo: 'https://wanderbucket.s3.ap-southeast-1.amazonaws.com/logo/wave.png',
-    isAuctionMode: false,
-    category: ['EDM', 'LGBT', 'Freeflow'],
-    photos: [
-      {
-        title: 'Vibe',
-        url: 'https://media2.miaminewtimes.com/mia/imager/u/slideshow/14183885/ultra-music-festival-2022-day-three-credit-michele-eve-sandberg_01.jpg?cb=1648474163',
-      },
-      {
-        title: 'Guest',
-        url: 'https://media2.miaminewtimes.com/mia/imager/u/slideshow/14171623/ultra-music-fesitival-2022-day-one-credit-michele-eve-sandberg_42.jpg?cb=1648306092',
-      },
-      {
-        title: 'F&B',
-        url: 'https://static.standard.co.uk/2022/05/09/15/newFile-6.jpg',
-      },
-    ],
-  },
-];
 
 export const PLACE_MENU: HorizontalMenuInterface[] = [
   {
@@ -342,33 +231,6 @@ export const PLACE_EVENTS: PlaceEventsInterface[] = [
   },
 ];
 
-export const TABLE_DATA: TableInterface[] = [
-  {
-    text: 'Table 1A',
-    minOrder: 400,
-  },
-  {
-    text: 'Table 1B',
-    minOrder: 400,
-  },
-  {
-    text: 'Table 2A',
-    minOrder: 600,
-  },
-  {
-    text: 'Table 2B',
-    minOrder: 600,
-  },
-  {
-    text: 'Sofa 1A',
-    minOrder: 1200,
-  },
-  {
-    text: 'Sofa 1B',
-    minOrder: 1200,
-  },
-];
-
 export const USER_DATA: UserInterface[] = [
   {
     id: '1',
@@ -432,47 +294,6 @@ export const USER_DATA: UserInterface[] = [
     phone: '0811111111',
     photoUrl:
       'https://i0.wp.com/media.ghgossip.com/wp-content/uploads/2022/11/10192356/maria.jpg?resize=488%2C629&ssl=1',
-  },
-];
-
-export const TICKETS_DATA: TicketInterface[] = [
-  {
-    id: '1',
-    title: 'Couples Package',
-    qty: 50,
-    price: 3000,
-    description: 'A package deal for couples with exclusive benefits.',
-    features: [
-      'Complimentary bottle of champagne.',
-      'Dance floor access near the DJ booth.',
-    ],
-  },
-  {
-    id: '2',
-    title: 'VIP Ticket',
-    qty: 10,
-    price: 3000,
-    description:
-      'Access to exclusive VIP areas, faster entry lines, and a separate bar/lounge area with dedicated staff.',
-    features: ['VIP lounge access', 'Express entry', 'Exclusive bar service.'],
-  },
-  {
-    id: '3',
-    title: 'Group Package',
-    qty: 10,
-    price: 3000,
-    description:
-      'Access to exclusive VIP areas, faster entry lines, and a separate bar/lounge area with dedicated staff.',
-    features: ['VIP lounge access', 'Min 10 People', 'Exclusive bar service.'],
-  },
-  {
-    id: '4',
-    title: 'Dance Floor Access',
-    qty: 100,
-    price: 1000,
-    description:
-      'Exclusive access to the main dance floor for a prime spot to enjoy music and dance.',
-    features: ['Dance floor access near the DJ booth.'],
   },
 ];
 
@@ -771,4 +592,11 @@ export const OPERATIONAL_TIME_DATA: PlaceOperationalTimeInterface[] = [
     close: '4 am',
     isClose: false,
   },
+];
+
+export const INVITE_FRIENDS_TEXT: string[] = [
+  'Attending an event solo can sometimes feel dull and cost more. However, when you come with friends, the experience becomes more enjoyable and budget-friendly.',
+  'With our group ticket option, you not only secure a reduced price but also have the chance to invite your pals along. As the organizer,',
+  "you'll initially cover the group ticket cost, and we'll help you generate invoices for your friends.",
+  'Get ready for an amazing party experience and let loose on the dance floor!',
 ];

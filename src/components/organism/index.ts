@@ -1,6 +1,7 @@
 import {FriendInviteConfirmationSheet} from './Friends/FriendInviteConfirmationSheet';
 import {FriendOptionSheet} from './Friends/FriendOptionSheet';
 import {FriendsInvitation} from './Friends/FriendsInvitation';
+import {InviteFriendsOnboardingSheet} from './Friends/InviteFriendsOnboardingSheet';
 import {NotificationPaymentSheet} from './Notification/NotificationPaymentSheet';
 import {OperationalHoursSheet} from './Places/OperationalHoursSheet';
 import {PlaceCard} from './Places/PlaceCard';
@@ -16,4 +17,5 @@ export {
   FriendInviteConfirmationSheet,
   NotificationPaymentSheet,
   OperationalHoursSheet,
+  InviteFriendsOnboardingSheet,
 };

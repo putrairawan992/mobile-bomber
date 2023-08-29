@@ -15,7 +15,15 @@ export interface MonthYearInterface {
   year: number;
 }
 
-export interface GalleryInterface {
+export interface GalleryMappingInterface {
   id: string;
   url: string;
+  caption?: string;
+}
+
+export interface AppImageObject {
+  id?: string | number;
+  thumbUrl?: string;
+  url: string;
+  caption?: string;
 }

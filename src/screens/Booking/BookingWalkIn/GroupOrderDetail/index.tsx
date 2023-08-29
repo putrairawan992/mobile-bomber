@@ -1,23 +1,23 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable react-native/no-inline-styles */
-import {Add, ArrowLeft, Minus} from 'iconsax-react-native';
+import {ArrowLeft} from 'iconsax-react-native';
 import {Button, Gap, Section, Text} from '../../../../components/atoms';
 import {
   LayoutAnimation,
   Platform,
-  Switch,
   TouchableOpacity,
   UIManager,
   View,
+  Text as RNText,
 } from 'react-native';
 import React, {useCallback, useState} from 'react';
 import {BottomSheetScrollView} from '@gorhom/bottom-sheet';
-import {Colors} from '../../../../theme';
 import {TicketInterface} from '../../../../interfaces/BookingInterface';
-import {USER_DATA} from '../../../../utils/data';
-import {UserInterface} from '../../../../interfaces/UserInterface';
+import {INVITE_FRIENDS_TEXT} from '../../../../utils/data';
+import {FriendInterface} from '../../../../interfaces/UserInterface';
 import useTheme from '../../../../theme/useTheme';
 import {FriendsInvitation} from '../../../../components/organism';
-import {currency} from '../../../../utils/function';
+import {Colors} from '../../../../theme';
 
 if (Platform.OS === 'android') {
   if (UIManager.setLayoutAnimationEnabledExperimental) {
@@ -30,9 +30,11 @@ interface GroupOrderDetailProps {
   isFirstStep: boolean;
   isSecondStep: boolean;
   onChangeStep: (step: number) => void;
-  handleInvite: (data: UserInterface) => void;
-  selectedInvitation: UserInterface[];
+  handleInvite: (data: FriendInterface) => void;
+  selectedInvitation: FriendInterface[];
   onOrderDetail: () => void;
+  friendshipData: FriendInterface[];
+  onOnboardingInviteFriends: () => void;
 }
 
 export const GroupOrderDetail = ({
@@ -43,11 +45,11 @@ export const GroupOrderDetail = ({
   handleInvite,
   selectedInvitation,
   onOrderDetail,
+  friendshipData,
+  onOnboardingInviteFriends,
 }: GroupOrderDetailProps) => {
   const theme = useTheme();
   const [people, setPeople] = useState<number>(4);
-  const [isInviteFriend, setIsInviteFriend] = useState<boolean>(false);
-  const toggleSwitch = () => setIsInviteFriend(previousState => !previousState);
   const onNextStep = useCallback((step: number) => {
     LayoutAnimation.configureNext({
       duration: 500,
@@ -72,81 +74,52 @@ export const GroupOrderDetail = ({
           <Text
             variant="base"
             fontWeight="bold"
-            label="Group Booking"
+            label="Invite Friends"
             color={theme?.colors.WARNING}
             textAlign="center"
           />
-          <Gap height={12} />
-          <Section
-            padding="16px 16px"
-            rounded={8}
-            backgroundColor={theme?.colors.SECTION}>
-            <Text fontWeight="bold" label="People number" />
-            <Gap height={4} />
-            <Text variant="small" label="Minimum for this ticket is 4" />
-            <Section
-              padding="8px 8px"
-              backgroundColor={Colors['gray-900']}
-              rounded={4}
-              isRow
+          <Gap height={30} />
+          <Text
+            variant="base"
+            label="WHAT IS GROUP TICKET ?"
+            fontWeight="poppins-regular"
+            textAlign="center"
+          />
+          <Gap height={20} />
+          <Text
+            label={INVITE_FRIENDS_TEXT[0]}
+            textAlign="center"
+            color={Colors['black-10']}
+          />
+          <Gap height={16} />
+          <RNText
+            style={{
+              fontFamily: 'Inter',
+              fontWeight: '500',
+              fontSize: 14,
+              color: Colors['black-10'],
+              textAlign: 'center',
+            }}>
+            {INVITE_FRIENDS_TEXT[1] + ' '}
+            <RNText
               style={{
-                borderWidth: 1,
-                borderColor: Colors['gray-400'],
-                marginVertical: 10,
-                width: '100%',
-                justifyContent: 'center',
+                fontFamily: 'Inter-Italic',
+                fontWeight: '500',
+                fontSize: 14,
+                color: Colors['black-10'],
+                textAlign: 'center',
+                fontStyle: 'italic',
               }}>
-              <TouchableOpacity
-                onPress={() =>
-                  people === 4
-                    ? undefined
-                    : setPeople(previousState => previousState - 1)
-                }>
-                <Minus
-                  size={18}
-                  color={people === 4 ? Colors['gray-600'] : theme?.colors.ICON}
-                />
-              </TouchableOpacity>
-              <Text
-                label={people.toString()}
-                fontWeight="semi-bold"
-                style={{marginHorizontal: 24}}
-              />
-              <TouchableOpacity
-                onPress={() => setPeople(previousState => previousState + 1)}>
-                <Add size={18} color={theme?.colors.ICON} />
-              </TouchableOpacity>
-            </Section>
-            <Text
-              fontWeight="bold"
-              label={`Total: ${currency(
-                people * Number(selectedTicket?.price),
-              )}`}
-            />
-          </Section>
-          <Gap height={12} />
-          <Section
-            padding="16px 16px"
-            backgroundColor={theme?.colors.SECTION}
-            rounded={8}>
-            <Section isRow isBetween>
-              <Text fontWeight="bold" label="Invite friend" />
-              <Switch
-                trackColor={{false: '#767577', true: theme?.colors.WARNING}}
-                thumbColor={'#f4f3f4'}
-                ios_backgroundColor="#3e3e3e"
-                onValueChange={toggleSwitch}
-                value={isInviteFriend}
-                style={{
-                  ...(Platform.OS === 'ios' && {
-                    transform: [{scaleX: 0.6}, {scaleY: 0.6}],
-                  }),
-                }}
-              />
-            </Section>
-            <Gap height={4} />
-            <Text variant="small" label="you can do it later" color="#d8d8d8" />
-          </Section>
+              {INVITE_FRIENDS_TEXT[2]}
+            </RNText>
+          </RNText>
+          <Gap height={16} />
+          <Text
+            label={INVITE_FRIENDS_TEXT[3]}
+            textAlign="center"
+            color={Colors['black-10']}
+          />
+          <Gap height={16} />
         </Section>
       )}
 
@@ -172,7 +145,7 @@ export const GroupOrderDetail = ({
           />
           <Section style={{flex: 1}}>
             <FriendsInvitation
-              data={USER_DATA}
+              data={friendshipData}
               onInvite={handleInvite}
               selectedInvitation={selectedInvitation}
             />
@@ -180,18 +153,30 @@ export const GroupOrderDetail = ({
           </Section>
         </Section>
       )}
+
       <View
         style={{
           position: 'absolute',
           width: '100%',
-          bottom: 12,
+          bottom: 32,
           alignSelf: 'center',
         }}>
-        <Button
-          type="primary"
-          onPress={() => (isFirstStep ? onNextStep(2) : onOrderDetail())}
-          title={isFirstStep ? 'Next' : 'Send Invitation'}
-        />
+        {isFirstStep ? (
+          <>
+            <Button
+              type="primary"
+              onPress={() => onNextStep(2)}
+              title="Continue"
+            />
+            <Button
+              type="textButton"
+              onPress={onOnboardingInviteFriends}
+              title="Dive deeper with group ticket"
+            />
+          </>
+        ) : (
+          <Button type="primary" onPress={onOrderDetail} title="Book now" />
+        )}
       </View>
     </BottomSheetScrollView>
   );
