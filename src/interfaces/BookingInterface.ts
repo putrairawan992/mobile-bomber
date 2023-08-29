@@ -1,8 +1,10 @@
 import React from 'react';
 
 export interface TableInterface {
+  tableId: string;
   text: string;
   minOrder: number;
+  price: number;
 }
 
 export interface ListItemInterface {

@@ -50,7 +50,7 @@ export type MainStackParams = {
   };
   MyBookingDetail: undefined;
   BookingTable: {
-    placeId: string;
+    placeData: PlaceInterface | null;
   };
   WineryOrder: undefined;
   SongPlaylist: undefined;
@@ -204,11 +204,7 @@ const MainScreenStack = () => {
       <Stack.Screen name="PlaceDetail" component={PlaceDetail} />
       <Stack.Screen name="MyBookingDetail" component={MyBookingDetail} />
       <Stack.Screen name="WineryOrder" component={WineryOrder} />
-      <Stack.Screen
-        name="BookingTable"
-        component={BookingTableScreen}
-        initialParams={{placeId: ''}}
-      />
+      <Stack.Screen name="BookingTable" component={BookingTableScreen} />
       <Stack.Screen
         name="BookingWalkIn"
         component={BookingWalkInScreen}

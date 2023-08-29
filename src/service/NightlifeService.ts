@@ -7,6 +7,7 @@ import {
   ResponseGetBanner,
   ResponseGetPlaceDetailInterface,
   ResponseGetPlaceInterface,
+  ResponseGetTableInterface,
 } from '../interfaces/PlaceInterface';
 import ax from './axios';
 
@@ -36,9 +37,21 @@ export const NightlifeService = {
   getPlaceDetail: async ({
     club_id,
   }: {
-    club_id: number;
+    club_id: string;
   }): Promise<ResponseGetPlaceDetailInterface> => {
     const response = await ax.get(`${URL}/get_place_detail/${club_id}`);
+    return response.data;
+  },
+  getTableList: async ({
+    club_id,
+    date,
+  }: {
+    club_id: string;
+    date: string;
+  }): Promise<ResponseGetTableInterface> => {
+    const response = await ax.get(
+      `${URL}/get_all_table_base_on_date/${club_id}?year_month_day=${date}`,
+    );
     return response.data;
   },
 };

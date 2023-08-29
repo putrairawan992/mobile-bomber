@@ -5,6 +5,7 @@ import {
   Button,
   Gap,
   Layout,
+  Loading,
   Section,
   Text,
   TouchableSection,
@@ -13,7 +14,6 @@ import {Header} from '../../../components/molecules';
 import {
   EventInterface,
   PlaceEventsInterface,
-  PlaceInterface,
 } from '../../../interfaces/PlaceInterface';
 import {
   LayoutAnimation,
@@ -22,12 +22,7 @@ import {
   TouchableOpacity,
   UIManager,
 } from 'react-native';
-import {
-  PLACES_DATA,
-  PLACE_EVENTS,
-  TABLE_DATA,
-  USER_DATA,
-} from '../../../utils/data';
+import {PLACE_EVENTS} from '../../../utils/data';
 import {useCallback, useEffect, useState} from 'react';
 
 import BottomSheet from '@gorhom/bottom-sheet';
@@ -40,7 +35,7 @@ import {
 } from '../../../utils/function';
 import styles from '../../Styles';
 import useTheme from '../../../theme/useTheme';
-import {UserInterface} from '../../../interfaces/UserInterface';
+import {FriendInterface} from '../../../interfaces/UserInterface';
 import {MainStackParams} from '../../../navigation/MainScreenStack';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import TableListContainer from './TableList/TableListContainer';
@@ -50,6 +45,8 @@ import {TablePriviliege} from './TableList/TablePriviliege';
 import {Colors} from '../../../theme';
 import {FriendsInvitation} from '../../../components/organism';
 import {MonthYearInterface} from '../../../interfaces/Interface';
+import {NightlifeService} from '../../../service/NightlifeService';
+import {FriendshipService} from '../../../service/FriendshipService';
 
 type Props = NativeStackScreenProps<MainStackParams, 'BookingTable', 'MyStack'>;
 
@@ -60,14 +57,12 @@ if (Platform.OS === 'android') {
 }
 
 function BookingTableScreen({route}: Props) {
-  const placeData: PlaceInterface | null =
-    PLACES_DATA.find(
-      (item: PlaceInterface) => item.id === route.params.placeId,
-    ) ?? null;
+  const placeData = route.params.placeData;
   const theme = useTheme();
   const [selectedDate, setSelectedDate] = useState<string>('');
   const [step, setStep] = useState<number>(0);
   const [selectedEvent, setSelectedEvent] = useState<EventInterface[]>([]);
+  const [tableData, setTableData] = useState<TableInterface[]>([]);
   const [selectedTable, setSelectedTable] = useState<TableInterface | null>(
     null,
   );
@@ -75,19 +70,20 @@ function BookingTableScreen({route}: Props) {
   const [isShowEvents, setIsShowEvents] = useState<boolean>(false);
   const [isShowTable, setIsShowTable] = useState<boolean>(false);
   const [isShowInvitation, setIsShowInvitation] = useState<boolean>(false);
-  const [selectedInvitation, setSelectedInvitation] = useState<UserInterface[]>(
-    [],
-  );
+  const [selectedInvitation, setSelectedInvitation] = useState<
+    FriendInterface[]
+  >([]);
   const [monthYear, setMonthYear] = useState<MonthYearInterface>({
     month: Number(dateFormatter(new Date(), 'M')),
     year: Number(dateFormatter(new Date(), 'yyyy')),
   });
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [sheetIndex, setSheetIndex] = React.useState<number>(-1);
   const bookingSheetRef = React.useRef<BottomSheet>(null);
   const snapPoints = React.useMemo(() => ['70', '90'], []);
   const [isPayFull, setIsPayFull] = useState(false);
   const [isSplitBill, setIsSplitBill] = useState(false);
+  const [friendshipData, setFriendshipData] = useState<FriendInterface[]>([]);
+  const [isLoading, setIsLoading] = React.useState<boolean>(false);
   const toggleSwitchPayFull = () =>
     setIsPayFull(previousState => !previousState);
   const toggleSwitchSplitBill = () =>
@@ -142,11 +138,48 @@ function BookingTableScreen({route}: Props) {
     },
   };
 
+  const fetchTableList = async () => {
+    try {
+      const response = await NightlifeService.getTableList({
+        club_id: placeData?.clubId as string,
+        date: selectedDate,
+      });
+      if (response.table_list.length) {
+        setTableData(response.table_list);
+      }
+    } catch (error: any) {}
+  };
+
+  const fetchData = async () => {
+    try {
+      setIsLoading(true);
+      await Promise.all([
+        FriendshipService.getFriendship({
+          userId: 'FQ5OvkolZtSBZEMlG1R3gtowbQv1',
+        }),
+      ])
+        .then(response => {
+          setFriendshipData(response[0].result);
+        })
+        .catch(error => {
+          console.log(error);
+        })
+        .finally(() => setIsLoading(false));
+    } catch (error: any) {}
+  };
+
   useEffect(() => {
     setTimeout(() => {
       step === 0 && onShowCalendar(true);
     }, 200);
+    fetchData();
   }, []);
+
+  useEffect(() => {
+    if (selectedDate) {
+      fetchTableList();
+    }
+  }, [selectedDate]);
 
   const onShowCalendar = useCallback((isShow: boolean) => {
     LayoutAnimation.configureNext({
@@ -209,12 +242,7 @@ function BookingTableScreen({route}: Props) {
     setStep(1);
   };
 
-  const onTableSelect = (id: any) => {
-    setSelectedTable(
-      TABLE_DATA.find((item: TableInterface, idx: number) => id === idx) ??
-        null,
-    );
-  };
+  const onTableSelect = (data: TableInterface) => setSelectedTable(data);
 
   const onConfirmTable = () => {
     setStep(2);
@@ -224,15 +252,19 @@ function BookingTableScreen({route}: Props) {
     }, 500);
   };
 
-  const handleInvite = (data: UserInterface) => {
+  const handleInvite = (data: FriendInterface) => {
     let findItem: any = Boolean(
-      selectedInvitation.find((el: UserInterface) => el.id === data.id),
+      selectedInvitation.find(
+        (el: FriendInterface) => el.customerId === data.customerId,
+      ),
     );
     if (!findItem) {
       setSelectedInvitation([...selectedInvitation, data]);
     } else {
       setSelectedInvitation(
-        selectedInvitation.filter((el: UserInterface) => el.id !== data.id),
+        selectedInvitation.filter(
+          (el: FriendInterface) => el.customerId !== data.customerId,
+        ),
       );
     }
   };
@@ -240,6 +272,7 @@ function BookingTableScreen({route}: Props) {
   return (
     <Layout contentContainerStyle={styles.container} isScrollable={false}>
       <Header transparent hasBackBtn title="Booking Table" />
+      {isLoading && <Loading />}
       <Section padding="0px 16px" style={{flex: 1}}>
         <Gap height={12} />
         <TouchableSection
@@ -306,7 +339,7 @@ function BookingTableScreen({route}: Props) {
         {isShowTable && (
           <Section padding="0px 12px" backgroundColor="#171717">
             <TableListContainer
-              values={TABLE_DATA}
+              values={tableData}
               onPress={onTableSelect}
               selected={selectedTable}
             />
@@ -342,7 +375,7 @@ function BookingTableScreen({route}: Props) {
         {isShowInvitation && (
           <Section style={{flex: 1}}>
             <FriendsInvitation
-              data={USER_DATA}
+              data={friendshipData}
               onInvite={handleInvite}
               selectedInvitation={selectedInvitation}
             />

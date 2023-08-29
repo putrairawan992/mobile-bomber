@@ -63,3 +63,13 @@ export interface FriendRequestInterface {
   photoUrl: string;
   date: string;
 }
+
+export interface FriendInterface {
+  customerId: string;
+  fullName: string;
+  userName: string;
+  photoUrl: string;
+  age: number;
+  bio: string;
+  status: number;
+}
