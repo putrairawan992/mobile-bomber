@@ -52,14 +52,9 @@ export interface ResponseGetPlaceInterface {
   PLACES_DATA: PlaceInterface[];
 }
 
-interface ImageInterface {
+export interface BannerInterface {
   imageUrl: string;
   title: string;
-}
-
-export interface ResponseGetBanner {
-  cityId: string;
-  result: ImageInterface[];
 }
 
 export interface PlaceOperationalTimeInterface {

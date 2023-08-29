@@ -140,13 +140,15 @@ function BookingTableScreen({route}: Props) {
 
   const fetchTableList = async () => {
     try {
+      setIsLoading(true);
       const response = await NightlifeService.getTableList({
         club_id: placeData?.clubId as string,
         date: selectedDate,
       });
-      if (response.table_list.length) {
-        setTableData(response.table_list);
+      if (response.data.table_list.length) {
+        setTableData(response.data.table_list);
       }
+      setIsLoading(false);
     } catch (error: any) {}
   };
 

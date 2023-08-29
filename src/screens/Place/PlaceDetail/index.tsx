@@ -77,7 +77,7 @@ export const PlaceDetail = ({route, navigation}: Props) => {
       const response = await NightlifeService.getPlaceDetail({
         club_id: placeData?.clubId as string,
       });
-      !!placeData && setData({...placeData, ...response});
+      !!placeData && setData({...placeData, ...response.data});
       setIsLoading(false);
     } catch (error: any) {}
   };

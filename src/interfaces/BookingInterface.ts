@@ -21,6 +21,7 @@ export interface TicketInterface {
   price: number;
   description: string;
   features: string[];
+  walkInTicketId: string;
 }
 
 export interface PartyInterface {

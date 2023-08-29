@@ -59,7 +59,7 @@ export const WalkInTicketScreen = ({route}: Props) => {
         club_id: Number(route.params.placeId),
         date: route.params.date,
       });
-      setTicket(response.result);
+      setTicket(response.data);
       setIsLoading(false);
     } catch (error: any) {
       console.log(error);
@@ -124,7 +124,7 @@ export const WalkInTicketScreen = ({route}: Props) => {
           <ScrollView
             showsVerticalScrollIndicator={false}
             style={{marginBottom: 100}}>
-            {Array.isArray(TICKETS_DATA) &&
+            {Array.isArray(ticket) &&
               ticket.map((item, idx) => (
                 <CardTicket
                   key={idx}
@@ -179,6 +179,8 @@ export const WalkInTicketScreen = ({route}: Props) => {
               PLACES_DATA.find(item => item.id === route.params.placeId) ?? null
             }
             selectedTable={{
+              tableId: selectedTicket?.walkInTicketId as string,
+              price: Number(selectedTicket?.price),
               text: selectedTicket?.title ?? '',
               minOrder: Number(
                 isGroupPackage
