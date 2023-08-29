@@ -8,11 +8,12 @@ import useThemedStyles from '../../../../theme/useThemedStyles';
 import {WIDTH} from '../../../../utils/config';
 import Text from '../../../../components/atoms/Text/Text';
 import {currency} from '../../../../utils/function';
+import {TableInterface} from '../../../../interfaces/BookingInterface';
 
 interface RadioButtonProps {
   isChecked: boolean;
-  data: any;
-  onRadioButtonPress: any;
+  data: TableInterface;
+  onRadioButtonPress: (data: TableInterface) => void;
 }
 
 export default function RadioButton({
@@ -27,7 +28,9 @@ export default function RadioButton({
   };
 
   return (
-    <TouchableOpacity style={s.mainContainer} onPress={onRadioButtonPress}>
+    <TouchableOpacity
+      style={s.mainContainer}
+      onPress={() => onRadioButtonPress(data)}>
       <Section isRow style={{width: WIDTH - 130}}>
         <Section isRow>
           <View style={[s.radioButtonIcon]}>{_renderCheckedView()}</View>

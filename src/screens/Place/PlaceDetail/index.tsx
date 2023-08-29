@@ -75,9 +75,9 @@ export const PlaceDetail = ({route, navigation}: Props) => {
     try {
       setIsLoading(true);
       const response = await NightlifeService.getPlaceDetail({
-        club_id: Number(placeData?.id),
+        club_id: placeData?.clubId as string,
       });
-      !!placeData && setData({...placeData, ...response});
+      !!placeData && setData({...placeData, ...response.data});
       setIsLoading(false);
     } catch (error: any) {}
   };
@@ -381,7 +381,7 @@ export const PlaceDetail = ({route, navigation}: Props) => {
           type="primary"
           onPress={() =>
             navigation.navigate('BookingTable', {
-              placeId: placeData?.id as string,
+              placeData: data ?? null,
             })
           }
           title="Booking Table"

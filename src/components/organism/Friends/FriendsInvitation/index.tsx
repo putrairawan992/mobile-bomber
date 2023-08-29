@@ -3,7 +3,7 @@ import React from 'react';
 import {createRef, useState} from 'react';
 import {ScrollView, TouchableOpacity, View} from 'react-native';
 import PagerView from 'react-native-pager-view';
-import {UserInterface} from '../../../../interfaces/UserInterface';
+import {FriendInterface} from '../../../../interfaces/UserInterface';
 import useTheme from '../../../../theme/useTheme';
 import {WIDTH} from '../../../../utils/config';
 import {
@@ -18,9 +18,9 @@ import {TabMenu} from '../../../molecules';
 import styles from '../Styles';
 
 interface BookingInvitationInterface {
-  data: UserInterface[];
-  onInvite: (value: UserInterface) => void;
-  selectedInvitation: UserInterface[];
+  data: FriendInterface[];
+  onInvite: (value: FriendInterface) => void;
+  selectedInvitation: FriendInterface[];
 }
 
 export const FriendsInvitation = ({
@@ -39,21 +39,23 @@ export const FriendsInvitation = ({
       <ScrollView showsVerticalScrollIndicator={false}>
         {data
           .filter(
-            (item: UserInterface) =>
+            (item: FriendInterface) =>
               item.fullName &&
               item.fullName.match(new RegExp(searchValue, 'i')),
           )
-          .map((item: UserInterface, idx) => {
-            const isInvited = selectedInvitation.find(el => el.id === item.id);
+          .map((item: FriendInterface, idx) => {
+            const isInvited = selectedInvitation.find(
+              el => el.customerId === item.customerId,
+            );
             return (
-              <EntryAnimation index={idx} key={idx}>
+              <EntryAnimation index={idx} key={`friend_${idx}`}>
                 <Section isRow isBetween style={{marginBottom: 20}}>
                   <Avatar
                     url={item.photoUrl ?? ''}
                     size="x-large"
                     alt={item.fullName ?? ''}
                     name={item.fullName}
-                    username={item.username}
+                    username={item.userName}
                   />
                   <TouchableOpacity
                     onPress={() => onInvite(item)}
@@ -81,16 +83,16 @@ export const FriendsInvitation = ({
   const InvitationTab = () => {
     return (
       <ScrollView showsVerticalScrollIndicator={false}>
-        {selectedInvitation.map((item: UserInterface, idx) => {
+        {selectedInvitation.map((item: FriendInterface, idx) => {
           return (
-            <EntryAnimation index={idx} key={idx}>
+            <EntryAnimation index={idx} key={`invitation_${idx}`}>
               <Section isRow isBetween style={{marginBottom: 20}}>
                 <Avatar
                   url={item.photoUrl ?? ''}
                   size="x-large"
                   alt={item.fullName ?? ''}
                   name={item.fullName}
-                  username={item.username}
+                  username={item.userName}
                 />
                 <TouchableOpacity
                   onPress={() => onInvite(item)}
@@ -130,6 +132,7 @@ export const FriendsInvitation = ({
               width={WIDTH / menu.length}
               item={item}
               index={index}
+              key={`menu_${index}`}
             />
           );
         })}

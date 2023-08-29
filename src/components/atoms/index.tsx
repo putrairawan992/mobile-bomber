@@ -5,6 +5,7 @@ import Button from './Button';
 import {TextInput} from './Form/TextInput';
 import {Gap} from './Gap';
 import {Layout} from './Layout';
+import {Loading} from './Loading';
 import {Section} from './Section';
 import {TouchableSection} from './Section/TouchableSection';
 import CustomShimmer from './Shimmer/CustomShimmer';
@@ -32,4 +33,5 @@ export {
   Switch,
   CustomShimmer,
   ItemShimmer,
+  Loading,
 };

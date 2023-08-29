@@ -4,16 +4,17 @@ import {
   TicketInterface,
 } from '../interfaces/BookingInterface';
 import {
-  ResponseGetBanner,
+  BannerInterface,
+  PlaceInterface,
   ResponseGetPlaceDetailInterface,
-  ResponseGetPlaceInterface,
+  ResponseGetTableInterface,
 } from '../interfaces/PlaceInterface';
 import ax from './axios';
 
 const URL = 'nightlife';
 
 export const NightlifeService = {
-  getTopFiveNightClub: async (): Promise<ResponseGetPlaceInterface> => {
+  getTopFiveNightClub: async (): Promise<APIResponse<PlaceInterface[]>> => {
     const response = await ax.get(`${URL}/get_top5_nightclub/`);
     return response.data;
   },
@@ -21,7 +22,7 @@ export const NightlifeService = {
     city_id,
   }: {
     city_id: number;
-  }): Promise<ResponseGetBanner> => {
+  }): Promise<APIResponse<BannerInterface[]>> => {
     const response = await ax.get(`${URL}/get_banner/${city_id}`);
     return response.data;
   },
@@ -36,9 +37,21 @@ export const NightlifeService = {
   getPlaceDetail: async ({
     club_id,
   }: {
-    club_id: number;
-  }): Promise<ResponseGetPlaceDetailInterface> => {
+    club_id: string;
+  }): Promise<APIResponse<ResponseGetPlaceDetailInterface>> => {
     const response = await ax.get(`${URL}/get_place_detail/${club_id}`);
+    return response.data;
+  },
+  getTableList: async ({
+    club_id,
+    date,
+  }: {
+    club_id: string;
+    date: string;
+  }): Promise<APIResponse<ResponseGetTableInterface>> => {
+    const response = await ax.get(
+      `${URL}/get_all_table_base_on_date/${club_id}?year_month_day=${date}`,
+    );
     return response.data;
   },
 };
