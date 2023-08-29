@@ -1,52 +1,100 @@
 /* eslint-disable react-native/no-inline-styles */
-import React, {createRef, useState} from 'react';
+import React, {createRef, useEffect, useState} from 'react';
 import styles from '../Styles';
 import {Header, TabMenu} from '../../components/molecules';
-import {Gap, Layout, Section, Text} from '../../components/atoms';
+import {Gap, Layout, Loading, Section, Text} from '../../components/atoms';
 import {MainStackParams} from '../../navigation/MainScreenStack';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {Colors} from '../../theme';
 import PagerView from 'react-native-pager-view';
 import {FlatList, Image, TouchableOpacity, View} from 'react-native';
 import {ImageGallery, ImageObject} from '@georstat/react-native-image-gallery';
-import {GalleryInterface} from '../../interfaces/Interface';
+import {
+  AppImageObject,
+  GalleryMappingInterface,
+} from '../../interfaces/Interface';
+import {NightlifeService} from '../../service/NightlifeService';
+import {GalleryCategoryInterface} from '../../interfaces/PlaceInterface';
+import {Close} from '../../assets/icons';
+import useTheme from '../../theme/useTheme';
+import {HEIGHT} from '../../utils/config';
 
 type Props = NativeStackScreenProps<MainStackParams, 'Gallery', 'MyStack'>;
 
 export const GalleryScreen = ({route}: Props) => {
-  const [menu] = useState<string[]>(['All (30)', 'Vibe', 'Guest', 'F&B']);
-  const [imageLength] = useState<number[]>([30, 15, 10, 5]);
+  const theme = useTheme();
+  const [menu, setMenu] = useState<string[]>([]);
   const [initialPage, setInitialPage] = useState<number>(0);
   const ref = createRef<PagerView>();
   const [isOpen, setIsOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const openGallery = () => setIsOpen(true);
   const closeGallery = () => setIsOpen(false);
-  const [data, setData] = useState<GalleryInterface[]>([]);
+  const [galleryData, setGalleryData] = useState<GalleryCategoryInterface[]>(
+    [],
+  );
+  const [categoryData, setCategoryData] = useState<GalleryMappingInterface[]>(
+    [],
+  );
   const [selectedIndex, setSelectedIndex] = useState<number>(0);
-  const getImages = (value: number) => {
-    return Array.apply(null, Array(value)).map((v, i) => {
-      return {
-        id: i.toString(),
-        url: 'https://unsplash.it/400/400?image=' + (value + i),
-      };
-    });
+
+  const fetchGallery = async () => {
+    try {
+      setIsLoading(true);
+      const response = await NightlifeService.getPlaceGallery({
+        club_id: route.params.placeId,
+      });
+      setGalleryData(response.data);
+      setMenu(response.data.map(item => item.categoryName));
+      setIsLoading(false);
+      setCategoryData(
+        response.data
+          .find(
+            item =>
+              item.categoryName === response.data.map(el => el.categoryName)[0],
+          )
+          ?.galleryData.map(el => {
+            return {
+              id: el.galleryId,
+              url: el.galleryImgUrl,
+              caption: el.caption,
+            };
+          }) ?? [],
+      );
+    } catch {}
   };
 
-  // useEffect(() => {
-  //   setData(
-  //     getImages(Number(imageLength.find((item, idx) => idx === initialPage))),
-  //   );
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [initialPage]);
+  useEffect(() => {
+    fetchGallery();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
+    if (galleryData.length) {
+      setCategoryData(
+        galleryData
+          .find(item => item.categoryName === menu[initialPage])
+          ?.galleryData.map(el => {
+            return {
+              id: el.galleryId,
+              url: el.galleryImgUrl,
+              caption: el.caption,
+            };
+          }) ?? [],
+      );
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [initialPage]);
+
   const renderGallery = () => {
     return (
       <Section style={{flex: 1, justifyContent: 'center'}}>
         <FlatList
-          data={data}
-          renderItem={({item}) => (
+          data={categoryData}
+          renderItem={({item, index}) => (
             <TouchableOpacity
               onPress={() => {
-                setSelectedIndex(Number(item.id));
+                setSelectedIndex(index);
                 openGallery();
               }}
               style={{
@@ -73,12 +121,50 @@ export const GalleryScreen = ({route}: Props) => {
           bottom: 30,
         }}>
         <Text
-          label={`${(currentIndex + 1).toString()} of ${data.length}`}
+          label={`${(currentIndex + 1).toString()} of ${categoryData.length}`}
           color="#A5A5A5"
         />
       </View>
     );
   };
+
+  const renderHeaderComponent = (image: AppImageObject) => {
+    return (
+      <View
+        style={{
+          backgroundColor: 'transparent',
+          top: 100,
+        }}>
+        <TouchableOpacity
+          onPress={() => setIsOpen(false)}
+          style={{position: 'absolute', left: 16, zIndex: 999}}>
+          <Close size={24} color={theme?.colors.ICON} />
+        </TouchableOpacity>
+        <View
+          style={{
+            position: 'absolute',
+            paddingHorizontal: 8,
+            backgroundColor: '#2B2E34',
+            top: HEIGHT * 0.69,
+            alignSelf: 'center',
+            zIndex: 999,
+            borderRadius: 12,
+          }}>
+          <Text
+            label={image?.caption ?? ''}
+            textAlign="center"
+            color={theme?.colors.PRIMARY}
+          />
+        </View>
+        <Text
+          label={route.params.title + ' Gallery'}
+          variant="base"
+          textAlign="center"
+        />
+      </View>
+    );
+  };
+
   return (
     <Layout contentContainerStyle={styles.container} isScrollable={true}>
       <Header
@@ -87,6 +173,7 @@ export const GalleryScreen = ({route}: Props) => {
         title={`${route.params.title} Gallery`}
         titleStyle={{color: Colors.white}}
       />
+      {isLoading && <Loading />}
       <Gap height={26} />
       <Section isRow>
         {menu.map((item, index) => {
@@ -106,38 +193,30 @@ export const GalleryScreen = ({route}: Props) => {
       </Section>
       <Gap height={16} />
       <Section style={{flex: 1}}>
-        <PagerView
-          style={styles.container}
-          initialPage={initialPage}
-          ref={ref}
-          onPageSelected={e => {
-            setData(
-              getImages(
-                Number(
-                  imageLength.find(
-                    (item, idx) => idx === e.nativeEvent.position,
-                  ),
-                ),
-              ),
-            );
-            setTimeout(() => {
-              setInitialPage(e.nativeEvent.position);
-            }, 500);
-          }}>
-          <View key="1">{renderGallery()}</View>
-          <View key="2">{renderGallery()}</View>
-          <View key="3">{renderGallery()}</View>
-          <View key="4">{renderGallery()}</View>
-        </PagerView>
+        {menu.length ? (
+          <PagerView
+            style={styles.container}
+            initialPage={initialPage}
+            ref={ref}
+            onPageSelected={e => setInitialPage(e.nativeEvent.position)}>
+            {menu.length &&
+              menu.map((item, idx) => (
+                <View key={(idx + 1).toString()}>{renderGallery()}</View>
+              ))}
+          </PagerView>
+        ) : (
+          <></>
+        )}
       </Section>
       <ImageGallery
         close={closeGallery}
         isOpen={isOpen}
-        images={data}
+        images={categoryData}
         thumbSize={64}
         thumbColor={Colors.white}
         initialIndex={selectedIndex}
         renderFooterComponent={renderFooterComponent}
+        renderHeaderComponent={renderHeaderComponent}
       />
     </Layout>
   );

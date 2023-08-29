@@ -9,6 +9,7 @@ import {ThemeInterface} from '../../../theme/ThemeProvider';
 import useTheme from '../../../theme/useTheme';
 import useThemedStyles from '../../../theme/useThemedStyles';
 import {ScaleAnimation} from '../animations/ScaleAnimation';
+import {Colors} from '../../../theme';
 
 interface ButtonProps {
   title?: string;
@@ -114,7 +115,6 @@ function Button({
               {LeftComponent ?? null}
               {TextComponent ?? (
                 <Text
-                  variant="base"
                   color={
                     type === 'primary' ||
                     type === 'secondary' ||
@@ -173,7 +173,6 @@ function Button({
           ) : (
             <View style={{flexDirection: 'row', alignItems: 'center'}}>
               <Text
-                variant="base"
                 color={
                   type === 'secondary' ||
                   type === 'danger' ||
@@ -183,7 +182,7 @@ function Button({
                     ? theme?.colors.PRIMARY
                     : type === 'secondaryOutlined'
                     ? 'primary2'
-                    : 'b1'
+                    : Colors.white
                 }
                 label={title}
                 fontWeight="bold"

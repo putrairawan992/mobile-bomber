@@ -29,7 +29,7 @@ export const CardTicket = ({data, onSelect, index}: CardTicketProps) => {
       <ScaleAnimation
         disabled={false}
         scaleTo={0.97}
-        onPress={() => onSelect(data.id)}>
+        onPress={() => onSelect(data.walkInTicketId)}>
         <LinearGradient
           colors={
             gradientMapping[data.title as keyof typeof gradientMapping].color

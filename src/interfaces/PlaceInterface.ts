@@ -73,3 +73,15 @@ export interface ResponseGetPlaceDetailInterface {
 export interface ResponseGetTableInterface {
   table_list: TableInterface[];
 }
+
+export interface GalleryInterface {
+  galleryId: string;
+  caption: string;
+  galleryImgUrl: string;
+}
+
+export interface GalleryCategoryInterface {
+  categoryId: string;
+  categoryName: string;
+  galleryData: GalleryInterface[];
+}
