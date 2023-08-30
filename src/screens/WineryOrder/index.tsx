@@ -1,4 +1,4 @@
-import React, {createRef, useState} from 'react';
+import React, {createRef, useEffect, useState} from 'react';
 import {Layout, Spacer, TextInput} from '../../components/atoms';
 import {Header} from '../../components/molecules';
 import PagerView from 'react-native-pager-view';
@@ -14,6 +14,10 @@ import ModalCartWineryOrder from '../../components/molecules/Modal/ModalCartWine
 import ModalWineryOrderPay from '../../components/molecules/Modal/ModalWineryOrderPay';
 import ModalWineryOrderBillGenerator from '../../components/molecules/Modal/ModalWineryOrderBillGenerator';
 import ModalWineryOrderDetail from '../../components/molecules/Modal/ModalWineryOrderDetail';
+import {EventService} from '../../service/EventService';
+import {NightlifeService} from '../../service/NightlifeService';
+import {ProductBasedOnClubIdInterface} from '../../interfaces/PlaceInterface';
+import SkeletonProductBasedOnClubId from '../../components/molecules/Skeleton/SkeletonProductBasedOnClubId';
 
 export default function WineryOrder() {
   const [menu] = useState<string[]>([
@@ -29,8 +33,35 @@ export default function WineryOrder() {
   const [showPay, setShowPay] = useState<boolean>(false);
   const [showBillGenerator, setShowBillGenerator] = useState<boolean>(false);
   const [showOrderDetail, setShowOrderDetail] = useState<boolean>(false);
+  const [productsLoading, setProductsLoading] = useState<boolean>(true);
+  const [products, setProducts] = useState<ProductBasedOnClubIdInterface[]>([]);
 
   const ref = createRef<PagerView>();
+
+  useEffect(() => {
+    getRandomClub();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const getRandomClub = () => {
+    NightlifeService.getTopFiveNightClub()
+      .then(res => {
+        if (res.data) {
+          const date = new Date().valueOf().toString();
+          const randomId = Number(date.charAt(date.length - 1));
+          const data = res.data[randomId > 4 ? 4 : randomId];
+          getProducts(data.clubId);
+        }
+      })
+      .catch(err => console.log('err get top club: ', err.response));
+  };
+
+  const getProducts = (clubId: string) => {
+    EventService.getProductBasedOnClubId(clubId)
+      .then(res => setProducts(res.data))
+      .catch(err => console.log('err get product: ', err.response))
+      .finally(() => setProductsLoading(false));
+  };
 
   return (
     <Layout>
@@ -77,19 +108,39 @@ export default function WineryOrder() {
         ref={ref}
         onPageSelected={e => setInitialPage(e.nativeEvent.position)}>
         <View key="1">
-          <Champagne />
+          {productsLoading ? (
+            <SkeletonProductBasedOnClubId />
+          ) : (
+            <Champagne products={products} />
+          )}
         </View>
         <View key="2">
-          <Gin />
+          {productsLoading ? (
+            <SkeletonProductBasedOnClubId />
+          ) : (
+            <Gin products={products} />
+          )}
         </View>
         <View key="3">
-          <Vodka />
+          {productsLoading ? (
+            <SkeletonProductBasedOnClubId />
+          ) : (
+            <Vodka products={products} />
+          )}
         </View>
         <View key="4">
-          <Whiskey />
+          {productsLoading ? (
+            <SkeletonProductBasedOnClubId />
+          ) : (
+            <Whiskey products={products} />
+          )}
         </View>
         <View key="5">
-          <Beer />
+          {productsLoading ? (
+            <SkeletonProductBasedOnClubId />
+          ) : (
+            <Beer products={products} />
+          )}
         </View>
       </PagerView>
 

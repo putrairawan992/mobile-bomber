@@ -33,6 +33,7 @@ import useTheme from '../theme/useTheme';
 import {WIDTH} from '../utils/config';
 import {USER_ACHIEVEMENT} from '../utils/data';
 import styles from './Styles';
+import {getUserProfile} from '../service/AuthService';
 
 type Props = NativeStackScreenProps<MainStackParams, 'Nightlife', 'MyStack'>;
 
@@ -86,6 +87,7 @@ function NightlifeScreen({navigation}: Props) {
 
     fetchUserLocation();
     fetchData();
+    dispatch(getUserProfile());
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentLocation]);
 
@@ -167,7 +169,7 @@ function NightlifeScreen({navigation}: Props) {
           <UserAchievement data={USER_ACHIEVEMENT} />
         </EntryAnimation>
         <Gap height={32} />
-        {topFiveNightClub.length ? (
+        {topFiveNightClub?.length ? (
           <TopPlaces
             title="Top 5 Night Club this Week"
             data={topFiveNightClub}

@@ -1,16 +1,20 @@
 import {ScrollView} from 'react-native';
 import React from 'react';
 import CardWineryOrder from '../../../components/molecules/Card/CardWineryOrder';
+import {ProductBasedOnClubIdInterface} from '../../../interfaces/PlaceInterface';
 
-export default function Vodka() {
+interface VodkaInterface {
+  products: ProductBasedOnClubIdInterface[];
+}
+
+export default function Vodka({products}: VodkaInterface) {
   return (
     <ScrollView showsVerticalScrollIndicator={false}>
-      <CardWineryOrder />
-      <CardWineryOrder />
-      <CardWineryOrder />
-      <CardWineryOrder />
-      <CardWineryOrder />
-      <CardWineryOrder />
+      {products?.map(product => {
+        return product.productData.map(item => {
+          return <CardWineryOrder key={item.productId} item={item} />;
+        });
+      })}
     </ScrollView>
   );
 }

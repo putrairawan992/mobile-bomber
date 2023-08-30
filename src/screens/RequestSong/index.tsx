@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   Button,
   DefaultText,
@@ -6,7 +6,7 @@ import {
   GradientText,
   Layout,
 } from '../../components/atoms';
-import {Header} from '../../components/molecules';
+import {Header, ModalToast} from '../../components/molecules';
 import {
   FlatList,
   ScrollView,
@@ -18,11 +18,69 @@ import {
 import colors from '../../styles/colors';
 import LinearGradient from 'react-native-linear-gradient';
 import {navigationRef} from '../../navigation/RootNavigation';
+import {SongService} from '../../service/SongService';
+import {getStorage} from '../../service/mmkvStorage';
+import {NightlifeService} from '../../service/NightlifeService';
 
 export default function RequestSong() {
   const [title, setTitle] = useState<string>('');
   const [artist, setArtist] = useState<string>('');
   const [tip, setTip] = useState<string>('');
+  const [clubId, setClubId] = useState<string>('');
+  const [loading, setLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string>('');
+  const [success, setSuccess] = useState<boolean>(false);
+
+  useEffect(() => {
+    getRandomClub();
+  }, []);
+
+  const getRandomClub = () => {
+    NightlifeService.getTopFiveNightClub()
+      .then(res => {
+        if (res.data) {
+          const date = new Date().valueOf().toString();
+          const randomId = Number(date.charAt(date.length - 1));
+          const data = res.data[randomId > 4 ? 4 : randomId];
+          setClubId(data.clubId);
+        }
+      })
+      .catch(err => console.log('err get top club: ', err));
+  };
+
+  const onRequestSong = async () => {
+    if (
+      title.trim().length === 0 ||
+      artist.trim().length === 0 ||
+      tip.trim().length === 0
+    ) {
+      return setError('Please input the fields!');
+    }
+
+    const user: any = await getStorage('userAuth');
+    const requested_by = JSON.parse(user).userId;
+
+    setLoading(true);
+    SongService.postRequestSong({
+      song_title: title,
+      song_artist: artist,
+      ask_fee: tip,
+      club_id: clubId,
+      requested_by,
+    })
+      .then(() => {
+        setSuccess(true);
+        setTimeout(() => navigationRef.goBack(), 2000);
+      })
+      .catch(err => {
+        setError(
+          err.response?.data?.detail
+            ? JSON.stringify(err.response.data.detail)
+            : 'Error! Try again later',
+        );
+      })
+      .finally(() => setLoading(false));
+  };
 
   return (
     <Layout>
@@ -157,15 +215,27 @@ export default function RequestSong() {
           </View>
           <Gap height={20} />
           <Button
+            isLoading={loading}
             type="primary"
             title="Request"
-            onPress={() =>
-              navigationRef.navigate('HistoryRequestSong' as never)
-            }
+            onPress={onRequestSong}
           />
         </View>
         <Gap height={20} />
       </ScrollView>
+
+      <ModalToast
+        type="error"
+        isVisible={error.length > 0}
+        message={error}
+        onCloseModal={() => setError('')}
+      />
+      <ModalToast
+        type="success"
+        isVisible={success}
+        message="Congrats, your request has been sent"
+        onCloseModal={() => setSuccess(false)}
+      />
     </Layout>
   );
 }

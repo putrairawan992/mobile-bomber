@@ -34,9 +34,10 @@ import {removeStorage} from '../service/mmkvStorage';
 import {useDispatch} from 'react-redux';
 import auth from '@react-native-firebase/auth';
 import {useAppSelector} from '../hooks/hooks';
+import {getUserProfile} from '../service/AuthService';
 
 function ProfileScreen() {
-  const {user} = useAppSelector(state => state.user);
+  const {profile} = useAppSelector(state => state.profile);
   const dispatch = useDispatch();
   const onLogOut = async () => {
     await removeStorage('refreshToken');
@@ -44,19 +45,35 @@ function ProfileScreen() {
     await auth().signOut();
     dispatch(handleLogOut());
   };
+
+  React.useEffect(() => {
+    dispatch(getUserProfile());
+  }, [dispatch]);
+
   return (
     <Layout>
       <ScrollView showsVerticalScrollIndicator={false}>
         <View className="px-5 py-3">
           <View className="flex-row">
             <View className="bg-neutral-400 w-[64] h-[64] rounded-full justify-center items-center">
-              <Image source={IcProfile} className="w-[24] h-[24]" />
+              <Image
+                source={
+                  profile?.user_profile[0]?.photoUrl
+                    ? {uri: profile.user_profile[0].photoUrl}
+                    : IcProfile
+                }
+                className={
+                  profile?.user_profile[0]?.photoUrl
+                    ? 'w-full h-full rounded-full'
+                    : 'w-[24] h-[24]'
+                }
+              />
             </View>
             <Gap width={10} />
             <View>
               <View className="flex-row items-center">
                 <DefaultText
-                  title={'Jean Chen'}
+                  title={profile?.user_profile[0]?.fullName ?? ''}
                   titleClassName="font-inter-bold text-2xl"
                 />
                 <Gap width={5} />
@@ -70,35 +87,41 @@ function ProfileScreen() {
                 </TouchableOpacity>
               </View>
               <DefaultText
-                title={`@${user.username}`}
+                title={`@${profile?.user_profile[0]?.userName ?? ''}`}
                 titleClassName="text-neutral-400 text-xs"
               />
-              <Gap height={8} />
-              <View className="bg-red-700 rounded-[4px] px-2 py-[6px] self-start">
-                <DefaultText
-                  title={'Not verified'}
-                  titleClassName="font-inter-medium text-xs"
-                />
-              </View>
+              {profile?.user_profile[0]?.status !== 1 ? (
+                <>
+                  <Gap height={8} />
+                  <View className="bg-red-700 rounded-[4px] px-2 py-[6px] self-start">
+                    <DefaultText
+                      title={'Not verified'}
+                      titleClassName="font-inter-medium text-xs"
+                    />
+                  </View>
+                </>
+              ) : null}
             </View>
           </View>
 
           <DefaultText
-            title="Description not updated yet"
+            title={
+              profile?.user_profile[0]?.bio ?? 'Description not updated yet'
+            }
             titleClassName="my-5 text-neutral-400"
           />
 
           <View className="flex-row items-center bg-grey-one rounded-lg p-3">
             <View className="flex-1">
               <DefaultText
-                title="Valid until dec 2023"
+                title={`Valid until ${profile?.loyalty_profile[0]?.validUntil}`}
                 titleClassName="text-[10px]"
               />
               <Gap height={10} />
               <GradientText
                 colors={['#fff', '#4D4D4D']}
                 style={styles.textGredient}>
-                VIP - Silver
+                {profile?.loyalty_profile[0]?.currentLevel ?? ''}
               </GradientText>
               <Gap height={10} />
               <TouchableOpacity
@@ -118,7 +141,10 @@ function ProfileScreen() {
               <AnimatedCircularProgress
                 size={60}
                 width={5}
-                fill={50}
+                fill={
+                  (Number(profile?.loyalty_profile[0]?.start ?? 0) * 100) /
+                  Number(profile?.loyalty_profile[0].end ?? 0)
+                }
                 tintColor="#D4B462"
                 backgroundColor={colors.white}>
                 {fill => (
@@ -132,7 +158,9 @@ function ProfileScreen() {
               </AnimatedCircularProgress>
               <Gap height={5} />
               <DefaultText
-                title={'2/4 Task done'}
+                title={`${profile?.loyalty_profile[0]?.start ?? '0'}/${
+                  profile?.loyalty_profile[0]?.end ?? '0'
+                } Task done`}
                 titleClassName="font-inter-medium text-xs"
               />
             </View>
