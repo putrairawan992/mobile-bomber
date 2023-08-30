@@ -42,15 +42,15 @@ export type MainStackParams = {
   Notification: undefined;
   Main: undefined;
   BookingWalkIn: {
-    placeId: string;
+    placeData: PlaceInterface | null;
   };
   WalkInTicket: {
-    placeId: string;
+    placeData: PlaceInterface | null;
     date: string;
   };
   MyBookingDetail: undefined;
   BookingTable: {
-    placeId: string;
+    placeData: PlaceInterface | null;
   };
   WineryOrder: undefined;
   SongPlaylist: undefined;
@@ -204,21 +204,9 @@ const MainScreenStack = () => {
       <Stack.Screen name="PlaceDetail" component={PlaceDetail} />
       <Stack.Screen name="MyBookingDetail" component={MyBookingDetail} />
       <Stack.Screen name="WineryOrder" component={WineryOrder} />
-      <Stack.Screen
-        name="BookingTable"
-        component={BookingTableScreen}
-        initialParams={{placeId: ''}}
-      />
-      <Stack.Screen
-        name="BookingWalkIn"
-        component={BookingWalkInScreen}
-        initialParams={{placeId: ''}}
-      />
-      <Stack.Screen
-        name="WalkInTicket"
-        component={WalkInTicketScreen}
-        initialParams={{placeId: '', date: ''}}
-      />
+      <Stack.Screen name="BookingTable" component={BookingTableScreen} />
+      <Stack.Screen name="BookingWalkIn" component={BookingWalkInScreen} />
+      <Stack.Screen name="WalkInTicket" component={WalkInTicketScreen} />
       <Stack.Screen name="SongPlaylist" component={SongPlaylist} />
       <Stack.Screen name="RequestSong" component={RequestSong} />
       <Stack.Screen name="HistoryRequestSong" component={HistoryRequestSong} />

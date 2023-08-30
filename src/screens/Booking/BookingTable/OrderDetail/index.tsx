@@ -28,6 +28,7 @@ import {IcChevronRight} from '../../../../theme/Images';
 import {images} from '../../../../utils/images';
 import colors from '../../../../styles/colors';
 import ModalBookingTablePromotion from '../../../../components/molecules/Modal/ModalBookingTablePromotion';
+import {currency} from '../../../../utils/function';
 
 interface TableOrderDetailProps {
   placeData: PlaceInterface | null;
@@ -227,11 +228,7 @@ export const TableOrderDetail = ({
           </Section>
           <Text
             textAlign="right"
-            label={
-              selectedTable?.minOrder
-                ? 'NT ' + selectedTable?.minOrder.toString()
-                : ''
-            }
+            label={currency(Number(selectedTable?.minOrder))}
           />
         </Section>
         {isFullPayment && (
@@ -242,13 +239,7 @@ export const TableOrderDetail = ({
                 <Text label="Discount" />
                 <Text label="5%" color={Colors['black-40']} variant="small" />
               </Section>
-              <Text
-                label={
-                  selectedTable?.minOrder
-                    ? 'NT ' + (selectedTable?.minOrder * 0.05).toString()
-                    : ''
-                }
-              />
+              <Text label={currency(Number(selectedTable?.minOrder) * 0.05)} />
             </Section>
           </>
         )}
@@ -258,13 +249,7 @@ export const TableOrderDetail = ({
             <Text label="Service Fee" />
             <Text label="5%" color={Colors['black-40']} variant="small" />
           </Section>
-          <Text
-            label={
-              selectedTable?.minOrder
-                ? 'NT ' + (selectedTable?.minOrder * 0.05).toString()
-                : ''
-            }
-          />
+          <Text label={currency(Number(selectedTable?.minOrder) * 0.05)} />
         </Section>
         <Gap height={20} />
         <Section isRow isBetween>
@@ -273,11 +258,9 @@ export const TableOrderDetail = ({
             label={
               selectedTable?.minOrder
                 ? isFullPayment
-                  ? 'NT ' + selectedTable.minOrder.toString()
-                  : 'NT ' +
-                    (
-                      selectedTable.minOrder +
-                      selectedTable?.minOrder * 0.05
+                  ? currency(selectedTable.minOrder).toString()
+                  : currency(
+                      selectedTable.minOrder + selectedTable?.minOrder * 0.05,
                     ).toString()
                 : ''
             }
@@ -302,27 +285,6 @@ export const TableOrderDetail = ({
           <Text fontWeight="medium" label="VISA +64" />
         </Section>
       </Section>
-      {/* <Gap height={20} />
-      <Section
-        padding="16px 16px"
-        backgroundColor={theme?.colors.SECTION}
-        rounded={8}
-        isRow
-        isBetween>
-        <Text fontWeight="bold" label="Split bill" />
-        <Switch
-          trackColor={{false: '#767577', true: theme?.colors.WARNING}}
-          thumbColor={'#f4f3f4'}
-          ios_backgroundColor="#3e3e3e"
-          onValueChange={toggleSwitchSplitBill}
-          value={isSplitBill}
-          style={{
-            ...(Platform.OS === 'ios' && {
-              transform: [{scaleX: 0.6}, {scaleY: 0.6}],
-            }),
-          }}
-        />
-      </Section> */}
       <Gap height={20} />
       <Section
         padding="16px 16px"

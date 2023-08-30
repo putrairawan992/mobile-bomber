@@ -26,12 +26,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import {
-  OPERATIONAL_TIME_DATA,
-  PLACES_DATA,
-  PLACE_MENU,
-  PLACE_OVERVIEW,
-} from '../../../utils/data';
+import {PLACE_MENU} from '../../../utils/data';
 import {
   PlaceInterface,
   PlaceOverviewFeaturesInterface,
@@ -47,12 +42,11 @@ import {useImageAspectRatio} from '../../../hooks/useImageAspectRatio';
 import useTheme from '../../../theme/useTheme';
 import {OperationalHoursSheet, PlaceCard} from '../../../components/organism';
 import {navigationRef} from '../../../navigation/RootNavigation';
-import BottomSheet, {BottomSheetModal} from '@gorhom/bottom-sheet';
+import {BottomSheetModal} from '@gorhom/bottom-sheet';
 import {Colors} from '../../../theme';
 import CardPromo from '../../../components/molecules/Card/CardPromo';
 import {ImgProductPromo, ImgProductPromo2} from '../../../theme/Images';
 import {NightlifeService} from '../../../service/NightlifeService';
-import reactotron from 'reactotron-react-native';
 import {WIDTH} from '../../../utils/config';
 import {dateFormatter} from '../../../utils/dateFormatter';
 
@@ -75,9 +69,9 @@ export const PlaceDetail = ({route, navigation}: Props) => {
     try {
       setIsLoading(true);
       const response = await NightlifeService.getPlaceDetail({
-        club_id: Number(placeData?.id),
+        club_id: placeData?.clubId as string,
       });
-      !!placeData && setData({...placeData, ...response});
+      !!placeData && setData({...placeData, ...response.data});
       setIsLoading(false);
     } catch (error: any) {}
   };
@@ -342,7 +336,7 @@ export const PlaceDetail = ({route, navigation}: Props) => {
             )}
             onOpenGallery={() =>
               navigation.navigate('Gallery', {
-                placeId: data.id,
+                placeId: data.clubId,
                 title: data.name,
               })
             }
@@ -381,7 +375,7 @@ export const PlaceDetail = ({route, navigation}: Props) => {
           type="primary"
           onPress={() =>
             navigation.navigate('BookingTable', {
-              placeId: placeData?.id as string,
+              placeData: data ?? null,
             })
           }
           title="Booking Table"
@@ -391,7 +385,7 @@ export const PlaceDetail = ({route, navigation}: Props) => {
           type="outlined"
           onPress={() =>
             navigation.navigate('BookingWalkIn', {
-              placeId: placeData?.id as string,
+              placeData: data ?? null,
             })
           }
           title="Walk In"

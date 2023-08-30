@@ -1,4 +1,5 @@
 import React from 'react';
+import {TableInterface} from './BookingInterface';
 
 export interface PlaceCategoryInterface {
   id: string;
@@ -14,6 +15,7 @@ export interface PlacePhotoInterface {
 export interface PlaceInterface {
   clubId: string;
   id: string;
+  clubId: string;
   name: string;
   featuredToday: string[];
   address: string;
@@ -51,14 +53,9 @@ export interface ResponseGetPlaceInterface {
   data: PlaceInterface[];
 }
 
-interface ImageInterface {
+export interface BannerInterface {
   imageUrl: string;
   title: string;
-}
-
-export interface ResponseGetBanner {
-  cityId: string;
-  result: ImageInterface[];
 }
 
 export interface PlaceOperationalTimeInterface {
@@ -82,4 +79,20 @@ export interface ProductBasedOnClubIdInterface {
 }
 export interface ResponseGetProductBasedOnClubIdInterface {
   data: ProductBasedOnClubIdInterface[];
+}
+
+export interface ResponseGetTableInterface {
+  table_list: TableInterface[];
+}
+
+export interface GalleryInterface {
+  galleryId: string;
+  caption: string;
+  galleryImgUrl: string;
+}
+
+export interface GalleryCategoryInterface {
+  categoryId: string;
+  categoryName: string;
+  galleryData: GalleryInterface[];
 }

@@ -203,7 +203,7 @@ export const BookingWalkInScreen = ({route, navigation}: Props) => {
           type="primary"
           onPress={() =>
             navigation.navigate('WalkInTicket', {
-              placeId: route.params.placeId,
+              placeData: route.params.placeData,
               date: selectedDate,
             })
           }

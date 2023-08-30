@@ -63,8 +63,8 @@ function NightlifeScreen({navigation}: Props) {
         NightlifeService.getBanner({city_id: 1}),
       ])
         .then(response => {
-          setTopFiveNightClub(response[0].PLACES_DATA);
-          setBanner(response[1].result[0].imageUrl);
+          setTopFiveNightClub(response[0].data);
+          setBanner(response[1].data[0].imageUrl);
         })
         .catch(error => {
           console.log(error);

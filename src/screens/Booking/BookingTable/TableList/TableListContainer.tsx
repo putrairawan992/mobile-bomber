@@ -5,7 +5,7 @@ import {TableInterface} from '../../../../interfaces/BookingInterface';
 
 interface RadioButtonProps {
   values: any;
-  onPress: (value: number) => void;
+  onPress: (value: TableInterface) => void;
   selected: TableInterface | null;
 }
 
@@ -15,12 +15,12 @@ export default function TableListContainer({
   selected,
 }: RadioButtonProps) {
   const _renderRadioButtons = () => {
-    return (values || []).map((listItem: any, idx: number) => {
-      const isSelected = !!selected && selected.text === listItem.text;
+    return (values || []).map((listItem: TableInterface, idx: number) => {
+      const isSelected = !!selected && selected.tableId === listItem.tableId;
       return (
         <RadioButton
           key={idx}
-          onRadioButtonPress={() => onPress(idx)}
+          onRadioButtonPress={value => onPress(value)}
           isChecked={isSelected}
           data={listItem}
         />

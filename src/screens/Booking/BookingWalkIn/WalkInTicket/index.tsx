@@ -12,15 +12,16 @@ import React, {useEffect, useState} from 'react';
 import styles from '../../Styles';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {MainStackParams} from '../../../../navigation/MainScreenStack';
-import {PLACES_DATA, TICKETS_DATA} from '../../../../utils/data';
 import {CardTicket} from '../../../../components/molecules/Card/CardTicket';
 import {TicketInterface} from '../../../../interfaces/BookingInterface';
 import BottomSheet from '@gorhom/bottom-sheet';
 import {TableOrderDetail} from '../../BookingTable/OrderDetail';
 import {Colors} from '../../../../theme';
 import {GroupOrderDetail} from '../GroupOrderDetail';
-import {UserInterface} from '../../../../interfaces/UserInterface';
+import {FriendInterface} from '../../../../interfaces/UserInterface';
 import {NightlifeService} from '../../../../service/NightlifeService';
+import {FriendshipService} from '../../../../service/FriendshipService';
+import {InviteFriendsOnboardingSheet} from '../../../../components/organism';
 
 if (Platform.OS === 'android') {
   if (UIManager.setLayoutAnimationEnabledExperimental) {
@@ -34,51 +35,74 @@ export const WalkInTicketScreen = ({route}: Props) => {
   const [selectedTicket, setSelectedTicket] = useState<TicketInterface | null>(
     null,
   );
-  const onSelectTicket = (id: string) => {
-    setSelectedTicket(TICKETS_DATA.find(item => item.id === id) ?? null);
-    setTimeout(() => {
-      bookingSheetRef.current?.collapse();
-    }, 100);
-  };
   const isGroupPackage = /Group/.test(selectedTicket?.title ?? '');
   const [sheetIndex, setSheetIndex] = React.useState<number>(-1);
   const bookingSheetRef = React.useRef<BottomSheet>(null);
   const [isFirstStep, setIsFirstStep] = useState<boolean>(true);
   const [isSecondStep, setIsSecondStep] = useState<boolean>(false);
   const [isGroupOrderDetail, setIsGroupOrderDetail] = useState<boolean>(false);
-  const [selectedInvitation, setSelectedInvitation] = useState<UserInterface[]>(
-    [],
-  );
+  const [isInviteFriends, setIsInviteFriends] = useState<boolean>(false);
+  const [inviteFriendsStep, setInviteFriendsStep] = useState<number>(1);
+  const [selectedInvitation, setSelectedInvitation] = useState<
+    FriendInterface[]
+  >([]);
+  const [friendshipData, setFriendshipData] = useState<FriendInterface[]>([]);
   const [ticket, setTicket] = useState<TicketInterface[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
-  const fetchWalkInTicket = async () => {
+  const onSelectTicket = (id: string) => {
+    setSelectedTicket(ticket.find(item => item.walkInTicketId === id) ?? null);
+    setInviteFriendsStep(1);
+    setIsInviteFriends(false);
+    setIsFirstStep(true);
+    setIsSecondStep(false);
+    setTimeout(() => {
+      bookingSheetRef.current?.collapse();
+    }, 100);
+  };
+
+  const fetchData = async () => {
     try {
       setIsLoading(true);
-      const response = await NightlifeService.getWalkInTicket({
-        club_id: Number(route.params.placeId),
-        date: route.params.date,
-      });
-      setTicket(response.result);
-      setIsLoading(false);
-    } catch (error: any) {
-      console.log(error);
-    }
+      await Promise.all([
+        NightlifeService.getWalkInTicket({
+          club_id: Number(route.params.placeData?.clubId),
+          date: route.params.date,
+        }),
+        FriendshipService.getFriendship({
+          userId: 'FQ5OvkolZtSBZEMlG1R3gtowbQv1',
+        }),
+      ])
+        .then(response => {
+          setTicket(response[0].data);
+          setFriendshipData(response[1].result);
+        })
+        .catch(error => {
+          console.log(error);
+        })
+        .finally(() => setIsLoading(false));
+    } catch (error: any) {}
   };
 
   useEffect(() => {
-    fetchWalkInTicket();
+    fetchData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const snapPoints = React.useMemo(
     () =>
       isGroupPackage && isFirstStep
-        ? ['50']
-        : isGroupPackage && !isFirstStep
+        ? ['62']
+        : isGroupPackage && !isFirstStep && !isInviteFriends
         ? ['80']
+        : isInviteFriends && inviteFriendsStep === 1
+        ? ['37']
+        : isInviteFriends && inviteFriendsStep === 2
+        ? ['42']
+        : isInviteFriends && inviteFriendsStep === 3
+        ? ['35']
         : ['70', '90'],
-    [isFirstStep, isGroupPackage],
+    [inviteFriendsStep, isFirstStep, isGroupPackage, isInviteFriends],
   );
   const [isPayFull, setIsPayFull] = useState(false);
   const [isSplitBill, setIsSplitBill] = useState(false);
@@ -90,17 +114,31 @@ export const WalkInTicketScreen = ({route}: Props) => {
     setSheetIndex(index);
   }, []);
 
-  const handleInvite = (data: UserInterface) => {
+  const handleInvite = (data: FriendInterface) => {
     let findItem: any = Boolean(
-      selectedInvitation.find((el: UserInterface) => el.id === data.id),
+      selectedInvitation.find(
+        (el: FriendInterface) => el.customerId === data.customerId,
+      ),
     );
     if (!findItem) {
       setSelectedInvitation([...selectedInvitation, data]);
     } else {
       setSelectedInvitation(
-        selectedInvitation.filter((el: UserInterface) => el.id !== data.id),
+        selectedInvitation.filter(
+          (el: FriendInterface) => el.customerId !== data.customerId,
+        ),
       );
     }
+  };
+
+  const handleOnOnboardingInviteFriends = () => {
+    setIsFirstStep(false);
+    setIsGroupOrderDetail(false);
+    setInviteFriendsStep(1);
+    setIsInviteFriends(true);
+    setTimeout(() => {
+      bookingSheetRef.current?.collapse();
+    }, 100);
   };
 
   return (
@@ -124,7 +162,7 @@ export const WalkInTicketScreen = ({route}: Props) => {
           <ScrollView
             showsVerticalScrollIndicator={false}
             style={{marginBottom: 100}}>
-            {Array.isArray(TICKETS_DATA) &&
+            {Array.isArray(ticket) &&
               ticket.map((item, idx) => (
                 <CardTicket
                   key={idx}
@@ -154,7 +192,7 @@ export const WalkInTicketScreen = ({route}: Props) => {
         handleStyle={styles.bottomSheetHandleStyle}
         handleIndicatorStyle={{backgroundColor: Colors['black-70']}}
         onChange={handleSheetChanges}>
-        {isGroupPackage && !isGroupOrderDetail ? (
+        {isGroupPackage && !isGroupOrderDetail && !isInviteFriends ? (
           <GroupOrderDetail
             selectedTicket={selectedTicket}
             isFirstStep={isFirstStep}
@@ -171,14 +209,36 @@ export const WalkInTicketScreen = ({route}: Props) => {
             selectedInvitation={selectedInvitation}
             handleInvite={handleInvite}
             onOrderDetail={() => setIsGroupOrderDetail(true)}
+            friendshipData={friendshipData}
+            onOnboardingInviteFriends={handleOnOnboardingInviteFriends}
+          />
+        ) : isInviteFriends ? (
+          <InviteFriendsOnboardingSheet
+            hasBackNavigation
+            onBackNavigation={() => {
+              if (inviteFriendsStep === 1) {
+                setIsInviteFriends(false);
+                setIsFirstStep(true);
+              } else if (inviteFriendsStep === 2) {
+                setInviteFriendsStep(1);
+              } else {
+                setInviteFriendsStep(2);
+              }
+            }}
+            step={inviteFriendsStep}
+            onNextStep={step => setInviteFriendsStep(step)}
+            onFinish={() => {
+              setIsInviteFriends(false);
+              setIsFirstStep(true);
+            }}
           />
         ) : (
           <TableOrderDetail
             isWalkIn
-            placeData={
-              PLACES_DATA.find(item => item.id === route.params.placeId) ?? null
-            }
+            placeData={route.params.placeData}
             selectedTable={{
+              tableId: selectedTicket?.walkInTicketId as string,
+              price: Number(selectedTicket?.price),
               text: selectedTicket?.title ?? '',
               minOrder: Number(
                 isGroupPackage
@@ -193,6 +253,7 @@ export const WalkInTicketScreen = ({route}: Props) => {
             selectedDate={route.params.date}
             hasBackNavigation={isGroupPackage}
             onBackNavigation={() => {
+              setIsFirstStep(false);
               setIsSecondStep(true);
               setIsGroupOrderDetail(false);
             }}
