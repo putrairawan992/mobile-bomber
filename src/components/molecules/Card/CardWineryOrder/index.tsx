@@ -1,10 +1,15 @@
 import {Image, TouchableOpacity, View} from 'react-native';
 import React, {useState} from 'react';
 import {DefaultText, Gap} from '../../../atoms';
-import {ImgWineryOrder} from '../../../../theme/Images';
 import ModalImage from '../../Modal/ModalImage';
+import {ItemProductBasedOnClubIdInterface} from '../../../../interfaces/PlaceInterface';
+import {formatCurrency} from '../../../../utils/currency';
 
-export default function CardWineryOrder() {
+interface CardWineryOrderInterface {
+  item: ItemProductBasedOnClubIdInterface;
+}
+
+export default function CardWineryOrder({item}: CardWineryOrderInterface) {
   const [showNumber, setShowNumber] = useState<boolean>(false);
   const [showImage, setShowImage] = useState<boolean>(false);
   const [value, setValue] = useState<number>(1);
@@ -13,17 +18,17 @@ export default function CardWineryOrder() {
     <View className="flex-row px-5 py-6">
       <View className="flex-1">
         <DefaultText
-          title={'Veuve Clicquot Brut Set x 6'}
+          title={item?.productName ?? ''}
           titleClassName="font-inter-medium"
         />
         <Gap height={4} />
-        <DefaultText
+        {/* <DefaultText
           title={'法國凱歌香檳 x 6'}
           titleClassName="font-inter-medium text-xs"
         />
-        <Gap height={4} />
+        <Gap height={4} /> */}
         <DefaultText
-          title={'NT 36,000'}
+          title={`NT ${formatCurrency(String(item?.productPrice ?? ''))}`}
           titleClassName="font-inter-medium text-xs text-[#3ca6ec]"
         />
         <Gap height={8} />
@@ -64,16 +69,16 @@ export default function CardWineryOrder() {
       <Gap width={10} />
       <TouchableOpacity activeOpacity={0.7} onPress={() => setShowImage(true)}>
         <Image
-          source={ImgWineryOrder}
+          source={{uri: item?.prodImgUrl ?? ''}}
           resizeMode="cover"
-          className="w-[114] h-[114] rounded-[8px]"
+          className="w-[114] h-[114] rounded-[8px] bg-neutral-600"
         />
       </TouchableOpacity>
 
       <ModalImage
         show={showImage}
         hide={() => setShowImage(false)}
-        image={ImgWineryOrder}
+        image={item?.prodImgUrl ?? ''}
       />
     </View>
   );

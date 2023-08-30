@@ -6,7 +6,10 @@ import {
   SignUpPayloadInterface,
   UserInterface,
 } from '../interfaces/UserInterface';
+import {AppDispatch} from '../store';
+import {setProfile} from '../store/profile';
 import ax from './axios';
+import {getStorage} from './mmkvStorage';
 
 const URL = 'global_api';
 
@@ -29,4 +32,13 @@ export const AuthService = {
     );
     return response.data;
   },
+};
+
+export const getUserProfile = () => async (dispatch: AppDispatch) => {
+  const user: any = await getStorage('userAuth');
+  const userId = JSON.parse(user).userId;
+
+  ax.get(`/profile/get_user_profile/${userId}`)
+    .then(res => dispatch(setProfile(res.data.data)))
+    .catch(err => console.log('err get user profile', err.response?.data));
 };

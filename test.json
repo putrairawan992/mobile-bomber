@@ -1,1 +1,22 @@
-
+{
+  "loyalty_profile": [
+    {
+      "currentLevel": "VIP - GOLD",
+      "end": 4,
+      "planLevel": "Platinum",
+      "start": 2,
+      "validUntil": "Dec 2023"
+    }
+  ],
+  "user_profile": [
+    {
+      "age": 30,
+      "bio": "special businessman from ohama 🥰",
+      "fullName": "lisandro",
+      "photoUrl": "http://34.36.20.218/people/people-1.jpeg",
+      "status": 1,
+      "userId": "FQ5OvkolZtSBZEMlG1R3gtowbQv1",
+      "userName": "lisandro"
+    }
+  ]
+}

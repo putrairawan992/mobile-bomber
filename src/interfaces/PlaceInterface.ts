@@ -12,7 +12,8 @@ export interface PlacePhotoInterface {
   url: string;
 }
 
-export interface PlaceInterface extends ResponseGetPlaceDetailInterface {
+export interface PlaceInterface {
+  clubId: string;
   id: string;
   clubId: string;
   name: string;
@@ -49,7 +50,7 @@ export interface PlaceEventsInterface {
 }
 
 export interface ResponseGetPlaceInterface {
-  PLACES_DATA: PlaceInterface[];
+  data: PlaceInterface[];
 }
 
 export interface BannerInterface {
@@ -64,10 +65,20 @@ export interface PlaceOperationalTimeInterface {
   isClose: boolean;
 }
 
-export interface ResponseGetPlaceDetailInterface {
-  about: string;
-  operation: PlaceOperationalTimeInterface[];
-  features: PlaceOverviewFeaturesInterface[];
+export interface ItemProductBasedOnClubIdInterface {
+  prodImgUrl: string;
+  productId: string;
+  productName: string;
+  productPrice: number;
+}
+
+export interface ProductBasedOnClubIdInterface {
+  categoryId: string;
+  categoryName: string;
+  productData: ItemProductBasedOnClubIdInterface[];
+}
+export interface ResponseGetProductBasedOnClubIdInterface {
+  data: ProductBasedOnClubIdInterface[];
 }
 
 export interface ResponseGetTableInterface {

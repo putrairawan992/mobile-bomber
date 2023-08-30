@@ -1,20 +1,20 @@
-import {
-  legacy_createStore as createStore,
-  applyMiddleware,
-  combineReducers,
-} from 'redux';
-import thunk from 'redux-thunk';
+import {configureStore} from '@reduxjs/toolkit';
 
 import userReducer from './user/userReducer';
+import profileReducer from './profile';
 
-const rootReducer = combineReducers({
-  user: userReducer,
+const store = configureStore({
+  reducer: {
+    user: userReducer,
+    profile: profileReducer,
+  },
+  middleware: getDefaultMiddleware =>
+    getDefaultMiddleware({
+      serializableCheck: false,
+    }),
 });
 
-const store = createStore(rootReducer, applyMiddleware(thunk));
-
+export type ReduxState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;
-
-export type ReduxState = ReturnType<typeof rootReducer>;
 
 export default store;

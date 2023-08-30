@@ -1,4 +1,4 @@
-import {Image, ImageSourcePropType, TouchableOpacity} from 'react-native';
+import {Image, TouchableOpacity} from 'react-native';
 import React from 'react';
 import Modal from 'react-native-modal';
 import {Close} from '../../../../assets/icons';
@@ -6,7 +6,7 @@ import {Close} from '../../../../assets/icons';
 interface ModalImage {
   show: boolean;
   hide: () => void;
-  image: ImageSourcePropType;
+  image: string;
 }
 
 export default function ModalImage({show, hide, image}: ModalImage) {
@@ -23,9 +23,9 @@ export default function ModalImage({show, hide, image}: ModalImage) {
         <Close color="#fff" size={30} />
       </TouchableOpacity>
       <Image
-        source={image}
+        source={{uri: image}}
         resizeMode="cover"
-        className="self-center w-[90%] h-[40%] rounded-lg"
+        className="self-center w-[90%] h-[40%] rounded-lg bg-neutral-700"
       />
     </Modal>
   );
