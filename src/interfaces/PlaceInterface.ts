@@ -12,10 +12,9 @@ export interface PlacePhotoInterface {
   url: string;
 }
 
-export interface PlaceInterface {
+export interface PlaceInterface extends ResponseGetPlaceDetailInterface {
   clubId: string;
   id: string;
-  clubId: string;
   name: string;
   featuredToday: string[];
   address: string;
@@ -95,4 +94,10 @@ export interface GalleryCategoryInterface {
   categoryId: string;
   categoryName: string;
   galleryData: GalleryInterface[];
+}
+
+export interface ResponseGetPlaceDetailInterface {
+  about: string;
+  operation: PlaceOperationalTimeInterface[];
+  features: PlaceOverviewFeaturesInterface[];
 }

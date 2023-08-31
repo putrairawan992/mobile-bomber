@@ -39,3 +39,17 @@ export interface PayloadGetWalkInTicketInterface {
   club_id: number;
   date: string;
 }
+
+export interface PayloadPostBookingTableInterface {
+  customer_id: string;
+  club_id: string;
+  booking_date: string;
+  total_price: number;
+  disc: number;
+  total_guest: number;
+  table_id: string;
+  min_order: number;
+  payment_method: string;
+  member_invited: string[];
+  is_full_payment: number;
+}
