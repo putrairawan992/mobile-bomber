@@ -1,7 +1,8 @@
+/* eslint-disable react-native/no-inline-styles */
 import * as React from 'react';
 import {Section, Text, Layout} from '../../components/atoms';
 import {useContext, useState} from 'react';
-import {StyleSheet, View} from 'react-native';
+import {StyleSheet, TouchableOpacity, View} from 'react-native';
 import OtpInputs from 'react-native-otp-inputs';
 import styles from './Styles/OtpStyle';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
@@ -37,7 +38,7 @@ function OtpSignUpNumberScreen({route}: Props) {
     setType,
   } = useContext(ModalToastContext);
   React.useEffect(() => {
-    signInWithMobileNumber();
+    // signInWithMobileNumber();
     setTimeout(() => {
       otpRef?.current?.focus();
     }, 1000);
@@ -110,39 +111,46 @@ function OtpSignUpNumberScreen({route}: Props) {
           title="Confirm Your Number"
           subtitle={`Enter the code we sent over SMS to  ${data.phone}:`}
         />
-        {otpInputFill ? (
-          <OtpInputs
-            handleChange={code => {
-              if (code.length === 6) {
-                setOtpInputFill(false);
-                setTimeout(() => {
-                  handleConfirmCode(code);
-                }, 2000);
-              }
-            }}
-            numberOfInputs={6}
-            ref={otpRef}
-            style={styles.otpInputContainer}
-            inputStyles={s.otpStyle}
-            autofillFromClipboard={false}
-          />
-        ) : (
-          <View style={styles.loaderContent}>
-            <LoadingDots
-              animation="pulse"
-              dots={4}
-              color={theme?.colors.PRIMARY}
-              size={15}
+        <View
+          style={{
+            height: 82,
+          }}>
+          {otpInputFill ? (
+            <OtpInputs
+              handleChange={code => {
+                if (code.length === 6) {
+                  setOtpInputFill(false);
+                  setTimeout(() => {
+                    handleConfirmCode(code);
+                  }, 2000);
+                }
+              }}
+              numberOfInputs={6}
+              ref={otpRef}
+              style={styles.otpInputContainer}
+              inputStyles={s.otpStyle}
+              autofillFromClipboard={false}
             />
-          </View>
-        )}
+          ) : (
+            <View style={styles.loaderContent}>
+              <LoadingDots
+                animation="pulse"
+                dots={4}
+                color={theme?.colors.PRIMARY}
+                size={15}
+              />
+            </View>
+          )}
+        </View>
         <Section isRow>
           <Text
             variant="base"
             label="Didn’t get a code? "
             color={theme?.colors.TEXT_SECONDARY}
           />
-          <Text variant="base" label="Resent" color={theme?.colors.PRIMARY} />
+          <TouchableOpacity onPress={signInWithMobileNumber}>
+            <Text variant="base" label="Resent" color={theme?.colors.PRIMARY} />
+          </TouchableOpacity>
         </Section>
       </View>
       <ModalToast

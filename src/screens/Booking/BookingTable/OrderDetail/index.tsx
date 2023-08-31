@@ -41,6 +41,8 @@ interface TableOrderDetailProps {
   isWalkIn?: boolean;
   hasBackNavigation?: boolean;
   onBackNavigation?: () => void;
+  onPay: () => void;
+  isLoading: boolean;
 }
 
 export const TableOrderDetail = ({
@@ -54,6 +56,8 @@ export const TableOrderDetail = ({
   isWalkIn,
   hasBackNavigation,
   onBackNavigation,
+  onPay,
+  isLoading,
 }: TableOrderDetailProps) => {
   const theme = useTheme();
 
@@ -328,7 +332,12 @@ export const TableOrderDetail = ({
       </Section>
 
       <Gap height={20} />
-      <Button type="primary" title="Pay" onPress={() => undefined} />
+      <Button
+        type="primary"
+        title="Pay"
+        onPress={onPay}
+        isLoading={isLoading}
+      />
       <Gap height={20} />
 
       <ModalBookingTablePromotion
