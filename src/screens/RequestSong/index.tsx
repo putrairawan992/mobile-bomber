@@ -21,6 +21,7 @@ import {navigationRef} from '../../navigation/RootNavigation';
 import {SongService} from '../../service/SongService';
 import {getStorage} from '../../service/mmkvStorage';
 import {NightlifeService} from '../../service/NightlifeService';
+import songPlaylist from '../../assets/json/songPlaylist.json';
 
 export default function RequestSong() {
   const [title, setTitle] = useState<string>('');
@@ -93,6 +94,7 @@ export default function RequestSong() {
       <Gap height={15} />
       <ScrollView showsVerticalScrollIndicator={false}>
         <GradientText
+          xAxis={0.5}
           colors={['#F27611', '#FFE419']}
           style={styles.titleFavorite}>
           Select from favorites
@@ -101,9 +103,9 @@ export default function RequestSong() {
         <FlatList
           horizontal={true}
           showsHorizontalScrollIndicator={false}
-          data={[1, 2, 3]}
+          data={songPlaylist}
           keyExtractor={(_, key) => key.toString()}
-          renderItem={() => {
+          renderItem={({item}) => {
             return (
               <LinearGradient
                 colors={['#A060FA', '#FFFFFF']}
@@ -112,12 +114,12 @@ export default function RequestSong() {
                   activeOpacity={0.7}
                   className="p-3 bg-screen rounded-lg flex-row items-center"
                   onPress={() => {
-                    setTitle('Butter');
-                    setArtist('BTS');
+                    setTitle(item.title);
+                    setArtist(item.singer);
                   }}>
-                  <DefaultText title={'Butter'} subtitle={'BTS'} />
+                  <DefaultText title={item.title} subtitle={item.singer} />
                   <Gap width={20} />
-                  <DefaultText title={'3:14'} />
+                  <DefaultText title={item.duration} />
                 </TouchableOpacity>
               </LinearGradient>
             );
@@ -126,6 +128,7 @@ export default function RequestSong() {
         />
         <Gap height={30} />
         <GradientText
+          xAxis={0.4}
           colors={['#A060FA', '#C800CC']}
           style={styles.titleFavorite}>
           My own song

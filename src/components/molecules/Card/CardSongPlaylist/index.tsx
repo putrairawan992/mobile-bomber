@@ -2,8 +2,25 @@ import {Image, View, useWindowDimensions} from 'react-native';
 import React from 'react';
 import LinearGradient from 'react-native-linear-gradient';
 import {DefaultText, Gap} from '../../../atoms';
+import {formatCurrency} from '../../../../utils/currency';
 
-export default function CardSongPlaylist() {
+interface CardSongPlaylistProps {
+  title: string;
+  singer: string;
+  tip: number;
+  time: string;
+  userName: string;
+  userImage: string;
+}
+
+export default function CardSongPlaylist({
+  title,
+  singer,
+  tip,
+  time,
+  userName,
+  userImage,
+}: CardSongPlaylistProps) {
   const {width} = useWindowDimensions();
 
   return (
@@ -15,17 +32,17 @@ export default function CardSongPlaylist() {
         style={{width: width / 1.4}}>
         <View className="flex-row items-center">
           <DefaultText
-            title="Butter - BTS"
+            title={`${title} - ${singer}`}
             titleClassName="font-inter-medium flex-1"
           />
           <DefaultText
-            title="NT 150,000"
+            title={`NT ${formatCurrency(String(tip))}`}
             titleClassName="font-inter-medium text-neutral-400"
           />
         </View>
         <Gap height={5} />
         <DefaultText
-          title="played around 1.30am"
+          title={`played around ${time}`}
           titleClassName="font-inter-medium text-neutral-400"
         />
         <Gap height={10} />
@@ -37,14 +54,14 @@ export default function CardSongPlaylist() {
         <View className="flex-row items-center">
           <Image
             source={{
-              uri: 'https://images.unsplash.com/photo-1494959764136-6be9eb3c261e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTR8fHBlcnNvbnxlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&w=400&q=60',
+              uri: userImage,
             }}
             resizeMode="cover"
             className="w-[20] h-[20] rounded-full"
           />
           <Gap width={5} />
           <DefaultText
-            title="@jean"
+            title={`@${userName}`}
             titleClassName="text-yellow-600 text-[10px]"
           />
         </View>
