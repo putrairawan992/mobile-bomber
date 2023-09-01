@@ -53,3 +53,16 @@ export interface PayloadPostBookingTableInterface {
   member_invited: string[];
   is_full_payment: number;
 }
+
+export interface PayloadPostBookingWalkInInterface {
+  customer_id: string;
+  club_id: string;
+  bought_date: string;
+  visit_date: string;
+  disc: number;
+  total_price: number;
+  total_guest: number;
+  payment_method: string;
+  member_invited: string[];
+  ticket_id: string;
+}

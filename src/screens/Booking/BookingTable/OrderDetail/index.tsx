@@ -196,7 +196,9 @@ export const TableOrderDetail = ({
           <Gap height={4} />
           <Text
             variant="small"
-            label="Pay the minimum spend (NT 30,000) now and receive 5% off"
+            label={`Pay the minimum spend (${currency(
+              Number(selectedTable?.minOrder),
+            )}) now and receive 5% off`}
             color={Colors['black-40']}
           />
         </Section>
