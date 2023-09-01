@@ -2,6 +2,7 @@ import {APIResponse} from '../interfaces/BaseApiResponse';
 import {
   PayloadGetWalkInTicketInterface,
   PayloadPostBookingTableInterface,
+  PayloadPostBookingWalkInInterface,
   TicketInterface,
 } from '../interfaces/BookingInterface';
 import {
@@ -72,6 +73,14 @@ export const NightlifeService = {
     payload: PayloadPostBookingTableInterface;
   }): Promise<APIResponse<unknown>> => {
     const response = await ax.post(`${URL}/post_table_booking_order`, payload);
+    return response.data;
+  },
+  postWalkInBoking: async ({
+    payload,
+  }: {
+    payload: PayloadPostBookingWalkInInterface;
+  }): Promise<APIResponse<unknown>> => {
+    const response = await ax.post(`${URL}/post_walk_in_booking`, payload);
     return response.data;
   },
 };

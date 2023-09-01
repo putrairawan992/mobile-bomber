@@ -105,7 +105,7 @@ function BookingTableScreen({route, navigation}: Props) {
   }, []);
 
   const today = dateFormatter(new Date(), 'yyyy-MM-dd');
-  console.log(route.params);
+
   const allDay = getDaysInMonth(monthYear.month, monthYear.year).filter(
     i =>
       ![
@@ -307,8 +307,14 @@ function BookingTableScreen({route, navigation}: Props) {
       setTimeout(() => {
         bookingSheetRef.current?.close();
         openToast('success', response.message);
+        setTimeout(() => {
+          navigation.navigate('Nightlife');
+        }, 2000);
       }, 200);
-    } catch (error: any) {}
+    } catch (error: any) {
+      setIsLoading(false);
+      openToast('error', error.response.data.message);
+    }
   };
 
   const openToast = (toastType: 'success' | 'error', message: string) => {
@@ -489,7 +495,6 @@ function BookingTableScreen({route, navigation}: Props) {
         isVisible={isShowToast}
         onCloseModal={() => {
           setIsShowToast(false);
-          navigation.navigate('Nightlife');
         }}
         message={toastMessage}
         type={type}

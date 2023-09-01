@@ -1,14 +1,15 @@
 /* eslint-disable react-native/no-inline-styles */
 import {Platform, Pressable, ScrollView, UIManager} from 'react-native';
-import {Header} from '../../../../components/molecules';
+import {Header, ModalToast} from '../../../../components/molecules';
 import {
   Gap,
   ItemShimmer,
   Layout,
+  Loading,
   Section,
   Text,
 } from '../../../../components/atoms';
-import React, {useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import styles from '../../Styles';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {MainStackParams} from '../../../../navigation/MainScreenStack';
@@ -22,6 +23,9 @@ import {FriendInterface} from '../../../../interfaces/UserInterface';
 import {NightlifeService} from '../../../../service/NightlifeService';
 import {FriendshipService} from '../../../../service/FriendshipService';
 import {InviteFriendsOnboardingSheet} from '../../../../components/organism';
+import {useAppSelector} from '../../../../hooks/hooks';
+import {dateFormatter} from '../../../../utils/dateFormatter';
+import {ModalToastContext} from '../../../../context/AppModalToastContext';
 
 if (Platform.OS === 'android') {
   if (UIManager.setLayoutAnimationEnabledExperimental) {
@@ -31,10 +35,11 @@ if (Platform.OS === 'android') {
 
 type Props = NativeStackScreenProps<MainStackParams, 'WalkInTicket', 'MyStack'>;
 
-export const WalkInTicketScreen = ({route}: Props) => {
+export const WalkInTicketScreen = ({route, navigation}: Props) => {
   const [selectedTicket, setSelectedTicket] = useState<TicketInterface | null>(
     null,
   );
+  const {user} = useAppSelector(state => state.user);
   const isGroupPackage = /Group/.test(selectedTicket?.title ?? '');
   const [sheetIndex, setSheetIndex] = React.useState<number>(-1);
   const bookingSheetRef = React.useRef<BottomSheet>(null);
@@ -49,6 +54,16 @@ export const WalkInTicketScreen = ({route}: Props) => {
   const [friendshipData, setFriendshipData] = useState<FriendInterface[]>([]);
   const [ticket, setTicket] = useState<TicketInterface[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isLoadingPayment, setIsLoadingPayment] = useState<boolean>(false);
+
+  const {
+    isShowToast,
+    setIsShowToast,
+    toastMessage,
+    setToastMessage,
+    type,
+    setType,
+  } = useContext(ModalToastContext);
 
   const onSelectTicket = (id: string) => {
     setSelectedTicket(ticket.find(item => item.walkInTicketId === id) ?? null);
@@ -141,9 +156,50 @@ export const WalkInTicketScreen = ({route}: Props) => {
     }, 100);
   };
 
+  const openToast = (toastType: 'success' | 'error', message: string) => {
+    setIsShowToast(true);
+    setType(toastType);
+    setToastMessage(message);
+  };
+
+  const handleOnPay = async () => {
+    try {
+      setIsLoadingPayment(true);
+      const response = await NightlifeService.postWalkInBoking({
+        payload: {
+          customer_id: user.id,
+          club_id: route.params.placeData?.clubId as string,
+          visit_date: route.params.date,
+          total_price:
+            Number(selectedTicket?.price) +
+            Number(selectedTicket?.price) * 0.05,
+          disc: isPayFull ? Number(selectedTicket?.price) * 0.05 : 0,
+          total_guest: isGroupPackage ? selectedInvitation.length : 1,
+          payment_method: 'Credit Card',
+          member_invited: selectedInvitation.map(item => item.customerId),
+          bought_date: dateFormatter(new Date(), 'yyyy-MM-dd'),
+          ticket_id: selectedTicket?.walkInTicketId as string,
+        },
+      });
+
+      setIsLoadingPayment(false);
+      setTimeout(() => {
+        bookingSheetRef.current?.close();
+        openToast('success', response.message);
+        setTimeout(() => {
+          navigation.navigate('Nightlife');
+        }, 2000);
+      }, 200);
+    } catch (error: any) {
+      setIsLoadingPayment(false);
+      openToast('error', error.response.data.message);
+    }
+  };
+
   return (
     <Layout contentContainerStyle={styles.container} isScrollable={true}>
       <Header transparent hasBackBtn title="Walk In" />
+      {isLoadingPayment && <Loading />}
       <Section padding="0px 16px">
         <Gap height={24} />
         <Text variant="base" fontWeight="bold" label="Select Ticket" />
@@ -257,9 +313,19 @@ export const WalkInTicketScreen = ({route}: Props) => {
               setIsSecondStep(true);
               setIsGroupOrderDetail(false);
             }}
+            isLoading={isLoadingPayment}
+            onPay={handleOnPay}
           />
         )}
       </BottomSheet>
+      <ModalToast
+        isVisible={isShowToast}
+        onCloseModal={() => {
+          setIsShowToast(false);
+        }}
+        message={toastMessage}
+        type={type}
+      />
     </Layout>
   );
 };
