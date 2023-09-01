@@ -10,7 +10,7 @@ import {
   Text,
   TouchableSection,
 } from '../../../components/atoms';
-import {Header} from '../../../components/molecules';
+import {Header, ModalToast} from '../../../components/molecules';
 import {
   EventInterface,
   PlaceEventsInterface,
@@ -23,7 +23,7 @@ import {
   UIManager,
 } from 'react-native';
 import {PLACE_EVENTS} from '../../../utils/data';
-import {useCallback, useEffect, useState} from 'react';
+import {useCallback, useContext, useEffect, useState} from 'react';
 
 import BottomSheet from '@gorhom/bottom-sheet';
 import {TableInterface} from '../../../interfaces/BookingInterface';
@@ -47,6 +47,8 @@ import {FriendsInvitation} from '../../../components/organism';
 import {MonthYearInterface} from '../../../interfaces/Interface';
 import {NightlifeService} from '../../../service/NightlifeService';
 import {FriendshipService} from '../../../service/FriendshipService';
+import {useAppSelector} from '../../../hooks/hooks';
+import {ModalToastContext} from '../../../context/AppModalToastContext';
 
 type Props = NativeStackScreenProps<MainStackParams, 'BookingTable', 'MyStack'>;
 
@@ -56,7 +58,8 @@ if (Platform.OS === 'android') {
   }
 }
 
-function BookingTableScreen({route}: Props) {
+function BookingTableScreen({route, navigation}: Props) {
+  const {user} = useAppSelector(state => state.user);
   const placeData = route.params.placeData;
   const theme = useTheme();
   const [selectedDate, setSelectedDate] = useState<string>('');
@@ -84,6 +87,15 @@ function BookingTableScreen({route}: Props) {
   const [isSplitBill, setIsSplitBill] = useState(false);
   const [friendshipData, setFriendshipData] = useState<FriendInterface[]>([]);
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
+  const {
+    isShowToast,
+    setIsShowToast,
+    toastMessage,
+    setToastMessage,
+    type,
+    setType,
+  } = useContext(ModalToastContext);
+
   const toggleSwitchPayFull = () =>
     setIsPayFull(previousState => !previousState);
   const toggleSwitchSplitBill = () =>
@@ -271,6 +283,46 @@ function BookingTableScreen({route}: Props) {
     }
   };
 
+  const handleOnPay = async () => {
+    try {
+      setIsLoading(true);
+      const response = await NightlifeService.postTableBoking({
+        payload: {
+          customer_id: user.id,
+          club_id: placeData?.clubId as string,
+          booking_date: selectedDate,
+          total_price:
+            Number(selectedTable?.minOrder) +
+            Number(selectedTable?.minOrder) * 0.05,
+          disc: isPayFull ? Number(selectedTable?.minOrder) * 0.05 : 0,
+          total_guest: selectedInvitation.length,
+          table_id: selectedTable?.tableId as string,
+          min_order: Number(selectedTable?.minOrder),
+          payment_method: 'Credit Card',
+          member_invited: selectedInvitation.map(item => item.customerId),
+          is_full_payment: isPayFull ? 1 : 0,
+        },
+      });
+      setIsLoading(false);
+      setTimeout(() => {
+        bookingSheetRef.current?.close();
+        openToast('success', response.message);
+        setTimeout(() => {
+          navigation.navigate('Nightlife');
+        }, 2000);
+      }, 200);
+    } catch (error: any) {
+      setIsLoading(false);
+      openToast('error', error.response.data.message);
+    }
+  };
+
+  const openToast = (toastType: 'success' | 'error', message: string) => {
+    setIsShowToast(true);
+    setType(toastType);
+    setToastMessage(message);
+  };
+
   return (
     <Layout contentContainerStyle={styles.container} isScrollable={false}>
       <Header transparent hasBackBtn title="Booking Table" />
@@ -435,8 +487,18 @@ function BookingTableScreen({route}: Props) {
           toggleSwitchPayFull={toggleSwitchPayFull}
           toggleSwitchSplitBill={toggleSwitchSplitBill}
           selectedDate={selectedDate}
+          onPay={handleOnPay}
+          isLoading={isLoading}
         />
       </BottomSheet>
+      <ModalToast
+        isVisible={isShowToast}
+        onCloseModal={() => {
+          setIsShowToast(false);
+        }}
+        message={toastMessage}
+        type={type}
+      />
     </Layout>
   );
 }

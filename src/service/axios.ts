@@ -8,7 +8,7 @@ const ax = axios.create({
 ax.interceptors.request.use(
   async (configuration: any) => {
     configuration.headers['Content-Type'] = 'application/json';
-    configuration.headers['x-api-key'] = Config.API_KEY;
+    // configuration.headers['x-api-key'] = Config.API_KEY;
     return configuration;
   },
   (error: any) => {

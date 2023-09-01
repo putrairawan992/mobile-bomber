@@ -41,6 +41,8 @@ interface TableOrderDetailProps {
   isWalkIn?: boolean;
   hasBackNavigation?: boolean;
   onBackNavigation?: () => void;
+  onPay: () => void;
+  isLoading: boolean;
 }
 
 export const TableOrderDetail = ({
@@ -54,6 +56,8 @@ export const TableOrderDetail = ({
   isWalkIn,
   hasBackNavigation,
   onBackNavigation,
+  onPay,
+  isLoading,
 }: TableOrderDetailProps) => {
   const theme = useTheme();
 
@@ -192,7 +196,9 @@ export const TableOrderDetail = ({
           <Gap height={4} />
           <Text
             variant="small"
-            label="Pay the minimum spend (NT 30,000) now and receive 5% off"
+            label={`Pay the minimum spend (${currency(
+              Number(selectedTable?.minOrder),
+            )}) now and receive 5% off`}
             color={Colors['black-40']}
           />
         </Section>
@@ -328,7 +334,12 @@ export const TableOrderDetail = ({
       </Section>
 
       <Gap height={20} />
-      <Button type="primary" title="Pay" onPress={() => undefined} />
+      <Button
+        type="primary"
+        title="Pay"
+        onPress={onPay}
+        isLoading={isLoading}
+      />
       <Gap height={20} />
 
       <ModalBookingTablePromotion

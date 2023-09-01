@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-inline-styles */
 import * as React from 'react';
 import {Section, Text, Layout} from '../../components/atoms';
 import {useContext, useState} from 'react';
@@ -100,32 +101,37 @@ function OtpSignInNumberScreen({route}: Props) {
           title="Confirm Your Number"
           subtitle={`Enter the code we sent over SMS to  ${userData.phone}:`}
         />
-        {otpInputFill ? (
-          <OtpInputs
-            handleChange={code => {
-              if (code.length === 6) {
-                setOtpInputFill(false);
-                setTimeout(() => {
-                  handleConfirmCode(code);
-                }, 2000);
-              }
-            }}
-            numberOfInputs={6}
-            ref={otpRef}
-            style={styles.otpInputContainer}
-            inputStyles={s.otpStyle}
-            autofillFromClipboard={false}
-          />
-        ) : (
-          <View style={styles.loaderContent}>
-            <LoadingDots
-              animation="pulse"
-              dots={4}
-              color={theme?.colors.PRIMARY}
-              size={15}
+        <View
+          style={{
+            height: 82,
+          }}>
+          {otpInputFill ? (
+            <OtpInputs
+              handleChange={code => {
+                if (code.length === 6) {
+                  setOtpInputFill(false);
+                  setTimeout(() => {
+                    handleConfirmCode(code);
+                  }, 2000);
+                }
+              }}
+              numberOfInputs={6}
+              ref={otpRef}
+              style={styles.otpInputContainer}
+              inputStyles={s.otpStyle}
+              autofillFromClipboard={false}
             />
-          </View>
-        )}
+          ) : (
+            <View style={styles.loaderContent}>
+              <LoadingDots
+                animation="pulse"
+                dots={4}
+                color={theme?.colors.PRIMARY}
+                size={15}
+              />
+            </View>
+          )}
+        </View>
         <Section isRow>
           <Text
             variant="base"
