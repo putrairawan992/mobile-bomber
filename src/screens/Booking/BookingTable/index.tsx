@@ -10,7 +10,7 @@ import {
   Text,
   TouchableSection,
 } from '../../../components/atoms';
-import {Header, ModalToast} from '../../../components/molecules';
+import {CardTable, Header, ModalToast} from '../../../components/molecules';
 import {
   EventInterface,
   PlaceEventsInterface,
@@ -18,9 +18,10 @@ import {
 import {
   LayoutAnimation,
   Platform,
-  Pressable,
+  ScrollView,
   TouchableOpacity,
   UIManager,
+  View,
 } from 'react-native';
 import {PLACE_EVENTS} from '../../../utils/data';
 import {useCallback, useContext, useEffect, useState} from 'react';
@@ -38,12 +39,13 @@ import useTheme from '../../../theme/useTheme';
 import {FriendInterface} from '../../../interfaces/UserInterface';
 import {MainStackParams} from '../../../navigation/MainScreenStack';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
-import TableListContainer from './TableList/TableListContainer';
 import {BookingCalendar} from '../BookingCalendar';
 import {TableOrderDetail} from './OrderDetail';
-import {TablePriviliege} from './TableList/TablePriviliege';
 import {Colors} from '../../../theme';
-import {FriendsInvitation} from '../../../components/organism';
+import {
+  FriendsInvitation,
+  WaitingListSheet,
+} from '../../../components/organism';
 import {MonthYearInterface} from '../../../interfaces/Interface';
 import {NightlifeService} from '../../../service/NightlifeService';
 import {FriendshipService} from '../../../service/FriendshipService';
@@ -69,10 +71,15 @@ function BookingTableScreen({route, navigation}: Props) {
   const [selectedTable, setSelectedTable] = useState<TableInterface | null>(
     null,
   );
+  const [tableExpand, setTableExpand] = useState<TableInterface | null>(null);
   const [isShowCalendar, setIsShowCalendar] = useState<boolean>(false);
+  const [isErrorCalendar, setIsErrorCalendar] = useState<boolean>(false);
   const [isShowEvents, setIsShowEvents] = useState<boolean>(false);
   const [isShowTable, setIsShowTable] = useState<boolean>(false);
   const [isShowInvitation, setIsShowInvitation] = useState<boolean>(false);
+  const [isErrorTable, setIsErrorTable] = useState<boolean>(false);
+  const [isWaitingList, setIsWaitingList] = useState<boolean>(false);
+  const [waitingListStep, setWaitingListStep] = useState<number>(1);
   const [selectedInvitation, setSelectedInvitation] = useState<
     FriendInterface[]
   >([]);
@@ -82,7 +89,17 @@ function BookingTableScreen({route, navigation}: Props) {
   });
   const [sheetIndex, setSheetIndex] = React.useState<number>(-1);
   const bookingSheetRef = React.useRef<BottomSheet>(null);
-  const snapPoints = React.useMemo(() => ['70', '90'], []);
+  const snapPoints = React.useMemo(
+    () =>
+      isWaitingList && waitingListStep === 1
+        ? ['75']
+        : isWaitingList && waitingListStep === 2
+        ? ['30']
+        : !isWaitingList
+        ? ['70', '90']
+        : ['70'],
+    [isWaitingList, waitingListStep],
+  );
   const [isPayFull, setIsPayFull] = useState(false);
   const [isSplitBill, setIsSplitBill] = useState(false);
   const [friendshipData, setFriendshipData] = useState<FriendInterface[]>([]);
@@ -158,7 +175,13 @@ function BookingTableScreen({route, navigation}: Props) {
         date: selectedDate,
       });
       if (response.data.table_list.length) {
-        setTableData(response.data.table_list);
+        const tableMap = response.data.table_list.map((item, index) => {
+          return {
+            ...item,
+            isAvailable: index >= 2 ? false : true,
+          };
+        });
+        setTableData(tableMap);
       }
       setIsLoading(false);
     } catch (error: any) {}
@@ -236,6 +259,7 @@ function BookingTableScreen({route, navigation}: Props) {
   }, []);
 
   const onSelectDate = (day: string) => {
+    setIsErrorCalendar(false);
     setSelectedDate(day);
     const events =
       PLACE_EVENTS.find((item: PlaceEventsInterface) => item.date === day)
@@ -256,7 +280,18 @@ function BookingTableScreen({route, navigation}: Props) {
     setStep(1);
   };
 
-  const onTableSelect = (data: TableInterface) => setSelectedTable(data);
+  const onTableSelect = () => {
+    if (tableExpand?.isAvailable) {
+      setIsWaitingList(false);
+      setSelectedTable(tableExpand);
+      onConfirmTable();
+    } else {
+      setIsWaitingList(true);
+      setTimeout(() => {
+        bookingSheetRef.current?.collapse();
+      }, 100);
+    }
+  };
 
   const onConfirmTable = () => {
     setStep(2);
@@ -337,7 +372,13 @@ function BookingTableScreen({route, navigation}: Props) {
           }}
           padding="12px 16px"
           rounded={4}
-          backgroundColor={theme?.colors.SECTION}>
+          backgroundColor={theme?.colors.SECTION}
+          style={{
+            ...(isErrorCalendar && {
+              borderWidth: 1,
+              borderColor: Colors['danger-400'],
+            }),
+          }}>
           <Text
             fontWeight="semi-bold"
             label={
@@ -373,9 +414,21 @@ function BookingTableScreen({route, navigation}: Props) {
           rounded={4}
           backgroundColor={theme?.colors.SECTION}
           onPress={() => {
-            onShowTable(!isShowTable);
-            onShowCalendar(false);
-            onShowInvitation(false);
+            if (!selectedDate) {
+              setIsErrorCalendar(true);
+              openToast('error', 'Please select date first');
+            } else {
+              setIsErrorTable(false);
+              onShowTable(!isShowTable);
+              onShowCalendar(false);
+              onShowInvitation(false);
+            }
+          }}
+          style={{
+            ...(isErrorTable && {
+              borderWidth: 1,
+              borderColor: Colors['danger-400'],
+            }),
           }}>
           <Section isRow isBetween>
             <Text
@@ -391,20 +444,28 @@ function BookingTableScreen({route, navigation}: Props) {
           </Section>
         </TouchableSection>
         {isShowTable && (
-          <Section padding="0px 12px" backgroundColor="#171717">
-            <TableListContainer
-              values={tableData}
-              onPress={onTableSelect}
-              selected={selectedTable}
-            />
-            {!!selectedTable && (
-              <>
-                <Gap height={12} />
-                <TablePriviliege tableData={selectedTable} />
-              </>
-            )}
-            <Button type="primary" title="Select" onPress={onConfirmTable} />
-            <Gap height={12} />
+          <Section padding="20px 8px">
+            <ScrollView showsVerticalScrollIndicator={false}>
+              {tableData.length &&
+                tableData.map((item, index) => (
+                  <CardTable
+                    key={`table_${index}`}
+                    data={item}
+                    index={index}
+                    handleExpand={data => {
+                      setIsErrorTable(false);
+                      if (tableExpand?.tableId === data.tableId) {
+                        setTableExpand(null);
+                      } else {
+                        setTableExpand(data);
+                      }
+                    }}
+                    isExpand={tableExpand?.tableId === item.tableId}
+                    onSelect={onTableSelect}
+                  />
+                ))}
+              {tableExpand && <Gap height={100} />}
+            </ScrollView>
           </Section>
         )}
         <Gap height={12} />
@@ -413,9 +474,17 @@ function BookingTableScreen({route, navigation}: Props) {
           rounded={4}
           backgroundColor={theme?.colors.SECTION}
           onPress={() => {
-            onShowInvitation(!isShowInvitation);
-            onShowCalendar(false);
-            onShowTable(false);
+            if (!selectedDate) {
+              setIsErrorCalendar(true);
+              openToast('error', 'Please select date');
+            } else if (!selectedTable) {
+              setIsErrorTable(true);
+              openToast('error', 'Please select table');
+            } else {
+              onShowInvitation(!isShowInvitation);
+              onShowCalendar(false);
+              onShowTable(false);
+            }
           }}>
           <Section isRow isBetween>
             <Text fontWeight="regular" variant="base" label="Friends" />
@@ -441,7 +510,8 @@ function BookingTableScreen({route, navigation}: Props) {
       {step === 2 &&
       !!selectedDate &&
       !!selectedTable &&
-      selectedInvitation.length ? (
+      selectedInvitation.length &&
+      tableExpand?.isAvailable ? (
         <Button
           type="primary"
           onPress={() => bookingSheetRef.current?.collapse()}
@@ -453,21 +523,18 @@ function BookingTableScreen({route, navigation}: Props) {
         />
       ) : (
         <TouchableOpacity style={styles.bookingButton}>
-          <Text variant="base" fontWeight="bold" label="Book Now" />
+          <Text fontWeight="bold" label="Book Now" />
         </TouchableOpacity>
       )}
 
       <BottomSheet
         ref={bookingSheetRef}
         index={-1}
-        enablePanDownToClose
+        enablePanDownToClose={isWaitingList ? false : true}
         snapPoints={snapPoints}
         backdropComponent={({style}) =>
           sheetIndex >= 0 ? (
-            <Pressable
-              onPress={() => bookingSheetRef.current?.close()}
-              style={[style, {backgroundColor: 'rgba(0, 0, 0, 0.60)'}]}
-            />
+            <View style={[style, {backgroundColor: 'rgba(0, 0, 0, 0.60)'}]} />
           ) : (
             <></>
           )
@@ -479,17 +546,37 @@ function BookingTableScreen({route, navigation}: Props) {
         }}
         handleIndicatorStyle={{backgroundColor: Colors['black-70']}}
         onChange={handleSheetChanges}>
-        <TableOrderDetail
-          placeData={placeData}
-          selectedTable={selectedTable}
-          isFullPayment={isPayFull}
-          isSplitBill={isSplitBill}
-          toggleSwitchPayFull={toggleSwitchPayFull}
-          toggleSwitchSplitBill={toggleSwitchSplitBill}
-          selectedDate={selectedDate}
-          onPay={handleOnPay}
-          isLoading={isLoading}
-        />
+        {isWaitingList ? (
+          <WaitingListSheet
+            hasBackNavigation
+            onBackNavigation={() => {
+              setIsWaitingList(false);
+              bookingSheetRef.current?.close();
+            }}
+            step={waitingListStep}
+            onChangeStep={value => setWaitingListStep(value)}
+            onFinish={() => {
+              setIsWaitingList(false);
+              setWaitingListStep(1);
+              bookingSheetRef.current?.close();
+              setTimeout(() => {
+                navigation.navigate('Nightlife');
+              }, 200);
+            }}
+          />
+        ) : (
+          <TableOrderDetail
+            placeData={placeData}
+            selectedTable={selectedTable}
+            isFullPayment={isPayFull}
+            isSplitBill={isSplitBill}
+            toggleSwitchPayFull={toggleSwitchPayFull}
+            toggleSwitchSplitBill={toggleSwitchSplitBill}
+            selectedDate={selectedDate}
+            onPay={handleOnPay}
+            isLoading={isLoading}
+          />
+        )}
       </BottomSheet>
       <ModalToast
         isVisible={isShowToast}

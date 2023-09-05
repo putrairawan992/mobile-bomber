@@ -600,3 +600,10 @@ export const INVITE_FRIENDS_TEXT: string[] = [
   "you'll initially cover the group ticket cost, and we'll help you generate invoices for your friends.",
   'Get ready for an amazing party experience and let loose on the dance floor!',
 ];
+
+export const WAITING_LIST_TEXT: string[] = [
+  'Attending an event solo can sometimes feel dull and cost more. However, when you come with friends, the experience becomes more enjoyable and budget-friendly.',
+  'With our group ticket option, you not only secure a reduced price but also have the chance to invite your pals along. As the organizer, ',
+  "you'll initially cover the group ticket cost, and we'll help you generate invoices for your friends.",
+  'Get ready for an amazing party experience and let loose on the dance floor!',
+];

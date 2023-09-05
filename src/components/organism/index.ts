@@ -1,3 +1,4 @@
+import {WaitingListSheet} from './Booking/WaitingListSheet';
 import {FriendInviteConfirmationSheet} from './Friends/FriendInviteConfirmationSheet';
 import {FriendOptionSheet} from './Friends/FriendOptionSheet';
 import {FriendsInvitation} from './Friends/FriendsInvitation';
@@ -18,4 +19,5 @@ export {
   NotificationPaymentSheet,
   OperationalHoursSheet,
   InviteFriendsOnboardingSheet,
+  WaitingListSheet,
 };

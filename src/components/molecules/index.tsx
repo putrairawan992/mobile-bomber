@@ -1,3 +1,4 @@
+import CardTable from './Card/CardTable';
 import CalendarEventCard from './Event/CalendarEventCard';
 import Header from './Header';
 import {ListItem} from './List/ListItem';
@@ -18,4 +19,5 @@ export {
   TabMenu,
   ListItem,
   PillsGradient,
+  CardTable,
 };

@@ -117,7 +117,7 @@ export const SignUp = ({navigation}: Props) => {
         type="password"
       />
       <Gap height={12} />
-      <Section isRow>
+      <Section isRow padding="0px 4px">
         <CheckBox
           disabled={false}
           value={isAgree}
@@ -128,8 +128,8 @@ export const SignUp = ({navigation}: Props) => {
           onFillColor="#FFF"
           style={{
             marginRight: Platform.OS === 'android' ? 16 : 4,
-            width: 14,
-            height: 14,
+            width: 20,
+            height: 20,
           }}
         />
         <Gap width={4} />
