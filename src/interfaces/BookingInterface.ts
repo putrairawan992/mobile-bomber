@@ -5,6 +5,7 @@ export interface TableInterface {
   text: string;
   minOrder: number;
   price: number;
+  isAvailable?: boolean;
 }
 
 export interface ListItemInterface {
