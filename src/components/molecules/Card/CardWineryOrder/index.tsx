@@ -7,9 +7,13 @@ import {formatCurrency} from '../../../../utils/currency';
 
 interface CardWineryOrderInterface {
   item: ItemProductBasedOnClubIdInterface;
+  actionChangeGetProduct(values: any): void;
 }
 
-export default function CardWineryOrder({item}: CardWineryOrderInterface) {
+export default function CardWineryOrder({
+  item,
+  actionChangeGetProduct,
+}: CardWineryOrderInterface) {
   const [showNumber, setShowNumber] = useState<boolean>(false);
   const [showImage, setShowImage] = useState<boolean>(false);
   const [value, setValue] = useState<number>(1);
@@ -36,9 +40,11 @@ export default function CardWineryOrder({item}: CardWineryOrderInterface) {
           <View className="flex-row items-center rounded-[5px] px-3 py-[2] self-start border-[1px] border-white">
             <TouchableOpacity
               activeOpacity={0.7}
-              onPress={() =>
-                value > 1 ? setValue(value - 1) : setShowNumber(false)
-              }>
+              onPress={() => {
+                value > 1 ? setValue(value - 1) : setShowNumber(false);
+
+                actionChangeGetProduct({data: item, quantity: value - 1});
+              }}>
               <DefaultText
                 title="-"
                 titleClassName="text-xl text-neutral-400"
@@ -50,7 +56,10 @@ export default function CardWineryOrder({item}: CardWineryOrderInterface) {
             />
             <TouchableOpacity
               activeOpacity={0.7}
-              onPress={() => setValue(value + 1)}>
+              onPress={() => {
+                setValue(value + 1);
+                actionChangeGetProduct({data: item, quantity: value});
+              }}>
               <DefaultText
                 title="+"
                 titleClassName="text-xl text-neutral-400"
@@ -61,7 +70,11 @@ export default function CardWineryOrder({item}: CardWineryOrderInterface) {
           <TouchableOpacity
             activeOpacity={0.7}
             className="bg-primary p-2 self-start rounded-md"
-            onPress={() => setShowNumber(true)}>
+            onPress={() => {
+              setShowNumber(true);
+              setValue(1);
+              actionChangeGetProduct({data: item, quantity: value});
+            }}>
             <DefaultText title="Add to cart" />
           </TouchableOpacity>
         )}

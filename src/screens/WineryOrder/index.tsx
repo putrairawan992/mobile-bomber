@@ -18,6 +18,15 @@ import {EventService} from '../../service/EventService';
 import {NightlifeService} from '../../service/NightlifeService';
 import {ProductBasedOnClubIdInterface} from '../../interfaces/PlaceInterface';
 import SkeletonProductBasedOnClubId from '../../components/molecules/Skeleton/SkeletonProductBasedOnClubId';
+export interface FriendInterface {
+  customerId: string;
+  fullName: string;
+  userName: string;
+  photoUrl: string;
+  age: number;
+  bio: string;
+  status: number;
+}
 
 export default function WineryOrder() {
   const [menu] = useState<string[]>([
@@ -34,14 +43,19 @@ export default function WineryOrder() {
   const [showBillGenerator, setShowBillGenerator] = useState<boolean>(false);
   const [showOrderDetail, setShowOrderDetail] = useState<boolean>(false);
   const [productsLoading, setProductsLoading] = useState<boolean>(true);
+  const [productsOrder, setProductsOrder] = useState<any>([]);
   const [products, setProducts] = useState<ProductBasedOnClubIdInterface[]>([]);
-
+  const [selectedCart, setSelectedCart] = useState<FriendInterface[]>([]);
   const ref = createRef<PagerView>();
 
   useEffect(() => {
     getRandomClub();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  useEffect(() => {
+    setProductsOrder(removeItemsWithZeroQuantity(selectedCart));
+  }, [selectedCart]);
 
   const getRandomClub = () => {
     NightlifeService.getTopFiveNightClub()
@@ -62,6 +76,15 @@ export default function WineryOrder() {
       .catch(err => console.log('err get product: ', err.response))
       .finally(() => setProductsLoading(false));
   };
+
+  function actionChangeGetProduct(values: any) {
+    setSelectedCart([...selectedCart, values]);
+  }
+
+  const removeItemsWithZeroQuantity = (cartItems: any[]): any[] => {
+    return cartItems.filter(item => item.quantity !== 0);
+  };
+  console.log(selectedCart);
 
   return (
     <Layout>
@@ -111,7 +134,10 @@ export default function WineryOrder() {
           {productsLoading ? (
             <SkeletonProductBasedOnClubId />
           ) : (
-            <Champagne products={products} />
+            <Champagne
+              products={products}
+              actionChangeGetProduct={actionChangeGetProduct}
+            />
           )}
         </View>
         <View key="2">
@@ -159,6 +185,7 @@ export default function WineryOrder() {
 
       <ModalCartWineryOrder
         show={showCart}
+        selectedCart={productsOrder}
         hide={() => setShowCart(false)}
         onCheckout={() => setShowPay(true)}
       />

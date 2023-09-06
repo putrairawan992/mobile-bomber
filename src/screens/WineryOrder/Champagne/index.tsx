@@ -5,14 +5,24 @@ import {ProductBasedOnClubIdInterface} from '../../../interfaces/PlaceInterface'
 
 interface ChampagneInterface {
   products: ProductBasedOnClubIdInterface[];
+  actionChangeGetProduct(values: any): void;
 }
 
-export default function Champagne({products}: ChampagneInterface) {
+export default function Champagne({
+  products,
+  actionChangeGetProduct,
+}: ChampagneInterface) {
   return (
     <ScrollView showsVerticalScrollIndicator={false}>
       {products?.map(product => {
         return product.productData.map(item => {
-          return <CardWineryOrder key={item.productId} item={item} />;
+          return (
+            <CardWineryOrder
+              key={item.productId}
+              actionChangeGetProduct={actionChangeGetProduct}
+              item={item}
+            />
+          );
         });
       })}
     </ScrollView>

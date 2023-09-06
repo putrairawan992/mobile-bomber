@@ -24,12 +24,14 @@ interface ModalCartWineryOrder {
   show: boolean;
   hide: () => void;
   onCheckout: () => void;
+  selectedCart: any;
 }
 
 export default function ModalCartWineryOrder({
   show,
   hide,
   onCheckout,
+  selectedCart,
 }: ModalCartWineryOrder) {
   const [isCustom, setIsCustom] = useState<boolean>(false);
   const [isCustomComplete, setIsCustomComplete] = useState<boolean>(false);
@@ -49,6 +51,7 @@ export default function ModalCartWineryOrder({
       setImage(result.assets[0]);
     }
   };
+  console.log(selectedCart);
 
   const onConfirmTime = (selectedTime: any) => {
     setShowTime(false);
