@@ -42,7 +42,7 @@ export const TablePriviliege = ({tableData}: TablePriviliegeProps) => {
     },
   ];
   return (
-    <Section padding="0px 12px">
+    <Section>
       {PRIVILIEGE_DATA.map((item, idx) => (
         <Section key={idx} isRow style={{marginBottom: 12}}>
           {item.icon}
