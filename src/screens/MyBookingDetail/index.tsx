@@ -1,4 +1,4 @@
-import React, {useRef, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {
   Button,
   Gap,
@@ -31,6 +31,8 @@ import LinearGradient from 'react-native-linear-gradient';
 import ModalDetailTicket from '../../components/molecules/Modal/ModalDetailTicket';
 import ModalInviteFriends from '../../components/molecules/Modal/ModalInviteFriends';
 import RNCalendarEvents from 'react-native-calendar-events';
+import {FriendshipService} from '../../service/FriendshipService';
+import {FriendInterface} from '../../interfaces/UserInterface';
 
 export default function MyBookingDetail() {
   const [menu] = useState<string[]>([
@@ -48,8 +50,17 @@ export default function MyBookingDetail() {
   const [content4, setContent4] = useState<number>();
   const [successSaveCalendar, setSuccessSaveCalendar] =
     useState<boolean>(false);
+  const [isLoading, setIsLoading] = React.useState<boolean>(false);
+  const [friendshipData, setFriendshipData] = useState<FriendInterface[]>([]);
+  const [selectedInvitation, setSelectedInvitation] = useState<
+  FriendInterface[]
+>([]);
 
   const ref = useRef<ScrollView>(null);
+
+  useEffect(() => {
+    fetchDataFriends();
+  }, []);
 
   const onFriendInvited = (value: string[]) => {
     setFriendInvited(value);
@@ -70,6 +81,41 @@ export default function MyBookingDetail() {
           .catch(err => console.log('save event error: ', err));
       })
       .catch(err => console.log('err request permission calendar: ', err));
+  };
+
+  const fetchDataFriends = async () => {
+    try {
+      setIsLoading(true);
+      await Promise.all([
+        FriendshipService.getFriendship({
+          userId: 'FQ5OvkolZtSBZEMlG1R3gtowbQv1',
+        }),
+      ])
+        .then(response => {
+          setFriendshipData(response[0].result);
+        })
+        .catch(error => {
+          console.log(error);
+        })
+        .finally(() => setIsLoading(false));
+    } catch (error: any) {}
+  };
+
+  const handleInvite = (data: FriendInterface) => {
+    let findItem: any = Boolean(
+      selectedInvitation.find(
+        (el: FriendInterface) => el?.customerId === data?.customerId,
+      ),
+    );
+    if (!findItem) {
+      setSelectedInvitation([...selectedInvitation, data]);
+    } else {
+      setSelectedInvitation(
+        selectedInvitation.filter(
+          (el: FriendInterface) => el?.customerId !== data?.customerId,
+        ),
+      );
+    }
   };
 
   return (
@@ -392,6 +438,8 @@ export default function MyBookingDetail() {
 
         <ModalInviteFriends
           show={showInviteFriends}
+          handleInvite={handleInvite}
+          friendshipData={friendshipData}
           hide={() => setShowInviteFriends(false)}
           onFriendInvited={onFriendInvited}
         />

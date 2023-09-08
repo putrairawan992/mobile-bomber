@@ -5,18 +5,19 @@ import CardAuction from '../../../components/molecules/Card/CardAuction';
 
 interface Paid {
   activeTheme: string;
+  dataEvents:any;
 }
 
-export default function Paid({activeTheme}: Paid) {
+export default function Paid({activeTheme,dataEvents}: Paid) {
   return (
     <ScrollView
       showsVerticalScrollIndicator={false}
       contentContainerStyle={styles.container}>
-      {[1, 2, 3].map((_, key) => {
+      {dataEvents && dataEvents?.length > 0 && dataEvents?.map((value:any, key:any) => {
         return activeTheme === 'Auction' ? (
-          <CardAuction key={key} />
+          <CardAuction data={value} key={key} />
         ) : (
-          <CardBooking key={key} type="Paid" />
+          <CardBooking data={value} key={key} type="Paid" />
         );
       })}
     </ScrollView>

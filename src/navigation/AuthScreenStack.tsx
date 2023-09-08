@@ -43,6 +43,7 @@ function AuthScreenStack() {
       initialRouteName="LogIn"
       screenOptions={{
         headerShown: false,
+        animation: 'slide_from_right',
       }}>
       <AuthStack.Screen name="LogIn" component={LogInScreen} />
       <AuthStack.Screen name="Welcome" component={WelcomeScreen} />

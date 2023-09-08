@@ -4,15 +4,16 @@ import DefaultText from '../../../atoms/Text/DefaultText';
 import {Spacer} from '../../../atoms';
 
 interface CardInviteFriends {
-  onPress: (value: string) => void;
+  onPress: (value: string,val:any) => void;
+  val: any;
 }
 
-export default function CardInviteFriends({onPress}: CardInviteFriends) {
+export default function CardInviteFriends({onPress, val}: CardInviteFriends) {
   return (
     <View className="flex-row items-center py-2">
       <Image
         source={{
-          uri: 'https://images.unsplash.com/photo-1506748686214-e9df14d4d9d0?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OXx8cGVyc29ufGVufDB8fDB8fHww&auto=format&fit=crop&w=400&q=60',
+          uri: val?.photoUrl,
         }}
         resizeMode="cover"
         className="w-[57] h-[57] rounded-full"
@@ -20,7 +21,7 @@ export default function CardInviteFriends({onPress}: CardInviteFriends) {
       <Spacer width={10} />
       <View className="flex-1">
         <DefaultText
-          title="Jean Chen"
+          title={val?.userName}
           titleClassName="font-inter-medium mb-1"
         />
         <DefaultText
@@ -31,7 +32,7 @@ export default function CardInviteFriends({onPress}: CardInviteFriends) {
       <TouchableOpacity
         activeOpacity={0.7}
         className="bg-neutral-600 py-1 px-2 rounded-md"
-        onPress={() => onPress('1')}>
+        onPress={() => onPress('1',val)}>
         <DefaultText title="Invite" />
       </TouchableOpacity>
     </View>

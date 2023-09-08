@@ -49,6 +49,7 @@ function ProfileScreen() {
   React.useEffect(() => {
     dispatch(getUserProfile());
   }, [dispatch]);
+  console.log(profile?.user_profile);
 
   return (
     <Layout>

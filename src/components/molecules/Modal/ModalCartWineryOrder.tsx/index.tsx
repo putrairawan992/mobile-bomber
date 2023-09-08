@@ -7,7 +7,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import Modal from 'react-native-modal';
 import DefaultText from '../../../atoms/Text/DefaultText';
 import {GradientText, Gap, Button} from '../../../atoms';
@@ -19,17 +19,20 @@ import {Asset, launchImageLibrary} from 'react-native-image-picker';
 import {Close} from '../../../../assets/icons';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import dayjs from 'dayjs';
+import {formatCurrency} from '../../../../utils/currency';
 
 interface ModalCartWineryOrder {
   show: boolean;
   hide: () => void;
   onCheckout: () => void;
+  selectedCart: any;
 }
 
 export default function ModalCartWineryOrder({
   show,
   hide,
   onCheckout,
+  selectedCart,
 }: ModalCartWineryOrder) {
   const [isCustom, setIsCustom] = useState<boolean>(false);
   const [isCustomComplete, setIsCustomComplete] = useState<boolean>(false);
@@ -39,15 +42,29 @@ export default function ModalCartWineryOrder({
   const [note, setNote] = useState<string>('');
   const [subtitle, setSubtitle] = useState<string>('');
   const [image, setImage] = useState<Asset | undefined>();
-  const [data, setData] = useState<number[]>([1, 2, 3]);
+  const [data, setData] = useState<any[]>(selectedCart);
   const [showTime, setShowTime] = useState<boolean>(false);
   const [time, setTime] = useState<string>('');
+  const [totalPrice, setTotalPrice] = useState<number>(0);
+  const [getPriceWinny, setGetPriceWinnty] = useState<number>(0);
+
+  useEffect(() => {
+    setData(selectedCart);
+  }, [selectedCart]);
+
+  useEffect(() => {
+    setTotalPrice(totalPrice - getPriceWinny);
+  }, [getPriceWinny]);
 
   const onPickImage = async () => {
     const result = await launchImageLibrary({mediaType: 'photo'});
     if (result.assets) {
       setImage(result.assets[0]);
     }
+  };
+
+  const actionAkumulasi = (values: number, price: number) => {
+    setTotalPrice(price * values);
   };
 
   const onConfirmTime = (selectedTime: any) => {
@@ -80,7 +97,7 @@ export default function ModalCartWineryOrder({
                 titleClassName="flex-1 font-poppins-regular"
               />
               <DefaultText
-                title="NT 108,000"
+                title={`NT ${formatCurrency(String(totalPrice ?? ''))}`}
                 titleClassName="font-poppins-bold text-primary"
               />
             </View>
@@ -292,10 +309,16 @@ export default function ModalCartWineryOrder({
             {data.map((item, key) => {
               return (
                 <CardWineryOrderCart
+                  length={data.length}
+                  data={item}
+                  actionAkumulasi={actionAkumulasi}
                   key={key}
-                  onRemove={() =>
-                    setData(data.filter((dt, index) => index !== key))
-                  }
+                  onRemove={() => {
+                    setData(
+                      data.filter((dt: any, index: any) => index !== key),
+                    );
+                    setGetPriceWinnty(item?.price);
+                  }}
                 />
               );
             })}

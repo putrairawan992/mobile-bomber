@@ -65,10 +65,11 @@ export interface PlaceOperationalTimeInterface {
 }
 
 export interface ItemProductBasedOnClubIdInterface {
-  prodImgUrl: string;
+  imageUrl: string;
   productId: string;
-  productName: string;
-  productPrice: number;
+  englishProductTitle: string;
+  chineseProductTitle:string;
+  price: number;
 }
 
 export interface ProductBasedOnClubIdInterface {

@@ -84,10 +84,11 @@ function Main() {
         {item.icon}
         {item.focused ? (
           <GradientText
-            colors={['#EF9533', '#EF9533']}
+            xAxis={1}
+            colors={['#EF9533', '#FEDB19']}
             style={{
               fontSize: 14,
-              fontFamily: 'Poppins-Regular',
+              fontFamily: 'Poppins-Bold',
               lineHeight: 18,
             }}>
             {item.title}
@@ -198,6 +199,7 @@ const MainScreenStack = () => {
       initialRouteName="Main"
       screenOptions={{
         headerShown: false,
+        animation: 'slide_from_right',
       }}>
       <Stack.Screen name="Main" component={Main} />
       <Stack.Screen name="Notification" component={NotificationScreen} />

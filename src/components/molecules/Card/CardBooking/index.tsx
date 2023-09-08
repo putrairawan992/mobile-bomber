@@ -7,9 +7,10 @@ import {navigationRef} from '../../../../navigation/RootNavigation';
 
 interface CardBooking {
   type: 'Paid' | 'Unpaid' | 'Canceled' | 'Finished';
+  data?:any
 }
 
-export default function CardBooking({type}: CardBooking) {
+export default function CardBooking({type,data}: CardBooking) {
   return (
     <TouchableOpacity
       activeOpacity={0.7}
@@ -17,30 +18,30 @@ export default function CardBooking({type}: CardBooking) {
       onPress={() => navigationRef.navigate('MyBookingDetail' as never)}>
       <View className="flex-row items-center">
         <DefaultText
-          title={'ID : 2221421'}
+          title={`ID : ${data?.club_id}`}
           titleClassName="text-xs text-neutral-400 flex-1"
         />
         <DefaultText
-          title={'NT 42,000'}
+          title={`NT ${data?.paidTotal}`}
           titleClassName="text-xs font-poppins-semibold text-yellow-600"
         />
       </View>
       <Gap height={10} />
       <View className="flex-row">
         <Image
-          source={WaveImg}
+          source={data?.clubImg}
           className="w-[80] h-[80] rounded-lg"
           resizeMode="cover"
         />
         <Gap width={10} />
         <View className="flex-1">
           <DefaultText
-            title={'Wave Taipei'}
+            title={`${data?.clubName}`}
             titleClassName="text-base font-poppins-semibold"
           />
           <Gap height={2.5} />
           <DefaultText
-            title={'Table X33'}
+            title={`Table ${data?.tableName}`}
             titleClassName="text-xs font-inter-semibold"
             subtitle={'Sat, 14 June - 19:30'}
             subtitleClassName="text-xs font-inter-medium"
@@ -53,7 +54,7 @@ export default function CardBooking({type}: CardBooking) {
               className="w-[16] h-[16]"
             />
             <DefaultText
-              title={'13 person join here'}
+              title={`${data?.joinedTotal} person join here`}
               titleClassName="text-xs font-inter-medium text-neutral-500 ml-1"
             />
             <Gap width={5} />

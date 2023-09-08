@@ -5,9 +5,10 @@ import CardAuction from '../../../components/molecules/Card/CardAuction';
 
 interface Finished {
   activeTheme: string;
+  dataEvents:any;
 }
 
-export default function Finished({activeTheme}: Finished) {
+export default function Finished({activeTheme,dataEvents}: Finished) {
   return (
     <ScrollView
       showsVerticalScrollIndicator={false}
@@ -16,7 +17,7 @@ export default function Finished({activeTheme}: Finished) {
         return activeTheme === 'Auction' ? (
           <CardAuction key={key} />
         ) : (
-          <CardBooking key={key} type="Canceled" />
+          <CardBooking key={key} data={dataEvents} type="Canceled" />
         );
       })}
     </ScrollView>

@@ -1,5 +1,5 @@
 import React, {createRef, useEffect, useState} from 'react';
-import {Layout, Spacer, TextInput} from '../../components/atoms';
+import {Layout, Loading, Spacer, TextInput} from '../../components/atoms';
 import {Header} from '../../components/molecules';
 import PagerView from 'react-native-pager-view';
 import {FlatList, StyleSheet, TouchableOpacity, View} from 'react-native';
@@ -17,7 +17,24 @@ import ModalWineryOrderDetail from '../../components/molecules/Modal/ModalWinery
 import {EventService} from '../../service/EventService';
 import {NightlifeService} from '../../service/NightlifeService';
 import {ProductBasedOnClubIdInterface} from '../../interfaces/PlaceInterface';
-import SkeletonProductBasedOnClubId from '../../components/molecules/Skeleton/SkeletonProductBasedOnClubId';
+export interface FriendInterface {
+  customerId: string;
+  fullName: string;
+  userName: string;
+  photoUrl: string;
+  age: number;
+  bio: string;
+  status: number;
+}
+
+type Product = {
+  chineseProductTitle: string;
+  englishProductTitle: string;
+  imageUrl: string;
+  price: number;
+  productId: string;
+  quantity: number;
+};
 
 export default function WineryOrder() {
   const [menu] = useState<string[]>([
@@ -34,8 +51,8 @@ export default function WineryOrder() {
   const [showBillGenerator, setShowBillGenerator] = useState<boolean>(false);
   const [showOrderDetail, setShowOrderDetail] = useState<boolean>(false);
   const [productsLoading, setProductsLoading] = useState<boolean>(true);
+  const [checkoutItems, setCheckoutItems] = useState<Product[]>([]);
   const [products, setProducts] = useState<ProductBasedOnClubIdInterface[]>([]);
-
   const ref = createRef<PagerView>();
 
   useEffect(() => {
@@ -61,6 +78,29 @@ export default function WineryOrder() {
       .then(res => setProducts(res.data))
       .catch(err => console.log('err get product: ', err.response))
       .finally(() => setProductsLoading(false));
+  };
+console.log("prudcts", products);
+
+  const handleQuantityChange = (
+    index: number,
+    newQuantity: number,
+    values: any,
+  ) => {
+    const newProducts = [...values] as any[];
+    newProducts[index].quantity = newQuantity;
+    const itemToAdd = {...newProducts[index], quantity: newQuantity};
+    const newCheckoutItems = [...checkoutItems];
+    const existingIndex = newCheckoutItems.findIndex(
+      item =>
+        item.englishProductTitle === itemToAdd.englishProductTitle &&
+        item.chineseProductTitle === itemToAdd.chineseProductTitle,
+    );
+    if (existingIndex > -1) {
+      newCheckoutItems[existingIndex].quantity += newQuantity;
+    } else {
+      newCheckoutItems.push(itemToAdd);
+    }
+    setCheckoutItems(newCheckoutItems);
   };
 
   return (
@@ -109,38 +149,25 @@ export default function WineryOrder() {
         onPageSelected={e => setInitialPage(e.nativeEvent.position)}>
         <View key="1">
           {productsLoading ? (
-            <SkeletonProductBasedOnClubId />
+            <Loading />
           ) : (
-            <Champagne products={products} />
+            <Champagne
+              products={products}
+              actionChangeGetProduct={handleQuantityChange}
+            />
           )}
         </View>
         <View key="2">
-          {productsLoading ? (
-            <SkeletonProductBasedOnClubId />
-          ) : (
-            <Gin products={products} />
-          )}
+          {productsLoading ? <Loading /> : <Gin products={products} />}
         </View>
         <View key="3">
-          {productsLoading ? (
-            <SkeletonProductBasedOnClubId />
-          ) : (
-            <Vodka products={products} />
-          )}
+          {productsLoading ? <Loading /> : <Vodka products={products} />}
         </View>
         <View key="4">
-          {productsLoading ? (
-            <SkeletonProductBasedOnClubId />
-          ) : (
-            <Whiskey products={products} />
-          )}
+          {productsLoading ? <Loading /> : <Whiskey products={products} />}
         </View>
         <View key="5">
-          {productsLoading ? (
-            <SkeletonProductBasedOnClubId />
-          ) : (
-            <Beer products={products} />
-          )}
+          {productsLoading ? <Loading /> : <Beer products={products} />}
         </View>
       </PagerView>
 
@@ -159,7 +186,11 @@ export default function WineryOrder() {
 
       <ModalCartWineryOrder
         show={showCart}
-        hide={() => setShowCart(false)}
+        selectedCart={checkoutItems}
+        hide={() => {
+          setShowCart(false);
+          setCheckoutItems([]);
+        }}
         onCheckout={() => setShowPay(true)}
       />
 

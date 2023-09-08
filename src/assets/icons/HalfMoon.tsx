@@ -25,7 +25,7 @@ export const HalfMoon = (props: Props) => {
             y1="8.375"
             y2="8.375"
             gradientUnits="userSpaceOnUse">
-            <Stop stopColor="#EF9533" />
+            <Stop stopColor="#FEDB19" />
             <Stop offset="1" stopColor="#EF9533" />
           </LinearGradient>
         </Defs>

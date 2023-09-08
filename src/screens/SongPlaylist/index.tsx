@@ -22,6 +22,7 @@ import CardSongPlaylist from '../../components/molecules/Card/CardSongPlaylist';
 import {navigationRef} from '../../navigation/RootNavigation';
 import LinearGradient from 'react-native-linear-gradient';
 import MaskedView from '@react-native-masked-view/masked-view';
+import songPlaylist from '../../assets/json/songPlaylist.json';
 
 export default function SongPlaylist() {
   const {width, height} = useWindowDimensions();
@@ -72,9 +73,18 @@ export default function SongPlaylist() {
         }>
         <FlatList
           contentContainerStyle={styles.listContainer}
-          data={[1, 2, 3, 4, 5]}
+          data={songPlaylist}
           keyExtractor={(_, key) => key.toString()}
-          renderItem={() => <CardSongPlaylist />}
+          renderItem={({item}) => (
+            <CardSongPlaylist
+              title={item.title}
+              singer={item.singer}
+              tip={item.tip}
+              time={item.time}
+              userName={item.userName}
+              userImage={item.userImage}
+            />
+          )}
           showsVerticalScrollIndicator={false}
           ListHeaderComponent={
             <GradientText
