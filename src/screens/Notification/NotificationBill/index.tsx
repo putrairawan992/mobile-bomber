@@ -17,7 +17,12 @@ export default function NotificationBill({
       data={data}
       keyExtractor={(_, key) => key.toString()}
       renderItem={({item, index}) => (
-        <CardNotificationBill data={item} index={index} onSelect={onSelect} />
+        <CardNotificationBill
+          data={item}
+          key={`bill_${index}`}
+          index={index}
+          onSelect={onSelect}
+        />
       )}
       showsVerticalScrollIndicator={false}
     />

@@ -1,11 +1,11 @@
 import {FlatList} from 'react-native';
 import React from 'react';
 import CardNotificationInvitation from '../../../components/molecules/Notification/CardNotificationInvitation';
-import {InvitationNotificationInterface} from '../../../interfaces/NotificationInterface';
+import {InviteNotificationInterface} from '../../../interfaces/NotificationInterface';
 
 interface NotificationInvitationProps {
-  data: InvitationNotificationInterface[];
-  onOpenInvitation: (invitationId: string) => void;
+  data: InviteNotificationInterface[];
+  onOpenInvitation: (data: InviteNotificationInterface) => void;
 }
 
 export default function NotificationInvitation({
@@ -20,6 +20,7 @@ export default function NotificationInvitation({
         <CardNotificationInvitation
           index={index}
           data={item}
+          key={`invitation_${index}`}
           showBorder={data.length === index + 1 ? false : true}
           onOpenInvitation={onOpenInvitation}
         />

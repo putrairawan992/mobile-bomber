@@ -1,63 +1,85 @@
 /* eslint-disable react-native/no-inline-styles */
-import {BottomSheetModal} from '@gorhom/bottom-sheet';
+import BottomSheet from '@gorhom/bottom-sheet';
 import * as React from 'react';
 import {createRef, useState} from 'react';
 import {Pressable, View} from 'react-native';
 import PagerView from 'react-native-pager-view';
-import {Gap, Layout, Section} from '../../components/atoms';
-import {Header, TabMenu} from '../../components/molecules';
+import {Gap, Layout, Loading, Section} from '../../components/atoms';
+import {Header, ModalToast, TabMenu} from '../../components/molecules';
 import {
   FriendInviteConfirmationSheet,
   NotificationPaymentSheet,
 } from '../../components/organism';
-import {PartyInterface} from '../../interfaces/BookingInterface';
-import {BillNotificationInterface} from '../../interfaces/NotificationInterface';
-import {UserInterface} from '../../interfaces/UserInterface';
+import {
+  BillNotificationInterface,
+  InviteNotificationInterface,
+} from '../../interfaces/NotificationInterface';
 import {Colors} from '../../theme';
 import useTheme from '../../theme/useTheme';
 import {WIDTH} from '../../utils/config';
-import {
-  BILL_NOTIFICATION,
-  FRIEND_REQUEST,
-  INVITATION_NOTIFICATION,
-} from '../../utils/data';
+import {BILL_NOTIFICATION, FRIEND_REQUEST} from '../../utils/data';
 import NotificationApps from './NotificationApps';
 import NotificationBill from './NotificationBill';
 import NotificationFriends from './NotificationFriends';
 import NotificationInvitation from './NotificationInvitation';
 import styles from './Styles';
+import {useAppSelector} from '../../hooks/hooks';
+import {NotificationService} from '../../service/NotificationService';
+import {useDispatch} from 'react-redux';
+import {ModalToastContext} from '../../context/AppModalToastContext';
 
 // type Props = NativeStackScreenProps<MainStackParams, 'Saved', 'MyStack'>;
 
 function NotificationScreen() {
   const [menu] = useState<string[]>(['Apps', 'Invitation', 'Bill', 'Friends']);
+  const {invitation, count} = useAppSelector(state => state.notification);
+  const {user} = useAppSelector(state => state.user);
   const [initialPage, setInitialPage] = useState<number>(0);
-  const [selectedUser, setSelectedUser] = useState<UserInterface | null>(null);
-  const [selectedParty, setSelectedParty] = useState<PartyInterface | null>(
-    null,
-  );
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [selectedInvitation, setSelectedInvitation] =
+    useState<InviteNotificationInterface | null>(null);
   const [selectedBill, setSelectedBill] =
     useState<BillNotificationInterface | null>(null);
   const [sheetAction, setSheetAction] = useState<
     '' | 'bill' | 'approveInvitation'
   >('');
-  const [message, setMessage] = useState<string>('');
   const ref = createRef<PagerView>();
   const theme = useTheme();
+  const dispatch = useDispatch();
 
-  const onOpenInvitation = (invitationId: string) => {
-    setSheetAction('approveInvitation');
-    const selectedInvitation = INVITATION_NOTIFICATION.find(
-      el => el.id === invitationId,
-    );
-    setSelectedParty(selectedInvitation?.party ?? null);
-    setSelectedUser(selectedInvitation?.sender ?? null);
-    setMessage(selectedInvitation?.message ?? '');
-    openBottomSheet();
+  const {
+    isShowToast,
+    setIsShowToast,
+    toastMessage,
+    setToastMessage,
+    type,
+    setType,
+  } = React.useContext(ModalToastContext);
+
+  const openToast = (toastType: 'success' | 'error', message: string) => {
+    setIsShowToast(true);
+    setType(toastType);
+    setToastMessage(message);
+  };
+
+  const onOpenInvitation = async (data: InviteNotificationInterface) => {
+    try {
+      setIsLoading(true);
+      const readNotification = await NotificationService.putReadNotification({
+        id: data.id,
+        new_status: 1,
+      });
+      if (!readNotification.error) {
+        setIsLoading(false);
+        setSheetAction('approveInvitation');
+        setSelectedInvitation(data ?? null);
+        openBottomSheet();
+      }
+    } catch (error: any) {}
   };
 
   const [sheetIndex, setSheetIndex] = React.useState<number>(-1);
-  const notificationSheetRef = React.useRef<BottomSheetModal>(null);
+  const notificationSheetRef = React.useRef<BottomSheet>(null);
   const snapPoints = React.useMemo(
     () => (sheetAction === 'bill' ? ['50'] : ['80']),
     [sheetAction],
@@ -74,13 +96,42 @@ function NotificationScreen() {
 
   const openBottomSheet = () => {
     setTimeout(() => {
-      notificationSheetRef.current?.present();
+      notificationSheetRef.current?.expand();
     }, 100);
+  };
+
+  const handleActionInvitation = async (action: string) => {
+    try {
+      setIsLoading(true);
+      const response = await NotificationService.putActionInvitation(
+        {
+          id: selectedInvitation?.id as string,
+          new_status: action,
+        },
+        dispatch,
+      );
+      setIsLoading(false);
+      if (!response.error) {
+        notificationSheetRef.current?.close();
+        setTimeout(() => {
+          openToast('success', `You ${action} this invitation`);
+        }, 100);
+      } else {
+        notificationSheetRef.current?.close();
+        setTimeout(() => {
+          openToast('error', response.message);
+        }, 100);
+      }
+    } catch (error: any) {
+      setIsLoading(false);
+      openToast('error', error.response.data.message);
+    }
   };
 
   return (
     <Layout contentContainerStyle={styles.container}>
       <Header transparent hasBackBtn title="Notification" />
+      {isLoading && <Loading />}
       <Gap height={24} />
       <Section isRow isCenter>
         {menu.map((item, index) => {
@@ -92,6 +143,8 @@ function NotificationScreen() {
               width={WIDTH / menu.length}
               item={item}
               index={index}
+              // count={item === 'Invitation' ? invitation.length : 0}
+              count={item === 'Invitation' ? count : 0}
             />
           );
         })}
@@ -108,7 +161,12 @@ function NotificationScreen() {
           </View>
           <View key="2">
             <NotificationInvitation
-              data={INVITATION_NOTIFICATION}
+              data={invitation.map(item => {
+                return {
+                  ...item,
+                  message: `Hi ${user.username}, who meet you at the ${item.clubName}. Would you come to my table at ruff ? we will arrived around 11am ❤️'`,
+                };
+              })}
               onOpenInvitation={onOpenInvitation}
             />
           </View>
@@ -124,13 +182,13 @@ function NotificationScreen() {
         </PagerView>
       </Section>
 
-      <BottomSheetModal
+      <BottomSheet
         ref={notificationSheetRef}
-        index={0}
+        index={-1}
         enablePanDownToClose
         snapPoints={snapPoints}
         backdropComponent={({style}) =>
-          sheetIndex === 0 ? (
+          sheetIndex >= 0 ? (
             <Pressable
               onPress={() => notificationSheetRef.current?.close()}
               style={[style, {backgroundColor: 'rgba(0, 0, 0, 0.60)'}]}
@@ -151,13 +209,21 @@ function NotificationScreen() {
         )}
         {sheetAction === 'approveInvitation' && (
           <FriendInviteConfirmationSheet
-            user={selectedUser}
-            party={selectedParty}
+            data={selectedInvitation}
+            user={user}
             type="approve"
-            invitationMessage={message}
+            onConfirm={handleActionInvitation}
           />
         )}
-      </BottomSheetModal>
+      </BottomSheet>
+      <ModalToast
+        isVisible={isShowToast}
+        onCloseModal={() => {
+          setIsShowToast(false);
+        }}
+        message={toastMessage}
+        type={type}
+      />
     </Layout>
   );
 }

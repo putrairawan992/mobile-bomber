@@ -159,6 +159,7 @@ const IcLogOut = require('../assets/images/log_out.png');
 const IcTv = require('../assets/images/ic_tv.png');
 const ImgProductPromo2 = require('../assets/images/img_product-promo2.png');
 const ImgPromoBackground = require('../assets/images/img_promo-background.png');
+const TableLayout = require('../assets/images/TableLayout.png');
 
 export {
   BackHome,
@@ -318,4 +319,5 @@ export {
   IcTv,
   ImgProductPromo2,
   ImgPromoBackground,
+  TableLayout,
 };
