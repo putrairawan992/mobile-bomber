@@ -7,32 +7,36 @@ import {formatCurrency} from '../../../../utils/currency';
 
 interface CardWineryOrderInterface {
   item: ItemProductBasedOnClubIdInterface;
-  actionChangeGetProduct(values: any): void;
+  index: number;
+  values:any;
+  actionChangeGetProduct(index: number, newQuantity: number, values: any): void;
 }
 
 export default function CardWineryOrder({
   item,
+  values,
   actionChangeGetProduct,
+  index,
 }: CardWineryOrderInterface) {
   const [showNumber, setShowNumber] = useState<boolean>(false);
   const [showImage, setShowImage] = useState<boolean>(false);
-  const [value, setValue] = useState<number>(1);
+  const [value, setValue] = useState<number>(0);
 
   return (
     <View className="flex-row px-5 py-6">
       <View className="flex-1">
         <DefaultText
-          title={item?.productName ?? ''}
+          title={item?.englishProductTitle ?? ''}
           titleClassName="font-inter-medium"
         />
         <Gap height={4} />
-        {/* <DefaultText
-          title={'法國凱歌香檳 x 6'}
+        <DefaultText
+          title={item?.chineseProductTitle ?? ''}
           titleClassName="font-inter-medium text-xs"
         />
-        <Gap height={4} /> */}
+        <Gap height={4} />
         <DefaultText
-          title={`NT ${formatCurrency(String(item?.productPrice ?? ''))}`}
+          title={`NT ${formatCurrency(String(item?.price ?? ''))}`}
           titleClassName="font-inter-medium text-xs text-[#3ca6ec]"
         />
         <Gap height={8} />
@@ -42,8 +46,7 @@ export default function CardWineryOrder({
               activeOpacity={0.7}
               onPress={() => {
                 value > 1 ? setValue(value - 1) : setShowNumber(false);
-
-                actionChangeGetProduct({data: item, quantity: value - 1});
+                actionChangeGetProduct(index, value - 1, values);
               }}>
               <DefaultText
                 title="-"
@@ -58,7 +61,7 @@ export default function CardWineryOrder({
               activeOpacity={0.7}
               onPress={() => {
                 setValue(value + 1);
-                actionChangeGetProduct({data: item, quantity: value});
+                actionChangeGetProduct(index, value + 1, values);
               }}>
               <DefaultText
                 title="+"
@@ -73,7 +76,7 @@ export default function CardWineryOrder({
             onPress={() => {
               setShowNumber(true);
               setValue(1);
-              actionChangeGetProduct({data: item, quantity: value});
+              actionChangeGetProduct(index, 1, values);
             }}>
             <DefaultText title="Add to cart" />
           </TouchableOpacity>
@@ -82,7 +85,7 @@ export default function CardWineryOrder({
       <Gap width={10} />
       <TouchableOpacity activeOpacity={0.7} onPress={() => setShowImage(true)}>
         <Image
-          source={{uri: item?.prodImgUrl ?? ''}}
+          source={{uri: item?.imageUrl ?? ''}}
           resizeMode="cover"
           className="w-[114] h-[114] rounded-[8px] bg-neutral-600"
         />
@@ -91,7 +94,7 @@ export default function CardWineryOrder({
       <ModalImage
         show={showImage}
         hide={() => setShowImage(false)}
-        image={item?.prodImgUrl ?? ''}
+        image={item?.imageUrl ?? ''}
       />
     </View>
   );

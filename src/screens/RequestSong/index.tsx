@@ -59,7 +59,8 @@ export default function RequestSong() {
     }
 
     const user: any = await getStorage('userAuth');
-    const requested_by = JSON.parse(user).userId;
+    const requested_by = JSON.parse(user).id;
+
 
     setLoading(true);
     SongService.postRequestSong({

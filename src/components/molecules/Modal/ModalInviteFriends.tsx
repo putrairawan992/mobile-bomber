@@ -8,31 +8,83 @@ import {
 import React, {createRef, useState} from 'react';
 import Modal from 'react-native-modal';
 import DefaultText from '../../atoms/Text/DefaultText';
-import {Button, Gap, GradientText, Spacer, TextInput} from '../../atoms';
+import {
+  Avatar,
+  Button,
+  EntryAnimation,
+  Gap,
+  GradientText,
+  Section,
+  Spacer,
+  Text,
+  TextInput,
+} from '../../atoms';
 import PagerView from 'react-native-pager-view';
 import CardInviteFriends from '../Card/CardInviteFriends';
 import {Image} from 'react-native';
 import colors from '../../../styles/colors';
+import {FriendInterface} from '../../../interfaces/UserInterface';
+import useTheme from '../../../theme/useTheme';
 
 interface ModalInviteFriends {
   show: boolean;
   hide: () => void;
+  friendshipData: any;
   onFriendInvited: (value: string[]) => void;
+  selectedInvitation: FriendInterface[];
+  handleInvite: (value: any) => void;
 }
 
 export default function ModalInviteFriends({
   show,
   hide,
+  friendshipData,
   onFriendInvited,
+  selectedInvitation,
+  handleInvite,
 }: ModalInviteFriends) {
-  const [menu] = useState<string[]>(['Friends', 'Squad']);
+  const [menu] = useState<string[]>(['Friends', 'Squad', 'Invitation']);
   const [initialPage, setInitialPage] = useState<number>(0);
   const [showInvitation, setShowInvitation] = useState<boolean>(false);
-
+  const theme = useTheme();
   const ref = createRef<PagerView>();
 
-  const onInvite = () => {
+  const onInvite = (data: any,index:any) => {
+    console.log(data,index);
+    
     setShowInvitation(true);
+  };
+
+  const InvitationTab = () => {
+    return (
+      <ScrollView showsVerticalScrollIndicator={false}>
+        {selectedInvitation?.map((item: FriendInterface, idx) => {
+          return (
+            <EntryAnimation index={idx} key={`invitation_${idx}`}>
+              <Section isRow isBetween style={{marginBottom: 20}}>
+                <Avatar
+                  url={item.photoUrl ?? ''}
+                  size="x-large"
+                  alt={item.fullName ?? ''}
+                  name={item.fullName}
+                  username={item.userName}
+                />
+                <TouchableOpacity
+                  onPress={() => handleInvite(item)}
+                  style={{
+                    paddingHorizontal: 10,
+                    paddingVertical: 6,
+                    borderRadius: 8,
+                    backgroundColor: theme?.colors.DANGER,
+                  }}>
+                  <Text variant="small" label={'Cancel Invitation'} />
+                </TouchableOpacity>
+              </Section>
+            </EntryAnimation>
+          );
+        })}
+      </ScrollView>
+    );
   };
 
   return (
@@ -145,10 +197,13 @@ export default function ModalInviteFriends({
               ref={ref}
               onPageSelected={e => setInitialPage(e.nativeEvent.position)}>
               <View key="1">
-                <Friends onPress={onInvite} />
+                <Friends onPress={onInvite} friendshipData={friendshipData} />
               </View>
               <View key="2">
                 <Squad />
+              </View>
+              <View key="3">
+                <InvitationTab />
               </View>
             </PagerView>
             <View className="py-4">
@@ -161,16 +216,20 @@ export default function ModalInviteFriends({
   );
 }
 
-const Friends = ({onPress}: {onPress: (value: string) => void}) => {
+const Friends = ({
+  onPress,
+  friendshipData,
+}: {
+  onPress: (value: string,val:any) => void;
+  friendshipData: any;
+}) => {
+  console.log('friendshipData', friendshipData);
+
   return (
     <ScrollView showsVerticalScrollIndicator={false}>
-      <CardInviteFriends onPress={onPress} />
-      <CardInviteFriends onPress={onPress} />
-      <CardInviteFriends onPress={onPress} />
-      <CardInviteFriends onPress={onPress} />
-      <CardInviteFriends onPress={onPress} />
-      <CardInviteFriends onPress={onPress} />
-      <CardInviteFriends onPress={onPress} />
+      {friendshipData.map((list: any, indexer: number) => {
+        return <CardInviteFriends val={list} onPress={onPress} />;
+      })}
     </ScrollView>
   );
 };
