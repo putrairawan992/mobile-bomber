@@ -44,6 +44,7 @@ import {TableOrderDetail} from './OrderDetail';
 import {Colors} from '../../../theme';
 import {
   FriendsInvitation,
+  TableLayoutSheet,
   WaitingListSheet,
 } from '../../../components/organism';
 import {MonthYearInterface} from '../../../interfaces/Interface';
@@ -51,6 +52,7 @@ import {NightlifeService} from '../../../service/NightlifeService';
 import {FriendshipService} from '../../../service/FriendshipService';
 import {useAppSelector} from '../../../hooks/hooks';
 import {ModalToastContext} from '../../../context/AppModalToastContext';
+import {Map1} from 'iconsax-react-native';
 
 type Props = NativeStackScreenProps<MainStackParams, 'BookingTable', 'MyStack'>;
 
@@ -79,6 +81,7 @@ function BookingTableScreen({route, navigation}: Props) {
   const [isShowInvitation, setIsShowInvitation] = useState<boolean>(false);
   const [isErrorTable, setIsErrorTable] = useState<boolean>(false);
   const [isWaitingList, setIsWaitingList] = useState<boolean>(false);
+  const [isTableLayout, setIsTableLayout] = useState<boolean>(false);
   const [waitingListStep, setWaitingListStep] = useState<number>(1);
   const [selectedInvitation, setSelectedInvitation] = useState<
     FriendInterface[]
@@ -95,10 +98,12 @@ function BookingTableScreen({route, navigation}: Props) {
         ? ['75']
         : isWaitingList && waitingListStep === 2
         ? ['30']
-        : !isWaitingList
+        : !isWaitingList && !isTableLayout
         ? ['70', '90']
+        : isTableLayout
+        ? ['60']
         : ['70'],
-    [isWaitingList, waitingListStep],
+    [isWaitingList, waitingListStep, isTableLayout],
   );
   const [isPayFull, setIsPayFull] = useState(false);
   const [isSplitBill, setIsSplitBill] = useState(false);
@@ -445,6 +450,21 @@ function BookingTableScreen({route, navigation}: Props) {
         </TouchableSection>
         {isShowTable && (
           <Section padding="20px 8px">
+            <TouchableSection
+              isRow
+              onPress={() => {
+                setIsTableLayout(true);
+                setTimeout(() => {
+                  bookingSheetRef.current?.expand();
+                }, 500);
+              }}>
+              <>
+                <Map1 size={16} color={Colors['white-100']} />
+                <Gap width={8} />
+                <Text fontWeight="semi-bold" label="Check Layout" />
+              </>
+            </TouchableSection>
+            <Gap height={8} />
             <ScrollView showsVerticalScrollIndicator={false}>
               {tableData.length &&
                 tableData.map((item, index) => (
@@ -530,7 +550,7 @@ function BookingTableScreen({route, navigation}: Props) {
       <BottomSheet
         ref={bookingSheetRef}
         index={-1}
-        enablePanDownToClose={isWaitingList ? false : true}
+        enablePanDownToClose={isWaitingList || isTableLayout ? false : true}
         snapPoints={snapPoints}
         backdropComponent={({style}) =>
           sheetIndex >= 0 ? (
@@ -563,6 +583,15 @@ function BookingTableScreen({route, navigation}: Props) {
                 navigation.navigate('Nightlife');
               }, 200);
             }}
+          />
+        ) : isTableLayout ? (
+          <TableLayoutSheet
+            hasBackNavigation
+            onBackNavigation={() => {
+              setIsTableLayout(false);
+              bookingSheetRef.current?.close();
+            }}
+            title={`${placeData?.name} Table Layout`}
           />
         ) : (
           <TableOrderDetail

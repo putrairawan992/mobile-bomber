@@ -23,7 +23,7 @@ export default function NotificationApps() {
         <CardNotificationApps
           data={item}
           index={index}
-          key={index}
+          key={`today_${index}`}
           isShowBorder={
             TODAY_APPS_NOTIFICATION.length === index + 1 ? false : true
           }
@@ -36,7 +36,7 @@ export default function NotificationApps() {
         <CardNotificationApps
           data={item}
           index={index}
-          key={index}
+          key={`yesterday_${index}`}
           isShowBorder={
             YESTERDAY_APPS_NOTIFICATION.length === index + 1 ? false : true
           }

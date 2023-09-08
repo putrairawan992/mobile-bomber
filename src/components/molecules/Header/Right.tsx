@@ -4,9 +4,9 @@ import React from 'react';
 import {Image, TouchableOpacity} from 'react-native';
 import {Pin} from '../../../assets/icons';
 import {useAppSelector} from '../../../hooks/hooks';
-import {Images} from '../../../theme';
+import {Colors, Images} from '../../../theme';
 import useTheme from '../../../theme/useTheme';
-import {Text} from '../../atoms';
+import {Section, Text} from '../../atoms';
 import styles from './Styles';
 
 function HeaderRight({
@@ -25,6 +25,7 @@ function HeaderRight({
 }: any) {
   const theme = useTheme();
   const {userLocation} = useAppSelector(state => state.user);
+  const {count} = useAppSelector(state => state.notification);
   return (
     <>
       {/* // <View style={[styles.right, style]}>
@@ -64,6 +65,20 @@ function HeaderRight({
                   onNotificationPress();
                 }
               }}>
+              <Section
+                isCenter
+                style={{
+                  position: 'absolute',
+                  width: 16,
+                  height: 16,
+                  zIndex: 999,
+                  left: 20,
+                  bottom: 4,
+                }}
+                rounded={20}
+                backgroundColor={Colors['danger-400']}>
+                <Text variant="small" label={count.toString()} />
+              </Section>
               <Notification
                 size={16}
                 color={theme?.colors.ICON}
