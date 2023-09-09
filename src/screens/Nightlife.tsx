@@ -1,6 +1,6 @@
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import * as React from 'react';
-import {useEffect, useLayoutEffect} from 'react';
+import {useEffect} from 'react';
 import {Image, ScrollView} from 'react-native';
 import {useDispatch} from 'react-redux';
 import {Beer, DiscoLight, Karaoke, WineBottle} from '../assets/icons';
@@ -36,6 +36,7 @@ import styles from './Styles';
 import {getUserProfile} from '../service/AuthService';
 import {NotificationService} from '../service/NotificationService';
 import {useAppSelector} from '../hooks/hooks';
+import {useFocusEffect} from '@react-navigation/native';
 
 type Props = NativeStackScreenProps<MainStackParams, 'Nightlife', 'MyStack'>;
 
@@ -65,10 +66,12 @@ function NightlifeScreen({navigation}: Props) {
     } catch (error: any) {}
   };
 
-  useLayoutEffect(() => {
-    !!user && fetchNotification();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [navigation, user]);
+  useFocusEffect(
+    React.useCallback(() => {
+      !!user && fetchNotification();
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [navigation, user]),
+  );
 
   const fetchData = async () => {
     try {

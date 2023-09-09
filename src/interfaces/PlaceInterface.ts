@@ -38,7 +38,7 @@ export interface PlaceOverviewInterface {
 }
 
 export interface EventInterface {
-  photoUrl: string | null;
+  photo_url: string | null;
   name: string;
   time: string;
 }
@@ -101,4 +101,9 @@ export interface ResponseGetPlaceDetailInterface {
   about: string;
   operation: PlaceOperationalTimeInterface[];
   features: PlaceOverviewFeaturesInterface[];
+}
+
+export interface ParamsGetClubEventInterface {
+  club_id: string;
+  year_month: string;
 }

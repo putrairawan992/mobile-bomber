@@ -124,7 +124,7 @@ export const FriendsTab = ({
             )
             .map((item: UserInterface, idx) => {
               return (
-                <EntryAnimation index={idx} key={idx}>
+                <EntryAnimation index={idx} key={`favorite_${idx}`}>
                   <Section
                     padding="0px 12px"
                     isRow
@@ -196,7 +196,7 @@ export const FriendsTab = ({
             )
             .map((item: UserInterface, idx) => {
               return (
-                <EntryAnimation index={idx} key={idx}>
+                <EntryAnimation index={idx} key={`friend_${idx}`}>
                   <Section
                     padding="0px 12px"
                     isRow

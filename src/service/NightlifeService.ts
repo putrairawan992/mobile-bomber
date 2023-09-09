@@ -8,6 +8,8 @@ import {
 import {
   BannerInterface,
   GalleryCategoryInterface,
+  ParamsGetClubEventInterface,
+  PlaceEventsInterface,
   PlaceInterface,
   ResponseGetPlaceDetailInterface,
   ResponseGetTableInterface,
@@ -81,6 +83,16 @@ export const NightlifeService = {
     payload: PayloadPostBookingWalkInInterface;
   }): Promise<APIResponse<unknown>> => {
     const response = await ax.post(`${URL}/post_walk_in_booking`, payload);
+    return response.data;
+  },
+  getClubEventSchedule: async ({
+    params,
+  }: {
+    params: ParamsGetClubEventInterface;
+  }): Promise<APIResponse<PlaceEventsInterface[]>> => {
+    const response = await ax.get(
+      `${URL}/get_operational_schedule/${params.club_id}?year_month=${params.year_month}`,
+    );
     return response.data;
   },
 };

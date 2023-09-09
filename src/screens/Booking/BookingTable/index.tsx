@@ -23,7 +23,7 @@ import {
   UIManager,
   View,
 } from 'react-native';
-import {PLACE_EVENTS} from '../../../utils/data';
+
 import {useCallback, useContext, useEffect, useState} from 'react';
 
 import BottomSheet from '@gorhom/bottom-sheet';
@@ -86,6 +86,8 @@ function BookingTableScreen({route, navigation}: Props) {
   const [selectedInvitation, setSelectedInvitation] = useState<
     FriendInterface[]
   >([]);
+  const [clubEvent, setClubEvent] = useState<PlaceEventsInterface[]>([]);
+  const [allDay, setAllDay] = useState<string[]>([]);
   const [monthYear, setMonthYear] = useState<MonthYearInterface>({
     month: Number(dateFormatter(new Date(), 'M')),
     year: Number(dateFormatter(new Date(), 'yyyy')),
@@ -105,6 +107,7 @@ function BookingTableScreen({route, navigation}: Props) {
         : ['70'],
     [isWaitingList, waitingListStep, isTableLayout],
   );
+
   const [isPayFull, setIsPayFull] = useState(false);
   const [isSplitBill, setIsSplitBill] = useState(false);
   const [friendshipData, setFriendshipData] = useState<FriendInterface[]>([]);
@@ -127,15 +130,6 @@ function BookingTableScreen({route, navigation}: Props) {
   }, []);
 
   const today = dateFormatter(new Date(), 'yyyy-MM-dd');
-
-  const allDay = getDaysInMonth(monthYear.month, monthYear.year).filter(
-    i =>
-      ![
-        ...PLACE_EVENTS.map(item => item.date),
-        ...[selectedDate],
-        ...[today],
-      ].includes(i),
-  );
 
   const MarkedDate = {
     [selectedDate]: {
@@ -199,9 +193,26 @@ function BookingTableScreen({route, navigation}: Props) {
         FriendshipService.getFriendship({
           userId: 'FQ5OvkolZtSBZEMlG1R3gtowbQv1',
         }),
+        NightlifeService.getClubEventSchedule({
+          params: {
+            club_id: placeData?.clubId as string,
+            year_month: `${monthYear.year}-${monthYear.month}`,
+          },
+        }),
       ])
         .then(response => {
           setFriendshipData(response[0].result);
+          setClubEvent(response[1].data);
+          setAllDay(
+            getDaysInMonth(monthYear.month, monthYear.year).filter(
+              i =>
+                ![
+                  ...response[1].data.map(item => item.date),
+                  ...[selectedDate],
+                  ...[today],
+                ].includes(i),
+            ),
+          );
         })
         .catch(error => {
           console.log(error);
@@ -214,7 +225,6 @@ function BookingTableScreen({route, navigation}: Props) {
     setTimeout(() => {
       step === 0 && onShowCalendar(true);
     }, 200);
-    fetchData();
   }, []);
 
   useEffect(() => {
@@ -222,6 +232,10 @@ function BookingTableScreen({route, navigation}: Props) {
       fetchTableList();
     }
   }, [selectedDate]);
+
+  useEffect(() => {
+    fetchData();
+  }, [monthYear]);
 
   const onShowCalendar = useCallback((isShow: boolean) => {
     LayoutAnimation.configureNext({
@@ -267,7 +281,7 @@ function BookingTableScreen({route, navigation}: Props) {
     setIsErrorCalendar(false);
     setSelectedDate(day);
     const events =
-      PLACE_EVENTS.find((item: PlaceEventsInterface) => item.date === day)
+      clubEvent.find((item: PlaceEventsInterface) => item.date === day)
         ?.events ?? [];
     setSelectedEvent(events);
     if (events.length) {
@@ -398,7 +412,7 @@ function BookingTableScreen({route, navigation}: Props) {
             onSelectDate={onSelectDate}
             data={Object.assign(
               MarkedDate,
-              generateCalendarEvents(PLACE_EVENTS, selectedDate),
+              generateCalendarEvents(clubEvent, selectedDate),
               generateCalendarOtherDay(allDay),
             )}
             isShowEvents={isShowEvents}

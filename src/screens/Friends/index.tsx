@@ -2,10 +2,10 @@
 import {BottomSheetModal} from '@gorhom/bottom-sheet';
 import {Setting2} from 'iconsax-react-native';
 import * as React from 'react';
-import {createRef, useState} from 'react';
+import {createRef, useEffect, useState} from 'react';
 import {Pressable, View} from 'react-native';
 import PagerView from 'react-native-pager-view';
-import {Gap, Layout, Section, TextInput} from '../../components/atoms';
+import {Gap, Layout, Loading, Section, TextInput} from '../../components/atoms';
 
 import {Header, TabMenu} from '../../components/molecules';
 import {
@@ -16,7 +16,7 @@ import {
 import {FriendBottomSheet} from '../../components/organism/Friends/FriendBottomSheet';
 import {FriendInvitePartySheet} from '../../components/organism/Friends/FriendInvitePartySheet';
 import {PartyInterface} from '../../interfaces/BookingInterface';
-import {UserInterface} from '../../interfaces/UserInterface';
+import {FriendInterface, UserInterface} from '../../interfaces/UserInterface';
 import {Colors} from '../../theme';
 import useTheme from '../../theme/useTheme';
 import {WIDTH} from '../../utils/config';
@@ -24,6 +24,7 @@ import {PARTY_DATA, USER_DATA} from '../../utils/data';
 import styles from '../Styles';
 import {ExploreTab} from './ExploreTab';
 import {FriendsTab} from './FriendsTab';
+import {FriendshipService} from '../../service/FriendshipService';
 
 // type Props = NativeStackScreenProps<MainStackParams, 'Booked', 'MyStack'>;
 
@@ -36,6 +37,8 @@ function FriendsScreen() {
   const [selectedParty, setSelectedParty] = useState<PartyInterface | null>(
     null,
   );
+  const [friendshipData, setFriendshipData] = useState<FriendInterface[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const ref = createRef<PagerView>();
   const theme = useTheme();
 
@@ -58,6 +61,29 @@ function FriendsScreen() {
     setSheetIndex(index);
   }, []);
 
+  const fetchData = async () => {
+    try {
+      setIsLoading(true);
+      await Promise.all([
+        FriendshipService.getFriendship({
+          userId: 'FQ5OvkolZtSBZEMlG1R3gtowbQv1',
+        }),
+      ])
+        .then(response => {
+          setFriendshipData(response[0].result);
+        })
+        .catch(error => {
+          console.log(error);
+        })
+        .finally(() => setIsLoading(false));
+    } catch (error: any) {}
+  };
+
+  useEffect(() => {
+    fetchData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   const onOpenBottomSheet = (sheetType: string, data?: UserInterface) => {
     data && setSelectedUser(data);
     setSheetAction(sheetType);
@@ -74,6 +100,7 @@ function FriendsScreen() {
         rightCustomComponent={<Setting2 size={24} color={theme?.colors.ICON} />}
         onRightCustomComponentPress={() => onOpenBottomSheet('profileSecurity')}
       />
+      {isLoading && <Loading />}
       <Section padding="22px 16px">
         <TextInput
           type="search"
@@ -112,7 +139,7 @@ function FriendsScreen() {
             />
           </View>
           <View key="2">
-            <ExploreTab data={USER_DATA} searchValue={searchValue} />
+            <ExploreTab data={friendshipData} searchValue={searchValue} />
           </View>
           <View key="3" />
         </PagerView>

@@ -2,12 +2,12 @@
 import React from 'react';
 import {FlatList, Image, Platform, UIManager} from 'react-native';
 import {Gap, Section, Text} from '../../../components/atoms';
-import {UserInterface} from '../../../interfaces/UserInterface';
+import {FriendInterface} from '../../../interfaces/UserInterface';
 import {Colors} from '../../../theme';
 import {WIDTH} from '../../../utils/config';
 
 interface FriendsTabProps {
-  data: UserInterface[];
+  data: FriendInterface[];
   searchValue: string;
 }
 
@@ -19,7 +19,7 @@ if (Platform.OS === 'android') {
 
 export const ExploreTab = ({data, searchValue}: FriendsTabProps) => {
   const width = (WIDTH - 40) / 2;
-
+  console.log(data.length);
   const renderItem = ({item}: any) => (
     <Section style={{marginBottom: 8, flex: 1}}>
       <Image
@@ -42,11 +42,11 @@ export const ExploreTab = ({data, searchValue}: FriendsTabProps) => {
       <FlatList
         showsVerticalScrollIndicator={false}
         data={data.filter(
-          (item: UserInterface) =>
+          (item: FriendInterface) =>
             item.fullName && item.fullName.match(new RegExp(searchValue, 'i')),
         )}
         renderItem={renderItem}
-        keyExtractor={item => item.id}
+        keyExtractor={item => item.customerId}
         style={{flex: 1}}
         numColumns={2}
         columnWrapperStyle={{flex: 1, justifyContent: 'space-between'}}

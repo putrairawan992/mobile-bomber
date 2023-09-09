@@ -230,13 +230,33 @@ export const PlaceDetail = ({route, navigation}: Props) => {
     );
   };
 
-  const PlacePhotos = () => {
+  const PlaceOrderFood = () => {
     return (
       <Section
         key={3}
         onLayout={(event: any) => {
           const layout = event.nativeEvent.layout;
           dataSourceCords[3] = layout.y;
+        }}
+        padding="12px 12px"
+        backgroundColor={theme?.colors.SECTION}
+        rounded={8}>
+        <Section>
+          <Text variant="base" fontWeight="bold" label="Foods" />
+          <Gap height={10} />
+          <Button type="primary" onPress={() => undefined} title="Food Order" />
+        </Section>
+      </Section>
+    );
+  };
+
+  const PlacePhotos = () => {
+    return (
+      <Section
+        key={4}
+        onLayout={(event: any) => {
+          const layout = event.nativeEvent.layout;
+          dataSourceCords[4] = layout.y;
         }}
         padding="12px 12px"
         backgroundColor={theme?.colors.SECTION}
@@ -275,10 +295,10 @@ export const PlaceDetail = ({route, navigation}: Props) => {
   const PlaceReview = () => {
     return (
       <Section
-        key={4}
+        key={5}
         onLayout={(event: any) => {
           const layout = event.nativeEvent.layout;
-          dataSourceCords[4] = layout.y;
+          dataSourceCords[5] = layout.y;
         }}
         padding="12px 12px"
         backgroundColor={theme?.colors.SECTION}
@@ -366,6 +386,8 @@ export const PlaceDetail = ({route, navigation}: Props) => {
         {PlaceOverview()}
         <Gap height={32} />
         {PlaceOffers()}
+        <Gap height={32} />
+        {PlaceOrderFood()}
         <Gap height={32} />
         {PlacePhotos()}
         <Gap height={32} />
