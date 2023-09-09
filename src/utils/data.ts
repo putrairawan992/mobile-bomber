@@ -7,10 +7,10 @@ import {
 } from '../interfaces/NotificationInterface';
 
 import {
-  PlaceEventsInterface,
   PlaceOperationalTimeInterface,
   PlaceOverviewInterface,
 } from '../interfaces/PlaceInterface';
+import {DjRequestSongInterface} from '../interfaces/SongInterface';
 import {
   FriendRequestInterface,
   UserAchievementInterface,
@@ -47,10 +47,14 @@ export const PLACE_MENU: HorizontalMenuInterface[] = [
   },
   {
     id: 3,
-    title: 'Photos',
+    title: 'Foods',
   },
   {
     id: 4,
+    title: 'Photos',
+  },
+  {
+    id: 5,
     title: 'Review',
   },
 ];
@@ -112,122 +116,6 @@ export const YESTERDAY_APPS_NOTIFICATION: CardNotificationAppsInterface[] = [
     description:
       'confirmed your order for  Check your my event page for get your ticket',
     date: '2023-08-09T21:10:03.650540055',
-  },
-];
-
-export const PLACE_EVENTS: PlaceEventsInterface[] = [
-  {
-    date: '2023-08-03',
-    events: [
-      {
-        photoUrl:
-          'https://www.billboard.com/wp-content/uploads/media/alesso-2017-cr-Harrison-Boyce-billboard-1548.jpg?w=942&h=623&crop=1',
-        name: 'DJ Alesso',
-        time: '10pm - 1am',
-      },
-      {
-        photoUrl:
-          'https://www.publica-news.com/img_content/150_20220428DJSoda270422.jpg',
-        name: 'DJ Soda',
-        time: '1am - 2am',
-      },
-      {
-        photoUrl: 'https://images2.alphacoders.com/542/542031.jpg',
-        name: 'Linkin Park',
-        time: '12am - 3am',
-      },
-    ],
-  },
-  {
-    date: '2023-08-08',
-    events: [
-      {
-        photoUrl:
-          'https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2022-06/unnamed_3.jpeg.webp?itok=fhBZmcG3',
-        name: 'DJ Armin Van Buuren',
-        time: '10pm - 1am',
-      },
-      {
-        photoUrl:
-          'https://img.okezone.com/content/2016/10/28/205/1526591/avenged-sevenfold-rilis-album-the-stage-hari-ini-5QdGDRbNUE.jpg',
-        name: 'Avenged Sevenfold',
-        time: '1am - 2am',
-      },
-      {
-        photoUrl:
-          'https://news.batampos.co.id/wp-content/uploads/2021/11/Tessa-Morena-300x450.jpeg',
-        name: 'DJ Tessa Morena',
-        time: '12am - 3am',
-      },
-    ],
-  },
-  {
-    date: '2023-08-15',
-    events: [
-      {
-        photoUrl:
-          'https://mixmag.net/assets/uploads/images/_columns2/daft-punk-film-score-dario-argento.jpg',
-        name: 'DJ Daft Punk',
-        time: '10pm - 1am',
-      },
-      {
-        photoUrl:
-          'https://img.okezone.com/okz/500/library/images/2019/08/22/ff6zqt7fsegj4sny1ctt_16101.jpg',
-        name: 'DJ Duo Semangka',
-        time: '1am - 2am',
-      },
-      {
-        photoUrl:
-          'https://asset-a.grid.id/crop/0x0:0x0/700x465/photo/haifoto/original/30019_muse-apapun-bisa-terjadi-di-studio.jpg',
-        name: 'Muse',
-        time: '12am - 3am',
-      },
-    ],
-  },
-  {
-    date: '2023-08-18',
-    events: [
-      {
-        photoUrl:
-          'https://www.france.tv/image/vignette_16x9/800/450/0/6/1/949125ec-5cb41b6dcc3270efaffc949b57cc4cf2f320ef6e9c160.jpg',
-        name: 'DJ Skrillex',
-        time: '10pm - 1am',
-      },
-      {
-        photoUrl:
-          'https://img.indoclubbing.com/events/545392881447261916462162145846/event-4play-alexis-hotel-jakarta-cyberjapan-dancers_260.jpg',
-        name: 'Cyberjapan',
-        time: '1am - 2am',
-      },
-      {
-        photoUrl: null,
-        name: 'Feel Koplo',
-        time: '12am - 3am',
-      },
-    ],
-  },
-  {
-    date: '2023-08-23',
-    events: [
-      {
-        photoUrl:
-          'https://dillonfrancis.com/wp-content/uploads/2019/04/social.jpg',
-        name: 'DJ Dillon Francis',
-        time: '10pm - 1am',
-      },
-      {
-        photoUrl:
-          'https://asset.kompas.com/crops/M1gl4V_Oii_A4HOKiYh4CWRiMGk=/0x0:1500x1000/750x500/data/photo/2020/05/22/5ec706987b43c.jpg',
-        name: 'Weird Genius',
-        time: '1am - 2am',
-      },
-      {
-        photoUrl:
-          'https://manofmetropolis.com/wp-content/uploads/2019/09/Yellow_Claw_20193787_8-1140x802.jpg',
-        name: 'Yellow Claw',
-        time: '12am - 3am',
-      },
-    ],
   },
 ];
 
@@ -606,4 +494,47 @@ export const WAITING_LIST_TEXT: string[] = [
   'With our group ticket option, you not only secure a reduced price but also have the chance to invite your pals along. As the organizer, ',
   "you'll initially cover the group ticket cost, and we'll help you generate invoices for your friends.",
   'Get ready for an amazing party experience and let loose on the dance floor!',
+];
+
+export const DJ_REQUEST_DATA: DjRequestSongInterface[] = [
+  {
+    title: 'Separuh Nafas',
+    artis: 'Dewa 19',
+    fee: 1000,
+    requestedName: 'Reza',
+    requestedPhotoUrl:
+      'https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2022-06/unnamed_3.jpeg.webp?itok=fhBZmcG3',
+  },
+  {
+    title: 'You',
+    artis: 'Lost Frequencies',
+    fee: 750,
+    requestedName: 'Daniel',
+    requestedPhotoUrl:
+      'https://s.hs-data.com/bilder/spieler/gross/337447.jpg?fallback=png',
+  },
+  {
+    title: 'Flamingo',
+    artis: 'Oliver Heldens',
+    fee: 1300,
+    requestedName: 'Reza',
+    requestedPhotoUrl:
+      'https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2022-06/unnamed_3.jpeg.webp?itok=fhBZmcG3',
+  },
+  {
+    title: 'Hippo',
+    artis: 'Chocolate Puma',
+    fee: 500,
+    requestedName: 'Reza',
+    requestedPhotoUrl:
+      'https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2022-06/unnamed_3.jpeg.webp?itok=fhBZmcG3',
+  },
+  {
+    title: 'Beats Knockin',
+    artis: 'Skrillex',
+    fee: 3000,
+    requestedName: 'Reza',
+    requestedPhotoUrl:
+      'https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2022-06/unnamed_3.jpeg.webp?itok=fhBZmcG3',
+  },
 ];

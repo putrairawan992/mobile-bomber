@@ -6,6 +6,7 @@ import {
 export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
 export const LOG_OUT = 'LOG_OUT';
 export const UPDATE_USER_LOCATION = 'UPDATE_USER_LOCATION';
+export const SET_USER_TYPE = 'SET_USER_TYPE';
 
 export interface LoginSuccessI {
   type: typeof LOGIN_SUCCESS;
@@ -19,4 +20,9 @@ export interface LogOutI {
 export interface UpdateUserLocationI {
   type: typeof UPDATE_USER_LOCATION;
   payload: UserLocationInterface;
+}
+
+export interface SetUserTypeI {
+  type: typeof SET_USER_TYPE;
+  payload: string;
 }
