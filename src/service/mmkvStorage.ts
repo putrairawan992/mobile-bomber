@@ -7,7 +7,8 @@ export type storageName =
   | 'accessToken'
   | 'refreshToken'
   | 'tokenExpiry'
-  | 'userAuth';
+  | 'userAuth'
+  | 'userType';
 
 export const getStorage = async (name: storageName) => {
   return await MMKV.getStringAsync(name);

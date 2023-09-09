@@ -1,4 +1,9 @@
-import {LOGIN_SUCCESS, LOG_OUT, UPDATE_USER_LOCATION} from './userTypes';
+import {
+  LOGIN_SUCCESS,
+  LOG_OUT,
+  SET_USER_TYPE,
+  UPDATE_USER_LOCATION,
+} from './userTypes';
 
 import {
   UserInterface,
@@ -16,5 +21,10 @@ export const handleLogOut = () => ({
 
 export const updateUserLocation = (payload: UserLocationInterface) => ({
   type: UPDATE_USER_LOCATION,
+  payload,
+});
+
+export const setUserType = (payload: string) => ({
+  type: SET_USER_TYPE,
   payload,
 });

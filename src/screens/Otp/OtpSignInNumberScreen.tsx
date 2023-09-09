@@ -15,7 +15,7 @@ import {ThemeInterface} from '../../theme/ThemeProvider';
 import {LogoLabel, ModalToast} from '../../components/molecules';
 import auth from '@react-native-firebase/auth';
 import {useDispatch} from 'react-redux';
-import {loginSuccess} from '../../store/user/userActions';
+import {loginSuccess, setUserType} from '../../store/user/userActions';
 import {setStorage} from '../../service/mmkvStorage';
 
 type Props = NativeStackScreenProps<AuthStackParams, 'OtpSignIn', 'MyStack'>;
@@ -78,6 +78,7 @@ function OtpSignInNumberScreen({route}: Props) {
         bio: userData.bio,
       };
       await setStorage('userAuth', JSON.stringify(userAuth));
+      await setStorage('userType', 'regular');
       await setStorage(
         'refreshToken',
         JSON.stringify(response.user.uid + '_' + response.user.phoneNumber),
@@ -86,6 +87,7 @@ function OtpSignInNumberScreen({route}: Props) {
       openToast('success', 'Login successfully');
       setTimeout(() => {
         dispatch(loginSuccess(userAuth));
+        dispatch(setUserType('regular'));
       }, 2000);
     } catch (error: any) {
       setIsShowToast(true);

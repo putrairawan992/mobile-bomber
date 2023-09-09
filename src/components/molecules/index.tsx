@@ -1,3 +1,4 @@
+import CardDjRequestHistory from './Card/CardDjRequestHistory';
 import CardTable from './Card/CardTable';
 import CalendarEventCard from './Event/CalendarEventCard';
 import Header from './Header';
@@ -20,4 +21,5 @@ export {
   ListItem,
   PillsGradient,
   CardTable,
+  CardDjRequestHistory,
 };

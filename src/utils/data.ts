@@ -11,6 +11,7 @@ import {
   PlaceOperationalTimeInterface,
   PlaceOverviewInterface,
 } from '../interfaces/PlaceInterface';
+import {DjRequestSongInterface} from '../interfaces/SongInterface';
 import {
   FriendRequestInterface,
   UserAchievementInterface,
@@ -606,4 +607,47 @@ export const WAITING_LIST_TEXT: string[] = [
   'With our group ticket option, you not only secure a reduced price but also have the chance to invite your pals along. As the organizer, ',
   "you'll initially cover the group ticket cost, and we'll help you generate invoices for your friends.",
   'Get ready for an amazing party experience and let loose on the dance floor!',
+];
+
+export const DJ_REQUEST_DATA: DjRequestSongInterface[] = [
+  {
+    title: 'Separuh Nafas',
+    artis: 'Dewa 19',
+    fee: 1000,
+    requestedName: 'Reza',
+    requestedPhotoUrl:
+      'https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2022-06/unnamed_3.jpeg.webp?itok=fhBZmcG3',
+  },
+  {
+    title: 'You',
+    artis: 'Lost Frequencies',
+    fee: 750,
+    requestedName: 'Daniel',
+    requestedPhotoUrl:
+      'https://s.hs-data.com/bilder/spieler/gross/337447.jpg?fallback=png',
+  },
+  {
+    title: 'Flamingo',
+    artis: 'Oliver Heldens',
+    fee: 1300,
+    requestedName: 'Reza',
+    requestedPhotoUrl:
+      'https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2022-06/unnamed_3.jpeg.webp?itok=fhBZmcG3',
+  },
+  {
+    title: 'Hippo',
+    artis: 'Chocolate Puma',
+    fee: 500,
+    requestedName: 'Reza',
+    requestedPhotoUrl:
+      'https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2022-06/unnamed_3.jpeg.webp?itok=fhBZmcG3',
+  },
+  {
+    title: 'Beats Knockin',
+    artis: 'Skrillex',
+    fee: 3000,
+    requestedName: 'Reza',
+    requestedPhotoUrl:
+      'https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2022-06/unnamed_3.jpeg.webp?itok=fhBZmcG3',
+  },
 ];
