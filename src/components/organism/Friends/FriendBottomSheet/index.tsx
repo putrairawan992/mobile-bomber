@@ -1,14 +1,14 @@
 /* eslint-disable react-native/no-inline-styles */
 import React from 'react';
 import {View} from 'react-native';
-import {UserInterface} from '../../../../interfaces/UserInterface';
+import {FriendInterface} from '../../../../interfaces/UserInterface';
 import {Colors} from '../../../../theme';
 import useTheme from '../../../../theme/useTheme';
 import {gradientMapping} from '../../../../utils/config';
 import {Avatar, Button, Gap, GradientText, Section, Text} from '../../../atoms';
 
 interface FriendBottomSheetProps {
-  data: UserInterface | null;
+  data: FriendInterface | null;
 }
 
 export const FriendBottomSheet = ({data}: FriendBottomSheetProps) => {
@@ -42,7 +42,7 @@ export const FriendBottomSheet = ({data}: FriendBottomSheetProps) => {
         <Gap height={4} />
         <Section isRow>
           <Text label={`${data?.age}yr | `} color={Colors['black-40']} />
-          <Text label={data?.email} color={Colors['black-40']} />
+          <Text label={data?.userName} color={Colors['black-40']} />
         </Section>
       </Section>
       <Gap height={30} />

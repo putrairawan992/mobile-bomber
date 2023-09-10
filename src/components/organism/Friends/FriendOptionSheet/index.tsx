@@ -3,15 +3,15 @@ import {Lock1, Star1, Trash} from 'iconsax-react-native';
 import React from 'react';
 import {DragHand, Smiley} from '../../../../assets/icons';
 import {OptionMenuInterface} from '../../../../interfaces/Interface';
-import {UserInterface} from '../../../../interfaces/UserInterface';
+import {FriendInterface} from '../../../../interfaces/UserInterface';
 import useTheme from '../../../../theme/useTheme';
 import {gradientMapping} from '../../../../utils/config';
 import {Gap, GradientText, Section} from '../../../atoms';
 import {ListItem} from '../../../molecules';
 
 interface FriendOptionSheetProps {
-  data: UserInterface | null;
-  onInviteParty: (data: UserInterface | null) => void;
+  data: FriendInterface | null;
+  onInviteParty: (data: FriendInterface | null) => void;
 }
 export const FriendOptionSheet = ({
   data,

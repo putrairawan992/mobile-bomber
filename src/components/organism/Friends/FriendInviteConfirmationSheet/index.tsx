@@ -9,20 +9,22 @@ import {
   HouseGradient,
 } from '../../../../assets/icons';
 import {useImageAspectRatio} from '../../../../hooks/useImageAspectRatio';
-import {UserInterface} from '../../../../interfaces/UserInterface';
+import {FriendInterface} from '../../../../interfaces/UserInterface';
 import {Colors} from '../../../../theme';
 import useTheme from '../../../../theme/useTheme';
 import {gradientMapping, WIDTH} from '../../../../utils/config';
 import {Avatar, Button, Gap, GradientText, Section, Text} from '../../../atoms';
 import {InviteNotificationInterface} from '../../../../interfaces/NotificationInterface';
 import moment from 'moment';
+import {PartyInterface} from '../../../../interfaces/BookingInterface';
 
 interface FriendInviteConfirmationSheetProps {
   data: InviteNotificationInterface | null;
-  user: UserInterface;
+  user: FriendInterface | null;
   onBackPress?: () => void;
   type: 'invite' | 'approve';
   onConfirm: (action: string) => void;
+  party?: PartyInterface | null;
 }
 
 export const FriendInviteConfirmationSheet = ({
@@ -31,6 +33,8 @@ export const FriendInviteConfirmationSheet = ({
   onBackPress,
   type,
   onConfirm,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  party,
 }: FriendInviteConfirmationSheetProps) => {
   const theme = useTheme();
   const aspectRatio = useImageAspectRatio(data?.logo as string);

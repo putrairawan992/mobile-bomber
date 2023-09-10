@@ -23,15 +23,15 @@ import {
   Text,
   TouchableSection,
 } from '../../../components/atoms';
-import {UserInterface} from '../../../interfaces/UserInterface';
+import {FriendInterface} from '../../../interfaces/UserInterface';
 import {Colors} from '../../../theme';
 import useTheme from '../../../theme/useTheme';
 
 interface FriendsTabProps {
-  data: UserInterface[];
+  data: FriendInterface[];
   searchValue: string;
-  onSelectUser: (item: UserInterface) => void;
-  onFriendOption: (item: UserInterface) => void;
+  onSelectUser: (item: FriendInterface) => void;
+  onFriendOption: (item: FriendInterface) => void;
 }
 
 if (Platform.OS === 'android') {
@@ -96,7 +96,7 @@ export const FriendsTab = ({
               fontWeight="medium"
               label={` (${
                 data.filter(
-                  (item: UserInterface) =>
+                  (item: FriendInterface) =>
                     item.fullName &&
                     item.fullName.match(new RegExp(searchValue, 'i')),
                 ).length
@@ -118,11 +118,11 @@ export const FriendsTab = ({
         <Section padding="0px 16px">
           {data
             .filter(
-              (item: UserInterface) =>
+              (item: FriendInterface) =>
                 item.fullName &&
                 item.fullName.match(new RegExp(searchValue, 'i')),
             )
-            .map((item: UserInterface, idx) => {
+            .map((item: FriendInterface, idx) => {
               return (
                 <EntryAnimation index={idx} key={`favorite_${idx}`}>
                   <Section
@@ -135,7 +135,7 @@ export const FriendsTab = ({
                       size="x-large"
                       alt={item.fullName ?? ''}
                       name={item.fullName}
-                      username={item.username}
+                      username={item.userName}
                       onPress={() => onSelectUser(item)}
                     />
                     <TouchableOpacity onPress={() => onFriendOption(item)}>
@@ -170,7 +170,7 @@ export const FriendsTab = ({
               fontWeight="medium"
               label={` (${
                 data.filter(
-                  (item: UserInterface) =>
+                  (item: FriendInterface) =>
                     item.fullName &&
                     item.fullName.match(new RegExp(searchValue, 'i')),
                 ).length
@@ -190,11 +190,11 @@ export const FriendsTab = ({
         <Section padding="0px 16px">
           {data
             .filter(
-              (item: UserInterface) =>
+              (item: FriendInterface) =>
                 item.fullName &&
                 item.fullName.match(new RegExp(searchValue, 'i')),
             )
-            .map((item: UserInterface, idx) => {
+            .map((item: FriendInterface, idx) => {
               return (
                 <EntryAnimation index={idx} key={`friend_${idx}`}>
                   <Section
@@ -207,7 +207,7 @@ export const FriendsTab = ({
                       size="x-large"
                       alt={item.fullName ?? ''}
                       name={item.fullName}
-                      username={item.username}
+                      username={item.userName}
                       onPress={() => onSelectUser(item)}
                     />
                     <Section isRow>

@@ -6,7 +6,7 @@
     "android": "react-native run-android",
     "ios": "react-native run-ios",
     "ios-11": "npx react-native run-ios --udid 2387AC98-D8DE-479A-B014-D99A86F0F692",
-    "ios-14": "npx react-native run-ios --udid 1353965F-BE91-4CE2-8579-6A8AA1F6F71B",
+    "ios-14": "npx react-native run-ios --udid AFF756C0-8566-4333-B944-341041C1E6A9",
     "start": "react-native start",
     "test": "jest",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
