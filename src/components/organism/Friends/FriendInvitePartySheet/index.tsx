@@ -3,19 +3,19 @@ import {ArrowLeft} from 'iconsax-react-native';
 import React from 'react';
 import {TouchableOpacity} from 'react-native';
 import {PartyInterface} from '../../../../interfaces/BookingInterface';
-import {UserInterface} from '../../../../interfaces/UserInterface';
+import {FriendInterface} from '../../../../interfaces/UserInterface';
 import useTheme from '../../../../theme/useTheme';
 import {gradientMapping} from '../../../../utils/config';
 import {Gap, GradientText, Section} from '../../../atoms';
 import {CardParty} from '../../../molecules/Card/CardParty';
 
 interface FriendInvitePartySheetProps {
-  data: UserInterface | null;
+  data: FriendInterface | null;
   partyData: PartyInterface[];
   onBackPress: () => void;
   onInviteConfirmation: (
     party: PartyInterface,
-    user: UserInterface | null,
+    user: FriendInterface | null,
   ) => void;
 }
 

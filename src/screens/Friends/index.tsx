@@ -16,11 +16,11 @@ import {
 import {FriendBottomSheet} from '../../components/organism/Friends/FriendBottomSheet';
 import {FriendInvitePartySheet} from '../../components/organism/Friends/FriendInvitePartySheet';
 import {PartyInterface} from '../../interfaces/BookingInterface';
-import {FriendInterface, UserInterface} from '../../interfaces/UserInterface';
+import {FriendInterface} from '../../interfaces/UserInterface';
 import {Colors} from '../../theme';
 import useTheme from '../../theme/useTheme';
 import {WIDTH} from '../../utils/config';
-import {PARTY_DATA, USER_DATA} from '../../utils/data';
+import {PARTY_DATA} from '../../utils/data';
 import styles from '../Styles';
 import {ExploreTab} from './ExploreTab';
 import {FriendsTab} from './FriendsTab';
@@ -33,11 +33,14 @@ function FriendsScreen() {
   const [sheetAction, setSheetAction] = useState<string>('');
   const [initialPage, setInitialPage] = useState<number>(0);
   const [searchValue, setSearchValue] = useState<string>('');
-  const [selectedUser, setSelectedUser] = useState<UserInterface | null>(null);
+  const [selectedUser, setSelectedUser] = useState<FriendInterface | null>(
+    null,
+  );
   const [selectedParty, setSelectedParty] = useState<PartyInterface | null>(
     null,
   );
   const [friendshipData, setFriendshipData] = useState<FriendInterface[]>([]);
+  const [allUsers, setAllUsers] = useState<FriendInterface[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const ref = createRef<PagerView>();
   const theme = useTheme();
@@ -68,9 +71,11 @@ function FriendsScreen() {
         FriendshipService.getFriendship({
           userId: 'FQ5OvkolZtSBZEMlG1R3gtowbQv1',
         }),
+        FriendshipService.getAllUsers(),
       ])
         .then(response => {
-          setFriendshipData(response[0].result);
+          setFriendshipData(response[0].data);
+          setAllUsers(response[1].data);
         })
         .catch(error => {
           console.log(error);
@@ -81,10 +86,9 @@ function FriendsScreen() {
 
   useEffect(() => {
     fetchData();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const onOpenBottomSheet = (sheetType: string, data?: UserInterface) => {
+  const onOpenBottomSheet = (sheetType: string, data?: FriendInterface) => {
     data && setSelectedUser(data);
     setSheetAction(sheetType);
     setTimeout(() => {
@@ -132,14 +136,14 @@ function FriendsScreen() {
           onPageSelected={e => setInitialPage(e.nativeEvent.position)}>
           <View key="1">
             <FriendsTab
-              data={USER_DATA}
+              data={friendshipData}
               searchValue={searchValue}
               onSelectUser={user => onOpenBottomSheet('userProfile', user)}
               onFriendOption={user => onOpenBottomSheet('friendOption', user)}
             />
           </View>
           <View key="2">
-            <ExploreTab data={friendshipData} searchValue={searchValue} />
+            <ExploreTab data={allUsers} searchValue={searchValue} />
           </View>
           <View key="3" />
         </PagerView>
@@ -192,6 +196,8 @@ function FriendsScreen() {
             party={selectedParty}
             onBackPress={() => setSheetAction('inviteParty')}
             type="invite"
+            data={null}
+            onConfirm={() => undefined}
           />
         ) : (
           <FriendBottomSheet data={selectedUser} />

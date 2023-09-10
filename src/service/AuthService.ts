@@ -26,7 +26,6 @@ export const AuthService = {
   postLogin: async (
     payload: LoginPayloadInterface,
   ): Promise<APIResponse<UserInterface>> => {
-    console.log('postLogin');
     const response = await ax.post(
       `${Config.API_ENDPOINT}/global_api/customer_sign_in`,
       payload,
