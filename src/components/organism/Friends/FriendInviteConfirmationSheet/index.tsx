@@ -9,31 +9,35 @@ import {
   HouseGradient,
 } from '../../../../assets/icons';
 import {useImageAspectRatio} from '../../../../hooks/useImageAspectRatio';
-import {PartyInterface} from '../../../../interfaces/BookingInterface';
-import {UserInterface} from '../../../../interfaces/UserInterface';
+import {FriendInterface} from '../../../../interfaces/UserInterface';
 import {Colors} from '../../../../theme';
 import useTheme from '../../../../theme/useTheme';
 import {gradientMapping, WIDTH} from '../../../../utils/config';
-import {dateFormatter} from '../../../../utils/dateFormatter';
 import {Avatar, Button, Gap, GradientText, Section, Text} from '../../../atoms';
+import {InviteNotificationInterface} from '../../../../interfaces/NotificationInterface';
+import moment from 'moment';
+import {PartyInterface} from '../../../../interfaces/BookingInterface';
 
 interface FriendInviteConfirmationSheetProps {
-  user: UserInterface | null;
-  party: PartyInterface | null;
+  data: InviteNotificationInterface | null;
+  user: FriendInterface | null;
   onBackPress?: () => void;
   type: 'invite' | 'approve';
-  invitationMessage?: string;
+  onConfirm: (action: string) => void;
+  party?: PartyInterface | null;
 }
 
 export const FriendInviteConfirmationSheet = ({
+  data,
   user,
-  party,
   onBackPress,
   type,
-  invitationMessage,
+  onConfirm,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  party,
 }: FriendInviteConfirmationSheetProps) => {
   const theme = useTheme();
-  const aspectRatio = useImageAspectRatio(party?.logo as string);
+  const aspectRatio = useImageAspectRatio(data?.logo as string);
   const isInvite = type === 'invite';
   return (
     <Section
@@ -62,7 +66,7 @@ export const FriendInviteConfirmationSheet = ({
               fontFamily: 'Inter-Bold',
               textAlign: 'center',
             }}>
-            {`Are you sure invite ${user?.fullName} to party ?`}
+            {`Are you sure invite ${data?.hostUsername} to party ?`}
           </GradientText>
         ) : (
           <Section isRow>
@@ -70,7 +74,7 @@ export const FriendInviteConfirmationSheet = ({
               variant="base"
               fontWeight="bold"
               color={Colors['warning-500']}
-              label={user?.fullName}
+              label={data?.hostUsername}
             />
             <Text
               variant="base"
@@ -83,15 +87,15 @@ export const FriendInviteConfirmationSheet = ({
         <Gap height={6} />
         <Avatar
           size="ultra-large"
-          url={user?.photoUrl ?? ''}
-          alt={user?.fullName as string}
+          url={data?.hostPhotoUrl ?? ''}
+          alt={data?.hostUsername as string}
         />
         <Gap height={4} />
         <Text variant="extra-small" fontWeight="medium" label="at" />
         <Gap height={4} />
-        <Image source={{uri: party?.logo}} style={{width: 52, aspectRatio}} />
+        <Image source={{uri: data?.logo}} style={{width: 52, aspectRatio}} />
         <Gap height={4} />
-        <Text fontWeight="medium" label={party?.name} />
+        <Text fontWeight="medium" label={data?.clubName} />
       </Section>
       <Gap height={16} />
       <Section
@@ -99,7 +103,7 @@ export const FriendInviteConfirmationSheet = ({
         backgroundColor={theme?.colors.SECTION2}
         rounded={8}>
         <Text
-          label={isInvite ? user?.bio : invitationMessage}
+          label={isInvite ? user?.bio : data?.message}
           fontWeight="medium"
           color={Colors['black-20']}
         />
@@ -144,17 +148,19 @@ export const FriendInviteConfirmationSheet = ({
           <Section isRow>
             <CalendarGradient size={20} />
             <Gap width={12} />
-            <Text
-              variant="small"
-              fontWeight="medium"
-              label={dateFormatter(new Date(party?.date ?? ''), 'EEE dd MMM')}
-            />
+            {data?.bookingDate && (
+              <Text
+                variant="small"
+                fontWeight="medium"
+                label={moment(new Date(data?.bookingDate)).format('ll')}
+              />
+            )}
           </Section>
           <Gap width={24} />
           <Section isRow>
             <HouseGradient size={20} />
             <Gap width={12} />
-            <Text variant="small" fontWeight="medium" label={party?.table} />
+            <Text variant="small" fontWeight="medium" label={data?.tableName} />
           </Section>
         </Section>
         <Gap height={20} />
@@ -162,7 +168,7 @@ export const FriendInviteConfirmationSheet = ({
           <Section isRow>
             <DoorGradient size={20} />
             <Gap width={12} />
-            <Text variant="small" fontWeight="medium" label={party?.ticket} />
+            <Text variant="small" fontWeight="medium" label={'VIP Ticket'} />
           </Section>
           <Gap width={24} />
           <Section isRow>
@@ -176,25 +182,47 @@ export const FriendInviteConfirmationSheet = ({
           </Section>
         </Section>
       </Section>
-      <Section
-        style={{
-          position: 'absolute',
-          bottom: 24,
-          width: '100%',
-          alignSelf: 'center',
-        }}>
-        <Button
-          type="primary"
-          onPress={() => undefined}
-          title={isInvite ? 'Invite' : 'Approve'}
-        />
-        <Gap height={8} />
-        <Button
-          type="secondary"
-          onPress={() => undefined}
-          title={isInvite ? 'Cancel' : 'Reject'}
-        />
-      </Section>
+      {isInvite ||
+        // eslint-disable-next-line prettier/prettier
+        (!isInvite && data?.status === 'waiting_for_response' && (
+          <Section
+            style={{
+              position: 'absolute',
+              bottom: 24,
+              width: '100%',
+              alignSelf: 'center',
+            }}>
+            <Button
+              type="primary"
+              onPress={() => (isInvite ? undefined : onConfirm('approved'))}
+              title={isInvite ? 'Invite' : 'Approve'}
+            />
+            <Gap height={8} />
+            <Button
+              type="secondary"
+              onPress={() => (isInvite ? undefined : onConfirm('rejected'))}
+              title={isInvite ? 'Cancel' : 'Reject'}
+            />
+          </Section>
+          // eslint-disable-next-line prettier/prettier
+        ))}
+      {!isInvite && data?.status !== 'waiting_for_response' && (
+        <Section
+          style={{
+            position: 'absolute',
+            bottom: 36,
+            width: '100%',
+            alignSelf: 'center',
+          }}>
+          <Text
+            variant="base"
+            color={theme?.colors.PRIMARY}
+            fontWeight="semi-bold"
+            label={`You ${data?.status} this invitation`}
+            textAlign="center"
+          />
+        </Section>
+      )}
     </Section>
   );
 };

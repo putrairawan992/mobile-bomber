@@ -9,6 +9,8 @@ import {
   LoginSuccessI,
   UpdateUserLocationI,
   UPDATE_USER_LOCATION,
+  SET_USER_TYPE,
+  SetUserTypeI,
 } from './userTypes';
 
 export interface UserStateI {
@@ -16,6 +18,7 @@ export interface UserStateI {
   isLogin: boolean;
   isLoading: boolean;
   userLocation: UserLocationInterface;
+  userType: string;
 }
 
 const UserState: UserStateI = {
@@ -44,9 +47,10 @@ const UserState: UserStateI = {
     latitude: null,
     longitude: null,
   },
+  userType: '',
 };
 
-type UserAction = LoginSuccessI | LogOutI | UpdateUserLocationI;
+type UserAction = LoginSuccessI | LogOutI | UpdateUserLocationI | SetUserTypeI;
 
 const userReducer = (state = UserState, action: UserAction) => {
   switch (action.type) {
@@ -76,12 +80,19 @@ const userReducer = (state = UserState, action: UserAction) => {
         },
         isLogin: false,
         isLoading: false,
+        userType: '',
       };
 
     case UPDATE_USER_LOCATION:
       return {
         ...state,
         userLocation: action.payload,
+      };
+
+    case SET_USER_TYPE:
+      return {
+        ...state,
+        userType: action.payload,
       };
 
     default:

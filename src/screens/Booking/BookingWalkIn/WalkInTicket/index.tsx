@@ -90,7 +90,7 @@ export const WalkInTicketScreen = ({route, navigation}: Props) => {
       ])
         .then(response => {
           setTicket(response[0].data);
-          setFriendshipData(response[1].result);
+          setFriendshipData(response[1].data);
         })
         .catch(error => {
           console.log(error);

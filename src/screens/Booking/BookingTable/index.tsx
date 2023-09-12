@@ -23,7 +23,7 @@ import {
   UIManager,
   View,
 } from 'react-native';
-import {PLACE_EVENTS} from '../../../utils/data';
+
 import {useCallback, useContext, useEffect, useState} from 'react';
 
 import BottomSheet from '@gorhom/bottom-sheet';
@@ -44,6 +44,7 @@ import {TableOrderDetail} from './OrderDetail';
 import {Colors} from '../../../theme';
 import {
   FriendsInvitation,
+  TableLayoutSheet,
   WaitingListSheet,
 } from '../../../components/organism';
 import {MonthYearInterface} from '../../../interfaces/Interface';
@@ -51,6 +52,7 @@ import {NightlifeService} from '../../../service/NightlifeService';
 import {FriendshipService} from '../../../service/FriendshipService';
 import {useAppSelector} from '../../../hooks/hooks';
 import {ModalToastContext} from '../../../context/AppModalToastContext';
+import {Map1} from 'iconsax-react-native';
 
 type Props = NativeStackScreenProps<MainStackParams, 'BookingTable', 'MyStack'>;
 
@@ -79,10 +81,13 @@ function BookingTableScreen({route, navigation}: Props) {
   const [isShowInvitation, setIsShowInvitation] = useState<boolean>(false);
   const [isErrorTable, setIsErrorTable] = useState<boolean>(false);
   const [isWaitingList, setIsWaitingList] = useState<boolean>(false);
+  const [isTableLayout, setIsTableLayout] = useState<boolean>(false);
   const [waitingListStep, setWaitingListStep] = useState<number>(1);
   const [selectedInvitation, setSelectedInvitation] = useState<
     FriendInterface[]
   >([]);
+  const [clubEvent, setClubEvent] = useState<PlaceEventsInterface[]>([]);
+  const [allDay, setAllDay] = useState<string[]>([]);
   const [monthYear, setMonthYear] = useState<MonthYearInterface>({
     month: Number(dateFormatter(new Date(), 'M')),
     year: Number(dateFormatter(new Date(), 'yyyy')),
@@ -95,11 +100,14 @@ function BookingTableScreen({route, navigation}: Props) {
         ? ['75']
         : isWaitingList && waitingListStep === 2
         ? ['30']
-        : !isWaitingList
+        : !isWaitingList && !isTableLayout
         ? ['70', '90']
+        : isTableLayout
+        ? ['60']
         : ['70'],
-    [isWaitingList, waitingListStep],
+    [isWaitingList, waitingListStep, isTableLayout],
   );
+
   const [isPayFull, setIsPayFull] = useState(false);
   const [isSplitBill, setIsSplitBill] = useState(false);
   const [friendshipData, setFriendshipData] = useState<FriendInterface[]>([]);
@@ -122,15 +130,6 @@ function BookingTableScreen({route, navigation}: Props) {
   }, []);
 
   const today = dateFormatter(new Date(), 'yyyy-MM-dd');
-
-  const allDay = getDaysInMonth(monthYear.month, monthYear.year).filter(
-    i =>
-      ![
-        ...PLACE_EVENTS.map(item => item.date),
-        ...[selectedDate],
-        ...[today],
-      ].includes(i),
-  );
 
   const MarkedDate = {
     [selectedDate]: {
@@ -194,9 +193,26 @@ function BookingTableScreen({route, navigation}: Props) {
         FriendshipService.getFriendship({
           userId: 'FQ5OvkolZtSBZEMlG1R3gtowbQv1',
         }),
+        NightlifeService.getClubEventSchedule({
+          params: {
+            club_id: placeData?.clubId as string,
+            year_month: `${monthYear.year}-${monthYear.month}`,
+          },
+        }),
       ])
         .then(response => {
-          setFriendshipData(response[0].result);
+          setFriendshipData(response[0].data);
+          setClubEvent(response[1].data);
+          setAllDay(
+            getDaysInMonth(monthYear.month, monthYear.year).filter(
+              i =>
+                ![
+                  ...response[1].data.map(item => item.date),
+                  ...[selectedDate],
+                  ...[today],
+                ].includes(i),
+            ),
+          );
         })
         .catch(error => {
           console.log(error);
@@ -209,7 +225,6 @@ function BookingTableScreen({route, navigation}: Props) {
     setTimeout(() => {
       step === 0 && onShowCalendar(true);
     }, 200);
-    fetchData();
   }, []);
 
   useEffect(() => {
@@ -217,6 +232,10 @@ function BookingTableScreen({route, navigation}: Props) {
       fetchTableList();
     }
   }, [selectedDate]);
+
+  useEffect(() => {
+    fetchData();
+  }, [monthYear]);
 
   const onShowCalendar = useCallback((isShow: boolean) => {
     LayoutAnimation.configureNext({
@@ -262,7 +281,7 @@ function BookingTableScreen({route, navigation}: Props) {
     setIsErrorCalendar(false);
     setSelectedDate(day);
     const events =
-      PLACE_EVENTS.find((item: PlaceEventsInterface) => item.date === day)
+      clubEvent.find((item: PlaceEventsInterface) => item.date === day)
         ?.events ?? [];
     setSelectedEvent(events);
     if (events.length) {
@@ -393,7 +412,7 @@ function BookingTableScreen({route, navigation}: Props) {
             onSelectDate={onSelectDate}
             data={Object.assign(
               MarkedDate,
-              generateCalendarEvents(PLACE_EVENTS, selectedDate),
+              generateCalendarEvents(clubEvent, selectedDate),
               generateCalendarOtherDay(allDay),
             )}
             isShowEvents={isShowEvents}
@@ -445,6 +464,21 @@ function BookingTableScreen({route, navigation}: Props) {
         </TouchableSection>
         {isShowTable && (
           <Section padding="20px 8px">
+            <TouchableSection
+              isRow
+              onPress={() => {
+                setIsTableLayout(true);
+                setTimeout(() => {
+                  bookingSheetRef.current?.expand();
+                }, 500);
+              }}>
+              <>
+                <Map1 size={16} color={Colors['white-100']} />
+                <Gap width={8} />
+                <Text fontWeight="semi-bold" label="Check Layout" />
+              </>
+            </TouchableSection>
+            <Gap height={8} />
             <ScrollView showsVerticalScrollIndicator={false}>
               {tableData.length &&
                 tableData.map((item, index) => (
@@ -530,7 +564,7 @@ function BookingTableScreen({route, navigation}: Props) {
       <BottomSheet
         ref={bookingSheetRef}
         index={-1}
-        enablePanDownToClose={isWaitingList ? false : true}
+        enablePanDownToClose={isWaitingList || isTableLayout ? false : true}
         snapPoints={snapPoints}
         backdropComponent={({style}) =>
           sheetIndex >= 0 ? (
@@ -563,6 +597,15 @@ function BookingTableScreen({route, navigation}: Props) {
                 navigation.navigate('Nightlife');
               }, 200);
             }}
+          />
+        ) : isTableLayout ? (
+          <TableLayoutSheet
+            hasBackNavigation
+            onBackNavigation={() => {
+              setIsTableLayout(false);
+              bookingSheetRef.current?.close();
+            }}
+            title={`${placeData?.name} Table Layout`}
           />
         ) : (
           <TableOrderDetail

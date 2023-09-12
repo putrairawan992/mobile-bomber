@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-shadow */
 import * as React from 'react';
 
 import {NavigationContainer} from '@react-navigation/native';
@@ -7,10 +8,11 @@ import {ReduxState} from '../store';
 import MainScreenStack from './MainScreenStack';
 import {navigationRef} from './RootNavigation';
 import {getStorage} from '../service/mmkvStorage';
-import {loginSuccess} from '../store/user/userActions';
+import {loginSuccess, setUserType} from '../store/user/userActions';
+import DjScreenStack from './DJScreenStack';
 
 function Routes() {
-  const {isLogin} = useSelector(
+  const {isLogin, userType} = useSelector(
     (state: ReduxState) => state.user,
     shallowEqual,
   );
@@ -18,8 +20,10 @@ function Routes() {
   const dispatch = useDispatch();
   const checkSession = async () => {
     const authData = await getStorage('userAuth');
+    const typeOfUser = await getStorage('userType');
     if (authData) {
       dispatch(loginSuccess(JSON.parse(authData)));
+      dispatch(setUserType(typeOfUser ?? ''));
     }
   };
 
@@ -30,7 +34,13 @@ function Routes() {
 
   return (
     <NavigationContainer ref={navigationRef}>
-      {isLogin ? <MainScreenStack /> : <AuthScreenStack />}
+      {isLogin && userType === 'regular' ? (
+        <MainScreenStack />
+      ) : isLogin && userType === 'dj' ? (
+        <DjScreenStack />
+      ) : (
+        <AuthScreenStack />
+      )}
     </NavigationContainer>
   );
 }

@@ -1,6 +1,13 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable react-native/no-inline-styles */
 import * as React from 'react';
-import {Section, Text, Layout} from '../../components/atoms';
+import {
+  Section,
+  Text,
+  Layout,
+  Gap,
+  TouchableSection,
+} from '../../components/atoms';
 import {useContext, useState} from 'react';
 import {StyleSheet, TouchableOpacity, View} from 'react-native';
 import OtpInputs from 'react-native-otp-inputs';
@@ -15,12 +22,15 @@ import {ThemeInterface} from '../../theme/ThemeProvider';
 import {LogoLabel, ModalToast} from '../../components/molecules';
 import auth from '@react-native-firebase/auth';
 import {useDispatch} from 'react-redux';
-import {loginSuccess} from '../../store/user/userActions';
+import {loginSuccess, setUserType} from '../../store/user/userActions';
 import {setStorage} from '../../service/mmkvStorage';
+import {Colors} from '../../theme';
+import {Edit2} from 'iconsax-react-native';
+import CountdownTimer from '../../components/molecules/Countdown';
 
 type Props = NativeStackScreenProps<AuthStackParams, 'OtpSignIn', 'MyStack'>;
 
-function OtpSignInNumberScreen({route}: Props) {
+function OtpSignInNumberScreen({route, navigation}: Props) {
   const theme = useTheme();
   const s = useThemedStyles(Styles);
   const dispatch = useDispatch();
@@ -36,6 +46,12 @@ function OtpSignInNumberScreen({route}: Props) {
     type,
     setType,
   } = useContext(ModalToastContext);
+  const [codeInput, setCodeInput] = useState<string>('');
+  const ONE_MINUTES = 1 * 60 * 1000;
+  const NOW_IN_MS = new Date().getTime();
+
+  const dateTimeOneMinutes = NOW_IN_MS + ONE_MINUTES;
+
   React.useEffect(() => {
     if (!route.params.isResend) {
       signInWithMobileNumber();
@@ -78,6 +94,7 @@ function OtpSignInNumberScreen({route}: Props) {
         bio: userData.bio,
       };
       await setStorage('userAuth', JSON.stringify(userAuth));
+      await setStorage('userType', 'regular');
       await setStorage(
         'refreshToken',
         JSON.stringify(response.user.uid + '_' + response.user.phoneNumber),
@@ -86,6 +103,7 @@ function OtpSignInNumberScreen({route}: Props) {
       openToast('success', 'Login successfully');
       setTimeout(() => {
         dispatch(loginSuccess(userAuth));
+        dispatch(setUserType('regular'));
       }, 2000);
     } catch (error: any) {
       setIsShowToast(true);
@@ -98,23 +116,33 @@ function OtpSignInNumberScreen({route}: Props) {
     <Layout contentContainerStyle={styles.container}>
       <View style={styles.signupLoginInputGroup}>
         <LogoLabel
-          title="Confirm Your Number"
-          subtitle={`Enter the code we sent over SMS to  ${userData.phone}:`}
+          title="One more steps"
+          subtitle={'Just finish the OTP and you ready to shake the stage'}
         />
         <View
           style={{
-            height: 82,
+            height: 100,
           }}>
+          <Section isRow>
+            <Text
+              fontWeight="semi-bold"
+              label={'we’ve sent this OTP to '}
+              color={Colors['white-100']}
+            />
+            <Text
+              fontWeight="semi-bold"
+              label={userData.phone}
+              color={Colors['warning-500']}
+            />
+            <Gap width={2} />
+            <TouchableOpacity onPress={() => navigation.goBack()}>
+              <Edit2 size={16} color={Colors['warning-500']} />
+            </TouchableOpacity>
+          </Section>
+          <Gap height={12} />
           {otpInputFill ? (
             <OtpInputs
-              handleChange={code => {
-                if (code.length === 6) {
-                  setOtpInputFill(false);
-                  setTimeout(() => {
-                    handleConfirmCode(code);
-                  }, 2000);
-                }
-              }}
+              handleChange={code => setCodeInput(code)}
               numberOfInputs={6}
               ref={otpRef}
               style={styles.otpInputContainer}
@@ -132,16 +160,47 @@ function OtpSignInNumberScreen({route}: Props) {
             </View>
           )}
         </View>
+
         <Section isRow>
           <Text
             variant="base"
-            label="Didn’t get a code? "
+            label="Don’t receive OTP ? "
             color={theme?.colors.TEXT_SECONDARY}
+            fontWeight="medium"
           />
-          <TouchableOpacity onPress={signInWithMobileNumber}>
-            <Text variant="base" label="Resent" color={theme?.colors.PRIMARY} />
-          </TouchableOpacity>
+          <CountdownTimer
+            targetDate={dateTimeOneMinutes}
+            component={
+              <TouchableOpacity onPress={signInWithMobileNumber}>
+                <Text
+                  variant="base"
+                  label="Resent"
+                  color={theme?.colors.PRIMARY}
+                />
+              </TouchableOpacity>
+            }
+          />
         </Section>
+        <Gap height={56} />
+        <TouchableSection
+          padding="12px 20px"
+          backgroundColor="#333"
+          rounded={8}
+          onPress={() => {
+            if (codeInput.length === 6) {
+              setOtpInputFill(false);
+              setTimeout(() => {
+                handleConfirmCode(codeInput);
+              }, 2000);
+            }
+          }}>
+          <Text
+            variant="large"
+            label="Submit"
+            color={Colors['black-20']}
+            textAlign="center"
+          />
+        </TouchableSection>
       </View>
       <ModalToast
         isVisible={isShowToast}
@@ -159,13 +218,15 @@ const Styles = (theme: ThemeInterface) =>
   StyleSheet.create({
     otpStyle: {
       width: 50,
-      height: 50,
+      height: 60,
       backgroundColor: theme?.colors.BACKGROUND2,
       borderRadius: 12,
       borderWidth: 1,
       borderColor: theme?.colors.BORDER,
       textAlign: 'center',
-      fontSize: 14,
+      fontSize: 32,
+      lineHeight: 40,
+      alignContent: 'center',
       fontFamily: 'Poppins-Regular',
       color: theme?.colors.TEXT_PRIMARY,
     },

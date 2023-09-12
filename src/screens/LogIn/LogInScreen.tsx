@@ -15,18 +15,25 @@ import {
   Text,
   TextInput,
   Layout,
+  Gap,
+  Loading,
 } from '../../components/atoms';
 import {LogoLabel, ModalToast} from '../../components/molecules';
 import {useContext, useEffect, useState} from 'react';
 import auth from '@react-native-firebase/auth';
 import {AuthService} from '../../service/AuthService';
 import {ModalToastContext} from '../../context/AppModalToastContext';
+import {setStorage} from '../../service/mmkvStorage';
+import {useDispatch} from 'react-redux';
+import {loginSuccess, setUserType} from '../../store/user/userActions';
 
 type Props = NativeStackScreenProps<AuthStackParams, 'LogIn', 'MyStack'>;
 
 function LogInScreen({navigation}: Props) {
   const theme = useTheme();
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isLoadingDj, setIsLoadingDj] = useState<boolean>(false);
+  const dispatch = useDispatch();
   const {
     isShowToast,
     setIsShowToast,
@@ -102,8 +109,36 @@ function LogInScreen({navigation}: Props) {
     };
   }, []);
 
+  const djSignIn = async () => {
+    setIsLoadingDj(true);
+    const userAuth = {
+      id: 'abc',
+      fullName: 'Calvin Harris',
+      username: 'calvin.harris',
+      phone: '+6282119395389',
+      photoUrl:
+        'https://upload.wikimedia.org/wikipedia/commons/thumb/0/02/Calvin_Harris_-_Rock_in_Rio_Madrid_2012_-_09.jpg/220px-Calvin_Harris_-_Rock_in_Rio_Madrid_2012_-_09.jpg',
+      email: 'calvin.harris@gmail.com',
+      creationTime: 0,
+      lastSignInTime: 0,
+      emailVerified: false,
+      age: 0,
+      bio: '',
+    };
+    await setStorage('userAuth', JSON.stringify(userAuth));
+    await setStorage('userType', 'dj');
+    await setStorage('refreshToken', JSON.stringify('abc'));
+    setIsLoadingDj(false);
+    openToast('success', 'Login as DJ successfully');
+    setTimeout(() => {
+      dispatch(loginSuccess(userAuth));
+      dispatch(setUserType('dj'));
+    }, 2000);
+  };
+
   return (
     <Layout contentContainerStyle={styles.container}>
+      {isLoadingDj && <Loading />}
       <LogoLabel
         title="Nightlife Awaits!"
         subtitle="Access your account and get ready for an unforgettable night of fun and celebration."
@@ -155,6 +190,21 @@ function LogInScreen({navigation}: Props) {
           <Text
             variant="base"
             label="Register Now"
+            color={theme?.colors.PRIMARY}
+          />
+        </TouchableOpacity>
+      </Section>
+      <Gap height={10} />
+      <Section isRow>
+        <Text
+          variant="base"
+          label="Are you DJ ?"
+          color={theme?.colors.TEXT_SECONDARY}
+        />
+        <TouchableOpacity onPress={djSignIn}>
+          <Text
+            variant="base"
+            label=" Enter Here"
             color={theme?.colors.PRIMARY}
           />
         </TouchableOpacity>

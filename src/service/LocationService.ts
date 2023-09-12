@@ -4,6 +4,7 @@ import {
   UserLocationInterface,
 } from '../interfaces/UserInterface';
 import Config from 'react-native-config';
+import {GooglePlaceDetail} from 'react-native-google-places-autocomplete';
 
 export const LocationService = {
   geocodeReverse(payload: LocationInterface): Promise<UserLocationInterface> {
@@ -33,6 +34,26 @@ export const LocationService = {
               });
             }, Math.random() * 500);
           }
+        })
+        .catch((error: any) => {
+          rejected(error);
+          Alert.alert('No Signal');
+        });
+    });
+  },
+  getPlaceDetail(placeId: string): Promise<GooglePlaceDetail> {
+    return new Promise((resolved, rejected) => {
+      fetch(
+        `https://maps.googleapis.com/maps/api/place/details/json?placeid=${placeId}&key=${Config.KEY_GOOGLE_API}`,
+        {
+          method: 'get',
+        },
+      )
+        .then(res => res.json())
+        .then((data: any) => {
+          setTimeout(() => {
+            resolved(data.result);
+          }, Math.random() * 500);
         })
         .catch((error: any) => {
           rejected(error);

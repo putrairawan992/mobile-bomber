@@ -42,6 +42,8 @@ function ProfileScreen() {
   const onLogOut = async () => {
     await removeStorage('refreshToken');
     await removeStorage('userAuth');
+    await removeStorage('userType');
+    await removeStorage('historySearchLocation');
     await auth().signOut();
     dispatch(handleLogOut());
   };

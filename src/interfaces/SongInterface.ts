@@ -7,3 +7,11 @@ export interface RequestSongPayloadInterface {
 }
 
 export interface RequestSongResponseInterface {}
+
+export interface DjRequestSongInterface {
+  title: string;
+  artis: string;
+  fee: number;
+  requestedName: string;
+  requestedPhotoUrl: string;
+}

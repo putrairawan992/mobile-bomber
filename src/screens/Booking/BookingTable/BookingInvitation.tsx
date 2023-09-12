@@ -11,15 +11,15 @@ import {
   Text,
   TextInput,
 } from '../../../components/atoms';
-import {UserInterface} from '../../../interfaces/UserInterface';
+import {FriendInterface} from '../../../interfaces/UserInterface';
 import useTheme from '../../../theme/useTheme';
 import {WIDTH} from '../../../utils/config';
 import styles from '../Styles';
 
 interface BookingInvitationInterface {
-  data: UserInterface[];
-  onInvite: (value: UserInterface) => void;
-  selectedInvitation: UserInterface[];
+  data: FriendInterface[];
+  onInvite: (value: FriendInterface) => void;
+  selectedInvitation: FriendInterface[];
 }
 
 export const BookingInvitation = ({
@@ -34,16 +34,19 @@ export const BookingInvitation = ({
   const theme = useTheme();
 
   const FriendsTab = () => {
+    console.log('datane :', data);
     return (
       <>
         {data
-          .filter(
-            (item: UserInterface) =>
+          ?.filter(
+            (item: FriendInterface) =>
               item.fullName &&
               item.fullName.match(new RegExp(searchValue, 'i')),
           )
-          .map((item: UserInterface, idx) => {
-            const isInvited = selectedInvitation.find(el => el.id === item.id);
+          .map((item: FriendInterface, idx) => {
+            const isInvited = selectedInvitation.find(
+              el => el.customerId === item.customerId,
+            );
             return (
               <EntryAnimation index={idx} key={idx}>
                 <Section isRow isBetween style={{marginBottom: 20}}>
@@ -52,7 +55,7 @@ export const BookingInvitation = ({
                     size="x-large"
                     alt={item.fullName ?? ''}
                     name={item.fullName}
-                    username={item.username}
+                    username={item.userName}
                   />
                   <TouchableOpacity
                     onPress={() => onInvite(item)}
@@ -80,7 +83,7 @@ export const BookingInvitation = ({
   const InvitationTab = () => {
     return (
       <>
-        {selectedInvitation.map((item: UserInterface, idx) => {
+        {selectedInvitation.map((item: FriendInterface, idx) => {
           return (
             <EntryAnimation index={idx} key={idx}>
               <Section isRow isBetween style={{marginBottom: 20}}>
@@ -89,7 +92,7 @@ export const BookingInvitation = ({
                   size="x-large"
                   alt={item.fullName ?? ''}
                   name={item.fullName}
-                  username={item.username}
+                  username={item.userName}
                 />
                 <TouchableOpacity
                   onPress={() => onInvite(item)}

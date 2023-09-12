@@ -10,6 +10,7 @@ import {
   Button,
   Gap,
   Layout,
+  Loading,
   Section,
   Text,
   TouchableSection,
@@ -20,7 +21,6 @@ import {
   PlaceEventsInterface,
 } from '../../../interfaces/PlaceInterface';
 import useTheme from '../../../theme/useTheme';
-import {PLACE_EVENTS} from '../../../utils/data';
 import {dateFormatter} from '../../../utils/dateFormatter';
 import {
   generateCalendarEvents,
@@ -32,6 +32,7 @@ import styles from '../../Styles';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {MainStackParams} from '../../../navigation/MainScreenStack';
 import {MonthYearInterface} from '../../../interfaces/Interface';
+import {NightlifeService} from '../../../service/NightlifeService';
 
 if (Platform.OS === 'android') {
   if (UIManager.setLayoutAnimationEnabledExperimental) {
@@ -56,6 +57,40 @@ export const BookingWalkInScreen = ({route, navigation}: Props) => {
     month: Number(dateFormatter(new Date(), 'M')),
     year: Number(dateFormatter(new Date(), 'yyyy')),
   });
+  const [clubEvent, setClubEvent] = useState<PlaceEventsInterface[]>([]);
+  const [allDay, setAllDay] = useState<string[]>([]);
+  const [isLoading, setIsLoading] = React.useState<boolean>(false);
+
+  const fetchData = async () => {
+    try {
+      setIsLoading(true);
+      await Promise.all([
+        NightlifeService.getClubEventSchedule({
+          params: {
+            club_id: route.params.placeData?.clubId as string,
+            year_month: `${monthYear.year}-${monthYear.month}`,
+          },
+        }),
+      ])
+        .then(response => {
+          setClubEvent(response[0].data);
+          setAllDay(
+            getDaysInMonth(monthYear.month, monthYear.year).filter(
+              i =>
+                ![
+                  ...response[0].data.map(item => item.date),
+                  ...[selectedDate],
+                  ...[today],
+                ].includes(i),
+            ),
+          );
+        })
+        .catch(error => {
+          console.log(error);
+        })
+        .finally(() => setIsLoading(false));
+    } catch (error: any) {}
+  };
 
   useEffect(() => {
     setTimeout(() => {
@@ -64,16 +99,12 @@ export const BookingWalkInScreen = ({route, navigation}: Props) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const today = dateFormatter(new Date(), 'yyyy-MM-dd');
+  useEffect(() => {
+    fetchData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [monthYear]);
 
-  const allDay = getDaysInMonth(monthYear.month, monthYear.year).filter(
-    i =>
-      ![
-        ...PLACE_EVENTS.map(item => item.date),
-        ...[selectedDate],
-        ...[today],
-      ].includes(i),
-  );
+  const today = dateFormatter(new Date(), 'yyyy-MM-dd');
 
   const MarkedDate = {
     [selectedDate]: {
@@ -133,7 +164,7 @@ export const BookingWalkInScreen = ({route, navigation}: Props) => {
   const onSelectDate = (day: string) => {
     setSelectedDate(day);
     const events =
-      PLACE_EVENTS.find((item: PlaceEventsInterface) => item.date === day)
+      clubEvent.find((item: PlaceEventsInterface) => item.date === day)
         ?.events ?? [];
     setSelectedEvent(events);
     if (events.length) {
@@ -158,6 +189,7 @@ export const BookingWalkInScreen = ({route, navigation}: Props) => {
   return (
     <Layout contentContainerStyle={styles.container} isScrollable={false}>
       <Header transparent hasBackBtn title="Walk In" />
+      {isLoading && <Loading />}
       <Section padding="0px 16px" style={{flex: 1}}>
         <Gap height={12} />
         <TouchableSection
@@ -181,7 +213,7 @@ export const BookingWalkInScreen = ({route, navigation}: Props) => {
             onSelectDate={onSelectDate}
             data={Object.assign(
               MarkedDate,
-              generateCalendarEvents(PLACE_EVENTS, selectedDate),
+              generateCalendarEvents(clubEvent, selectedDate),
               generateCalendarOtherDay(allDay),
             )}
             isShowEvents={isShowEvents}

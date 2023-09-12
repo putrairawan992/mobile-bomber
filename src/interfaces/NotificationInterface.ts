@@ -19,3 +19,29 @@ export interface BillNotificationInterface {
   isFoodOrder: boolean;
   date: string;
 }
+
+export interface InviteNotificationInterface {
+  id: string;
+  bookingId: string;
+  hostId: string;
+  hostUsername: string;
+  hostPhotoUrl: string;
+  status: string;
+  bookingDate: string;
+  totalGuest: number;
+  tableName: string;
+  clubName: string;
+  logo: string;
+  isRead: number;
+  message?: string;
+}
+
+export interface PayloadActionInvitationInterface {
+  id: string;
+  new_status: string;
+}
+
+export interface PayloadReadNotificationInterface {
+  id: string;
+  new_status: number;
+}

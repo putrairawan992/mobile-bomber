@@ -15,6 +15,7 @@ export default function NotificationFriends({data}: NotificationFriendsProps) {
       renderItem={({item, index}) => (
         <CardNotificationFriends
           data={item}
+          key={`friend_notif_${index}`}
           isShowBorder={data.length === index + 1 ? false : true}
         />
       )}

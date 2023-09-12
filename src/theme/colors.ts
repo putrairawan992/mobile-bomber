@@ -1,4 +1,3 @@
-/* eslint-disable object-shorthand */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 // eslint-comments/no-unused-disable
 const SUN_FLOWER = '#f1c40f';
@@ -46,6 +45,8 @@ const common = {
   B1: '#232323',
   INACTIVE: '#CBCBCB',
   DANGER: '#EC1B04',
+  SHEET: '#212121',
+  SHEET_CONTAINER: '#2D2D2D',
 };
 
 const light = {
