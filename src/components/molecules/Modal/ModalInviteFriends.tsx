@@ -14,6 +14,7 @@ import {
   EntryAnimation,
   Gap,
   GradientText,
+  Loading,
   Section,
   Spacer,
   Text,
@@ -31,8 +32,9 @@ interface ModalInviteFriends {
   hide: () => void;
   friendshipData: any;
   onFriendInvited: (value: string[]) => void;
-  selectedInvitation: FriendInterface[];
+  selectedInvitation?: FriendInterface[];
   handleInvite: (value: any) => void;
+  isLoading: boolean;
 }
 
 export default function ModalInviteFriends({
@@ -42,6 +44,7 @@ export default function ModalInviteFriends({
   onFriendInvited,
   selectedInvitation,
   handleInvite,
+  isLoading,
 }: ModalInviteFriends) {
   const [menu] = useState<string[]>(['Friends', 'Squad', 'Invitation']);
   const [initialPage, setInitialPage] = useState<number>(0);
@@ -49,9 +52,8 @@ export default function ModalInviteFriends({
   const theme = useTheme();
   const ref = createRef<PagerView>();
 
-  const onInvite = (data: any,index:any) => {
-    console.log(data,index);
-    
+  const onInvite = (data: any, index: any) => {
+    console.log(data, index);
     setShowInvitation(true);
   };
 
@@ -197,7 +199,11 @@ export default function ModalInviteFriends({
               ref={ref}
               onPageSelected={e => setInitialPage(e.nativeEvent.position)}>
               <View key="1">
-                <Friends onPress={onInvite} friendshipData={friendshipData} />
+                {isLoading ? (
+                  <Loading />
+                ) : (
+                  <Friends onPress={onInvite} friendshipData={friendshipData} />
+                )}
               </View>
               <View key="2">
                 <Squad />
@@ -220,14 +226,14 @@ const Friends = ({
   onPress,
   friendshipData,
 }: {
-  onPress: (value: string,val:any) => void;
+  onPress: (value: string, val: any) => void;
   friendshipData: any;
 }) => {
   console.log('friendshipData', friendshipData);
 
   return (
     <ScrollView showsVerticalScrollIndicator={false}>
-      {friendshipData.map((list: any, indexer: number) => {
+      {friendshipData.map((list: any) => {
         return <CardInviteFriends val={list} onPress={onPress} />;
       })}
     </ScrollView>

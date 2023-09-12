@@ -79,28 +79,41 @@ export default function WineryOrder() {
       .catch(err => console.log('err get product: ', err.response))
       .finally(() => setProductsLoading(false));
   };
-console.log("prudcts", products);
 
-  const handleQuantityChange = (
-    index: number,
-    newQuantity: number,
-    values: any,
-  ) => {
-    const newProducts = [...values] as any[];
-    newProducts[index].quantity = newQuantity;
-    const itemToAdd = {...newProducts[index], quantity: newQuantity};
-    const newCheckoutItems = [...checkoutItems];
-    const existingIndex = newCheckoutItems.findIndex(
-      item =>
-        item.englishProductTitle === itemToAdd.englishProductTitle &&
-        item.chineseProductTitle === itemToAdd.chineseProductTitle,
+  const handleQuantityChange = (values: any) => {
+    let findItem: any = Boolean(
+      checkoutItems.find(
+        (item: any) =>
+          item.englishProductTitle === values.englishProductTitle &&
+          item.chineseProductTitle === values.chineseProductTitle,
+      ),
     );
-    if (existingIndex > -1) {
-      newCheckoutItems[existingIndex].quantity += newQuantity;
+    if (!findItem) {
+      setCheckoutItems([...checkoutItems, values]);
     } else {
-      newCheckoutItems.push(itemToAdd);
+      setCheckoutItems(
+        checkoutItems.filter(
+          (item: any) =>
+            item.englishProductTitle !== values.englishProductTitle &&
+            item.chineseProductTitle !== values.chineseProductTitle,
+        ),
+      );
     }
-    setCheckoutItems(newCheckoutItems);
+    // const newProducts = [...values] as any[];
+    // newProducts[index].quantity = newQuantity;
+    // const itemToAdd = {...newProducts[index], quantity: newQuantity};
+    // const newCheckoutItems = [...checkoutItems];
+    // const existingIndex = newCheckoutItems.findIndex(
+    //   item =>
+    //     item.englishProductTitle === itemToAdd.englishProductTitle &&
+    //     item.chineseProductTitle === itemToAdd.chineseProductTitle,
+    // );
+    // if (existingIndex > -1) {
+    //   newCheckoutItems[existingIndex].quantity += newQuantity;
+    // } else {
+    //   newCheckoutItems.push(itemToAdd);
+    // }
+    // setCheckoutItems(newCheckoutItems);
   };
 
   return (

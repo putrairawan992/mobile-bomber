@@ -11,6 +11,7 @@ export const FriendshipService = {
     userId: string;
   }): Promise<APIResponse<FriendInterface[]>> => {
     const response = await ax.get(`${URL_Global}/get_friendship/${userId}`);
+
     return response.data;
   },
 };

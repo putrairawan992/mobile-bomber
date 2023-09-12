@@ -53,8 +53,8 @@ export default function MyBookingDetail() {
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
   const [friendshipData, setFriendshipData] = useState<FriendInterface[]>([]);
   const [selectedInvitation, setSelectedInvitation] = useState<
-  FriendInterface[]
->([]);
+    FriendInterface[]
+  >([]);
 
   const ref = useRef<ScrollView>(null);
 
@@ -92,13 +92,17 @@ export default function MyBookingDetail() {
         }),
       ])
         .then(response => {
+          console.log(response);
+
           setFriendshipData(response[0].result);
         })
         .catch(error => {
           console.log(error);
         })
         .finally(() => setIsLoading(false));
-    } catch (error: any) {}
+    } catch (error: any) {
+      console.log(error.response);
+    }
   };
 
   const handleInvite = (data: FriendInterface) => {
@@ -439,6 +443,7 @@ export default function MyBookingDetail() {
         <ModalInviteFriends
           show={showInviteFriends}
           handleInvite={handleInvite}
+          isLoading={isLoading}
           friendshipData={friendshipData}
           hide={() => setShowInviteFriends(false)}
           onFriendInvited={onFriendInvited}

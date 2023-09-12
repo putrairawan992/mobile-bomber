@@ -30,6 +30,7 @@ import PaymentPage from '../screens/PaymentPage';
 import Offers from '../screens/Offers';
 import {PlaceInterface} from '../interfaces/PlaceInterface';
 import {GalleryScreen} from '../screens/Gallery';
+import PrivacyPage from '../screens/Privacy';
 
 export type MainStackParams = {
   Nightlife: undefined;
@@ -52,6 +53,7 @@ export type MainStackParams = {
   BookingTable: {
     placeData: PlaceInterface | null;
   };
+  Privacy: undefined;
   WineryOrder: undefined;
   SongPlaylist: undefined;
   RequestSong: undefined;
@@ -218,6 +220,7 @@ const MainScreenStack = () => {
       <Stack.Screen name="VerificationID3" component={VerificationID3} />
       <Stack.Screen name="PaymentPage" component={PaymentPage} />
       <Stack.Screen name="Offers" component={Offers} />
+      <Stack.Screen name="Privacy" component={PrivacyPage} />
       <Stack.Screen
         name="Gallery"
         component={GalleryScreen}
