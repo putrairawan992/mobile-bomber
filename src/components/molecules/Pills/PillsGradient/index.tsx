@@ -3,14 +3,15 @@ import React from 'react';
 import {View} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import useTheme from '../../../../theme/useTheme';
-import {Text} from '../../../atoms';
+import {Gap, Text} from '../../../atoms';
 
 interface PillsGradientProps {
   colors: string[];
   title: string;
+  icon?: JSX.Element;
 }
 
-export const PillsGradient = ({colors, title}: PillsGradientProps) => {
+export const PillsGradient = ({colors, title, icon}: PillsGradientProps) => {
   const theme = useTheme();
   return (
     <LinearGradient
@@ -27,12 +28,19 @@ export const PillsGradient = ({colors, title}: PillsGradientProps) => {
       <View
         style={{
           backgroundColor: theme?.colors.BACKGROUND1,
-          paddingHorizontal: 4,
+          paddingHorizontal: 12,
           paddingVertical: 2,
           borderRadius: 3,
           alignItems: 'center',
           justifyContent: 'center',
+          flexDirection: 'row',
         }}>
+        {!!icon && (
+          <>
+            {icon}
+            <Gap width={6} />
+          </>
+        )}
         <Text variant="small" fontWeight="medium" label={title} />
       </View>
     </LinearGradient>

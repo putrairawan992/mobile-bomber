@@ -1,3 +1,5 @@
+import {GooglePlaceDetail} from 'react-native-google-places-autocomplete';
+
 export interface UserInterface {
   id: string;
   fullName?: string;
@@ -72,4 +74,8 @@ export interface FriendInterface {
   age: number;
   bio: string;
   status: number;
+}
+
+export interface PlaceDetailInterface extends GooglePlaceDetail {
+  location: UserLocationInterface;
 }

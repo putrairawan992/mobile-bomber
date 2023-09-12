@@ -23,8 +23,10 @@ import {Karaoke} from './Karaoke';
 import {King} from './King';
 import {Logo} from './Logo';
 import {LogoText} from './LogoText';
+import {MapsGradient} from './MapsGradient';
 import {MoneySquare} from './MoneySquare';
 import {Pin} from './Pin';
+import {Position} from './Position';
 
 import {Smiley} from './Smiley';
 
@@ -71,4 +73,6 @@ export {
   Close,
   Clock,
   ClockGradient,
+  Position,
+  MapsGradient,
 };
