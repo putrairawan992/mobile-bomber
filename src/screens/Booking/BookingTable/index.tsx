@@ -201,7 +201,7 @@ function BookingTableScreen({route, navigation}: Props) {
         }),
       ])
         .then(response => {
-          setFriendshipData(response[0].result);
+          setFriendshipData(response[0].data);
           setClubEvent(response[1].data);
           setAllDay(
             getDaysInMonth(monthYear.month, monthYear.year).filter(

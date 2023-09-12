@@ -538,3 +538,12 @@ export const DJ_REQUEST_DATA: DjRequestSongInterface[] = [
       'https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2022-06/unnamed_3.jpeg.webp?itok=fhBZmcG3',
   },
 ];
+
+export const CITY_SAMPLE_DATA = [
+  'Taoyuan',
+  'Taichung',
+  'Yilang',
+  'Changhua',
+  'Chiayi',
+  'Kinmen',
+];

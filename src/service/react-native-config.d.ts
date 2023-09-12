@@ -10,6 +10,7 @@ declare module 'react-native-config' {
     FIREBASE_APP_ID: string;
     FIREBASE_MEASUREMENT_ID: string;
     API_ENDPOINT: string;
+    KEY_GOOGLE_API: string;
   }
 
   export const Config: NativeConfig;

@@ -51,7 +51,13 @@ const Dashboard = ({navigation}: Props) => {
       {isLoading && <Loading />}
       <TouchableOpacity
         onPress={onSignOut}
-        style={{position: 'absolute', left: 16, top: 16, zIndex: 9999}}>
+        style={{
+          position: 'absolute',
+          left: 10,
+          top: 10,
+          zIndex: 999999,
+          padding: 6,
+        }}>
         <ArrowLeft2 size={24} color={Colors['white-100']} />
       </TouchableOpacity>
       <ImageBackground

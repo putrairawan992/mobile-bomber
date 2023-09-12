@@ -34,6 +34,7 @@ const Colors = {
   'black-70': '#424C5A',
   'white-70': '#EFF4FB',
   'white-100': '#FCFCFC',
+  'gray-50': '#EFF0F2',
   'gray-100': '#E1E2E5',
   'gray-400': '#898E9A',
   'gray-900': '#16171A',
