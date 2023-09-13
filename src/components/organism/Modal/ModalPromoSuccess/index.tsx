@@ -1,7 +1,8 @@
 import {View} from 'react-native';
 import React from 'react';
 import Modal from 'react-native-modal';
-import {Button, DefaultText, Gap} from '../../../atoms';
+import {Button, DefaultText, Gap, Text} from '../../../atoms';
+import {Colors} from '../../../../theme';
 
 interface ModalPromoSuccessProps {
   show: boolean;
@@ -28,11 +29,14 @@ export default function ModalPromoSuccess({
           titleClassName="text-center text-base font-inter-bold text-warning"
         />
         <Gap height={20} />
-        <DefaultText
-          title="Sucessfuly Apply Coupon"
-          titleClassName="text-center text-2xl font-inter-bold"
+        <Text
+          variant="large"
+          fontWeight="bold"
+          color={Colors['white-100']}
+          label="Successfuly Apply Coupon"
+          textAlign="center"
         />
-        <Gap height={30} />
+        <Gap height={54} />
         <Button
           buttonPrimaryColors={['#A060FA', '#A060FA']}
           type="primary"

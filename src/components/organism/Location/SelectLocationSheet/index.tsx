@@ -1,6 +1,6 @@
 /* eslint-disable react-native/no-inline-styles */
 import React, {useRef, useState} from 'react';
-import {ScrollView, View} from 'react-native';
+import {ScrollView as RNScrollView, View} from 'react-native';
 import useTheme from '../../../../theme/useTheme';
 import {EntryAnimation, Gap, Loading, Section, Text} from '../../../atoms';
 import {
@@ -18,6 +18,7 @@ import {useAppSelector} from '../../../../hooks/hooks';
 import {MapsGradient, Position} from '../../../../assets/icons';
 import {CITY_SAMPLE_DATA} from '../../../../utils/data';
 import {gradientMapping} from '../../../../utils/config';
+import {ScrollView} from 'react-native-gesture-handler';
 
 interface TableLayoutSheetProps {
   history: PlaceDetailInterface[];
@@ -52,7 +53,13 @@ export const SelectLocationSheet = ({
   };
 
   return (
-    <Section padding="0px 16px" backgroundColor={theme?.colors.SHEET}>
+    <Section
+      padding="0px 16px"
+      backgroundColor={theme?.colors.SHEET}
+      style={{
+        borderTopWidth: 1,
+        borderTopColor: theme?.colors.SHEET,
+      }}>
       {isLoading && <Loading />}
       <Gap height={15} />
       <Section isRow isBetween>
@@ -71,7 +78,7 @@ export const SelectLocationSheet = ({
         />
       </Section>
       <Gap height={12} />
-      <ScrollView keyboardShouldPersistTaps={'handled'}>
+      <RNScrollView keyboardShouldPersistTaps={'handled'}>
         <GooglePlacesAutocomplete
           ref={inputRef}
           enablePoweredByContainer={false}
@@ -122,7 +129,7 @@ export const SelectLocationSheet = ({
             );
           }}
         />
-      </ScrollView>
+      </RNScrollView>
       <Gap height={12} />
       <Section
         backgroundColor={theme?.colors.SHEET_CONTAINER}
@@ -152,14 +159,16 @@ export const SelectLocationSheet = ({
       <Gap height={12} />
       <Text label={'Recent location'} color={Colors['warning-500']} />
       <Gap height={16} />
-      {history?.map((item, idx) => (
-        <CardLocationHistory
-          item={item}
-          index={idx}
-          key={`history_${idx}`}
-          onSelect={onSelectLocation}
-        />
-      ))}
+      <ScrollView style={{maxHeight: 240}} showsVerticalScrollIndicator={false}>
+        {history?.map((item, idx) => (
+          <CardLocationHistory
+            item={item}
+            index={idx}
+            key={`history_${idx}`}
+            onSelect={onSelectLocation}
+          />
+        ))}
+      </ScrollView>
       <Gap height={12} />
       <Text
         variant="base"
@@ -168,18 +177,20 @@ export const SelectLocationSheet = ({
         color={theme?.colors.WARNING}
       />
       <Gap height={16} />
-      {CITY_SAMPLE_DATA.map((item, index) => (
-        <EntryAnimation index={index} key={`city_${index}`}>
-          <Section
-            backgroundColor={theme?.colors.SHEET_CONTAINER}
-            isRow
-            padding="8px 12px"
-            rounded={8}
-            style={{marginBottom: 12}}>
-            <Text label={item} color={Colors['white-100']} />
-          </Section>
-        </EntryAnimation>
-      ))}
+      <ScrollView style={{maxHeight: 200}} showsVerticalScrollIndicator={false}>
+        {CITY_SAMPLE_DATA.map((item, index) => (
+          <EntryAnimation index={index} key={`city_${index}`}>
+            <Section
+              backgroundColor={theme?.colors.SHEET_CONTAINER}
+              isRow
+              padding="8px 12px"
+              rounded={8}
+              style={{marginBottom: 12}}>
+              <Text label={item} color={Colors['white-100']} />
+            </Section>
+          </EntryAnimation>
+        ))}
+      </ScrollView>
       <Gap height={400} />
     </Section>
   );

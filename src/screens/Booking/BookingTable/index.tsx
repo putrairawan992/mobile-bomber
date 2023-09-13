@@ -203,22 +203,26 @@ function BookingTableScreen({route, navigation}: Props) {
         .then(response => {
           setFriendshipData(response[0].data);
           setClubEvent(response[1].data);
-          setAllDay(
-            getDaysInMonth(monthYear.month, monthYear.year).filter(
-              i =>
-                ![
-                  ...response[1].data.map(item => item.date),
-                  ...[selectedDate],
-                  ...[today],
-                ].includes(i),
-            ),
-          );
+          updateAllDayState(response[1].data);
         })
         .catch(error => {
           console.log(error);
         })
         .finally(() => setIsLoading(false));
     } catch (error: any) {}
+  };
+
+  const updateAllDayState = (eventList: PlaceEventsInterface[]) => {
+    setAllDay(
+      getDaysInMonth(monthYear.month, monthYear.year).filter(
+        i =>
+          ![
+            ...eventList.map(item => item.date),
+            ...[selectedDate],
+            ...[today],
+          ].includes(i),
+      ),
+    );
   };
 
   useEffect(() => {
@@ -230,6 +234,7 @@ function BookingTableScreen({route, navigation}: Props) {
   useEffect(() => {
     if (selectedDate) {
       fetchTableList();
+      updateAllDayState(clubEvent);
     }
   }, [selectedDate]);
 

@@ -9,7 +9,7 @@ import {
   HouseGradient,
 } from '../../../../assets/icons';
 import {useImageAspectRatio} from '../../../../hooks/useImageAspectRatio';
-import {FriendInterface} from '../../../../interfaces/UserInterface';
+import {UserInterface} from '../../../../interfaces/UserInterface';
 import {Colors} from '../../../../theme';
 import useTheme from '../../../../theme/useTheme';
 import {gradientMapping, WIDTH} from '../../../../utils/config';
@@ -20,7 +20,7 @@ import {PartyInterface} from '../../../../interfaces/BookingInterface';
 
 interface FriendInviteConfirmationSheetProps {
   data: InviteNotificationInterface | null;
-  user: FriendInterface | null;
+  user: UserInterface | null;
   onBackPress?: () => void;
   type: 'invite' | 'approve';
   onConfirm: (action: string) => void;
@@ -42,7 +42,11 @@ export const FriendInviteConfirmationSheet = ({
   return (
     <Section
       padding="0px 16px"
-      style={{flex: 1}}
+      style={{
+        flex: 1,
+        borderTopColor: theme?.colors.SECTION,
+        borderTopWidth: 1,
+      }}
       backgroundColor={theme?.colors.SECTION}>
       {isInvite && (
         <TouchableOpacity
