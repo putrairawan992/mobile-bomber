@@ -8,7 +8,7 @@ import {
   Video,
   WristClock,
 } from 'iconsax-react-native';
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useRef, useState} from 'react';
 import {
   Animated,
   Dimensions,
@@ -33,7 +33,7 @@ import {
 } from '../../../interfaces/PlaceInterface';
 import useTheme from '../../../theme/useTheme';
 import {WIDTH} from '../../../utils/config';
-import {PLACES_DATA, PLACE_MENU, PLACE_OVERVIEW} from '../../../utils/data';
+import {PLACE_MENU, PLACE_OVERVIEW} from '../../../utils/data';
 import {randomNumber} from '../../../utils/function';
 
 const {width} = Dimensions.get('window');
@@ -53,17 +53,17 @@ export default function PlaceDetailV2() {
   const offset = headerHeight - headerFinalHeight;
   const theme = useTheme();
 
-  useEffect(() => {
-    const getPlaceData = () => {
-      if (placeId) {
-        setData(
-          PLACES_DATA.find((item: PlaceInterface) => item.id === placeId),
-        );
-      }
-    };
+  // useEffect(() => {
+  //   const getPlaceData = () => {
+  //     if (placeId) {
+  //       setData(
+  //         PLACES_DATA.find((item: PlaceInterface) => item.id === placeId),
+  //       );
+  //     }
+  //   };
 
-    getPlaceData();
-  }, [placeId]);
+  //   getPlaceData();
+  // }, [placeId]);
 
   const scrollHandler = (key: number) => {
     if (dataSourceCords.length > scrollToIndex) {
@@ -403,7 +403,6 @@ export default function PlaceDetailV2() {
             menu={PLACE_MENU}
             selectedMenu={selectedMenu}
             handleSelect={(id: number) => {
-              console.log('selectt :', id);
               setSelectedMenu(id);
               scrollHandler(id);
             }}

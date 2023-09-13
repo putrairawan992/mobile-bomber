@@ -34,7 +34,6 @@ export const BookingInvitation = ({
   const theme = useTheme();
 
   const FriendsTab = () => {
-    console.log('datane :', data);
     return (
       <>
         {data

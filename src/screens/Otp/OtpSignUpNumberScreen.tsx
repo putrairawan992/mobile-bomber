@@ -226,13 +226,15 @@ const Styles = (theme: ThemeInterface) =>
   StyleSheet.create({
     otpStyle: {
       width: 50,
-      height: 50,
+      height: 60,
       backgroundColor: theme?.colors.BACKGROUND2,
       borderRadius: 12,
       borderWidth: 1,
       borderColor: theme?.colors.BORDER,
       textAlign: 'center',
-      fontSize: 14,
+      fontSize: 32,
+      lineHeight: 38,
+      alignContent: 'center',
       fontFamily: 'Poppins-Regular',
       color: theme?.colors.TEXT_PRIMARY,
     },

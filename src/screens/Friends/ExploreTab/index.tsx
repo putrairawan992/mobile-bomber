@@ -19,7 +19,6 @@ if (Platform.OS === 'android') {
 
 export const ExploreTab = ({data, searchValue}: FriendsTabProps) => {
   const width = (WIDTH - 40) / 2;
-  console.log(data.length);
   const renderItem = ({item}: any) => (
     <Section style={{marginBottom: 8, flex: 1}}>
       <Image

@@ -275,7 +275,7 @@ function NightlifeScreen({navigation}: Props) {
         enablePanDownToClose
         snapPoints={snapPoints}
         backdropComponent={({style}) =>
-          sheetIndex === 0 ? (
+          sheetIndex >= 0 ? (
             <Pressable
               onPress={() => homeSheetRef.current?.close()}
               style={[style, {backgroundColor: 'rgba(0, 0, 0, 0.60)'}]}

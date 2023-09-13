@@ -69,6 +69,8 @@ export const TableOrderDetail = ({
       contentContainerStyle={{
         backgroundColor: theme?.colors.BACKGROUND1,
         paddingHorizontal: 16,
+        borderTopWidth: 1,
+        borderTopColor: theme?.colors.BACKGROUND1,
       }}>
       {hasBackNavigation && (
         <TouchableOpacity
@@ -293,7 +295,7 @@ export const TableOrderDetail = ({
       </Section>
       <Gap height={20} />
       <Section
-        padding="16px 16px"
+        padding="12px 12px"
         backgroundColor={theme?.colors.SECTION}
         rounded={8}>
         {promoApplied.map((promo, key) => {
@@ -318,12 +320,16 @@ export const TableOrderDetail = ({
         <TouchableOpacity
           activeOpacity={0.7}
           onPress={() => setShowPromo(true)}>
-          <Section isRow>
-            <Coupon size={32} color={Colors['warning-500']} />
-            <DefaultText
-              title="Apply promo to get special discount"
-              titleClassName="flex-1 ml-3 mr-1 font-inter-bold"
-            />
+          <Section isRow isBetween>
+            <Section isRow>
+              <Coupon size={32} color={Colors['warning-500']} />
+              <Gap width={8} />
+              <Text
+                fontWeight="bold"
+                color={Colors['white-100']}
+                label="Apply promo to get special discount"
+              />
+            </Section>
             <Image
               source={IcChevronRight}
               resizeMode="contain"
