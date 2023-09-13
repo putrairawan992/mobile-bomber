@@ -70,15 +70,12 @@ function LogInScreen({navigation}: Props) {
   };
 
   const handleSignIn = async (phone: string, password: string) => {
-    console.log('masuk');
-
     try {
       setIsLoading(true);
       const login = await AuthService.postLogin({
         phone,
         password,
       });
-      console.log(login);
 
       if (login.error) {
         openToast('error', login.message);

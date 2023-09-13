@@ -198,7 +198,7 @@ function NotificationScreen() {
           )
         }
         handleStyle={{
-          backgroundColor: theme?.colors.BACKGROUND1,
+          backgroundColor: theme?.colors.SECTION,
           borderTopRightRadius: 14,
           borderTopLeftRadius: 14,
         }}

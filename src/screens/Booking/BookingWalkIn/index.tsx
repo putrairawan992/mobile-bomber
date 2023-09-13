@@ -74,16 +74,7 @@ export const BookingWalkInScreen = ({route, navigation}: Props) => {
       ])
         .then(response => {
           setClubEvent(response[0].data);
-          setAllDay(
-            getDaysInMonth(monthYear.month, monthYear.year).filter(
-              i =>
-                ![
-                  ...response[0].data.map(item => item.date),
-                  ...[selectedDate],
-                  ...[today],
-                ].includes(i),
-            ),
-          );
+          updateAllDayState(response[0].data);
         })
         .catch(error => {
           console.log(error);
@@ -91,6 +82,26 @@ export const BookingWalkInScreen = ({route, navigation}: Props) => {
         .finally(() => setIsLoading(false));
     } catch (error: any) {}
   };
+
+  const updateAllDayState = (eventList: PlaceEventsInterface[]) => {
+    setAllDay(
+      getDaysInMonth(monthYear.month, monthYear.year).filter(
+        i =>
+          ![
+            ...eventList.map(item => item.date),
+            ...[selectedDate],
+            ...[today],
+          ].includes(i),
+      ),
+    );
+  };
+
+  useEffect(() => {
+    if (selectedDate) {
+      updateAllDayState(clubEvent);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedDate]);
 
   useEffect(() => {
     setTimeout(() => {

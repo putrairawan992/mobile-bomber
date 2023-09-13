@@ -225,7 +225,7 @@ const Styles = (theme: ThemeInterface) =>
       borderColor: theme?.colors.BORDER,
       textAlign: 'center',
       fontSize: 32,
-      lineHeight: 40,
+      lineHeight: 38,
       alignContent: 'center',
       fontFamily: 'Poppins-Regular',
       color: theme?.colors.TEXT_PRIMARY,
