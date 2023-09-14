@@ -30,8 +30,6 @@ export const AuthService = {
       `${Config.API_ENDPOINT}/global_api/customer_sign_in`,
       payload,
     );
-    console.log('responsepostLogin===>', response);
-
     return response.data;
   },
 };

@@ -68,6 +68,8 @@ export const GroupOrderDetail = ({
         paddingHorizontal: 16,
         height: '100%',
         flex: 1,
+        borderTopWidth: 1,
+        borderTopColor: theme?.colors.BACKGROUND1,
       }}>
       {isFirstStep && (
         <Section padding="10px 0px">
@@ -168,6 +170,7 @@ export const GroupOrderDetail = ({
               onPress={() => onNextStep(2)}
               title="Continue"
             />
+            <Gap height={4} />
             <Button
               type="textButton"
               onPress={onOnboardingInviteFriends}

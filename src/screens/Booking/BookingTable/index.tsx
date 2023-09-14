@@ -26,7 +26,7 @@ import {
 
 import {useCallback, useContext, useEffect, useState} from 'react';
 
-import BottomSheet from '@gorhom/bottom-sheet';
+import {BottomSheetModal} from '@gorhom/bottom-sheet';
 import {TableInterface} from '../../../interfaces/BookingInterface';
 import {dateFormatter} from '../../../utils/dateFormatter';
 import {
@@ -93,7 +93,7 @@ function BookingTableScreen({route, navigation}: Props) {
     year: Number(dateFormatter(new Date(), 'yyyy')),
   });
   const [sheetIndex, setSheetIndex] = React.useState<number>(-1);
-  const bookingSheetRef = React.useRef<BottomSheet>(null);
+  const bookingSheetRef = React.useRef<BottomSheetModal>(null);
   const snapPoints = React.useMemo(
     () =>
       isWaitingList && waitingListStep === 1
@@ -191,7 +191,7 @@ function BookingTableScreen({route, navigation}: Props) {
       setIsLoading(true);
       await Promise.all([
         FriendshipService.getFriendship({
-          userId: 'FQ5OvkolZtSBZEMlG1R3gtowbQv1',
+          userId: user.id,
         }),
         NightlifeService.getClubEventSchedule({
           params: {
@@ -307,12 +307,14 @@ function BookingTableScreen({route, navigation}: Props) {
   const onTableSelect = () => {
     if (tableExpand?.isAvailable) {
       setIsWaitingList(false);
+      setIsTableLayout(false);
       setSelectedTable(tableExpand);
       onConfirmTable();
     } else {
       setIsWaitingList(true);
+      setIsTableLayout(false);
       setTimeout(() => {
-        bookingSheetRef.current?.collapse();
+        bookingSheetRef.current?.present();
       }, 100);
     }
   };
@@ -383,6 +385,7 @@ function BookingTableScreen({route, navigation}: Props) {
   };
 
   return (
+    // <SafeAreaView style={{flex: 1}}>
     <Layout contentContainerStyle={styles.container} isScrollable={false}>
       <Header transparent hasBackBtn title="Booking Table" />
       {isLoading && <Loading />}
@@ -474,7 +477,7 @@ function BookingTableScreen({route, navigation}: Props) {
               onPress={() => {
                 setIsTableLayout(true);
                 setTimeout(() => {
-                  bookingSheetRef.current?.expand();
+                  bookingSheetRef.current?.present();
                 }, 500);
               }}>
               <>
@@ -553,7 +556,7 @@ function BookingTableScreen({route, navigation}: Props) {
       tableExpand?.isAvailable ? (
         <Button
           type="primary"
-          onPress={() => bookingSheetRef.current?.collapse()}
+          onPress={() => bookingSheetRef.current?.present()}
           title="Book Now"
           noRound
           style={{
@@ -566,10 +569,10 @@ function BookingTableScreen({route, navigation}: Props) {
         </TouchableOpacity>
       )}
 
-      <BottomSheet
+      <BottomSheetModal
         ref={bookingSheetRef}
-        index={-1}
-        enablePanDownToClose={isWaitingList || isTableLayout ? false : true}
+        index={0}
+        enablePanDownToClose={isWaitingList ? false : true}
         snapPoints={snapPoints}
         backdropComponent={({style}) =>
           sheetIndex >= 0 ? (
@@ -579,11 +582,14 @@ function BookingTableScreen({route, navigation}: Props) {
           )
         }
         handleStyle={{
-          backgroundColor: theme?.colors.BACKGROUND1,
+          backgroundColor: theme?.colors.SECTION,
           borderTopRightRadius: 14,
           borderTopLeftRadius: 14,
         }}
-        handleIndicatorStyle={{backgroundColor: Colors['black-70']}}
+        handleIndicatorStyle={{
+          backgroundColor: Colors['black-70'],
+          width: 50,
+        }}
         onChange={handleSheetChanges}>
         {isWaitingList ? (
           <WaitingListSheet
@@ -625,7 +631,7 @@ function BookingTableScreen({route, navigation}: Props) {
             isLoading={isLoading}
           />
         )}
-      </BottomSheet>
+      </BottomSheetModal>
       <ModalToast
         isVisible={isShowToast}
         onCloseModal={() => {

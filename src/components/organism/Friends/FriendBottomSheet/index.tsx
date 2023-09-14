@@ -9,9 +9,15 @@ import {Avatar, Button, Gap, GradientText, Section, Text} from '../../../atoms';
 
 interface FriendBottomSheetProps {
   data: FriendInterface | null;
+  isFriend: boolean;
+  onConfirm: () => void;
 }
 
-export const FriendBottomSheet = ({data}: FriendBottomSheetProps) => {
+export const FriendBottomSheet = ({
+  data,
+  isFriend,
+  onConfirm,
+}: FriendBottomSheetProps) => {
   const theme = useTheme();
   return (
     <Section
@@ -94,13 +100,25 @@ export const FriendBottomSheet = ({data}: FriendBottomSheetProps) => {
           width: '100%',
           alignSelf: 'center',
         }}>
-        <Button
-          type="primary"
-          onPress={() => undefined}
-          title="Set As Favorites"
-        />
-        <Gap height={8} />
-        <Button type="secondary" onPress={() => undefined} title="Block" />
+        {isFriend ? (
+          <>
+            <Button
+              type="primary"
+              onPress={() => undefined}
+              title="Set As Favorites"
+            />
+            <Gap height={8} />
+            <Button type="secondary" onPress={() => undefined} title="Block" />
+          </>
+        ) : (
+          <>
+            <Button
+              type="primary"
+              onPress={() => onConfirm()}
+              title="Send Friend Request"
+            />
+          </>
+        )}
       </Section>
     </Section>
   );

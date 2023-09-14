@@ -53,7 +53,11 @@ function LogInScreen({navigation}: Props) {
     }),
     validateOnChange: false,
     enableReinitialize: true,
-    onSubmit: values => handleSignIn('+' + values.phone, values.password),
+    onSubmit: values =>
+      handleSignIn(
+        values.phone.includes('+') ? values.phone : '+' + values.phone,
+        values.password,
+      ),
   });
 
   const onAuthStateChanged = async (userAuth: any) => {
