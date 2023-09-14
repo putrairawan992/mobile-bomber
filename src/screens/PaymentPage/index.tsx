@@ -5,8 +5,8 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import React, {useState} from 'react';
-import {DefaultText, Gap, Layout} from '../../components/atoms';
+import React, {useEffect, useState} from 'react';
+import {DefaultText, Gap, Layout, Loading} from '../../components/atoms';
 import {Header} from '../../components/molecules';
 import colors from '../../styles/colors';
 import LinearGradient from 'react-native-linear-gradient';
@@ -14,10 +14,33 @@ import {IcBomber, IcGift, IcPlusRounded} from '../../theme/Images';
 import CardPaymentPage from '../../components/molecules/Card/CardPaymentPage';
 import ModalPaymentPage from '../../components/molecules/Modal/ModalPaymentPage';
 import ModalAddNewCard from '../../components/molecules/Modal/ModalAddNewCard';
+import {ProfileService} from '../../service/ProfileService';
+import {useAppSelector} from '../../hooks/hooks';
+import {maskCreditCard} from '../../utils/maskedVisa';
 
 export default function ProfilePage() {
   const [showModal, setShowModal] = useState<boolean>(false);
   const [showModalAdd, setShowModalAdd] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [paymentList, setPaymentList] = useState<any>([]);
+  const {user} = useAppSelector(state => state.user);
+
+  useEffect(() => {
+    fetchPaymentList(); // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const fetchPaymentList = async () => {
+    try {
+      setIsLoading(true);
+      const response = await ProfileService.getCustomerPaymentList({
+        id: user?.id as string,
+      });
+      setPaymentList(response?.data);
+      setIsLoading(false);
+    } catch (error: any) {
+      setIsLoading(false);
+    }
+  };
 
   return (
     <Layout>
@@ -72,16 +95,19 @@ export default function ProfilePage() {
             titleClassName="font-inte-bold text-base"
           />
           <Gap height={10} />
-          <CardPaymentPage
-            isDefault={true}
-            number={'5124 **** **** 4852'}
-            onPress={() => setShowModal(true)}
-          />
-          <CardPaymentPage
-            isDefault={false}
-            number={'5124 **** **** 4852'}
-            onPress={() => setShowModal(true)}
-          />
+          {isLoading ? (
+            <Loading />
+          ) : (
+            paymentList.map((item: any) => {
+              return (
+                <CardPaymentPage
+                  isDefault={item.isDefault === 1}
+                  number={maskCreditCard(item.cardNumber)}
+                  onPress={() => setShowModal(true)}
+                />
+              );
+            })
+          )}
 
           <TouchableOpacity
             activeOpacity={0.7}

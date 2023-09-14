@@ -1,11 +1,14 @@
 import {Image, ScrollView, TouchableOpacity, View} from 'react-native';
-import React, {useState} from 'react';
+import React, {useContext, useState} from 'react';
 import Modal from 'react-native-modal';
 import DefaultText from '../../../atoms/Text/DefaultText';
-import {Gap} from '../../../atoms';
+import {Gap, Loading} from '../../../atoms';
 import {TextInput} from 'react-native';
 import {IcMasterCard} from '../../../../theme/Images';
 import LinearGradient from 'react-native-linear-gradient';
+import {useAppSelector} from '../../../../hooks/hooks';
+import {ProfileService} from '../../../../service/ProfileService';
+import {ModalToastContext} from '../../../../context/AppModalToastContext';
 
 interface ModalAddNewCard {
   show: boolean;
@@ -22,9 +25,44 @@ export default function ModalAddNewCard({
   const [cardNumber, setCardNumber] = useState<string>('');
   const [expiry, setExpiry] = useState<string>('');
   const [cvv, setCvv] = useState<string>('');
+  const {user} = useAppSelector(state => state.user);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const {setIsShowToast, setToastMessage, setType} =
+    useContext(ModalToastContext);
 
-  const onPress = () => {
-    onAddNew();
+  const openToast = (toastType: 'success' | 'error', message: string) => {
+    setIsShowToast(true);
+    setType(toastType);
+    setToastMessage(message);
+  };
+
+  const handleInputChange = (input: string) => {
+    // Remove all non-numeric characters
+    const cleanedInput = input.replace(/\D/g, '');
+
+    // Apply the credit card format (XXXX-XXXX-XXXX-XXXX)
+    let formattedInput = '';
+    for (let i = 0; i < cleanedInput.length; i++) {
+      if (i > 0 && i % 4 === 0) {
+        formattedInput += ' - ';
+      }
+      formattedInput += cleanedInput.charAt(i);
+    }
+    setCardNumber(formattedInput);
+  };
+
+  const onPress = async () => {
+    try {
+      setIsLoading(true);
+      const res = await ProfileService.addCustomerPaymentList({
+        payload: {customer_id: user?.id, card_number: cardNumber},
+      });
+      openToast('success', res.message);
+      setIsLoading(false);
+      onAddNew();
+    } catch (error: any) {
+      openToast('error', error.response.data.message);
+    }
   };
 
   return (
@@ -72,8 +110,9 @@ export default function ModalAddNewCard({
                 placeholderTextColor="#898E9A"
                 className="m-0 p-0 font-poppins-regular text-white flex-1 ml-2"
                 value={cardNumber}
-                onChangeText={value => setCardNumber(value)}
-                keyboardType="number-pad"
+                maxLength={25}
+                onChangeText={handleInputChange}
+                keyboardType="numeric"
               />
             </View>
             <Gap height={15} />
@@ -118,16 +157,20 @@ export default function ModalAddNewCard({
           className="mt-3"
           activeOpacity={0.8}
           onPress={onPress}>
-          <LinearGradient
-            className="py-4"
-            colors={['#AA5AFA', '#C111D5']}
-            start={{x: 0, y: 0}}
-            end={{x: 1, y: 0}}>
-            <DefaultText
-              title="Add New"
-              titleClassName="text-base font-inter-bold text-center"
-            />
-          </LinearGradient>
+          {isLoading ? (
+            <Loading />
+          ) : (
+            <LinearGradient
+              className="py-4"
+              colors={['#AA5AFA', '#C111D5']}
+              start={{x: 0, y: 0}}
+              end={{x: 1, y: 0}}>
+              <DefaultText
+                title="Add New"
+                titleClassName="text-base font-inter-bold text-center"
+              />
+            </LinearGradient>
+          )}
         </TouchableOpacity>
       </View>
     </Modal>

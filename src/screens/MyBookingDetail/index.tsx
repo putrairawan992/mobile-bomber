@@ -86,6 +86,8 @@ export default function MyBookingDetail() {
   const fetchDataFriends = async () => {
     try {
       setIsLoading(true);
+      console.log('masukf');
+
       await Promise.all([
         FriendshipService.getFriendship({
           userId: 'FQ5OvkolZtSBZEMlG1R3gtowbQv1',
@@ -97,7 +99,7 @@ export default function MyBookingDetail() {
           setFriendshipData(response[0].result);
         })
         .catch(error => {
-          console.log(error);
+          console.log(error.response);
         })
         .finally(() => setIsLoading(false));
     } catch (error: any) {
