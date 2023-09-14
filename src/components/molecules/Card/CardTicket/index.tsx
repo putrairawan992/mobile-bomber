@@ -54,7 +54,7 @@ export const CardTicket = ({data, onSelect, index}: CardTicketProps) => {
             }}>
             <Section isRow isBetween>
               <GradientText
-                xAxis={0.8}
+                xAxis={1}
                 colors={
                   gradientMapping[data.title as keyof typeof gradientMapping]
                     .color
@@ -68,7 +68,7 @@ export const CardTicket = ({data, onSelect, index}: CardTicketProps) => {
               </GradientText>
               <Section padding="4px 8px" backgroundColor="#292929" rounded={4}>
                 <GradientText
-                  xAxis={0.8}
+                  xAxis={1.0}
                   colors={
                     gradientMapping[data.title as keyof typeof gradientMapping]
                       .color

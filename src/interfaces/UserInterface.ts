@@ -79,3 +79,8 @@ export interface FriendInterface {
 export interface PlaceDetailInterface extends GooglePlaceDetail {
   location: UserLocationInterface;
 }
+
+export interface PayloadAddFriendInterface {
+  customer_id: string;
+  new_friend_id: string;
+}

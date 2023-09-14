@@ -85,7 +85,7 @@ export const WalkInTicketScreen = ({route, navigation}: Props) => {
           date: route.params.date,
         }),
         FriendshipService.getFriendship({
-          userId: 'FQ5OvkolZtSBZEMlG1R3gtowbQv1',
+          userId: user.id,
         }),
       ])
         .then(response => {
@@ -246,7 +246,7 @@ export const WalkInTicketScreen = ({route, navigation}: Props) => {
           )
         }
         handleStyle={styles.bottomSheetHandleStyle}
-        handleIndicatorStyle={{backgroundColor: Colors['black-70']}}
+        handleIndicatorStyle={{backgroundColor: Colors['black-70'], width: 50}}
         onChange={handleSheetChanges}>
         {isGroupPackage && !isGroupOrderDetail && !isInviteFriends ? (
           <GroupOrderDetail

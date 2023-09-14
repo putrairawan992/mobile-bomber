@@ -2,12 +2,12 @@
 import {BottomSheetModal} from '@gorhom/bottom-sheet';
 import {Setting2} from 'iconsax-react-native';
 import * as React from 'react';
-import {createRef, useEffect, useState} from 'react';
+import {createRef, useContext, useEffect, useState} from 'react';
 import {Pressable, View} from 'react-native';
 import PagerView from 'react-native-pager-view';
 import {Gap, Layout, Loading, Section, TextInput} from '../../components/atoms';
 
-import {Header, TabMenu} from '../../components/molecules';
+import {Header, ModalToast, TabMenu} from '../../components/molecules';
 import {
   FriendInviteConfirmationSheet,
   FriendOptionSheet,
@@ -25,6 +25,8 @@ import styles from '../Styles';
 import {ExploreTab} from './ExploreTab';
 import {FriendsTab} from './FriendsTab';
 import {FriendshipService} from '../../service/FriendshipService';
+import {useAppSelector} from '../../hooks/hooks';
+import {ModalToastContext} from '../../context/AppModalToastContext';
 
 // type Props = NativeStackScreenProps<MainStackParams, 'Booked', 'MyStack'>;
 
@@ -44,7 +46,7 @@ function FriendsScreen() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const ref = createRef<PagerView>();
   const theme = useTheme();
-
+  const {user} = useAppSelector(state => state.user);
   const [sheetIndex, setSheetIndex] = React.useState<number>(-1);
   const friendSheetRef = React.useRef<BottomSheetModal>(null);
   const snapPoints = React.useMemo(
@@ -60,6 +62,22 @@ function FriendsScreen() {
         : ['60'],
     [sheetAction],
   );
+
+  const {
+    isShowToast,
+    setIsShowToast,
+    toastMessage,
+    setToastMessage,
+    type,
+    setType,
+  } = useContext(ModalToastContext);
+
+  const openToast = (toastType: 'success' | 'error', message: string) => {
+    setIsShowToast(true);
+    setType(toastType);
+    setToastMessage(message);
+  };
+
   const handleSheetChanges = React.useCallback((index: number) => {
     setSheetIndex(index);
   }, []);
@@ -69,9 +87,11 @@ function FriendsScreen() {
       setIsLoading(true);
       await Promise.all([
         FriendshipService.getFriendship({
-          userId: 'FQ5OvkolZtSBZEMlG1R3gtowbQv1',
+          userId: user.id,
         }),
-        FriendshipService.getAllUsers(),
+        FriendshipService.getAllUsers({
+          userId: user.id,
+        }),
       ])
         .then(response => {
           setFriendshipData(response[0].data);
@@ -86,6 +106,7 @@ function FriendsScreen() {
 
   useEffect(() => {
     fetchData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const onOpenBottomSheet = (sheetType: string, data?: FriendInterface) => {
@@ -94,6 +115,24 @@ function FriendsScreen() {
     setTimeout(() => {
       friendSheetRef.current?.present();
     }, 100);
+  };
+
+  const handleAddFriend = async () => {
+    try {
+      friendSheetRef.current?.close();
+      setIsLoading(true);
+      const response = await FriendshipService.postAddFriend({
+        payload: {
+          customer_id: user.id,
+          new_friend_id: selectedUser?.customerId as string,
+        },
+      });
+      setIsLoading(false);
+      openToast('success', response.message);
+    } catch (error: any) {
+      openToast('error', error.response.data?.message);
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -138,12 +177,26 @@ function FriendsScreen() {
             <FriendsTab
               data={friendshipData}
               searchValue={searchValue}
-              onSelectUser={user => onOpenBottomSheet('userProfile', user)}
-              onFriendOption={user => onOpenBottomSheet('friendOption', user)}
+              onSelectUser={userData =>
+                onOpenBottomSheet('userProfile', userData)
+              }
+              onFriendOption={userData =>
+                onOpenBottomSheet('friendOption', userData)
+              }
             />
           </View>
           <View key="2">
-            <ExploreTab data={allUsers} searchValue={searchValue} />
+            <ExploreTab
+              data={allUsers}
+              searchValue={searchValue}
+              onSelect={data => {
+                setSelectedUser(data);
+                setSheetAction('addFriend');
+                setTimeout(() => {
+                  friendSheetRef.current?.present();
+                }, 100);
+              }}
+            />
           </View>
           <View key="3" />
         </PagerView>
@@ -168,7 +221,7 @@ function FriendsScreen() {
           borderTopRightRadius: 14,
           borderTopLeftRadius: 14,
         }}
-        handleIndicatorStyle={{backgroundColor: Colors['black-70']}}
+        handleIndicatorStyle={{backgroundColor: Colors['black-70'], width: 50}}
         onChange={handleSheetChanges}>
         {sheetAction === 'profileSecurity' ? (
           <ProfileSecuritySheet />
@@ -184,8 +237,8 @@ function FriendsScreen() {
             data={selectedUser}
             partyData={PARTY_DATA}
             onBackPress={() => setSheetAction('friendOption')}
-            onInviteConfirmation={(party, user) => {
-              setSelectedUser(user);
+            onInviteConfirmation={(party, userData) => {
+              setSelectedUser(userData);
               setSelectedParty(party);
               setSheetAction('inviteConfirmation');
             }}
@@ -200,9 +253,23 @@ function FriendsScreen() {
             onConfirm={() => undefined}
           />
         ) : (
-          <FriendBottomSheet data={selectedUser} />
+          <FriendBottomSheet
+            data={selectedUser}
+            isFriend={initialPage === 0}
+            onConfirm={() => {
+              if (initialPage === 1) {
+                handleAddFriend();
+              }
+            }}
+          />
         )}
       </BottomSheetModal>
+      <ModalToast
+        isVisible={isShowToast}
+        onCloseModal={() => setIsShowToast(false)}
+        message={toastMessage}
+        type={type}
+      />
     </Layout>
   );
 }

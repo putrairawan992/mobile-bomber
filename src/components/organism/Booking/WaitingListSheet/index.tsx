@@ -13,6 +13,8 @@ import {Colors} from '../../../../theme';
 import {WAITING_LIST_TEXT} from '../../../../utils/data';
 import {useFormik} from 'formik';
 import * as Yup from 'yup';
+import {BottomSheetScrollView} from '@gorhom/bottom-sheet';
+import {useKeyboardVisible} from '../../../../hooks/useKeyboardVisible';
 
 interface WaitingListSheetProps {
   hasBackNavigation: boolean;
@@ -30,6 +32,7 @@ export const WaitingListSheet = ({
   onFinish,
 }: WaitingListSheetProps) => {
   const theme = useTheme();
+  const isKeyboardVisible = useKeyboardVisible();
   let EMAIL_REGX = /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$/;
   const formik = useFormik({
     initialValues: {
@@ -56,10 +59,15 @@ export const WaitingListSheet = ({
   }, []);
 
   return (
-    <Section
-      padding="0px 16px"
-      style={{flex: 1}}
-      backgroundColor={theme?.colors.SECTION}>
+    <BottomSheetScrollView
+      contentContainerStyle={{
+        backgroundColor: theme?.colors.SECTION,
+        paddingHorizontal: 16,
+        height: '100%',
+        flex: 1,
+        borderTopWidth: 1,
+        borderTopColor: theme?.colors.SECTION,
+      }}>
       {hasBackNavigation && step === 1 && (
         <TouchableOpacity
           style={{position: 'absolute', zIndex: 999, left: 16, top: 16}}
@@ -148,37 +156,39 @@ export const WaitingListSheet = ({
         />
       )}
 
-      <View
-        style={{
-          position: 'absolute',
-          width: '100%',
-          bottom: 32,
-          alignSelf: 'center',
-        }}>
-        {step === 1 ? (
-          <>
+      {!isKeyboardVisible && (
+        <View
+          style={{
+            position: 'absolute',
+            width: '100%',
+            bottom: 32,
+            alignSelf: 'center',
+          }}>
+          {step === 1 ? (
+            <>
+              <Button
+                type="primary"
+                onPress={() => formik.handleSubmit()}
+                title="Continue Whitelist"
+              />
+              <Button
+                type="textButton"
+                onPress={() => {
+                  onBackNavigation();
+                  formik.setFieldError('email', undefined);
+                }}
+                title="Cancel Join"
+              />
+            </>
+          ) : (
             <Button
               type="primary"
-              onPress={() => formik.handleSubmit()}
-              title="Continue Whitelist"
+              onPress={onFinish}
+              title="Gotcha, back to home"
             />
-            <Button
-              type="textButton"
-              onPress={() => {
-                onBackNavigation();
-                formik.setFieldError('email', undefined);
-              }}
-              title="Cancel Join"
-            />
-          </>
-        ) : (
-          <Button
-            type="primary"
-            onPress={onFinish}
-            title="Gotcha, back to home"
-          />
-        )}
-      </View>
-    </Section>
+          )}
+        </View>
+      )}
+    </BottomSheetScrollView>
   );
 };
