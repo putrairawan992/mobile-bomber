@@ -2,12 +2,12 @@ import {Image, TouchableOpacity, View} from 'react-native';
 import React from 'react';
 import {DefaultText, Gap} from '../../../atoms';
 import {colors} from '../../../../utils/colors';
-import {FriendRequestInterface} from '../../../../interfaces/UserInterface';
 import moment from 'moment';
 import {Close} from '../../../../assets/icons';
+import {RequestFriendNotificationInterface} from '../../../../interfaces/NotificationInterface';
 
 interface CardNotificationFriends {
-  data: FriendRequestInterface;
+  data: RequestFriendNotificationInterface;
   isShowBorder: boolean;
 }
 
@@ -23,20 +23,20 @@ export default function CardNotificationFriends({
       <Image
         className="w-[32] h-[32] bg-container rounded-full"
         source={{
-          uri: data.photoUrl,
+          uri: data.invitedPhotoUrl,
         }}
         resizeMode="cover"
       />
       <Gap width={10} />
       <View className="flex-1">
         <DefaultText
-          title={data.name}
+          title={data.senderName}
           titleClassName="text-warning"
           subtitle="sent friend request"
         />
         <Gap height={2.5} />
         <DefaultText
-          title={moment(new Date(data.date)).startOf('hour').fromNow()}
+          title={moment(new Date()).startOf('hour').fromNow()}
           titleClassName="text-xs text-neutral-400"
         />
       </View>

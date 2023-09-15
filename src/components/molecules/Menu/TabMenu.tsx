@@ -50,7 +50,7 @@ export const TabMenu = ({
             width: 16,
             height: 16,
             zIndex: 999,
-            right: 0,
+            right: 2,
             top: 0,
           }}
           rounded={20}

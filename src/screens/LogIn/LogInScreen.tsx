@@ -100,7 +100,10 @@ function LogInScreen({navigation}: Props) {
         });
         setIsLoading(false);
       }
-    } catch (error: any) {}
+    } catch (error: any) {
+      openToast('error', error.response.data.message);
+      setIsLoading(false);
+    }
   };
 
   useEffect(() => {

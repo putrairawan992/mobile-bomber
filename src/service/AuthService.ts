@@ -36,7 +36,7 @@ export const AuthService = {
 
 export const getUserProfile = () => async (dispatch: AppDispatch) => {
   const user: any = await getStorage('userAuth');
-  const userId = JSON.parse(user).userId;
+  const userId = JSON.parse(user).id;
 
   ax.get(`/profile/get_user_profile/${userId}`)
     .then(res => dispatch(setProfile(res.data.data)))

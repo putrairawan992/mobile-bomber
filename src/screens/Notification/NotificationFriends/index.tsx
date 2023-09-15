@@ -1,10 +1,10 @@
 import {FlatList} from 'react-native';
 import React from 'react';
 import CardNotificationFriends from '../../../components/molecules/Notification/CardNotificationFriends';
-import {FriendRequestInterface} from '../../../interfaces/UserInterface';
+import {RequestFriendNotificationInterface} from '../../../interfaces/NotificationInterface';
 
 interface NotificationFriendsProps {
-  data: FriendRequestInterface[];
+  data: RequestFriendNotificationInterface[];
 }
 
 export default function NotificationFriends({data}: NotificationFriendsProps) {
