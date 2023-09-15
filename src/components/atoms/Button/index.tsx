@@ -96,7 +96,7 @@ function Button({
           style={[
             s.Button,
             {
-              paddingVertical: 12,
+              paddingVertical: 16,
               borderColor:
                 mapStyling[type as keyof typeof mapStyling].borderColor,
               width: width ?? 'auto',
@@ -141,7 +141,7 @@ function Button({
           style={[
             s.Button,
             {
-              paddingVertical: 12,
+              paddingVertical: 16,
               backgroundColor:
                 mapStyling[type as keyof typeof mapStyling].backgroundColor,
               borderWidth:
@@ -182,10 +182,10 @@ function Button({
                     ? theme?.colors.PRIMARY
                     : type === 'secondaryOutlined'
                     ? 'primary2'
-                    : Colors.white
+                    : Colors['white-100']
                 }
                 label={title}
-                fontWeight="bold"
+                fontWeight={type === 'textButton' ? 'medium' : 'semi-bold'}
               />
               {icon}
             </View>

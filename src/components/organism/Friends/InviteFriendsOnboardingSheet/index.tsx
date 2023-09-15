@@ -5,6 +5,7 @@ import useTheme from '../../../../theme/useTheme';
 import {Button, Gap, Section, Text} from '../../../atoms';
 import {ArrowLeft} from 'iconsax-react-native';
 import {Colors} from '../../../../theme';
+import {BottomSheetScrollView} from '@gorhom/bottom-sheet';
 
 interface InviteFriendsOnboardingProps {
   hasBackNavigation?: boolean;
@@ -23,10 +24,15 @@ export const InviteFriendsOnboardingSheet = ({
 }: InviteFriendsOnboardingProps) => {
   const theme = useTheme();
   return (
-    <Section
-      padding="0px 16px"
-      style={{flex: 1}}
-      backgroundColor={theme?.colors.SECTION}>
+    <BottomSheetScrollView
+      contentContainerStyle={{
+        backgroundColor: theme?.colors.BACKGROUND1,
+        paddingHorizontal: 16,
+        height: '100%',
+        flex: 1,
+        borderTopWidth: 1,
+        borderTopColor: theme?.colors.BACKGROUND1,
+      }}>
       {hasBackNavigation && (
         <TouchableOpacity
           style={{position: 'absolute', zIndex: 999, left: 16, top: 16}}
@@ -93,6 +99,6 @@ export const InviteFriendsOnboardingSheet = ({
           <Button type="primary" onPress={onFinish} title="Finish it" />
         )}
       </View>
-    </Section>
+    </BottomSheetScrollView>
   );
 };

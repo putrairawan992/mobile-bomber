@@ -29,8 +29,12 @@ export const FriendInvitePartySheet = ({
   return (
     <Section
       padding="0px 16px"
-      style={{flex: 1}}
-      backgroundColor={theme?.colors.BACKGROUND1}>
+      style={{
+        flex: 1,
+        borderTopWidth: 1,
+        borderTopColor: theme?.colors.SECTION,
+      }}
+      backgroundColor={theme?.colors.SECTION}>
       <TouchableOpacity
         style={{position: 'absolute', left: 16, top: 16}}
         onPress={onBackPress}>
