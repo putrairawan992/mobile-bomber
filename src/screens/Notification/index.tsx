@@ -17,7 +17,7 @@ import {
 import {Colors} from '../../theme';
 import useTheme from '../../theme/useTheme';
 import {WIDTH} from '../../utils/config';
-import {BILL_NOTIFICATION, FRIEND_REQUEST} from '../../utils/data';
+import {BILL_NOTIFICATION} from '../../utils/data';
 import NotificationApps from './NotificationApps';
 import NotificationBill from './NotificationBill';
 import NotificationFriends from './NotificationFriends';
@@ -32,7 +32,8 @@ import {ModalToastContext} from '../../context/AppModalToastContext';
 
 function NotificationScreen() {
   const [menu] = useState<string[]>(['Apps', 'Invitation', 'Bill', 'Friends']);
-  const {invitation, count} = useAppSelector(state => state.notification);
+  const {invitation, invitationCount, friendRequest, friendRequestCount} =
+    useAppSelector(state => state.notification);
   const {user} = useAppSelector(state => state.user);
   const [initialPage, setInitialPage] = useState<number>(0);
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -136,6 +137,7 @@ function NotificationScreen() {
       <Section isRow isCenter>
         {menu.map((item, index) => {
           const isSelected = index === initialPage;
+
           return (
             <TabMenu
               onPress={idx => ref.current?.setPage(idx)}
@@ -144,7 +146,13 @@ function NotificationScreen() {
               item={item}
               index={index}
               // count={item === 'Invitation' ? invitation.length : 0}
-              count={item === 'Invitation' ? count : 0}
+              count={
+                item === 'Invitation'
+                  ? invitationCount
+                  : item === 'Friends'
+                  ? friendRequestCount
+                  : 0
+              }
             />
           );
         })}
@@ -177,7 +185,7 @@ function NotificationScreen() {
             />
           </View>
           <View key="4">
-            <NotificationFriends data={FRIEND_REQUEST} />
+            <NotificationFriends data={friendRequest} />
           </View>
         </PagerView>
       </Section>

@@ -25,7 +25,9 @@ function HeaderRight({
 }: any) {
   const theme = useTheme();
   const {userLocation} = useAppSelector(state => state.user);
-  const {count} = useAppSelector(state => state.notification);
+  const {invitationCount, friendRequestCount} = useAppSelector(
+    state => state.notification,
+  );
   return (
     <>
       {/* // <View style={[styles.right, style]}>
@@ -77,7 +79,10 @@ function HeaderRight({
                 }}
                 rounded={20}
                 backgroundColor={Colors['danger-400']}>
-                <Text variant="small" label={count.toString()} />
+                <Text
+                  variant="small"
+                  label={(invitationCount + friendRequestCount).toString()}
+                />
               </Section>
               <Notification
                 size={16}

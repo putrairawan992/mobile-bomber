@@ -1,29 +1,47 @@
 import {createSlice} from '@reduxjs/toolkit';
-import {InviteNotificationInterface} from '../../interfaces/NotificationInterface';
+import {
+  InviteNotificationInterface,
+  RequestFriendNotificationInterface,
+} from '../../interfaces/NotificationInterface';
 
 interface InitialState {
-  count: number;
+  invitationCount: number;
   invitation: InviteNotificationInterface[];
+  friendRequestCount: number;
+  friendRequest: RequestFriendNotificationInterface[];
 }
 
 const initialState: InitialState = {
-  count: 0,
+  invitationCount: 0,
   invitation: [],
+  friendRequestCount: 0,
+  friendRequest: [],
 };
 
 export const notificationSlice = createSlice({
   name: 'notification',
   initialState,
   reducers: {
-    setCount: (state, action) => {
-      state.count = action.payload;
+    setInvitationCount: (state, action) => {
+      state.invitationCount = action.payload;
     },
     setInvitation: (state, action) => {
       state.invitation = action.payload;
+    },
+    setFriendRequestCount: (state, action) => {
+      state.friendRequestCount = action.payload;
+    },
+    setFriendRequest: (state, action) => {
+      state.friendRequest = action.payload;
     },
   },
 });
 
 export default notificationSlice.reducer;
 
-export const {setCount, setInvitation} = notificationSlice.actions;
+export const {
+  setInvitationCount,
+  setInvitation,
+  setFriendRequestCount,
+  setFriendRequest,
+} = notificationSlice.actions;
