@@ -13,6 +13,7 @@ import {
 import {
   BillNotificationInterface,
   InviteNotificationInterface,
+  RequestFriendNotificationInterface,
 } from '../../interfaces/NotificationInterface';
 import {Colors} from '../../theme';
 import useTheme from '../../theme/useTheme';
@@ -27,6 +28,7 @@ import {useAppSelector} from '../../hooks/hooks';
 import {NotificationService} from '../../service/NotificationService';
 import {useDispatch} from 'react-redux';
 import {ModalToastContext} from '../../context/AppModalToastContext';
+import {FriendshipService} from '../../service/FriendshipService';
 
 // type Props = NativeStackScreenProps<MainStackParams, 'Saved', 'MyStack'>;
 
@@ -129,6 +131,34 @@ function NotificationScreen() {
     }
   };
 
+  const fetchNotification = async () => {
+    try {
+      await NotificationService.getInvitationNotification(user.id, dispatch);
+      await NotificationService.getRequestFriendNotification(user.id, dispatch);
+    } catch (error: any) {}
+  };
+
+  const handleApproveFriendRequest = async (
+    data: RequestFriendNotificationInterface,
+  ) => {
+    try {
+      setIsLoading(true);
+      const response = await FriendshipService.putAcceptFriendRequest({
+        id: data.id,
+        user_id: user.id,
+        new_friend_id: data.senderId,
+      });
+      if (!response.error) {
+        await fetchNotification();
+        setIsLoading(false);
+        openToast('success', 'You accepted the friend request');
+      }
+    } catch (error: any) {
+      setIsLoading(false);
+      openToast('error', error.response.data.message);
+    }
+  };
+
   return (
     <Layout contentContainerStyle={styles.container}>
       <Header transparent hasBackBtn title="Notification" />
@@ -185,7 +215,10 @@ function NotificationScreen() {
             />
           </View>
           <View key="4">
-            <NotificationFriends data={friendRequest} />
+            <NotificationFriends
+              data={friendRequest}
+              onApprove={handleApproveFriendRequest}
+            />
           </View>
         </PagerView>
       </Section>

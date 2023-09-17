@@ -34,6 +34,9 @@ import {RequestTab} from './RequestTab';
 import {MainStackParams} from '../../navigation/MainScreenStack';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {useFocusEffect} from '@react-navigation/native';
+import {RequestFriendNotificationInterface} from '../../interfaces/NotificationInterface';
+import {NotificationService} from '../../service/NotificationService';
+import {useDispatch} from 'react-redux';
 
 type Props = NativeStackScreenProps<MainStackParams, 'Friends', 'MyStack'>;
 
@@ -60,6 +63,7 @@ function FriendsScreen({navigation}: Props) {
   const {friendRequest} = useAppSelector(state => state.notification);
   const [sheetIndex, setSheetIndex] = React.useState<number>(-1);
   const friendSheetRef = React.useRef<BottomSheetModal>(null);
+  const dispatch = useDispatch();
   const snapPoints = React.useMemo(
     () =>
       sheetAction === 'profileSecurity'
@@ -126,6 +130,13 @@ function FriendsScreen({navigation}: Props) {
     }, [navigation]),
   );
 
+  const fetchNotification = async () => {
+    try {
+      await NotificationService.getInvitationNotification(user.id, dispatch);
+      await NotificationService.getRequestFriendNotification(user.id, dispatch);
+    } catch (error: any) {}
+  };
+
   const onOpenBottomSheet = (sheetType: string, data?: FriendInterface) => {
     data && setSelectedUser(data);
     setSheetAction(sheetType);
@@ -150,6 +161,28 @@ function FriendsScreen({navigation}: Props) {
     } catch (error: any) {
       openToast('error', error.response.data?.message);
       setIsLoading(false);
+    }
+  };
+
+  const handleApproveFriendRequest = async (
+    data: RequestFriendNotificationInterface,
+  ) => {
+    try {
+      setIsLoading(true);
+      const response = await FriendshipService.putAcceptFriendRequest({
+        id: data.id,
+        user_id: user.id,
+        new_friend_id: data.senderId,
+      });
+      if (!response.error) {
+        await fetchNotification();
+        await fetchData();
+        setIsLoading(false);
+        openToast('success', 'You accepted the friend request');
+      }
+    } catch (error: any) {
+      setIsLoading(false);
+      openToast('error', error.response.data.message);
     }
   };
 
@@ -222,7 +255,7 @@ function FriendsScreen({navigation}: Props) {
               receivedData={friendRequest}
               searchValue={searchValue}
               onSelectUser={() => undefined}
-              onApprove={() => undefined}
+              onApprove={handleApproveFriendRequest}
               onCancel={() => undefined}
             />
           </View>

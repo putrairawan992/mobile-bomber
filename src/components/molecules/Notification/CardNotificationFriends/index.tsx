@@ -9,11 +9,13 @@ import {RequestFriendNotificationInterface} from '../../../../interfaces/Notific
 interface CardNotificationFriends {
   data: RequestFriendNotificationInterface;
   isShowBorder: boolean;
+  onApprove: (data: RequestFriendNotificationInterface) => void;
 }
 
 export default function CardNotificationFriends({
   data,
   isShowBorder = true,
+  onApprove,
 }: CardNotificationFriends) {
   return (
     <View
@@ -42,6 +44,7 @@ export default function CardNotificationFriends({
       </View>
       <Gap width={10} />
       <TouchableOpacity
+        onPress={() => onApprove(data)}
         activeOpacity={0.7}
         className="border-[1px] border-white rounded-md px-3 py-2">
         <DefaultText
