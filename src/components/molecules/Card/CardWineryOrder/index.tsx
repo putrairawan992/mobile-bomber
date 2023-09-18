@@ -7,16 +7,12 @@ import {formatCurrency} from '../../../../utils/currency';
 
 interface CardWineryOrderInterface {
   item: ItemProductBasedOnClubIdInterface;
-  index: number;
-  values:any;
-  actionChangeGetProduct(index: number, newQuantity: number, values: any): void;
+  actionChangeGetProduct(values: any): void;
 }
 
 export default function CardWineryOrder({
   item,
-  values,
   actionChangeGetProduct,
-  index,
 }: CardWineryOrderInterface) {
   const [showNumber, setShowNumber] = useState<boolean>(false);
   const [showImage, setShowImage] = useState<boolean>(false);
@@ -46,7 +42,7 @@ export default function CardWineryOrder({
               activeOpacity={0.7}
               onPress={() => {
                 value > 1 ? setValue(value - 1) : setShowNumber(false);
-                actionChangeGetProduct(index, value - 1, values);
+                actionChangeGetProduct({...item, quantity: value - 1});
               }}>
               <DefaultText
                 title="-"
@@ -61,7 +57,7 @@ export default function CardWineryOrder({
               activeOpacity={0.7}
               onPress={() => {
                 setValue(value + 1);
-                actionChangeGetProduct(index, value + 1, values);
+                actionChangeGetProduct({...item, quantity: value + 1});
               }}>
               <DefaultText
                 title="+"
@@ -76,7 +72,7 @@ export default function CardWineryOrder({
             onPress={() => {
               setShowNumber(true);
               setValue(1);
-              actionChangeGetProduct(index, 1, values);
+              actionChangeGetProduct({...item, quantity: 1});
             }}>
             <DefaultText title="Add to cart" />
           </TouchableOpacity>

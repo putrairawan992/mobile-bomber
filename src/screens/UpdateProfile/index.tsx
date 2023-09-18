@@ -12,9 +12,20 @@ import {Header} from '../../components/molecules';
 import colors from '../../styles/colors';
 import {IcPencil, IcProfile} from '../../theme/Images';
 import LinearGradient from 'react-native-linear-gradient';
+import {Asset, launchImageLibrary} from 'react-native-image-picker';
 
 export default function UpdateProfile() {
   const [about, setAbout] = useState<string>('');
+
+  const [image, setImage] = useState<Asset | undefined>();
+  console.log('imageUpdProfile', image);
+
+  const onPickImage = async () => {
+    const result = await launchImageLibrary({mediaType: 'photo'});
+    if (result.assets) {
+      setImage(result.assets[0]);
+    }
+  };
 
   return (
     <Layout>
@@ -42,6 +53,7 @@ export default function UpdateProfile() {
             </View>
             <TouchableOpacity
               activeOpacity={0.7}
+              onPress={() => onPickImage()}
               className="bg-primary px-3 py-2 rounded-[4px] flex-row items-center">
               <DefaultText title="Upload" />
               <Gap width={5} />
@@ -83,7 +95,7 @@ export default function UpdateProfile() {
           start={{x: 0, y: 0}}
           end={{x: 1, y: 0}}>
           <DefaultText
-            title="Next"
+            title="Update"
             titleClassName="text-base font-inter-bold text-center"
           />
         </LinearGradient>

@@ -10,6 +10,11 @@ export interface OptionMenuInterface {
   onPress: () => void;
 }
 
+export interface PaymentListInterface {
+  customer_id: string;
+  card_number: string;
+}
+
 export interface MonthYearInterface {
   month: number;
   year: number;

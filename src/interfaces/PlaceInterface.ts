@@ -68,7 +68,7 @@ export interface ItemProductBasedOnClubIdInterface {
   imageUrl: string;
   productId: string;
   englishProductTitle: string;
-  chineseProductTitle:string;
+  chineseProductTitle: string;
   price: number;
 }
 

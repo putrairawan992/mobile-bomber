@@ -51,7 +51,6 @@ function ProfileScreen() {
   React.useEffect(() => {
     dispatch(getUserProfile());
   }, [dispatch]);
-  console.log(profile?.user_profile);
 
   return (
     <Layout>
@@ -249,12 +248,12 @@ function ProfileScreen() {
           <CardProfileMenu
             icon={IcPrivacy}
             title="Privacy"
-            onPress={() => {}}
+            onPress={() => navigationRef.navigate('Privacy' as never)}
           />
           <CardProfileMenu icon={IcLegal} title="Legal" onPress={() => {}} />
           <CardProfileMenu
             icon={IcBusinessHub}
-            title="Business hub"
+            title="Register as Owner"
             onPress={() => {}}
           />
           <CardProfileMenu icon={IcLogOut} title="Log Out" onPress={onLogOut} />
