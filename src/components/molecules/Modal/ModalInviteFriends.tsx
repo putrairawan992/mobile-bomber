@@ -183,7 +183,7 @@ export default function ModalInviteFriends({
               placeholder="Search fried's name or email"
               type="search"
               textInputBackgroundColor="transparent"
-              textInputHeight={30}
+              textInputHeight={40}
             />
             <Spacer height={5} />
             <View className="flex-row px-3">

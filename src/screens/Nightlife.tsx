@@ -97,6 +97,7 @@ function NightlifeScreen({navigation}: Props) {
   const fetchNotification = async () => {
     try {
       await NotificationService.getInvitationNotification(user.id, dispatch);
+      await NotificationService.getRequestFriendNotification(user.id, dispatch);
     } catch (error: any) {}
   };
 

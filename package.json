@@ -5,7 +5,7 @@
   "scripts": {
     "android": "react-native run-android",
     "ios": "react-native run-ios",
-    "ios-11": "npx react-native run-ios --udid 331B88A0-4096-46A5-BD0F-0BB0387F96F1",
+    "ios-11": "npx react-native run-ios --udid 3D1CF9BA-B226-458A-8C78-DA38B46AA943",
     "ios-14": "npx react-native run-ios --udid AFF756C0-8566-4333-B944-341041C1E6A9",
     "start": "react-native start",
     "test": "jest",
@@ -24,7 +24,8 @@
     "android-clean-build": "cd android && ./gradlew clean",
     "ios-clean-build": "cd ios && xcodebuild clean",
     "pod-install": "cd ios && pod install",
-    "apk": "cd android && ./gradlew assembleRelease"
+    "apk": "cd android && ./gradlew assembleRelease",
+    "reactotron": "adb reverse tcp:9090 tcp:9090"
   },
   "dependencies": {
     "@apolloeagle/loading-dots": "^3.0.0",

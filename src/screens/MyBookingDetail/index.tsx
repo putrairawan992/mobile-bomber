@@ -1,9 +1,11 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, {useEffect, useRef, useState} from 'react';
 import {
   Button,
   Gap,
   GradientText,
   Layout,
+  Loading,
   Spacer,
 } from '../../components/atoms';
 import {Header, ModalToast} from '../../components/molecules';
@@ -33,7 +35,7 @@ import ModalInviteFriends from '../../components/molecules/Modal/ModalInviteFrie
 import RNCalendarEvents from 'react-native-calendar-events';
 import {FriendshipService} from '../../service/FriendshipService';
 import {FriendInterface} from '../../interfaces/UserInterface';
-import {getStorage} from '../../service/mmkvStorage';
+import {useAppSelector} from '../../hooks/hooks';
 
 export default function MyBookingDetail() {
   const [menu] = useState<string[]>([
@@ -57,6 +59,7 @@ export default function MyBookingDetail() {
     FriendInterface[]
   >([]);
 
+  const {user} = useAppSelector(state => state.user);
   const ref = useRef<ScrollView>(null);
 
   useEffect(() => {
@@ -85,14 +88,11 @@ export default function MyBookingDetail() {
   };
 
   const fetchDataFriends = async () => {
-    const user: any = await getStorage('userAuth');
-    const userId = JSON.parse(user).id;
-    console.log('fetchDataFriends===>', userId);
     try {
       setIsLoading(true);
       await Promise.all([
         FriendshipService.getFriendship({
-          userId: 'FQ5OvkolZtSBZEMlG1R3gtowbQv1',
+          userId: user.id,
         }),
       ])
         .then(response => {
@@ -127,6 +127,7 @@ export default function MyBookingDetail() {
   return (
     <Layout contentContainerStyle={styles.parent}>
       <Header transparent title="Booking Detail" hasBackBtn />
+      {isLoading && <Loading />}
       <Spacer height={10} />
       <View className="flex-row">
         {menu.map((item, index) => {

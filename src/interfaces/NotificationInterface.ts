@@ -45,3 +45,11 @@ export interface PayloadReadNotificationInterface {
   id: string;
   new_status: number;
 }
+
+export interface RequestFriendNotificationInterface {
+  id: string;
+  senderId: string;
+  senderName: string;
+  bio: string;
+  invitedPhotoUrl: string;
+}

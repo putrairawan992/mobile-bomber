@@ -4,9 +4,15 @@ import {
   InviteNotificationInterface,
   PayloadActionInvitationInterface,
   PayloadReadNotificationInterface,
+  RequestFriendNotificationInterface,
 } from '../interfaces/NotificationInterface';
 import {AppDispatch} from '../store';
-import {setCount, setInvitation} from '../store/notification';
+import {
+  setFriendRequest,
+  setFriendRequestCount,
+  setInvitation,
+  setInvitationCount,
+} from '../store/notification';
 import ax from './axios';
 import {getStorage} from './mmkvStorage';
 
@@ -21,7 +27,7 @@ export const NotificationService = {
     const invitationData = response.data.data;
     dispatch(setInvitation(invitationData));
     dispatch(
-      setCount(
+      setInvitationCount(
         invitationData.filter(
           (item: InviteNotificationInterface) =>
             item.isRead === 0 || item.status === 'waiting_for_response',
@@ -46,7 +52,7 @@ export const NotificationService = {
     const invitationData = updateNotification.data.data;
     dispatch(setInvitation(invitationData));
     dispatch(
-      setCount(
+      setInvitationCount(
         invitationData.filter(
           (item: InviteNotificationInterface) =>
             item.isRead === 0 || item.status === 'waiting_for_response',
@@ -62,6 +68,18 @@ export const NotificationService = {
       `${URL}/read_notification_invitation`,
       payload,
     );
+    return response.data;
+  },
+  getRequestFriendNotification: async (
+    user_id: string,
+    dispatch: AppDispatch,
+  ): Promise<APIResponse<RequestFriendNotificationInterface[]>> => {
+    const response = await ax.get(
+      `${URL}/get_invitation_request_new_friend/${user_id}`,
+    );
+    const friendRequestData = response.data.data;
+    dispatch(setFriendRequest(friendRequestData));
+    dispatch(setFriendRequestCount(friendRequestData.length));
     return response.data;
   },
 };

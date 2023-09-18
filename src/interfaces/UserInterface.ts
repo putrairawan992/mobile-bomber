@@ -84,3 +84,16 @@ export interface PayloadAddFriendInterface {
   customer_id: string;
   new_friend_id: string;
 }
+
+export interface RequestFriendHistoryInterface {
+  id: string;
+  invitedId: string;
+  invitedName: string;
+  invitedPhotoUrl: string;
+}
+
+export interface AcceptFriendRequestInterface {
+  id: string;
+  user_id: string;
+  new_friend_id: string;
+}
