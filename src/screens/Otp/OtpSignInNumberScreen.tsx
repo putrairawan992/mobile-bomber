@@ -113,7 +113,7 @@ function OtpSignInNumberScreen({route, navigation}: Props) {
     }
   };
   return (
-    <Layout contentContainerStyle={styles.container}>
+    <Layout contentContainerStyle={styles.container} isDisableKeyboardAware>
       <View style={styles.signupLoginInputGroup}>
         <LogoLabel
           title="One more steps"

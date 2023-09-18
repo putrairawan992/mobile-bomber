@@ -12,6 +12,7 @@ interface LayoutProps {
   isScrollable?: boolean;
   showsVerticalScrollIndicator?: boolean;
   keyboardShouldPersistTaps?: boolean;
+  isDisableKeyboardAware?: boolean;
 }
 
 export const Layout = ({
@@ -22,8 +23,10 @@ export const Layout = ({
   isScrollable = true,
   showsVerticalScrollIndicator,
   keyboardShouldPersistTaps = false,
+  isDisableKeyboardAware = false,
 }: LayoutProps) => {
   const theme = useTheme();
+
   return (
     <>
       <StatusBar
@@ -35,7 +38,7 @@ export const Layout = ({
       />
       <KeyboardAwareScrollView
         extraScrollHeight={100} // (when scroll)to have extra height between keyboard and text input
-        enableOnAndroid={true}
+        enableOnAndroid={!isDisableKeyboardAware}
         extraHeight={80} // make some height so the keyboard wont cover other component
         scrollEnabled={isScrollable}
         contentContainerStyle={{
