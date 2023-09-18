@@ -42,7 +42,7 @@ export const FriendInviteConfirmationSheet = ({
   const theme = useTheme();
   const aspectRatio = useImageAspectRatio(data?.logo as string);
   const isInvite = type === 'invite';
-  console.log(party);
+
   return (
     <Section
       padding="0px 16px"

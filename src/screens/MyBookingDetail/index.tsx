@@ -33,6 +33,7 @@ import ModalInviteFriends from '../../components/molecules/Modal/ModalInviteFrie
 import RNCalendarEvents from 'react-native-calendar-events';
 import {FriendshipService} from '../../service/FriendshipService';
 import {FriendInterface} from '../../interfaces/UserInterface';
+import {getStorage} from '../../service/mmkvStorage';
 
 export default function MyBookingDetail() {
   const [menu] = useState<string[]>([
@@ -84,19 +85,18 @@ export default function MyBookingDetail() {
   };
 
   const fetchDataFriends = async () => {
+    const user: any = await getStorage('userAuth');
+    const userId = JSON.parse(user).id;
+    console.log('fetchDataFriends===>', userId);
     try {
       setIsLoading(true);
-      console.log('masukf');
-
       await Promise.all([
         FriendshipService.getFriendship({
           userId: 'FQ5OvkolZtSBZEMlG1R3gtowbQv1',
         }),
       ])
         .then(response => {
-          console.log(response);
-
-          setFriendshipData(response[0].result);
+          setFriendshipData(response[0].data);
         })
         .catch(error => {
           console.log(error.response);
@@ -445,6 +445,8 @@ export default function MyBookingDetail() {
         <ModalInviteFriends
           show={showInviteFriends}
           handleInvite={handleInvite}
+          selectedInvitation={selectedInvitation}
+          setSelectedInvitation={setSelectedInvitation}
           isLoading={isLoading}
           friendshipData={friendshipData}
           hide={() => setShowInviteFriends(false)}

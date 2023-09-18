@@ -32,7 +32,8 @@ interface ModalInviteFriends {
   hide: () => void;
   friendshipData: any;
   onFriendInvited: (value: string[]) => void;
-  selectedInvitation?: FriendInterface[];
+  selectedInvitation?: any;
+  setSelectedInvitation?: any;
   handleInvite: (value: any) => void;
   isLoading: boolean;
 }
@@ -43,6 +44,7 @@ export default function ModalInviteFriends({
   friendshipData,
   onFriendInvited,
   selectedInvitation,
+  setSelectedInvitation,
   handleInvite,
   isLoading,
 }: ModalInviteFriends) {
@@ -53,14 +55,28 @@ export default function ModalInviteFriends({
   const ref = createRef<PagerView>();
 
   const onInvite = (data: any, index: any) => {
-    console.log(data, index);
+    console.log('onInvite===>', data, index);
+    let findItem: any = Boolean(
+      selectedInvitation.find(
+        (el: FriendInterface) => el.customerId === index.customerId,
+      ),
+    );
+    if (!findItem) {
+      setSelectedInvitation([...selectedInvitation, index]);
+    } else {
+      setSelectedInvitation(
+        selectedInvitation.filter(
+          (el: FriendInterface) => el.customerId !== index.customerId,
+        ),
+      );
+    }
     setShowInvitation(true);
   };
 
   const InvitationTab = () => {
     return (
       <ScrollView showsVerticalScrollIndicator={false}>
-        {selectedInvitation?.map((item: FriendInterface, idx) => {
+        {selectedInvitation?.map((item: FriendInterface, idx: any) => {
           return (
             <EntryAnimation index={idx} key={`invitation_${idx}`}>
               <Section isRow isBetween style={{marginBottom: 20}}>
@@ -229,11 +245,9 @@ const Friends = ({
   onPress: (value: string, val: any) => void;
   friendshipData: any;
 }) => {
-  console.log('friendshipData', friendshipData);
-
   return (
     <ScrollView showsVerticalScrollIndicator={false}>
-      {friendshipData.map((list: any) => {
+      {friendshipData?.map((list: any) => {
         return <CardInviteFriends val={list} onPress={onPress} />;
       })}
     </ScrollView>
