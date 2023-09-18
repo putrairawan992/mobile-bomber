@@ -210,7 +210,7 @@ function NightlifeScreen({navigation}: Props) {
     dispatch(updateUserLocation(location));
 
   return (
-    <Layout contentContainerStyle={styles.container}>
+    <Layout contentContainerStyle={styles.container} isDisableKeyboardAware>
       <ScrollView>
         <EntryAnimation index={0}>
           <Header
