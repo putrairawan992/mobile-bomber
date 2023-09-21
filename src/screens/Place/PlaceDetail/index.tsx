@@ -17,6 +17,7 @@ import {
   Layout,
   Section,
   Text,
+  TouchableSection,
 } from '../../../components/atoms';
 import {Header, HorizontalMenu} from '../../../components/molecules';
 import {
@@ -28,6 +29,7 @@ import {
 } from 'react-native';
 import {PLACE_MENU} from '../../../utils/data';
 import {
+  GalleryCategoryInterface,
   PlaceInterface,
   PlaceOverviewFeaturesInterface,
   PlacePhotoInterface,
@@ -35,7 +37,7 @@ import {
 import React, {useEffect, useState} from 'react';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {MainStackParams} from '../../../navigation/MainScreenStack';
-import {Star} from '../../../assets/icons';
+import {Close, Star} from '../../../assets/icons';
 import {randomNumber} from '../../../utils/function';
 import styles from '../Styles';
 import {useImageAspectRatio} from '../../../hooks/useImageAspectRatio';
@@ -47,8 +49,14 @@ import {Colors} from '../../../theme';
 import CardPromo from '../../../components/molecules/Card/CardPromo';
 import {ImgProductPromo, ImgProductPromo2} from '../../../theme/Images';
 import {NightlifeService} from '../../../service/NightlifeService';
-import {WIDTH} from '../../../utils/config';
+import {HEIGHT, WIDTH} from '../../../utils/config';
 import {dateFormatter} from '../../../utils/dateFormatter';
+import {ImageGallery, ImageObject} from '@georstat/react-native-image-gallery';
+import {
+  AppImageObject,
+  GalleryMappingInterface,
+} from '../../../interfaces/Interface';
+import reactotron from 'reactotron-react-native';
 
 type Props = NativeStackScreenProps<MainStackParams, 'PlaceDetail', 'MyStack'>;
 export const PlaceDetail = ({route, navigation}: Props) => {
@@ -64,6 +72,15 @@ export const PlaceDetail = ({route, navigation}: Props) => {
   const [sheetIndex, setSheetIndex] = React.useState<number>(-1);
   const placeDetailSheetRef = React.useRef<BottomSheetModal>(null);
   const snapPoints = React.useMemo(() => ['50'], []);
+  const [galleryData, setGalleryData] = useState<GalleryCategoryInterface[]>(
+    [],
+  );
+  const [categoryData, setCategoryData] = useState<GalleryMappingInterface[]>(
+    [],
+  );
+  const [isOpen, setIsOpen] = useState(false);
+  const openGallery = () => setIsOpen(true);
+  const closeGallery = () => setIsOpen(false);
 
   const getPlaceData = async () => {
     try {
@@ -76,8 +93,37 @@ export const PlaceDetail = ({route, navigation}: Props) => {
     } catch (error: any) {}
   };
 
+  const fetchGallery = async () => {
+    try {
+      setIsLoading(true);
+      const response = await NightlifeService.getPlaceGallery({
+        club_id: placeData?.clubId as string,
+      });
+      setGalleryData(response.data);
+      setIsLoading(false);
+    } catch {}
+  };
+
+  const onSelectPhotoCategory = async (index: number) => {
+    if (galleryData.length) {
+      setCategoryData(
+        galleryData
+          .find((item, idx) => idx === index)
+          ?.galleryData.map(el => {
+            return {
+              id: el.galleryId,
+              url: el.galleryImgUrl,
+              caption: el.caption,
+            };
+          }) ?? [],
+      );
+    }
+    openGallery();
+  };
+
   useEffect(() => {
     getPlaceData();
+    fetchGallery();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -264,27 +310,33 @@ export const PlaceDetail = ({route, navigation}: Props) => {
         <Text variant="base" fontWeight="bold" label={`Inside ${data?.name}`} />
         <Gap height={12} />
         <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-          {data?.photos.map((item: PlacePhotoInterface, idx: number) => {
+          {galleryData?.map((item: GalleryCategoryInterface, idx: number) => {
             return (
-              <Section key={`photo_${idx}`} style={{marginRight: 18}}>
-                <View
-                  style={{position: 'absolute', zIndex: 999, left: 6, top: 6}}>
+              <TouchableSection
+                onPress={() => onSelectPhotoCategory(idx)}
+                key={`photo_${idx}`}
+                style={{marginRight: 18}}>
+                <>
+                  <View
+                    style={{
+                      position: 'absolute',
+                      zIndex: 999,
+                      left: 6,
+                      top: 6,
+                    }}>
+                    <Image
+                      source={{uri: item.galleryData[0].galleryImgUrl}}
+                      style={{height: 120, width: 120}}
+                    />
+                  </View>
                   <Image
-                    source={{uri: item.url}}
+                    source={{uri: item.galleryData[1].galleryImgUrl}}
                     style={{height: 120, width: 120}}
                   />
-                </View>
-                <Image
-                  source={{
-                    uri: `https://source.unsplash.com/random/600x600?sig=${randomNumber(
-                      2,
-                    )}`,
-                  }}
-                  style={{height: 120, width: 120}}
-                />
-                <Gap height={6} />
-                <Text label={item.title} textAlign="center" />
-              </Section>
+                  <Gap height={6} />
+                  <Text label={item.categoryName} textAlign="center" />
+                </>
+              </TouchableSection>
             );
           })}
         </ScrollView>
@@ -336,6 +388,60 @@ export const PlaceDetail = ({route, navigation}: Props) => {
       setSelectedMenu(selectedIndex - 1);
     }
   };
+
+  const renderFooterComponent = (image: ImageObject, currentIndex: number) => {
+    return (
+      <View
+        style={{
+          backgroundColor: 'transparent',
+          alignSelf: 'center',
+          bottom: 30,
+        }}>
+        <Text
+          label={`${(currentIndex + 1).toString()} of ${categoryData.length}`}
+          color="#A5A5A5"
+        />
+      </View>
+    );
+  };
+
+  const renderHeaderComponent = (image: AppImageObject) => {
+    return (
+      <View
+        style={{
+          backgroundColor: 'transparent',
+          top: 100,
+        }}>
+        <TouchableOpacity
+          onPress={() => setIsOpen(false)}
+          style={{position: 'absolute', left: 16, zIndex: 999}}>
+          <Close size={24} color={theme?.colors.ICON} />
+        </TouchableOpacity>
+        <View
+          style={{
+            position: 'absolute',
+            paddingHorizontal: 8,
+            backgroundColor: '#2B2E34',
+            top: HEIGHT * 0.67,
+            alignSelf: 'center',
+            zIndex: 999,
+            borderRadius: 12,
+          }}>
+          <Text
+            label={image?.caption ?? ''}
+            textAlign="center"
+            color={theme?.colors.PRIMARY}
+          />
+        </View>
+        <Text
+          label={placeData?.name + ' Gallery'}
+          variant="base"
+          textAlign="center"
+        />
+      </View>
+    );
+  };
+
   return (
     <Layout contentContainerStyle={styles.container} isScrollable={false}>
       <Header transparent hasBackBtn style={{height: 70}} />
@@ -438,6 +544,16 @@ export const PlaceDetail = ({route, navigation}: Props) => {
         onChange={handleSheetChanges}>
         {!!data && <OperationalHoursSheet data={data.operation} />}
       </BottomSheetModal>
+      <ImageGallery
+        close={closeGallery}
+        isOpen={isOpen}
+        images={categoryData}
+        thumbSize={64}
+        thumbColor={Colors.white}
+        initialIndex={0}
+        renderFooterComponent={renderFooterComponent}
+        renderHeaderComponent={renderHeaderComponent}
+      />
     </Layout>
   );
 };
