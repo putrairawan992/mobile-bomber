@@ -55,7 +55,9 @@ function LogInScreen({navigation}: Props) {
     enableReinitialize: true,
     onSubmit: values =>
       handleSignIn(
-        values.phone.includes('+') ? values.phone : '+' + values.phone,
+        values.phone.includes('+')
+          ? formatPhoneNumber(values.phone)
+          : '+' + formatPhoneNumber(values.phone),
         values.password,
       ),
   });
@@ -72,6 +74,23 @@ function LogInScreen({navigation}: Props) {
     setType(toastType);
     setToastMessage(message);
   };
+
+  function formatPhoneNumber(phoneNumber: string): string {
+    // Hapus semua karakter non-digit dari nomor telepon
+    const cleanedPhoneNumber = phoneNumber.replace(/\D/g, '');
+
+    // Periksa apakah nomor telepon diawali dengan "0"
+    if (cleanedPhoneNumber.startsWith('0')) {
+      // Jika ya, ganti "0" dengan "62"
+      return `62${cleanedPhoneNumber.slice(1)}`;
+    } else if (cleanedPhoneNumber.startsWith('+62')) {
+      // Jika diawali dengan "+62", hapus tanda "+" dan biarkan "62" tetap
+      return `62${cleanedPhoneNumber.slice(3)}`;
+    } else {
+      // Jika tidak diawali dengan "0" atau "+62", kembalikan apa adanya
+      return cleanedPhoneNumber;
+    }
+  }
 
   const handleSignIn = async (phone: string, password: string) => {
     try {

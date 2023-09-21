@@ -29,8 +29,10 @@ export default function CardPaymentPage({
         title={number}
         titleClassName="text-base font-inter-medium flex-1 ml-2"
       />
-      {isDefault && (
+      {isDefault ? (
         <DefaultText title="default" titleClassName="text-yellow-700" />
+      ) : (
+        <DefaultText title="set as default" titleClassName="text-white-700" />
       )}
     </TouchableOpacity>
   );

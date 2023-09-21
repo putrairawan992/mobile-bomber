@@ -2,15 +2,16 @@ import {Image, TouchableOpacity, View} from 'react-native';
 import React from 'react';
 import DefaultText from '../../../atoms/Text/DefaultText';
 import {Gap} from '../../../atoms';
-import {IcCoupon, IcPeopleTwo, WaveImg} from '../../../../theme/Images';
+import {IcCoupon, IcPeopleTwo} from '../../../../theme/Images';
 import {navigationRef} from '../../../../navigation/RootNavigation';
+import moment from 'moment';
 
 interface CardBooking {
   type: 'Paid' | 'Unpaid' | 'Canceled' | 'Finished';
-  data?:any
+  data?: any;
 }
 
-export default function CardBooking({type,data}: CardBooking) {
+export default function CardBooking({type, data}: CardBooking) {
   return (
     <TouchableOpacity
       activeOpacity={0.7}
@@ -43,7 +44,7 @@ export default function CardBooking({type,data}: CardBooking) {
           <DefaultText
             title={`Table ${data?.tableName}`}
             titleClassName="text-xs font-inter-semibold"
-            subtitle={'Sat, 14 June - 19:30'}
+            subtitle={`${moment(data?.bookingDate).format('DD-MM-YYYY')}`}
             subtitleClassName="text-xs font-inter-medium"
           />
           <Gap height={5} />
@@ -64,7 +65,7 @@ export default function CardBooking({type,data}: CardBooking) {
               className="w-[16] h-[16]"
             />
             <DefaultText
-              title={'3 coupon used'}
+              title={`${data?.couponUsed} coupon used`}
               titleClassName="text-xs font-inter-medium text-neutral-500 ml-1"
             />
           </View>

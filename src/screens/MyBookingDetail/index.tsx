@@ -72,14 +72,15 @@ export default function MyBookingDetail() {
 
   const onSaveCalendar = () => {
     RNCalendarEvents.requestPermissions()
-      .then(result => {
-        console.log('request calendar:', result);
-        RNCalendarEvents.saveEvent('Title of event', {
-          calendarId: '141',
-          startDate: '2023-08-24T19:26:00.000Z',
-          endDate: '2023-08-24T19:26:00.000Z',
-          location: 'Los Angeles, CA',
-          notes: 'Bring sunglasses',
+      .then(() => {
+        const newDate = new Date();
+        const date = new Date();
+        newDate.setHours(newDate.getHours() + 2);
+        RNCalendarEvents.saveEvent('Booking Detail - Bomber | Event', {
+          calendarId: '1',
+          location: 'Taiwan',
+          startDate: date.toISOString(),
+          endDate: newDate.toISOString(),
         })
           .then(() => setSuccessSaveCalendar(true))
           .catch(err => console.log('save event error: ', err));

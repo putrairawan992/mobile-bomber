@@ -10,6 +10,7 @@ interface ModalPaymentPage {
   hide: () => void;
   onRemoveCard: () => void;
   onCheckHistory: () => void;
+  onDefaultPayment: () => void;
 }
 
 export default function ModalPaymentPage({
@@ -17,6 +18,7 @@ export default function ModalPaymentPage({
   hide,
   onRemoveCard,
   onCheckHistory,
+  onDefaultPayment,
 }: ModalPaymentPage) {
   return (
     <Modal
@@ -34,6 +36,15 @@ export default function ModalPaymentPage({
         <Gap height={15} />
         <ScrollView showsVerticalScrollIndicator={false}>
           <View className="px-4">
+            <TouchableOpacity
+              activeOpacity={0.7}
+              onPress={() => onDefaultPayment()}
+              className="bg-[#2D2D2D] p-4 mb-4 rounded-md flex-row items-center">
+              <DefaultText
+                title="Set As Default"
+                titleClassName="font-inter-medium flex-1 ml-3"
+              />
+            </TouchableOpacity>
             <TouchableOpacity
               activeOpacity={0.7}
               className="bg-[#2D2D2D] p-4 rounded-md flex-row items-center"

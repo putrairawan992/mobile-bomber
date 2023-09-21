@@ -8524,6 +8524,11 @@ react-native-switch@^1.5.1:
   dependencies:
     prop-types "^15.6.0"
 
+react-native-vision-camera@^2.16.1:
+  version "2.16.1"
+  resolved "https://registry.yarnpkg.com/react-native-vision-camera/-/react-native-vision-camera-2.16.1.tgz#b1af6d2161a7b19dc39da8f645344a63b0d4ded8"
+  integrity sha512-2utw/1EkgeaL6CLQX9Bm6HEpkmkbyx/dBJmwjA2nVz3IuXn5ys57NwMa0o/qg8proSGvcs8XKpqtQtnMPA1P+w==
+
 react-native-webview@^13.6.0:
   version "13.6.0"
   resolved "https://registry.yarnpkg.com/react-native-webview/-/react-native-webview-13.6.0.tgz#286eeb6b2167b838fe8a44619d14e8e24efc8b67"
