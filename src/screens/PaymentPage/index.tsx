@@ -5,7 +5,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import React, {useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {DefaultText, Gap, Layout, Loading} from '../../components/atoms';
 import {Header} from '../../components/molecules';
 import colors from '../../styles/colors';
@@ -17,13 +17,26 @@ import ModalAddNewCard from '../../components/molecules/Modal/ModalAddNewCard';
 import {ProfileService} from '../../service/ProfileService';
 import {useAppSelector} from '../../hooks/hooks';
 import {maskCreditCard} from '../../utils/maskedVisa';
+import {ModalToastContext} from '../../context/AppModalToastContext';
 
 export default function ProfilePage() {
   const [showModal, setShowModal] = useState<boolean>(false);
   const [showModalAdd, setShowModalAdd] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [paymentList, setPaymentList] = useState<any>([]);
+  const [listSelect, setListSelect] = useState<{
+    id: string;
+    customerId: string;
+  }>({id: '', customerId: ''});
   const {user} = useAppSelector(state => state.user);
+  const {setIsShowToast, setToastMessage, setType} =
+    useContext(ModalToastContext);
+
+  const openToast = (toastType: 'success' | 'error', message: string) => {
+    setIsShowToast(true);
+    setType(toastType);
+    setToastMessage(message);
+  };
 
   useEffect(() => {
     fetchPaymentList(); // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -35,10 +48,49 @@ export default function ProfilePage() {
       const response = await ProfileService.getCustomerPaymentList({
         id: user?.id as string,
       });
+      console.log('response?.data', response?.data);
       setPaymentList(response?.data);
       setIsLoading(false);
     } catch (error: any) {
       setIsLoading(false);
+    }
+  };
+
+  const defaultPaymentList = async () => {
+    setIsLoading(true);
+    try {
+      const response = await ProfileService.defaultCustomerPaymentList({
+        payload: {
+          id: listSelect?.id as string,
+          customer_id: listSelect?.customerId,
+        },
+      });
+      fetchPaymentList();
+      setShowModal(false);
+      openToast('success', response.message);
+      setIsLoading(false);
+    } catch (err: any) {
+      setIsLoading(false);
+      openToast('error', err.response.data.message);
+    }
+  };
+
+  const deletePaymentList = async () => {
+    setIsLoading(true);
+    try {
+      const response = await ProfileService.deleteCustomerPaymentList({
+        payload: {
+          id: listSelect?.id as string,
+          customer_id: listSelect?.customerId,
+        },
+      });
+      fetchPaymentList();
+      setShowModal(false);
+      openToast('success', response.message);
+      setIsLoading(false);
+    } catch (error: any) {
+      setIsLoading(false);
+      openToast('error', error.response.data.message);
     }
   };
 
@@ -103,7 +155,10 @@ export default function ProfilePage() {
                 <CardPaymentPage
                   isDefault={item.isDefault === 1}
                   number={maskCreditCard(item.cardNumber)}
-                  onPress={() => setShowModal(true)}
+                  onPress={() => {
+                    setShowModal(true);
+                    setListSelect(item);
+                  }}
                 />
               );
             })
@@ -128,15 +183,23 @@ export default function ProfilePage() {
 
       <ModalPaymentPage
         show={showModal}
+        onDefaultPayment={() => defaultPaymentList()}
         hide={() => setShowModal(false)}
-        onRemoveCard={() => setShowModal(false)}
+        onRemoveCard={() => deletePaymentList()}
         onCheckHistory={() => setShowModal(false)}
       />
 
       <ModalAddNewCard
         show={showModalAdd}
-        hide={() => setShowModalAdd(false)}
-        onAddNew={() => setShowModalAdd(false)}
+        hide={() => {
+          setShowModalAdd(false);
+          setListSelect({id: '', customerId: ''});
+        }}
+        onAddNew={() => {
+          setShowModalAdd(false);
+          setListSelect({id: '', customerId: ''});
+          fetchPaymentList();
+        }}
       />
     </Layout>
   );

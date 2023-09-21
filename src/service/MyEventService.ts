@@ -16,6 +16,10 @@ import ax from './axios';
 const URL = 'event';
 
 export const MyEventService = {
+  getEventAllBookingCouponList: async ({}): Promise<APIResponse<any>> => {
+    const response = await ax.get('/app/nightlife/get_coupon_list');
+    return response.data;
+  },
   getEventAllBookingHistory: async ({
     club_id,
     status,

@@ -5,18 +5,43 @@ import {
   TouchableOpacity,
   TextInput,
 } from 'react-native';
-import React, {useState} from 'react';
+import React, {useContext, useState} from 'react';
 import {DefaultText, Gap, GradientText, Layout} from '../../components/atoms';
 import {Header} from '../../components/molecules';
 import colors from '../../styles/colors';
 import LinearGradient from 'react-native-linear-gradient';
 import {navigationRef} from '../../navigation/RootNavigation';
+import DateTimePickerModal from 'react-native-modal-datetime-picker';
+import moment from 'moment';
+import {ModalToastContext} from '../../context/AppModalToastContext';
 
 export default function VerificationID() {
   const [firstName, setFirstName] = useState<string>('');
   const [lastName, setLastName] = useState<string>('');
   const [idNumber, setIdNumber] = useState<string>('');
-  const [birthday, setBirthday] = useState<string>('');
+  const [datedBrithday, setDatedBrithday] = useState<Date>();
+  const [showDate, setShowDate] = useState<boolean>(false);
+
+  const {setIsShowToast, setToastMessage, setType} =
+    useContext(ModalToastContext);
+
+  const openToast = (toastType: 'success' | 'error', message: string) => {
+    setIsShowToast(true);
+    setType(toastType);
+    setToastMessage(message);
+  };
+
+  const onSave = () => {
+    if (
+      firstName.trim().length === 0 ||
+      lastName.trim().length === 0 ||
+      !datedBrithday ||
+      idNumber.trim().length === 0
+    ) {
+      return openToast('error', 'Data not completed');
+    }
+    navigationRef.navigate('VerificationID2' as never);
+  };
 
   return (
     <Layout>
@@ -99,13 +124,22 @@ export default function VerificationID() {
               titleClassName="font-poppins-regular mb-1"
             />
             <View className="bg-screen p-3 rounded-md border-[1px] border-neutral-700">
-              <TextInput
-                placeholder="DD/MM/YY"
-                placeholderTextColor="#898E9A"
-                className="m-0 p-0 font-poppins-regular text-white"
-                value={birthday}
-                onChangeText={value => setBirthday(value)}
-              />
+              <TouchableOpacity
+                activeOpacity={0.7}
+                onPress={() => setShowDate(true)}>
+                <TextInput
+                  editable={false}
+                  placeholder="Select Calendar"
+                  placeholderTextColor="#898E9A"
+                  className="m-0 p-0 font-poppins-regular text-white"
+                  value={
+                    datedBrithday
+                      ? moment(datedBrithday).format('DD MMMM YYYY')
+                      : ''
+                  }
+                  onPressIn={() => setShowDate(true)}
+                />
+              </TouchableOpacity>
             </View>
             <Gap height={10} />
           </View>
@@ -115,7 +149,7 @@ export default function VerificationID() {
       <TouchableOpacity
         className="mt-3"
         activeOpacity={0.8}
-        onPress={() => navigationRef.navigate('VerificationID2' as never)}>
+        onPress={() => onSave()}>
         <LinearGradient
           className="py-4"
           colors={['#AA5AFA', '#C111D5']}
@@ -127,6 +161,17 @@ export default function VerificationID() {
           />
         </LinearGradient>
       </TouchableOpacity>
+
+      <DateTimePickerModal
+        isVisible={showDate}
+        mode="date"
+        maximumDate={new Date()}
+        onConfirm={e => {
+          setDatedBrithday(e);
+          setShowDate(false);
+        }}
+        onCancel={() => setShowDate(false)}
+      />
     </Layout>
   );
 }

@@ -1,15 +1,8 @@
 import * as React from 'react';
-import {DefaultText, Gap, GradientText, Layout} from '../components/atoms';
-import {
-  Image,
-  ScrollView,
-  StyleSheet,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import {DefaultText, Gap, Layout} from '../components/atoms';
+import {Image, ScrollView, TouchableOpacity, View} from 'react-native';
 import {
   IcBusinessHub,
-  IcChevronRight,
   IcHelp,
   IcIdCard,
   IcInbox,
@@ -24,8 +17,6 @@ import {
   IcStar,
   IcWallet,
 } from '../theme/Images';
-import {AnimatedCircularProgress} from 'react-native-circular-progress';
-import colors from '../styles/colors';
 import LinearGradient from 'react-native-linear-gradient';
 import CardProfileMenu from '../components/molecules/Card/CardProfileMenu';
 import {navigationRef} from '../navigation/RootNavigation';
@@ -113,7 +104,7 @@ function ProfileScreen() {
             titleClassName="my-5 text-neutral-400"
           />
 
-          <View className="flex-row items-center bg-grey-one rounded-lg p-3">
+          {/* <View className="flex-row items-center bg-grey-one rounded-lg p-3">
             <View className="flex-1">
               <DefaultText
                 title={`Valid until ${profile?.loyalty_profile[0]?.validUntil}`}
@@ -166,7 +157,7 @@ function ProfileScreen() {
                 titleClassName="font-inter-medium text-xs"
               />
             </View>
-          </View>
+          </View> */}
 
           <Gap height={20} />
           <View className="flex-row">
@@ -263,15 +254,15 @@ function ProfileScreen() {
   );
 }
 
-const styles = StyleSheet.create({
-  textGredient: {
-    fontSize: 32,
-    fontFamily: 'Inter-SemiBold',
-  },
-  textPercent: {
-    fontSize: 12,
-    fontFamily: 'Inter-Bold',
-  },
-});
+// const styles = StyleSheet.create({
+//   textGredient: {
+//     fontSize: 32,
+//     fontFamily: 'Inter-SemiBold',
+//   },
+//   textPercent: {
+//     fontSize: 12,
+//     fontFamily: 'Inter-Bold',
+//   },
+// });
 
 export default ProfileScreen;

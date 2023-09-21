@@ -3,10 +3,33 @@ import Config from 'react-native-config';
 import {APIResponse} from '../interfaces/BaseApiResponse';
 import ax from './axios';
 import {PaymentListInterface} from '../interfaces/Interface';
+import axios from 'axios';
 
 const URL = 'profile';
 
 export const ProfileService = {
+  deleteCustomerPaymentList: async ({
+    payload,
+  }: {
+    payload: {id: string; customer_id: string};
+  }): Promise<APIResponse<unknown>> => {
+    const response = await axios.delete(
+      `${Config.API_ENDPOINT}/${URL}/remove_customer_payment_list`,
+      {data: payload},
+    );
+    return response.data;
+  },
+  defaultCustomerPaymentList: async ({
+    payload,
+  }: {
+    payload: {id: string; customer_id: string};
+  }): Promise<APIResponse<unknown>> => {
+    const response = await ax.put(
+      `${Config.API_ENDPOINT}/${URL}/modify_default_customer_payment_list`,
+      payload,
+    );
+    return response.data;
+  },
   addCustomerPaymentList: async ({
     payload,
   }: {

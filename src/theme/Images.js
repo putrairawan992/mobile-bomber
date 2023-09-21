@@ -161,8 +161,10 @@ const ImgProductPromo2 = require('../assets/images/img_product-promo2.png');
 const ImgPromoBackground = require('../assets/images/img_promo-background.png');
 const TableLayout = require('../assets/images/TableLayout.png');
 const DjBackground = require('../assets/images/DjBackground.png');
+const frameCard = require('../assets/images/frameCard.png');
 
 export {
+  frameCard,
   BackHome,
   LeftArrowBlack,
   ChatWithOwner,
