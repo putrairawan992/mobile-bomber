@@ -120,7 +120,7 @@ function ProfileScreen() {
               <TouchableOpacity
                 activeOpacity={0.7}
                 className="flex-row items-center"
-                onPress={() => {}}>
+               onPress={()=>navigationRef.navigate('ComingSoon' as never)}>
                 <DefaultText title="check detail mission" />
                 <Gap width={5} />
                 <Image
@@ -161,7 +161,10 @@ function ProfileScreen() {
 
           <Gap height={20} />
           <View className="flex-row">
-            <TouchableOpacity activeOpacity={0.7} className="flex-1">
+            <TouchableOpacity
+              activeOpacity={0.7}
+              onPress={() => navigationRef.navigate('ComingSoon' as never)}
+              className="flex-1">
               <LinearGradient
                 colors={['#AA5AFA', '#C111D5']}
                 className="p-3 rounded-md flex-row items-center justify-center">
@@ -222,30 +225,42 @@ function ProfileScreen() {
           <CardProfileMenu
             icon={IcMembership}
             title="Membership"
-            onPress={() => {}}
+            onPress={() => navigationRef.navigate('ComingSoon' as never)}
           />
           <CardProfileMenu
             icon={IcSetting}
             title="Settings"
-            onPress={() => {}}
+            onPress={() => navigationRef.navigate('ComingSoon' as never)}
           />
-          <CardProfileMenu icon={IcInbox} title="Inbox" onPress={() => {}} />
+          <CardProfileMenu
+            icon={IcInbox}
+            title="Inbox"
+            onPress={() => navigationRef.navigate('ComingSoon' as never)}
+          />
           <CardProfileMenu
             icon={IcNotification}
             title="Notification"
-            onPress={() => {}}
+            onPress={() => navigationRef.navigate('ComingSoon' as never)}
           />
-          <CardProfileMenu icon={IcHelp} title="Help" onPress={() => {}} />
+          <CardProfileMenu
+            icon={IcHelp}
+            title="Help"
+            onPress={() => navigationRef.navigate('ComingSoon' as never)}
+          />
           <CardProfileMenu
             icon={IcPrivacy}
             title="Privacy"
             onPress={() => navigationRef.navigate('Privacy' as never)}
           />
-          <CardProfileMenu icon={IcLegal} title="Legal" onPress={() => {}} />
+          <CardProfileMenu
+            icon={IcLegal}
+            title="Legal"
+            onPress={() => navigationRef.navigate('ComingSoon' as never)}
+          />
           <CardProfileMenu
             icon={IcBusinessHub}
             title="Register as Owner"
-            onPress={() => {}}
+            onPress={() => navigationRef.navigate('ComingSoon' as never)}
           />
           <CardProfileMenu icon={IcLogOut} title="Log Out" onPress={onLogOut} />
         </View>

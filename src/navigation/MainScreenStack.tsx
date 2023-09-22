@@ -31,8 +31,10 @@ import Offers from '../screens/Offers';
 import {PlaceInterface} from '../interfaces/PlaceInterface';
 import {GalleryScreen} from '../screens/Gallery';
 import PrivacyPage from '../screens/Privacy';
+import ComingSoon from '../screens/ComingSoon';
 
 export type MainStackParams = {
+  ComingSoon: undefined;
   Nightlife: undefined;
   Event: undefined;
   Friends: undefined;
@@ -203,6 +205,7 @@ const MainScreenStack = () => {
         headerShown: false,
         animation: 'slide_from_right',
       }}>
+      <Stack.Screen name="ComingSoon" component={ComingSoon} />
       <Stack.Screen name="Main" component={Main} />
       <Stack.Screen name="Notification" component={NotificationScreen} />
       <Stack.Screen name="PlaceDetail" component={PlaceDetail} />
