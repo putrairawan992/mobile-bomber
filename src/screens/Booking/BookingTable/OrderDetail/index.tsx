@@ -87,7 +87,7 @@ export const TableOrderDetail = ({
             fontSize: 16,
             fontFamily: 'Inter-Bold',
           }}>
-          Order Detail
+          Order detail
         </GradientText>
       </Section>
       <Gap height={12} />

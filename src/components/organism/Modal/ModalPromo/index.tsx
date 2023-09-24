@@ -5,12 +5,14 @@ import {Button, DefaultText, Gap, GradientText} from '../../../atoms';
 import {colors} from '../../../../utils/colors';
 import {ArrowRight2} from 'iconsax-react-native';
 import {IcDoor, IcWarning} from '../../../../theme/Images';
+import {CouponInterface} from '../../../../interfaces/PlaceInterface';
 
 interface ModalPromoProps {
   show: boolean;
   hide: () => void;
   onUse: () => void;
   BannerComponent?: JSX.Element;
+  data: CouponInterface;
 }
 
 export default function ModalPromo({
@@ -18,6 +20,7 @@ export default function ModalPromo({
   hide,
   onUse,
   BannerComponent,
+  data,
 }: ModalPromoProps) {
   return (
     <Modal
@@ -29,7 +32,7 @@ export default function ModalPromo({
         <View className="w-[50] h-[4] rounded-full bg-neutral-600 self-center" />
         <Gap height={15} />
         <GradientText colors={['#C800CC', '#A060FA']} style={styles.discount}>
-          50% discount
+          {data?.title}
         </GradientText>
         <Gap height={5} />
         <DefaultText title="1/2 coupon applied" titleClassName="text-center" />
@@ -39,11 +42,11 @@ export default function ModalPromo({
             <View className="flex-row items-center">
               <View className="w-[5] h-[5] bg-white rounded-full" />
               <DefaultText
-                title="Minimal order 2 cocktail"
+                title={data?.description}
                 titleClassName="flex-1 ml-1"
               />
             </View>
-            <Gap height={2.5} />
+            {/* <Gap height={2.5} />
             <View className="flex-row items-center">
               <View className="w-[5] h-[5] bg-white rounded-full" />
               <DefaultText
@@ -58,7 +61,7 @@ export default function ModalPromo({
                 title="Cannot use by special member"
                 titleClassName="flex-1 ml-1"
               />
-            </View>
+            </View> */}
           </View>
         )}
         <Gap height={15} />

@@ -107,3 +107,24 @@ export interface ParamsGetClubEventInterface {
   club_id: string;
   year_month: string;
 }
+
+export interface ParamsGetPlaceByCategoryInterface {
+  category_id: string;
+  limit: number;
+}
+
+export interface CouponInterface {
+  id: string;
+  title: string;
+  description: string;
+  disc: number;
+  qty: number;
+  minBuy: number;
+  code: string;
+  startTime: string;
+  endTime: string;
+  imageUrl: string;
+  createdAt: string;
+  isDisabled: number;
+  source: string;
+}

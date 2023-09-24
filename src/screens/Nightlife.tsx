@@ -146,22 +146,22 @@ function NightlifeScreen({navigation}: Props) {
 
   const PLACE_CATEGORY: PlaceCategoryInterface[] = [
     {
-      id: 'nightclub',
+      id: 'f34e130a-20df-465b-a119-f03889600cff',
       title: 'Nightclub',
       icon: <DiscoLight size={24} color={theme?.colors.ICON} />,
     },
     {
-      id: 'karaoke',
-      title: 'Karaoke',
+      id: 'ef8bd91f-9a39-41f3-8f7b-4324beceb02d',
+      title: 'KTV',
       icon: <Karaoke size={24} color={theme?.colors.ICON} />,
     },
     {
-      id: 'pregames',
+      id: 'd9140fe7-7f99-439d-bf72-968351977a7b',
       title: 'Pregames',
       icon: <Beer size={24} color={theme?.colors.ICON} />,
     },
     {
-      id: 'bar',
+      id: '79e0b4d2-c052-46b5-b8ea-4f80a761616d',
       title: 'Bar',
       icon: <WineBottle size={24} color={theme?.colors.ICON} />,
     },
@@ -169,9 +169,7 @@ function NightlifeScreen({navigation}: Props) {
 
   const onPlaceSelect = (id: string) =>
     navigation.navigate('PlaceDetail', {
-      placeData:
-        topFiveNightClub.find(item => item.id.toString() === id.toString()) ??
-        null,
+      placeData: topFiveNightClub.find(item => item.clubId === id) ?? null,
     });
 
   const fetchHistorySearchLocation = async () => {
@@ -250,7 +248,13 @@ function NightlifeScreen({navigation}: Props) {
         </EntryAnimation>
         <Spacer sm />
         <EntryAnimation index={3}>
-          <PlaceCategory title="Find Best Place" data={PLACE_CATEGORY} />
+          <PlaceCategory
+            title="Find Best Place"
+            data={PLACE_CATEGORY}
+            onSelect={data =>
+              navigation.navigate('PlaceByCategory', {category: data})
+            }
+          />
         </EntryAnimation>
         <Spacer llxx />
         <EntryAnimation index={4}>

@@ -1,6 +1,6 @@
 /* eslint-disable radix */
 /* eslint-disable react-native/no-inline-styles */
-import React from 'react';
+import React, {ReactNode} from 'react';
 import {TouchableOpacity, ViewStyle} from 'react-native';
 
 interface SectionPropsI {
@@ -8,7 +8,7 @@ interface SectionPropsI {
   isBetween?: boolean;
   isEvenly?: boolean;
   isAround?: boolean;
-  children: JSX.Element;
+  children: ReactNode;
   backgroundColor?: string;
   borderRadius?: number;
   isCenter?: boolean;
@@ -63,7 +63,7 @@ export const TouchableSection = ({
         style,
       ]}
       {...restOfProps}>
-      {children}
+      {children as JSX.Element}
     </TouchableOpacity>
   );
 };

@@ -1,13 +1,8 @@
 /* eslint-disable react-native/no-inline-styles */
-import {
-  ArrowDown2,
-  ArrowUp2,
-  MessageText1,
-  More,
-  Star1,
-} from 'iconsax-react-native';
+import {ArrowDown2, ArrowUp2, MessageText1, Star1} from 'iconsax-react-native';
 import React, {useCallback, useState} from 'react';
 import {
+  Image,
   LayoutAnimation,
   Platform,
   ScrollView,
@@ -24,7 +19,7 @@ import {
   TouchableSection,
 } from '../../../components/atoms';
 import {FriendInterface} from '../../../interfaces/UserInterface';
-import {Colors} from '../../../theme';
+import {Colors, Images} from '../../../theme';
 import useTheme from '../../../theme/useTheme';
 
 interface FriendsTabProps {
@@ -93,7 +88,7 @@ export const FriendsTab = ({
               }
             />
             <Text
-              fontWeight="medium"
+              fontWeight="regular"
               label={` (${
                 data.filter(
                   (item: FriendInterface) =>
@@ -139,7 +134,10 @@ export const FriendsTab = ({
                       onPress={() => onSelectUser(item)}
                     />
                     <TouchableOpacity onPress={() => onFriendOption(item)}>
-                      <More size={16} color={theme?.colors.ICON} />
+                      <Image
+                        source={Images.ThreeDots}
+                        style={{width: 16, height: 16}}
+                      />
                     </TouchableOpacity>
                   </Section>
                 </EntryAnimation>
@@ -167,7 +165,7 @@ export const FriendsTab = ({
               color={isExpandFriends ? theme?.colors.ICON : Colors['black-40']}
             />
             <Text
-              fontWeight="medium"
+              fontWeight="regular"
               label={` (${
                 data.filter(
                   (item: FriendInterface) =>
@@ -216,7 +214,10 @@ export const FriendsTab = ({
                       <UserGroup size={16} color={theme?.colors.ICON} />
                       <Gap width={12} />
                       <TouchableOpacity onPress={() => onFriendOption(item)}>
-                        <More size={16} color={theme?.colors.ICON} />
+                        <Image
+                          source={Images.ThreeDots}
+                          style={{width: 16, height: 16}}
+                        />
                       </TouchableOpacity>
                     </Section>
                   </Section>

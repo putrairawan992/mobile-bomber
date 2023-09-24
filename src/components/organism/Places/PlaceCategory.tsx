@@ -7,9 +7,10 @@ import {PlaceCategoryPills} from '../../molecules/Category/PlaceCategoryPills';
 interface PlaceCategoryProps {
   title: string;
   data: PlaceCategoryInterface[];
+  onSelect: (data: PlaceCategoryInterface) => void;
 }
 
-export const PlaceCategory = ({title, data}: PlaceCategoryProps) => {
+export const PlaceCategory = ({title, data, onSelect}: PlaceCategoryProps) => {
   const theme = useTheme();
   return (
     <Section padding="0px 16px">
@@ -22,7 +23,13 @@ export const PlaceCategory = ({title, data}: PlaceCategoryProps) => {
       <Section isRow isBetween>
         {Array.isArray(data) &&
           data.map((item: PlaceCategoryInterface, idx: number) => {
-            return <PlaceCategoryPills key={`category_${idx}`} data={item} />;
+            return (
+              <PlaceCategoryPills
+                key={`category_${idx}`}
+                data={item}
+                onSelect={onSelect}
+              />
+            );
           })}
       </Section>
     </Section>

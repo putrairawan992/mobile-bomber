@@ -1,116 +1,111 @@
-import {
-  ScrollView,
-  StyleSheet,
-  TouchableOpacity,
-  View,
-  TextInput as RNTextInput,
-} from 'react-native';
-import React, {createRef, useState} from 'react';
+/* eslint-disable @typescript-eslint/no-unused-vars */
+import {StyleSheet, View, TextInput as RNTextInput} from 'react-native';
+import React, {useContext, useState} from 'react';
 import Modal from 'react-native-modal';
 import DefaultText from '../../atoms/Text/DefaultText';
-import {
-  Avatar,
-  Button,
-  EntryAnimation,
-  Gap,
-  GradientText,
-  Loading,
-  Section,
-  Spacer,
-  Text,
-  TextInput,
-} from '../../atoms';
-import PagerView from 'react-native-pager-view';
-import CardInviteFriends from '../Card/CardInviteFriends';
+import {Button, Gap, GradientText, Loading, Spacer} from '../../atoms';
 import {Image} from 'react-native';
 import colors from '../../../styles/colors';
 import {FriendInterface} from '../../../interfaces/UserInterface';
-import useTheme from '../../../theme/useTheme';
+import {FriendsInvitation} from '../../organism';
+import {ModalToastContext} from '../../../context/AppModalToastContext';
+import {ModalToast} from '../ModalToast/ModalToast';
+import {NightlifeService} from '../../../service/NightlifeService';
 
 interface ModalInviteFriends {
+  bookingId: string;
   show: boolean;
   hide: () => void;
   friendshipData: any;
-  onFriendInvited: (value: string[]) => void;
+  onFriendInvited: (value: FriendInterface | null) => void;
   selectedInvitation?: any;
   setSelectedInvitation?: any;
-  handleInvite: (value: any) => void;
   isLoading: boolean;
+  memberInvited: FriendInterface[];
 }
 
 export default function ModalInviteFriends({
+  bookingId,
   show,
   hide,
   friendshipData,
   onFriendInvited,
   selectedInvitation,
   setSelectedInvitation,
-  handleInvite,
   isLoading,
+  memberInvited,
 }: ModalInviteFriends) {
-  const [menu] = useState<string[]>(['Friends', 'Squad', 'Invitation']);
-  const [initialPage, setInitialPage] = useState<number>(0);
   const [showInvitation, setShowInvitation] = useState<boolean>(false);
-  const theme = useTheme();
-  const ref = createRef<PagerView>();
-
-  const onInvite = (data: any, index: any) => {
-    console.log('onInvite===>', data, index);
-    let findItem: any = Boolean(
-      selectedInvitation.find(
-        (el: FriendInterface) => el.customerId === index.customerId,
-      ),
-    );
-    if (!findItem) {
-      setSelectedInvitation([...selectedInvitation, index]);
+  const [message, setMessage] = useState<string>('');
+  const [selectedFriend, setSelectedFriend] = useState<FriendInterface | null>(
+    null,
+  );
+  const [loading, setLoading] = useState<boolean>(false);
+  const checkInvitation = (data: FriendInterface) => {
+    if (memberInvited.find(el => el.customerId === data.customerId)) {
+      openToast('error', 'You cannot modify this invitation');
     } else {
-      setSelectedInvitation(
-        selectedInvitation.filter(
-          (el: FriendInterface) => el.customerId !== index.customerId,
-        ),
-      );
+      setSelectedFriend(data);
+      setShowInvitation(true);
     }
-    setShowInvitation(true);
   };
 
-  const InvitationTab = () => {
-    return (
-      <ScrollView showsVerticalScrollIndicator={false}>
-        {selectedInvitation?.map((item: FriendInterface, idx: any) => {
-          return (
-            <EntryAnimation index={idx} key={`invitation_${idx}`}>
-              <Section isRow isBetween style={{marginBottom: 20}}>
-                <Avatar
-                  url={item.photoUrl ?? ''}
-                  size="x-large"
-                  alt={item.fullName ?? ''}
-                  name={item.fullName}
-                  username={item.userName}
-                />
-                <TouchableOpacity
-                  onPress={() => handleInvite(item)}
-                  style={{
-                    paddingHorizontal: 10,
-                    paddingVertical: 6,
-                    borderRadius: 8,
-                    backgroundColor: theme?.colors.DANGER,
-                  }}>
-                  <Text variant="small" label={'Cancel Invitation'} />
-                </TouchableOpacity>
-              </Section>
-            </EntryAnimation>
-          );
-        })}
-      </ScrollView>
-    );
+  const onSendInvitation = async () => {
+    try {
+      setLoading(true);
+      const response = await NightlifeService.postBookingInvitation({
+        payload: {
+          booking_id: bookingId,
+          member_invited: [selectedFriend?.customerId as string],
+          message,
+        },
+      });
+      if (!response.error) {
+        openToast('success', response.message);
+        onFriendInvited(selectedFriend);
+        setLoading(false);
+        setShowInvitation(false);
+        setMessage('');
+      }
+    } catch (error: any) {
+      setLoading(false);
+      openToast('error', error.response.data.message);
+    }
+  };
+
+  const {
+    isShowToast,
+    setIsShowToast,
+    toastMessage,
+    setToastMessage,
+    type,
+    setType,
+  } = useContext(ModalToastContext);
+
+  // eslint-disable-next-line @typescript-eslint/no-shadow
+  const openToast = (toastType: 'success' | 'error', message: string) => {
+    setIsShowToast(true);
+    setType(toastType);
+    setToastMessage(message);
   };
 
   return (
     <Modal
       className="m-0 p-0"
       isVisible={show}
-      onBackButtonPress={hide}
-      onBackdropPress={hide}>
+      onBackButtonPress={() => {
+        if (showInvitation) {
+          setShowInvitation(false);
+        }
+        hide();
+      }}
+      onBackdropPress={() => {
+        if (showInvitation) {
+          setShowInvitation(false);
+        }
+        hide();
+      }}>
+      {loading || (isLoading && <Loading />)}
       <View
         className={`absolute bottom-0 right-0 left-0 bg-container rounded-t-xl bg-neutral-800 ${
           showInvitation ? 'pt-4' : 'h-[600] p-4'
@@ -118,7 +113,7 @@ export default function ModalInviteFriends({
         <View className="w-[50] h-[4] rounded-full bg-neutral-600 self-center" />
         <Spacer height={15} />
         <GradientText colors={['#fff', '#fff']} style={styles.titleSong}>
-          {showInvitation ? 'Sending Invitation' : 'Invite friends'}
+          {showInvitation ? 'Sending invitation' : 'Invite friends'}
         </GradientText>
         <Spacer height={15} />
         {showInvitation ? (
@@ -127,7 +122,7 @@ export default function ModalInviteFriends({
               <View className="flex-row items-center justify-center">
                 <Image
                   source={{
-                    uri: 'https://images.unsplash.com/photo-1506748686214-e9df14d4d9d0?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OXx8cGVyc29ufGVufDB8fDB8fHww&auto=format&fit=crop&w=400&q=60',
+                    uri: selectedFriend?.photoUrl,
                   }}
                   resizeMode="cover"
                   className="w-[57] h-[57] rounded-full"
@@ -135,11 +130,11 @@ export default function ModalInviteFriends({
                 <Spacer width={10} />
                 <View>
                   <DefaultText
-                    title="Jean Chen"
+                    title={selectedFriend?.fullName}
                     titleClassName="font-inter-medium mb-1"
                   />
                   <DefaultText
-                    title="@jean"
+                    title={`@${selectedFriend?.userName}`}
                     titleClassName="text-xs font-inter-medium text-neutral-500"
                   />
                 </View>
@@ -158,109 +153,42 @@ export default function ModalInviteFriends({
                     placeholderTextColor={colors.blackCoral}
                     textAlignVertical="top"
                     multiline={true}
+                    value={message}
+                    onChangeText={text => setMessage(text)}
                   />
                 </View>
               </View>
             </View>
             <Gap height={30} />
-            <TouchableOpacity
-              activeOpacity={0.7}
-              className="bg-primary p-4"
-              onPress={() => {
-                onFriendInvited(['1']);
-                hide();
-                setShowInvitation(false);
-              }}>
-              <DefaultText
-                title="Send Invitation"
-                titleClassName="text-center font-inter-bold text-base"
-              />
-            </TouchableOpacity>
+            <Button
+              type="primary"
+              title="Send Invitation"
+              onPress={onSendInvitation}
+              noRound
+              isLoading={loading}
+            />
           </>
         ) : (
           <>
-            <TextInput
-              placeholder="Search fried's name or email"
-              type="search"
-              textInputBackgroundColor="transparent"
-              textInputHeight={40}
+            <FriendsInvitation
+              data={friendshipData}
+              onInvite={checkInvitation}
+              selectedInvitation={memberInvited}
             />
-            <Spacer height={5} />
-            <View className="flex-row px-3">
-              {menu.map((item, index) => {
-                return (
-                  <TouchableOpacity
-                    onPress={() => ref.current?.setPage(index)}
-                    activeOpacity={0.7}
-                    key={item}
-                    className={`flex-1 py-3 border-b-[1px] ${
-                      index === initialPage
-                        ? 'border-b-secondary'
-                        : 'border-b-white'
-                    }`}>
-                    <DefaultText
-                      title={item}
-                      titleClassName={`text-center text-base font-poppins-semibold ${
-                        index === initialPage ? 'text-secondary' : 'text-white'
-                      }`}
-                    />
-                  </TouchableOpacity>
-                );
-              })}
-            </View>
-
-            <PagerView
-              className="flex-1"
-              initialPage={initialPage}
-              ref={ref}
-              onPageSelected={e => setInitialPage(e.nativeEvent.position)}>
-              <View key="1">
-                {isLoading ? (
-                  <Loading />
-                ) : (
-                  <Friends onPress={onInvite} friendshipData={friendshipData} />
-                )}
-              </View>
-              <View key="2">
-                <Squad />
-              </View>
-              <View key="3">
-                <InvitationTab />
-              </View>
-            </PagerView>
-            <View className="py-4">
-              <Button type="primary" onPress={() => {}} title="Invite Friend" />
-            </View>
           </>
         )}
       </View>
+      <ModalToast
+        isVisible={isShowToast}
+        onCloseModal={() => {
+          setIsShowToast(false);
+        }}
+        message={toastMessage}
+        type={type}
+      />
     </Modal>
   );
 }
-
-const Friends = ({
-  onPress,
-  friendshipData,
-}: {
-  onPress: (value: string, val: any) => void;
-  friendshipData: any;
-}) => {
-  return (
-    <ScrollView showsVerticalScrollIndicator={false}>
-      {friendshipData?.map((list: any) => {
-        return <CardInviteFriends val={list} onPress={onPress} />;
-      })}
-    </ScrollView>
-  );
-};
-
-const Squad = () => {
-  return (
-    <View>
-      <DefaultText title="squad" />
-    </View>
-  );
-};
 
 const styles = StyleSheet.create({
   titleSong: {

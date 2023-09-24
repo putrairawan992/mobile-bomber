@@ -4,7 +4,7 @@ import DefaultText from '../../../atoms/Text/DefaultText';
 import {Spacer} from '../../../atoms';
 
 interface CardInviteFriends {
-  onPress: (value: string,val:any) => void;
+  onPress: (value: string, val: any) => void;
   val: any;
 }
 
@@ -32,7 +32,7 @@ export default function CardInviteFriends({onPress, val}: CardInviteFriends) {
       <TouchableOpacity
         activeOpacity={0.7}
         className="bg-neutral-600 py-1 px-2 rounded-md"
-        onPress={() => onPress('1',val)}>
+        onPress={() => onPress('1', val)}>
         <DefaultText title="Invite" />
       </TouchableOpacity>
     </View>

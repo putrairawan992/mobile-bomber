@@ -1,24 +1,49 @@
 import {Image, ScrollView, StyleSheet} from 'react-native';
-import React from 'react';
-import {DefaultText, Gap, Layout} from '../../components/atoms';
-import {Header} from '../../components/molecules';
+import React, {useEffect, useState} from 'react';
 import {
-  ImgOmniClub,
-  ImgProductPromo,
-  ImgProductPromo2,
-} from '../../theme/Images';
+  DefaultText,
+  EntryAnimation,
+  Gap,
+  Layout,
+  Loading,
+} from '../../components/atoms';
+import {Header} from '../../components/molecules';
+import {ImgProductPromo, ImgProductPromo2} from '../../theme/Images';
 import CardCoupon from '../../components/molecules/Card/CardCoupon';
 import CardPromo from '../../components/molecules/Card/CardPromo';
+import {CouponInterface} from '../../interfaces/PlaceInterface';
+import {NightlifeService} from '../../service/NightlifeService';
+import {NativeStackScreenProps} from '@react-navigation/native-stack';
+import {MainStackParams} from '../../navigation/MainScreenStack';
 
-export default function Offers() {
+type Props = NativeStackScreenProps<MainStackParams, 'Offers', 'MyStack'>;
+
+export default function Offers({route}: Props) {
+  const [coupons, setCoupons] = useState<CouponInterface[]>([]);
+  const placeData = route.params.placeData;
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+
+  const fetchData = async () => {
+    try {
+      setIsLoading(true);
+      const response = await NightlifeService.getCouponList();
+      setCoupons(response.data);
+      setIsLoading(false);
+    } catch (error: any) {}
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
   return (
     <Layout contentContainerStyle={styles.container}>
+      {isLoading && <Loading />}
       <Header
         hasBackBtn
         transparent
         CenterComponent={
           <Image
-            source={ImgOmniClub}
+            source={{uri: placeData?.logo}}
             resizeMode="contain"
             className="w-[118] h-[53] -top-2"
           />
@@ -64,48 +89,40 @@ export default function Offers() {
 
         <Gap height={30} />
         <DefaultText
-          title="Inside Omni"
+          title={`Inside ${placeData?.name}`}
           titleClassName="text-base font-inter-bold ml-5"
         />
         <Gap height={10} />
-        <CardCoupon
-          type="free"
-          title="Free 2 cocktail"
-          subtitle="Minimum purchase NT 15,000"
-        />
-        <CardCoupon
-          type="discount"
-          title="Discount  50% for ladies"
-          subtitle="Entry before 11pm"
-          warning="4 hours before promo ended"
-        />
-        <CardCoupon
-          type="discount"
-          title="Discount NT 3,000 for any Food"
-          subtitle="Entry before 11pm"
-        />
-
+        {coupons
+          .filter(el => el.source === 'club_owner')
+          .map((item, idx) => (
+            <EntryAnimation index={idx} key={`coupon_owner_${idx}`}>
+              <CardCoupon
+                type="discount"
+                title={item.title}
+                subtitle={item.description}
+                data={item}
+              />
+            </EntryAnimation>
+          ))}
         <Gap height={30} />
         <DefaultText
           title="Platform Coupon"
           titleClassName="text-base font-inter-bold ml-5"
         />
         <Gap height={10} />
-        <CardCoupon
-          type="discount"
-          title="Discount NT 3,000 for any Food"
-          subtitle="Entry before 11pm"
-        />
-        <CardCoupon
-          type="discount"
-          title="Discount NT 3,000 for any Food"
-          subtitle="Entry before 11pm"
-        />
-        <CardCoupon
-          type="discount"
-          title="Discount NT 3,000 for any Food"
-          subtitle="Entry before 11pm"
-        />
+        {coupons
+          .filter(el => el.source === 'internal_plattform')
+          .map((item, idx) => (
+            <EntryAnimation index={idx} key={`coupon_owner_${idx}`}>
+              <CardCoupon
+                type="discount"
+                title={item.title}
+                subtitle={item.description}
+                data={item}
+              />
+            </EntryAnimation>
+          ))}
         <Gap height={30} />
       </ScrollView>
     </Layout>

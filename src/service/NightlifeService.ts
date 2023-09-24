@@ -1,14 +1,18 @@
 import {APIResponse} from '../interfaces/BaseApiResponse';
 import {
+  PayloadBookingInvitationInterface,
   PayloadGetWalkInTicketInterface,
   PayloadPostBookingTableInterface,
   PayloadPostBookingWalkInInterface,
+  PayloadWaitingListInterface,
   TicketInterface,
 } from '../interfaces/BookingInterface';
 import {
   BannerInterface,
+  CouponInterface,
   GalleryCategoryInterface,
   ParamsGetClubEventInterface,
+  ParamsGetPlaceByCategoryInterface,
   PlaceEventsInterface,
   PlaceInterface,
   ResponseGetPlaceDetailInterface,
@@ -93,6 +97,36 @@ export const NightlifeService = {
     const response = await ax.get(
       `${URL}/get_operational_schedule/${params.club_id}?year_month=${params.year_month}`,
     );
+    return response.data;
+  },
+  getPlaceByCategory: async ({
+    params,
+  }: {
+    params: ParamsGetPlaceByCategoryInterface;
+  }): Promise<APIResponse<PlaceInterface[]>> => {
+    const response = await ax.get(
+      `${URL}/get_category_page/${params.category_id}?limit=${params.limit}`,
+    );
+    return response.data;
+  },
+  getCouponList: async (): Promise<APIResponse<CouponInterface[]>> => {
+    const response = await ax.get(`${URL}/get_coupon_list`);
+    return response.data;
+  },
+  postWaitingList: async ({
+    payload,
+  }: {
+    payload: PayloadWaitingListInterface;
+  }): Promise<APIResponse<unknown>> => {
+    const response = await ax.post(`${URL}/join_waiting_list`, payload);
+    return response.data;
+  },
+  postBookingInvitation: async ({
+    payload,
+  }: {
+    payload: PayloadBookingInvitationInterface;
+  }): Promise<APIResponse<unknown>> => {
+    const response = await ax.post(`${URL}/post_table_invitation`, payload);
     return response.data;
   },
 };

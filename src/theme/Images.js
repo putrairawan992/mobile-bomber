@@ -162,6 +162,7 @@ const ImgPromoBackground = require('../assets/images/img_promo-background.png');
 const TableLayout = require('../assets/images/TableLayout.png');
 const DjBackground = require('../assets/images/DjBackground.png');
 const frameCard = require('../assets/images/frameCard.png');
+const ThreeDots = require('../assets/images/ThreeDots.png');
 
 export {
   frameCard,
@@ -324,4 +325,5 @@ export {
   ImgPromoBackground,
   TableLayout,
   DjBackground,
+  ThreeDots,
 };

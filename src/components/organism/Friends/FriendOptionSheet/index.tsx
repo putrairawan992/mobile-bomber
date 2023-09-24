@@ -54,7 +54,7 @@ export const FriendOptionSheet = ({
       <Section isCenter>
         <Gap height={15} />
         <GradientText
-          xAxis={0.5}
+          xAxis={1}
           colors={
             gradientMapping['textPrimary' as keyof typeof gradientMapping].color
           }
@@ -62,7 +62,7 @@ export const FriendOptionSheet = ({
             fontSize: 16,
             fontFamily: 'Inter-Bold',
           }}>
-          More Option
+          More option
         </GradientText>
       </Section>
       <Gap height={30} />

@@ -3,16 +3,21 @@ import React from 'react';
 import {PlaceCategoryInterface} from '../../../interfaces/PlaceInterface';
 import useTheme from '../../../theme/useTheme';
 import {WIDTH} from '../../../utils/config';
-import {Section, Spacer, Text} from '../../atoms';
+import {Spacer, Text, TouchableSection} from '../../atoms';
 
 interface PlaceCategoryPillsProps {
   data: PlaceCategoryInterface;
+  onSelect: (data: PlaceCategoryInterface) => void;
 }
 
-export const PlaceCategoryPills = ({data}: PlaceCategoryPillsProps) => {
+export const PlaceCategoryPills = ({
+  data,
+  onSelect,
+}: PlaceCategoryPillsProps) => {
   const theme = useTheme();
   return (
-    <Section
+    <TouchableSection
+      onPress={() => onSelect(data)}
       padding="10px 8px"
       style={{
         backgroundColor: theme?.colors.SECTION,
@@ -27,6 +32,6 @@ export const PlaceCategoryPills = ({data}: PlaceCategoryPillsProps) => {
         variant="small"
         color={theme?.colors.TEXT_PRIMARY}
       />
-    </Section>
+    </TouchableSection>
   );
 };

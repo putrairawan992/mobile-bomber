@@ -2,22 +2,33 @@ import {ScrollView, StyleSheet} from 'react-native';
 import React from 'react';
 import CardBooking from '../../../components/molecules/Card/CardBooking';
 import CardAuction from '../../../components/molecules/Card/CardAuction';
+import {BookingInterface} from '../../../interfaces/BookingInterface';
 
 interface Finished {
   activeTheme: string;
-  dataEvents:any;
+  dataEvents: BookingInterface[];
+  onSelect: (data: BookingInterface) => void;
 }
 
-export default function Finished({activeTheme,dataEvents}: Finished) {
+export default function Finished({
+  activeTheme,
+  dataEvents,
+  onSelect,
+}: Finished) {
   return (
     <ScrollView
       showsVerticalScrollIndicator={false}
       contentContainerStyle={styles.container}>
-      {[1, 2, 3].map((_, key) => {
+      {dataEvents.map((value, key) => {
         return activeTheme === 'Auction' ? (
           <CardAuction key={key} />
         ) : (
-          <CardBooking key={key} data={dataEvents} type="Canceled" />
+          <CardBooking
+            key={key}
+            data={value}
+            type="Canceled"
+            onSelect={onSelect}
+          />
         );
       })}
     </ScrollView>

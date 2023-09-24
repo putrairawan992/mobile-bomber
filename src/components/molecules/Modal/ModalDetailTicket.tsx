@@ -20,7 +20,7 @@ export default function ModalDetailTicket({show, hide}: ModalDetailTicket) {
         <View className="w-[50] h-[4] rounded-full bg-neutral-600 self-center" />
         <Spacer height={15} />
         <GradientText colors={['#A060FA', '#C800CC']} style={styles.titleSong}>
-          Payment Detail
+          Payment detail
         </GradientText>
         <Spacer height={15} />
         <View className="bg-[#2D2D2D] p-4 rounded-xl">

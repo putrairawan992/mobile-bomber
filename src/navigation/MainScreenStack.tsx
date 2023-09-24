@@ -28,10 +28,14 @@ import VerificationID2 from '../screens/VerificationID2';
 import VerificationID3 from '../screens/VerificationID3';
 import PaymentPage from '../screens/PaymentPage';
 import Offers from '../screens/Offers';
-import {PlaceInterface} from '../interfaces/PlaceInterface';
+import {
+  PlaceCategoryInterface,
+  PlaceInterface,
+} from '../interfaces/PlaceInterface';
 import {GalleryScreen} from '../screens/Gallery';
 import PrivacyPage from '../screens/Privacy';
 import ComingSoon from '../screens/ComingSoon';
+import PlaceByCategory from '../screens/Place/PlaceByCategory';
 
 export type MainStackParams = {
   ComingSoon: undefined;
@@ -51,7 +55,10 @@ export type MainStackParams = {
     placeData: PlaceInterface | null;
     date: string;
   };
-  MyBookingDetail: undefined;
+  MyBookingDetail: {
+    bookingId: string;
+    status: string;
+  };
   BookingTable: {
     placeData: PlaceInterface | null;
   };
@@ -65,10 +72,15 @@ export type MainStackParams = {
   VerificationID2: undefined;
   VerificationID3: undefined;
   PaymentPage: undefined;
-  Offers: undefined;
+  Offers: {
+    placeData: PlaceInterface | null;
+  };
   Gallery: {
     placeId: string;
     title: string;
+  };
+  PlaceByCategory: {
+    category: PlaceCategoryInterface;
   };
 };
 
@@ -234,6 +246,7 @@ const MainScreenStack = () => {
           animation: 'slide_from_right',
         }}
       />
+      <Stack.Screen name="PlaceByCategory" component={PlaceByCategory} />
     </Stack.Navigator>
   );
 };
