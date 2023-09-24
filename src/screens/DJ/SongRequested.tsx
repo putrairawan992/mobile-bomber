@@ -117,7 +117,7 @@ const SongRequested = ({navigation}: Props) => {
               fontFamily: 'Inter-Bold',
               textAlign: 'center',
             }}>
-            Song Request
+            Song request
           </GradientText>
           <Gap height={26} />
           <Section padding="16px 16px" rounded={8} backgroundColor={'#2D2D2D'}>

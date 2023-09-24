@@ -30,7 +30,7 @@ export const OperationalHoursSheet = ({data}: OperationalHoursSheetProps) => {
             fontSize: 16,
             fontFamily: 'Inter-Bold',
           }}>
-          Operational Time
+          Operational time
         </GradientText>
       </Section>
       <Gap height={22} />

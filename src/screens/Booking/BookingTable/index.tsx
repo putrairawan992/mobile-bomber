@@ -311,6 +311,7 @@ function BookingTableScreen({route, navigation}: Props) {
       setSelectedTable(tableExpand);
       onConfirmTable();
     } else {
+      setSelectedTable(tableExpand);
       setIsWaitingList(true);
       setIsTableLayout(false);
       setTimeout(() => {
@@ -362,6 +363,7 @@ function BookingTableScreen({route, navigation}: Props) {
           payment_method: 'Credit Card',
           member_invited: selectedInvitation.map(item => item.customerId),
           is_full_payment: isPayFull ? 1 : 0,
+          coupon_used: 0,
         },
       });
       setIsLoading(false);
@@ -595,18 +597,28 @@ function BookingTableScreen({route, navigation}: Props) {
           <WaitingListSheet
             hasBackNavigation
             onBackNavigation={() => {
+              setSelectedTable(null);
               setIsWaitingList(false);
               bookingSheetRef.current?.close();
             }}
             step={waitingListStep}
             onChangeStep={value => setWaitingListStep(value)}
             onFinish={() => {
+              setSelectedTable(null);
               setIsWaitingList(false);
               setWaitingListStep(1);
               bookingSheetRef.current?.close();
               setTimeout(() => {
                 navigation.navigate('Nightlife');
               }, 200);
+            }}
+            data={{
+              customer_id: user.id,
+              club_id: placeData?.clubId as string,
+              table_id: selectedTable?.tableId as string,
+              booking_date: selectedDate,
+              email_address: '',
+              status: '',
             }}
           />
         ) : isTableLayout ? (

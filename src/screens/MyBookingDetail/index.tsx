@@ -1,7 +1,8 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useContext, useEffect, useRef, useState} from 'react';
 import {
   Button,
+  EntryAnimation,
   Gap,
   GradientText,
   Layout,
@@ -26,7 +27,6 @@ import {
   IcDetailBooking,
   IcPeopleThree,
   MusicDjImg,
-  WaveLogoImg,
 } from '../../theme/Images';
 import QRCode from 'react-native-qrcode-svg';
 import LinearGradient from 'react-native-linear-gradient';
@@ -36,40 +36,80 @@ import RNCalendarEvents from 'react-native-calendar-events';
 import {FriendshipService} from '../../service/FriendshipService';
 import {FriendInterface} from '../../interfaces/UserInterface';
 import {useAppSelector} from '../../hooks/hooks';
+import {NativeStackScreenProps} from '@react-navigation/native-stack';
+import {MainStackParams} from '../../navigation/MainScreenStack';
+import {dateFormatter} from '../../utils/dateFormatter';
+import {currency} from '../../utils/function';
+import {MyEventService} from '../../service/MyEventService';
+import {BookingDetailInterface} from '../../interfaces/BookingInterface';
+import {ModalToastContext} from '../../context/AppModalToastContext';
 
-export default function MyBookingDetail() {
+type Props = NativeStackScreenProps<
+  MainStackParams,
+  'MyBookingDetail',
+  'MyStack'
+>;
+
+export default function MyBookingDetail({route, navigation}: Props) {
   const [menu] = useState<string[]>([
     'Ticket',
     'F&B Order',
     'Friends',
     'Request',
   ]);
+  const bookingId = route.params.bookingId;
   const [initialPage, setInitialPage] = useState<number>(0);
   const [showDetailTicket, setShowDetailTicket] = useState<boolean>(false);
   const [showInviteFriends, setShowInviteFriends] = useState<boolean>(false);
-  const [friendInvited, setFriendInvited] = useState<string[]>([]);
   const [content2, setContent2] = useState<number>();
   const [content3, setContent3] = useState<number>();
   const [content4, setContent4] = useState<number>();
-  const [successSaveCalendar, setSuccessSaveCalendar] =
-    useState<boolean>(false);
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
   const [friendshipData, setFriendshipData] = useState<FriendInterface[]>([]);
+  const [booking, setBooking] = useState<BookingDetailInterface | null>(null);
+  const [memberInvited, setMemberInvited] = useState<FriendInterface[]>([]);
   const [selectedInvitation, setSelectedInvitation] = useState<
     FriendInterface[]
   >([]);
+
+  const {
+    isShowToast,
+    setIsShowToast,
+    toastMessage,
+    setToastMessage,
+    type,
+    setType,
+  } = useContext(ModalToastContext);
 
   const {user} = useAppSelector(state => state.user);
   const ref = useRef<ScrollView>(null);
 
   useEffect(() => {
-    fetchDataFriends();
+    fethData();
   }, []);
 
-  const onFriendInvited = (value: string[]) => {
-    setFriendInvited(value);
+  const onFriendInvited = (data: FriendInterface) => {
+    setShowInviteFriends(false);
+    memberInvited.push({...data});
+    handleInvite(data);
   };
 
+  const handleInvite = (data: FriendInterface) => {
+    let findItem: any = Boolean(
+      selectedInvitation.find(
+        (el: FriendInterface) => el.customerId === data.customerId,
+      ),
+    );
+    if (!findItem) {
+      setSelectedInvitation([...selectedInvitation, data]);
+    } else {
+      setSelectedInvitation(
+        selectedInvitation.filter(
+          (el: FriendInterface) => el.customerId !== data.customerId,
+        ),
+      );
+    }
+  };
   const onSaveCalendar = () => {
     RNCalendarEvents.requestPermissions()
       .then(() => {
@@ -82,25 +122,33 @@ export default function MyBookingDetail() {
           startDate: date.toISOString(),
           endDate: newDate.toISOString(),
         })
-          .then(() => setSuccessSaveCalendar(true))
+          .then(() => openToast('success', 'Success save to calendar'))
           .catch(err => console.log('save event error: ', err));
       })
       .catch(err => console.log('err request permission calendar: ', err));
   };
 
-  const fetchDataFriends = async () => {
+  const fethData = async () => {
     try {
       setIsLoading(true);
       await Promise.all([
         FriendshipService.getFriendship({
           userId: user.id,
         }),
+        MyEventService.getBookingDetail({
+          booking_id: bookingId,
+        }),
       ])
         .then(response => {
           setFriendshipData(response[0].data);
+          setBooking(response[1].data.bookingDetail[0]);
+          setMemberInvited(response[1].data.memberInvited);
         })
-        .catch(error => {
-          console.log(error.response);
+        .catch(() => {
+          openToast('error', 'Failed get booking detail');
+          setTimeout(() => {
+            navigation.goBack();
+          }, 1000);
         })
         .finally(() => setIsLoading(false));
     } catch (error: any) {
@@ -108,23 +156,18 @@ export default function MyBookingDetail() {
     }
   };
 
-  const handleInvite = (data: FriendInterface) => {
-    let findItem: any = Boolean(
-      selectedInvitation.find(
-        (el: FriendInterface) => el?.customerId === data?.customerId,
-      ),
-    );
-    if (!findItem) {
-      setSelectedInvitation([...selectedInvitation, data]);
-    } else {
-      setSelectedInvitation(
-        selectedInvitation.filter(
-          (el: FriendInterface) => el?.customerId !== data?.customerId,
-        ),
-      );
-    }
-  };
+  const currentSpend =
+    booking?.currentSpend === null ? 0 : Number(booking?.currentSpend);
+  const spendPercetage =
+    !!currentSpend && !!booking?.currentSpend
+      ? currentSpend / Number(booking?.currentSpend)
+      : 0;
 
+  const openToast = (toastType: 'success' | 'error', message: string) => {
+    setIsShowToast(true);
+    setType(toastType);
+    setToastMessage(message);
+  };
   return (
     <Layout contentContainerStyle={styles.parent}>
       <Header transparent title="Booking Detail" hasBackBtn />
@@ -174,20 +217,20 @@ export default function MyBookingDetail() {
           <View className="flex-row items-center">
             <View className="bg-screen py-2 px-3 rounded-lg">
               <Image
-                source={WaveLogoImg}
+                source={{uri: booking?.clubLogo}}
                 className="w-[30] h-[17] self-center"
                 resizeMode="contain"
               />
               <Spacer height={2.5} />
               <DefaultText
-                title="WAVE"
+                title={booking?.clubName}
                 titleClassName="font-raleway-medium text-xs text-center"
               />
             </View>
             <Spacer className="flex-1" />
             <View className="items-end">
               <DefaultText
-                title="PAID"
+                title={route.params.status}
                 titleClassName="font-inter-bold text-base text-green-700"
               />
               <TouchableOpacity
@@ -208,7 +251,14 @@ export default function MyBookingDetail() {
           <Spacer height={2.5} />
           <View className="flex-row items-center justify-center">
             <DefaultText
-              title="Monday, 14 June 2023"
+              title={
+                booking?.bookingDate
+                  ? dateFormatter(
+                      new Date(booking.bookingDate),
+                      'EEEE, dd MMMM yyy',
+                    )
+                  : ''
+              }
               titleClassName="text-base font-inter-medium mr-3"
             />
             <Image
@@ -223,41 +273,46 @@ export default function MyBookingDetail() {
           </View>
           <Spacer height={15} />
           <View className="w-[200] h-[5] bg-white rounded-full self-center">
-            <View className="w-[30%] h-[5] bg-yellow-600 rounded-full" />
+            {spendPercetage > 0 && (
+              <View
+                className={`w-[${spendPercetage}%] h-[5] bg-yellow-600 rounded-full"`}
+              />
+            )}
           </View>
           <Spacer height={10} />
           <DefaultText
-            title="Spent 14,000 / 350,000 NT"
+            title={
+              booking?.paidTotal
+                ? `Spent ${
+                    booking?.currentSpend === null
+                      ? 0
+                      : currency(booking?.paidTotal, true)
+                  } / ${currency(booking?.paidTotal, true)} NT`
+                : ''
+            }
             titleClassName="text-center font-inter-medium text-neutral-400"
           />
           <View className="w-full h-[0.5] bg-neutral-700 my-4" />
           <View className="flex-row items-center">
-            {friendInvited.length > 0 ? (
+            {memberInvited.length > 0 ? (
               <View className="flex-row items-center flex-1">
-                <Image
-                  source={{
-                    uri: 'https://images.unsplash.com/photo-1547425260-76bcadfb4f2c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8cGVyc29ufGVufDB8fDB8fHww&auto=format&fit=crop&w=400&q=60',
-                  }}
-                  resizeMode="cover"
-                  className="w-[27] h-[27] rounded-full bg-neutral-700 border-[1px] border-white"
-                />
-                <Image
-                  source={{
-                    uri: 'https://images.unsplash.com/photo-1547425260-76bcadfb4f2c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8cGVyc29ufGVufDB8fDB8fHww&auto=format&fit=crop&w=400&q=60',
-                  }}
-                  resizeMode="cover"
-                  className="w-[27] h-[27] rounded-full bg-neutral-700 border-[1px] border-white -ml-2"
-                />
-                <Image
-                  source={{
-                    uri: 'https://images.unsplash.com/photo-1547425260-76bcadfb4f2c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8cGVyc29ufGVufDB8fDB8fHww&auto=format&fit=crop&w=400&q=60',
-                  }}
-                  resizeMode="cover"
-                  className="w-[27] h-[27] rounded-full bg-neutral-700 border-[1px] border-white -ml-2"
-                />
+                {memberInvited.map((el, idx) => (
+                  <EntryAnimation index={idx} key={`invited_${idx}`}>
+                    <Image
+                      source={{
+                        uri: el.photoUrl,
+                      }}
+                      resizeMode="cover"
+                      className="w-[27] h-[27] rounded-full bg-neutral-700 border-[1px] border-white"
+                    />
+                  </EntryAnimation>
+                ))}
+
                 <Gap width={10} />
                 <DefaultText
-                  title="15 Invited 3 Accepted"
+                  title={`${memberInvited.length} Invited ${
+                    memberInvited.length - selectedInvitation.length
+                  } Accepted`}
                   titleClassName="font-inter-medium text-neutral-300"
                 />
               </View>
@@ -269,7 +324,11 @@ export default function MyBookingDetail() {
                   className="w-[20] h-[20]"
                 />
                 <DefaultText
-                  title="No one invited"
+                  title={
+                    booking?.joinedTotal === 0
+                      ? 'No one invited'
+                      : booking?.joinedTotal + ' members invited'
+                  }
                   titleClassName="flex-1 font-inter-medium text-neutral-400 mx-1"
                 />
               </>
@@ -285,7 +344,7 @@ export default function MyBookingDetail() {
                 <View className="px-3 py-[5] bg-neutral-800 rounded-sm">
                   <DefaultText
                     title={
-                      friendInvited.length > 0 ? 'Check' : 'Invite friends'
+                      memberInvited.length > 0 ? 'Check' : 'Invite friends'
                     }
                   />
                 </View>
@@ -382,34 +441,26 @@ export default function MyBookingDetail() {
             titleClassName="text-base font-inter-semibold"
           />
           <Spacer height={10} />
-          {friendInvited.length > 0 ? (
+          {memberInvited.length > 0 ? (
             <TouchableOpacity
               activeOpacity={0.7}
               className="flex-row items-center my-1">
-              <Image
-                source={{
-                  uri: 'https://images.unsplash.com/photo-1547425260-76bcadfb4f2c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8cGVyc29ufGVufDB8fDB8fHww&auto=format&fit=crop&w=400&q=60',
-                }}
-                resizeMode="cover"
-                className="w-[27] h-[27] rounded-full bg-neutral-700 border-[1px] border-white"
-              />
-              <Image
-                source={{
-                  uri: 'https://images.unsplash.com/photo-1547425260-76bcadfb4f2c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8cGVyc29ufGVufDB8fDB8fHww&auto=format&fit=crop&w=400&q=60',
-                }}
-                resizeMode="cover"
-                className="w-[27] h-[27] rounded-full bg-neutral-700 border-[1px] border-white -ml-2"
-              />
-              <Image
-                source={{
-                  uri: 'https://images.unsplash.com/photo-1547425260-76bcadfb4f2c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8cGVyc29ufGVufDB8fDB8fHww&auto=format&fit=crop&w=400&q=60',
-                }}
-                resizeMode="cover"
-                className="w-[27] h-[27] rounded-full bg-neutral-700 border-[1px] border-white -ml-2"
-              />
+              {memberInvited.map((el, idx) => (
+                <EntryAnimation index={idx} key={`invited_${idx}`}>
+                  <Image
+                    source={{
+                      uri: el.photoUrl,
+                    }}
+                    resizeMode="cover"
+                    className="w-[27] h-[27] rounded-full bg-neutral-700 border-[1px] border-white"
+                  />
+                </EntryAnimation>
+              ))}
               <Gap width={10} />
               <DefaultText
-                title="15 Invited 3 Accepted"
+                title={`${memberInvited.length} Invited ${
+                  memberInvited.length - selectedInvitation.length
+                } Accepted`}
                 titleClassName="font-inter-medium text-neutral-300 flex-1"
               />
               <Image
@@ -429,7 +480,7 @@ export default function MyBookingDetail() {
             TextComponent={
               <DefaultText
                 title={
-                  friendInvited.length > 0 ? 'Check them out' : 'Invite Friend'
+                  memberInvited.length > 0 ? 'Check them out' : 'Invite Friend'
                 }
                 titleClassName="font-raleway-bold"
               />
@@ -445,21 +496,24 @@ export default function MyBookingDetail() {
         />
 
         <ModalInviteFriends
+          bookingId={bookingId}
           show={showInviteFriends}
-          handleInvite={handleInvite}
           selectedInvitation={selectedInvitation}
           setSelectedInvitation={setSelectedInvitation}
           isLoading={isLoading}
           friendshipData={friendshipData}
           hide={() => setShowInviteFriends(false)}
-          onFriendInvited={onFriendInvited}
+          onFriendInvited={data => (data ? onFriendInvited(data) : undefined)}
+          memberInvited={memberInvited}
         />
 
         <ModalToast
-          isVisible={successSaveCalendar}
-          message="Success save to calendar"
-          onCloseModal={() => setSuccessSaveCalendar(false)}
-          type="success"
+          isVisible={isShowToast}
+          onCloseModal={() => {
+            setIsShowToast(false);
+          }}
+          message={toastMessage}
+          type={type}
         />
       </ScrollView>
     </Layout>

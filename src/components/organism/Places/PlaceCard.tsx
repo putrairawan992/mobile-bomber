@@ -31,6 +31,7 @@ interface PlaceCardProps {
   onOpenSchedule?: () => void;
   operation?: PlaceOperationalTimeInterface | null;
   onOpenGallery?: () => void;
+  isVertical?: boolean;
 }
 
 export const PlaceCard = ({
@@ -40,6 +41,7 @@ export const PlaceCard = ({
   onOpenSchedule,
   operation,
   onOpenGallery,
+  isVertical,
 }: PlaceCardProps) => {
   const theme = useTheme();
   const aspectRatio = useImageAspectRatio(
@@ -77,11 +79,12 @@ export const PlaceCard = ({
 
   return (
     <ScaleAnimation
-      onPress={() => onSelect(item.id.toString())}
+      onPress={() => onSelect(item.clubId.toString())}
       disabled={isPlaceDetail ? true : false}
       scaleTo={0.97}
       style={{
-        marginLeft: isPlaceDetail ? 0 : 20,
+        marginLeft: isPlaceDetail || isVertical ? 0 : 20,
+        ...(isVertical && {marginBottom: 20}),
       }}>
       <>
         <ImageBackground

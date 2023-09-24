@@ -1,7 +1,6 @@
 import React from 'react';
 import {Text as RNText} from 'react-native';
 import styled from 'styled-components';
-import colors from '../../../styles/colors';
 
 import {
   FontFamilyType,
@@ -9,6 +8,7 @@ import {
   TextProps,
   TextVariantType,
 } from './Text.type';
+import {Colors} from '../../../theme';
 
 type TextFontSizeType =
   | '36px'
@@ -65,7 +65,7 @@ const fontSizeMapper: Record<TextVariantType, TextFontSizeType> = {
 };
 
 const StyledText = styled(RNText)<TextProps>`
-  color: ${props => props.color || colors.white};
+  color: ${props => props.color || Colors['white-100']};
   font-family: ${props => fontFamilyMapper[props.fontWeight || 'medium']};
   font-size: ${props => fontSizeMapper[props.variant || 'medium']};
   font-style: ${({fontStyle = 'normal'}) => fontStyle};

@@ -1,8 +1,10 @@
 import {APIResponse} from '../interfaces/BaseApiResponse';
 import {
+  BookingInterface,
   PayloadGetWalkInTicketInterface,
   PayloadPostBookingTableInterface,
   PayloadPostBookingWalkInInterface,
+  ResponseBookingDetailInterface,
   TicketInterface,
 } from '../interfaces/BookingInterface';
 import {
@@ -21,16 +23,16 @@ export const MyEventService = {
     return response.data;
   },
   getEventAllBookingHistory: async ({
-    club_id,
+    user_id,
     status,
     tab,
   }: {
-    club_id?: string;
+    user_id?: string;
     status: string;
     tab: string;
-  }): Promise<APIResponse<{clubId: string}[]>> => {
+  }): Promise<APIResponse<BookingInterface[]>> => {
     const response = await ax.get(
-      `${URL}/get_all_booking_history/${club_id}?status=${status}&tab=${tab}`,
+      `${URL}/get_all_booking_history/${user_id}?status=${status}&tab=${tab}`,
     );
     return response.data;
   },
@@ -94,6 +96,14 @@ export const MyEventService = {
     payload: PayloadPostBookingWalkInInterface;
   }): Promise<APIResponse<unknown>> => {
     const response = await ax.post(`${URL}/post_walk_in_booking`, payload);
+    return response.data;
+  },
+  getBookingDetail: async ({
+    booking_id,
+  }: {
+    booking_id: string;
+  }): Promise<APIResponse<ResponseBookingDetailInterface>> => {
+    const response = await ax.get(`${URL}/get_booking_detail/${booking_id}`);
     return response.data;
   },
 };

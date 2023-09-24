@@ -90,7 +90,7 @@ const Dashboard = ({navigation}: Props) => {
             fontFamily: 'Inter-Bold',
             textAlign: 'center',
           }}>
-          Dj Playlist
+          Dj playlist
         </GradientText>
         <Gap height={16} />
         <Section padding="0px 55px">

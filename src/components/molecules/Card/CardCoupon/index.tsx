@@ -4,6 +4,7 @@ import {images} from '../../../../utils/images';
 import {DefaultText, Gap} from '../../../atoms';
 import ModalPromo from '../../../organism/Modal/ModalPromo';
 import ModalPromoSuccess from '../../../organism/Modal/ModalPromoSuccess';
+import {CouponInterface} from '../../../../interfaces/PlaceInterface';
 
 interface CardCouponProps {
   type: 'free' | 'discount';
@@ -14,6 +15,7 @@ interface CardCouponProps {
   contentClassName?: string;
   onPress?: () => void;
   onSuccess?: () => void;
+  data: CouponInterface;
 }
 
 export default function CardCoupon({
@@ -24,6 +26,7 @@ export default function CardCoupon({
   containerClassName,
   contentClassName,
   onSuccess,
+  data,
 }: CardCouponProps) {
   const [showModalPromo, setShowModalPromo] = useState<boolean>(false);
   const [showModalSuccess, setShowModalSuccess] = useState<boolean>(false);
@@ -66,6 +69,7 @@ export default function CardCoupon({
         show={showModalPromo}
         hide={() => setShowModalPromo(false)}
         onUse={onUse}
+        data={data}
       />
 
       <ModalPromoSuccess

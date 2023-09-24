@@ -3,20 +3,21 @@ import React from 'react';
 import DefaultText from '../../../atoms/Text/DefaultText';
 import {Gap} from '../../../atoms';
 import {IcCoupon, IcPeopleTwo} from '../../../../theme/Images';
-import {navigationRef} from '../../../../navigation/RootNavigation';
 import moment from 'moment';
+import {BookingInterface} from '../../../../interfaces/BookingInterface';
 
 interface CardBooking {
   type: 'Paid' | 'Unpaid' | 'Canceled' | 'Finished';
-  data?: any;
+  data?: BookingInterface;
+  onSelect: (data: BookingInterface) => void;
 }
 
-export default function CardBooking({type, data}: CardBooking) {
+export default function CardBooking({type, data, onSelect}: CardBooking) {
   return (
     <TouchableOpacity
       activeOpacity={0.7}
       className="mx-3 p-2 bg-neutral-800 rounded-xl mb-3"
-      onPress={() => navigationRef.navigate('MyBookingDetail' as never)}>
+      onPress={() => (data ? onSelect(data) : undefined)}>
       <View className="flex-row items-center">
         <DefaultText
           title={`ID : ${data?.club_id}`}
@@ -30,7 +31,7 @@ export default function CardBooking({type, data}: CardBooking) {
       <Gap height={10} />
       <View className="flex-row">
         <Image
-          source={data?.clubImg}
+          source={{uri: data?.clubImg}}
           className="w-[80] h-[80] rounded-lg"
           resizeMode="cover"
         />

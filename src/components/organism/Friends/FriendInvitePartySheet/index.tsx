@@ -51,7 +51,7 @@ export const FriendInvitePartySheet = ({
             fontSize: 16,
             fontFamily: 'Inter-Bold',
           }}>
-          Invite Party
+          Invite party
         </GradientText>
       </Section>
       <Gap height={16} />

@@ -1,4 +1,5 @@
 import React from 'react';
+import {FriendInterface} from './UserInterface';
 
 export interface TableInterface {
   tableId: string;
@@ -53,6 +54,7 @@ export interface PayloadPostBookingTableInterface {
   payment_method: string;
   member_invited: string[];
   is_full_payment: number;
+  coupon_used: number;
 }
 
 export interface PayloadPostBookingWalkInInterface {
@@ -66,4 +68,50 @@ export interface PayloadPostBookingWalkInInterface {
   payment_method: string;
   member_invited: string[];
   ticket_id: string;
+}
+
+export interface PayloadWaitingListInterface {
+  customer_id: string;
+  table_id: string;
+  club_id: string;
+  booking_date: string;
+  status: string;
+  email_address: string;
+}
+
+export interface BookingInterface {
+  bookingId: string;
+  tableId: string;
+  bookingDate: string;
+  paidTotal: number;
+  club_id: string;
+  joinedTotal: number;
+  type: null | string;
+  tableName: string;
+  clubName: string;
+  clubImg: string;
+  couponUsed: number;
+  clubLogo: string;
+}
+
+export interface MemberInvitedInterface {
+  customerId: string;
+  userName: string;
+  photoUrl: string;
+}
+
+export interface BookingDetailInterface extends BookingInterface {
+  currentSpend: string;
+  type: string;
+}
+
+export interface ResponseBookingDetailInterface {
+  bookingDetail: BookingDetailInterface[];
+  memberInvited: FriendInterface[];
+}
+
+export interface PayloadBookingInvitationInterface {
+  booking_id: string;
+  member_invited: string[];
+  message: string;
 }

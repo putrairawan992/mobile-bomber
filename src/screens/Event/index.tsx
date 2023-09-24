@@ -12,8 +12,13 @@ import Finished from './Finished';
 import LinearGradient from 'react-native-linear-gradient';
 import {MyEventService} from '../../service/MyEventService';
 import {useAppSelector} from '../../hooks/hooks';
+import {BookingInterface} from '../../interfaces/BookingInterface';
+import {MainStackParams} from '../../navigation/MainScreenStack';
+import {NativeStackScreenProps} from '@react-navigation/native-stack';
 
-export default function EventScreen() {
+type Props = NativeStackScreenProps<MainStackParams, 'Event', 'MyStack'>;
+
+export default function EventScreen({navigation}: Props) {
   const [menu] = useState<string[]>(['Paid', 'Unpaid', 'Canceled', 'Finished']);
   const [theme] = useState<string[]>([
     'Table Booking',
@@ -25,13 +30,14 @@ export default function EventScreen() {
   const [status, setStatus] = useState<string>('paid');
   const [initialPage, setInitialPage] = useState<number>(0);
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [dataEvents, setDataEvents] = useState<any>([]);
+  const [dataEvents, setDataEvents] = useState<BookingInterface[]>([]);
   const {user} = useAppSelector(state => state.user);
   const ref = createRef<PagerView>();
 
   useEffect(() => {
     fetchData();
-  }, [status,activeTheme]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [status, activeTheme]);
 
   const convertString = (inputArray: string): string => {
     return inputArray.toLowerCase().replace(/ /g, '_');
@@ -41,7 +47,7 @@ export default function EventScreen() {
     try {
       setIsLoading(true);
       await MyEventService.getEventAllBookingHistory({
-        club_id: 'FQ5OvkolZtSBZEMlG1R3gtowbQv1' || user?.id,
+        user_id: user?.id,
         tab: convertString(activeTheme),
         status: status.toLowerCase(),
       })
@@ -54,6 +60,9 @@ export default function EventScreen() {
         .finally(() => setIsLoading(false));
     } catch (error: any) {}
   };
+
+  const handleBookingSelect = (data: BookingInterface) =>
+    navigation.navigate('MyBookingDetail', {bookingId: data.bookingId, status});
 
   return (
     <Layout contentContainerStyle={styles.container}>
@@ -125,16 +134,36 @@ export default function EventScreen() {
         ref={ref}
         onPageSelected={e => setInitialPage(e.nativeEvent.position)}>
         <View key="1">
-          {isLoading ? <Loading/>:<Paid activeTheme={activeTheme} dataEvents={dataEvents} />}
+          {isLoading ? (
+            <Loading />
+          ) : (
+            <Paid
+              activeTheme={activeTheme}
+              dataEvents={dataEvents}
+              onSelect={handleBookingSelect}
+            />
+          )}
         </View>
         <View key="2">
-          <Unpaid activeTheme={activeTheme} dataEvents={dataEvents} />
+          <Unpaid
+            activeTheme={activeTheme}
+            dataEvents={dataEvents}
+            onSelect={handleBookingSelect}
+          />
         </View>
         <View key="3">
-          <Canceled activeTheme={activeTheme} dataEvents={dataEvents} />
+          <Canceled
+            activeTheme={activeTheme}
+            dataEvents={dataEvents}
+            onSelect={handleBookingSelect}
+          />
         </View>
         <View key="4">
-          <Finished activeTheme={activeTheme} dataEvents={dataEvents} />
+          <Finished
+            activeTheme={activeTheme}
+            dataEvents={dataEvents}
+            onSelect={handleBookingSelect}
+          />
         </View>
       </PagerView>
     </Layout>

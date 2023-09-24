@@ -247,7 +247,11 @@ export const PlaceDetail = ({route, navigation}: Props) => {
           <Text variant="base" fontWeight="bold" label="Available Offers" />
           <TouchableOpacity
             activeOpacity={0.7}
-            onPress={() => navigationRef.navigate('Offers' as never)}>
+            onPress={() =>
+              navigation.navigate('Offers', {
+                placeData,
+              })
+            }>
             <Text label="See all offers" />
           </TouchableOpacity>
         </Section>

@@ -74,8 +74,10 @@ export const getInitialNameForFallbackAvatar = ({name}: {name: string}) => {
   return initial.substr(0, 2).toUpperCase();
 };
 
-export const currency = (value: number) => {
-  return 'NT ' + new Intl.NumberFormat('en-DE').format(value);
+export const currency = (value: number, hasNoPrefix?: boolean) => {
+  return (
+    (hasNoPrefix ? '' : 'NT ') + new Intl.NumberFormat('en-DE').format(value)
+  );
 };
 
 export const getDaysInMonth = (month: number, year: number) =>

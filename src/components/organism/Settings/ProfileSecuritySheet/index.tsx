@@ -26,7 +26,7 @@ export const ProfileSecuritySheet = () => {
             fontSize: 16,
             fontFamily: 'Inter-Bold',
           }}>
-          Profile Security
+          Profile security
         </GradientText>
       </Section>
       <Gap height={26} />
