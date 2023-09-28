@@ -38,6 +38,6 @@ export function calculateDistance({
               Math.sin(difflon / 2),
         ),
       );
-    return d * 1000;
+    return Math.round(d * 100) / 100;
   }
 }

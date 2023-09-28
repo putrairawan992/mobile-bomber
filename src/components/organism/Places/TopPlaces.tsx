@@ -6,6 +6,7 @@ import useTheme from '../../../theme/useTheme';
 import {HEIGHT, WIDTH} from '../../../utils/config';
 import {Gap, Section, Spacer, Text} from '../../atoms';
 import {PlaceCard} from './PlaceCard';
+import {UserLocationInterface} from '../../../interfaces/UserInterface';
 
 interface PlaceCategoryProps {
   title: string;
@@ -13,6 +14,7 @@ interface PlaceCategoryProps {
   itemWidthStyle: boolean;
   fullSliderWidth: boolean;
   onSelect: (id: string) => void;
+  userLocation: UserLocationInterface | null;
 }
 
 export const TopPlaces = ({
@@ -21,11 +23,12 @@ export const TopPlaces = ({
   itemWidthStyle,
   fullSliderWidth,
   onSelect,
+  userLocation,
 }: PlaceCategoryProps) => {
   const theme = useTheme();
   const [index, setIndex] = React.useState<number>(0);
   let renderItem = ({item}: any) => (
-    <PlaceCard item={item} onSelect={onSelect} />
+    <PlaceCard item={item} onSelect={onSelect} userLocation={userLocation} />
   );
   return (
     <Section>

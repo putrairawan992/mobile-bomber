@@ -7,7 +7,7 @@ import ShimmerPlaceHolder from 'react-native-shimmer-placeholder';
 
 interface CustomShimmer {
   height: number;
-  width: number;
+  width?: number;
   style?: ViewStyle;
 }
 
@@ -21,7 +21,7 @@ const CustomShimmer = ({height, width, style}: CustomShimmer) => {
         {
           opacity: 0.2,
           height,
-          width,
+          width: width ?? undefined,
         },
         style,
         ,

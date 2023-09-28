@@ -73,7 +73,7 @@ export interface FriendInterface {
   photoUrl: string;
   age: number;
   bio: string;
-  status: number;
+  status: number | string;
 }
 
 export interface PlaceDetailInterface extends GooglePlaceDetail {

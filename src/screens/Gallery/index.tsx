@@ -2,12 +2,19 @@
 import React, {createRef, useEffect, useState} from 'react';
 import styles from '../Styles';
 import {Header, TabMenu} from '../../components/molecules';
-import {Gap, Layout, Loading, Section, Text} from '../../components/atoms';
+import {
+  CustomShimmer,
+  Gap,
+  Layout,
+  Loading,
+  Section,
+  Text,
+} from '../../components/atoms';
 import {MainStackParams} from '../../navigation/MainScreenStack';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {Colors} from '../../theme';
 import PagerView from 'react-native-pager-view';
-import {FlatList, Image, TouchableOpacity, View} from 'react-native';
+import {FlatList, ImageBackground, TouchableOpacity, View} from 'react-native';
 import {ImageGallery, ImageObject} from '@georstat/react-native-image-gallery';
 import {
   AppImageObject,
@@ -36,8 +43,8 @@ export const GalleryScreen = ({route}: Props) => {
   const [categoryData, setCategoryData] = useState<GalleryMappingInterface[]>(
     [],
   );
+  const [loadingState, setLoadingState] = useState<boolean[]>([]);
   const [selectedIndex, setSelectedIndex] = useState<number>(0);
-
   const fetchGallery = async () => {
     try {
       setIsLoading(true);
@@ -47,7 +54,7 @@ export const GalleryScreen = ({route}: Props) => {
       setGalleryData(response.data);
       setMenu(response.data.map(item => item.categoryName));
       setIsLoading(false);
-      setCategoryData(
+      const dataCategory =
         response.data
           .find(
             item =>
@@ -59,8 +66,9 @@ export const GalleryScreen = ({route}: Props) => {
               url: el.galleryImgUrl,
               caption: el.caption,
             };
-          }) ?? [],
-      );
+          }) ?? [];
+      setCategoryData(dataCategory);
+      setLoadingState(dataCategory.map(_ => false));
     } catch {}
   };
 
@@ -71,7 +79,7 @@ export const GalleryScreen = ({route}: Props) => {
 
   useEffect(() => {
     if (galleryData.length) {
-      setCategoryData(
+      const dataCategory =
         galleryData
           .find(item => item.categoryName === menu[initialPage])
           ?.galleryData.map(el => {
@@ -80,13 +88,15 @@ export const GalleryScreen = ({route}: Props) => {
               url: el.galleryImgUrl,
               caption: el.caption,
             };
-          }) ?? [],
-      );
+          }) ?? [];
+      setCategoryData(dataCategory);
+      setLoadingState(dataCategory.map(_ => false));
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [initialPage]);
 
   const renderGallery = () => {
+    // eslint-disable-next-line react-hooks/rules-of-hooks
     return (
       <Section style={{flex: 1, justifyContent: 'center'}}>
         <FlatList
@@ -102,7 +112,21 @@ export const GalleryScreen = ({route}: Props) => {
                 flexDirection: 'column',
                 margin: 6,
               }}>
-              <Image style={styles.imageThumbnail} source={{uri: item.url}} />
+              <ImageBackground
+                onLoadStart={() =>
+                  setLoadingState(
+                    loadingState.map((el, idx) => (idx === index ? true : el)),
+                  )
+                }
+                onLoadEnd={() =>
+                  setLoadingState(
+                    loadingState.map((el, idx) => (idx === index ? false : el)),
+                  )
+                }
+                style={styles.imageThumbnail}
+                source={{uri: item.url}}>
+                {loadingState[index] && <CustomShimmer height={100} />}
+              </ImageBackground>
             </TouchableOpacity>
           )}
           numColumns={3}

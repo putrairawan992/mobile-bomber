@@ -199,12 +199,7 @@ function NotificationScreen() {
           </View>
           <View key="2">
             <NotificationInvitation
-              data={invitation.map(item => {
-                return {
-                  ...item,
-                  message: `Hi ${user.username}, who meet you at the ${item.clubName}. Would you come to my table at ruff ? we will arrived around 11am ❤️'`,
-                };
-              })}
+              data={invitation}
               onOpenInvitation={onOpenInvitation}
             />
           </View>

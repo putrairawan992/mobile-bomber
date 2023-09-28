@@ -18,7 +18,6 @@ import {
 import {Header, ModalToast} from '../components/molecules';
 import {PlaceCategory} from '../components/organism';
 import {TopPlaces} from '../components/organism/Places/TopPlaces';
-import {UserAchievement} from '../components/organism/User/UserAchievement';
 import {useCheckLocation} from '../hooks/useCheckLocation';
 import {usePermission} from '../hooks/usePermission';
 import {
@@ -35,7 +34,6 @@ import {NightlifeService} from '../service/NightlifeService';
 import {updateUserLocation} from '../store/user/userActions';
 import useTheme from '../theme/useTheme';
 import {WIDTH} from '../utils/config';
-import {USER_ACHIEVEMENT} from '../utils/data';
 import styles from './Styles';
 import {getUserProfile} from '../service/AuthService';
 import {NotificationService} from '../service/NotificationService';
@@ -46,12 +44,13 @@ import {Colors} from '../theme';
 import {SelectLocationSheet} from '../components/organism/Location/SelectLocationSheet';
 import {getStorage, setStorage} from '../service/mmkvStorage';
 import {ModalToastContext} from '../context/AppModalToastContext';
+import {COORDINATE_DATA} from '../utils/data';
 
 type Props = NativeStackScreenProps<MainStackParams, 'Nightlife', 'MyStack'>;
 
 function NightlifeScreen({navigation}: Props) {
   const theme = useTheme();
-  const {user} = useAppSelector(state => state.user);
+  const {user, userLocation} = useAppSelector(state => state.user);
   const [searchValue, setSearchValue] = React.useState<string>('');
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
   const [banner, setBanner] = React.useState<string>('');
@@ -116,7 +115,17 @@ function NightlifeScreen({navigation}: Props) {
         NightlifeService.getBanner({city_id: 1}),
       ])
         .then(response => {
-          setTopFiveNightClub(response[0].data);
+          setTopFiveNightClub(
+            response[0].data.map((item, idx) => {
+              const latitude = COORDINATE_DATA[idx].latitude;
+              const longitude = COORDINATE_DATA[idx].longitude;
+              return {
+                ...item,
+                latitude,
+                longitude,
+              };
+            }),
+          );
           setBanner(response[1].data[0].imageUrl);
         })
         .catch(error => {
@@ -256,13 +265,14 @@ function NightlifeScreen({navigation}: Props) {
             }
           />
         </EntryAnimation>
-        <Spacer llxx />
+        {/* <Spacer llxx />
         <EntryAnimation index={4}>
           <UserAchievement data={USER_ACHIEVEMENT} />
-        </EntryAnimation>
+        </EntryAnimation> */}
         <Gap height={32} />
         {topFiveNightClub?.length ? (
           <TopPlaces
+            userLocation={userLocation}
             title="Top 5 Night Club this Week"
             data={topFiveNightClub}
             itemWidthStyle

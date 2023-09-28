@@ -33,7 +33,7 @@ export interface InviteNotificationInterface {
   clubName: string;
   logo: string;
   isRead: number;
-  message?: string;
+  message: string;
 }
 
 export interface PayloadActionInvitationInterface {
