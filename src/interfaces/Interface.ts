@@ -32,3 +32,8 @@ export interface AppImageObject {
   url: string;
   caption?: string;
 }
+
+export interface CoordinateInterface {
+  latitude: number;
+  longitude: number;
+}

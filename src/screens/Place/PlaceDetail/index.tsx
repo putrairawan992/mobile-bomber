@@ -56,10 +56,11 @@ import {
   AppImageObject,
   GalleryMappingInterface,
 } from '../../../interfaces/Interface';
-import reactotron from 'reactotron-react-native';
+import {useAppSelector} from '../../../hooks/hooks';
 
 type Props = NativeStackScreenProps<MainStackParams, 'PlaceDetail', 'MyStack'>;
 export const PlaceDetail = ({route, navigation}: Props) => {
+  const {userLocation} = useAppSelector(state => state.user);
   const placeData = route.params.placeData;
   const theme = useTheme();
   const [data, setData] = useState<PlaceInterface | undefined>(undefined);
@@ -470,6 +471,7 @@ export const PlaceDetail = ({route, navigation}: Props) => {
                 title: data.name,
               })
             }
+            userLocation={userLocation}
           />
         </EntryAnimation>
       )}
