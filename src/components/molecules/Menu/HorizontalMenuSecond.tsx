@@ -1,9 +1,9 @@
 /* eslint-disable react-native/no-inline-styles */
 import React from 'react';
-import {TouchableOpacity} from 'react-native';
+import { TouchableOpacity } from 'react-native';
 import useTheme from '../../../theme/useTheme';
-import {Gap, Section, Text} from '../../atoms';
-import {Colors} from '../../../theme';
+import { Gap, Section, Text } from '../../atoms';
+import { Colors } from '../../../theme';
 
 interface TabMenuProps {
   onPress: (index: number) => void;
@@ -30,10 +30,10 @@ export const TabMenuSecond = ({
       key={item}
       style={{
         width,
-        padding:30,
+        padding: 15,
         backgroundColor: isSelected
           ? theme?.colors.PRIMARY
-          :'transparent',
+          : 'transparent',
       }}>
       {!!count && count > 0 && (
         <Section
