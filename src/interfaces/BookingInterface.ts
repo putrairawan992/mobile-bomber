@@ -115,3 +115,8 @@ export interface PayloadBookingInvitationInterface {
   member_invited: string[];
   message: string;
 }
+
+export interface PayloadClaimCouponInterface {
+  customer_id: string;
+  coupon_id: string;
+}

@@ -18,6 +18,8 @@ import {NightlifeService} from '../../../service/NightlifeService';
 import {TopPlaces} from '../../../components/organism/Places/TopPlaces';
 import {PlaceCard} from '../../../components/organism';
 import {ScrollView} from 'react-native';
+import {useAppSelector} from '../../../hooks/hooks';
+import {COORDINATE_DATA} from '../../../utils/data';
 
 type Props = NativeStackScreenProps<
   MainStackParams,
@@ -31,6 +33,7 @@ const PlaceByCategory = ({route, navigation}: Props) => {
   const [searchValue, setSearchValue] = useState<string>('');
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [placeData, setPlaceData] = useState<PlaceInterface[]>([]);
+  const {userLocation} = useAppSelector(state => state.user);
 
   const fetchData = async () => {
     try {
@@ -41,7 +44,17 @@ const PlaceByCategory = ({route, navigation}: Props) => {
           limit: 0,
         },
       });
-      setPlaceData(response.data);
+      setPlaceData(
+        response.data.map((item, idx) => {
+          const latitude = COORDINATE_DATA[idx].latitude;
+          const longitude = COORDINATE_DATA[idx].longitude;
+          return {
+            ...item,
+            latitude,
+            longitude,
+          };
+        }),
+      );
       setIsLoading(false);
     } catch (error: any) {
       setIsLoading(false);
@@ -97,6 +110,7 @@ const PlaceByCategory = ({route, navigation}: Props) => {
             itemWidthStyle
             fullSliderWidth
             onSelect={onPlaceSelect}
+            userLocation={userLocation}
           />
         ) : (
           <></>
@@ -111,7 +125,12 @@ const PlaceByCategory = ({route, navigation}: Props) => {
           <Gap height={32} />
           {placeData?.length ? (
             placeData.map(item => (
-              <PlaceCard item={item} onSelect={onPlaceSelect} isVertical />
+              <PlaceCard
+                item={item}
+                onSelect={onPlaceSelect}
+                isVertical
+                userLocation={userLocation}
+              />
             ))
           ) : (
             <></>

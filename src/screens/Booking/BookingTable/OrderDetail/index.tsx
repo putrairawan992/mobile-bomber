@@ -19,7 +19,10 @@ import {
   Text,
 } from '../../../../components/atoms';
 import {TableInterface} from '../../../../interfaces/BookingInterface';
-import {PlaceInterface} from '../../../../interfaces/PlaceInterface';
+import {
+  CouponInterface,
+  PlaceInterface,
+} from '../../../../interfaces/PlaceInterface';
 import {Colors, Images} from '../../../../theme';
 import useTheme from '../../../../theme/useTheme';
 import {WIDTH} from '../../../../utils/config';
@@ -43,6 +46,9 @@ interface TableOrderDetailProps {
   onBackNavigation?: () => void;
   onPay: () => void;
   isLoading: boolean;
+  coupons: CouponInterface[];
+  onCouponApplied: (coupon: CouponInterface) => void;
+  onRemoveCoupon: (coupon: CouponInterface) => void;
 }
 
 export const TableOrderDetail = ({
@@ -58,11 +64,13 @@ export const TableOrderDetail = ({
   onBackNavigation,
   onPay,
   isLoading,
+  coupons,
+  onCouponApplied,
+  onRemoveCoupon,
 }: TableOrderDetailProps) => {
   const theme = useTheme();
 
   const [showPromo, setShowPromo] = useState<boolean>(false);
-  const [promoApplied, setPromoApplied] = useState<number[]>([]);
 
   return (
     <BottomSheetScrollView
@@ -259,6 +267,22 @@ export const TableOrderDetail = ({
           </Section>
           <Text label={currency(Number(selectedTable?.minOrder) * 0.05)} />
         </Section>
+        {coupons?.length ? (
+          <>
+            <Gap height={8} />
+            <Section isRow isBetween>
+              <Section>
+                <Text label="Coupon Applied" />
+                <Text
+                  label={currency(coupons[0].disc)}
+                  color={Colors['black-40']}
+                  variant="small"
+                />
+              </Section>
+              <Text label={currency(Number(selectedTable?.minOrder) * 0.05)} />
+            </Section>
+          </>
+        ) : null}
         <Gap height={20} />
         <Section isRow isBetween>
           <Text label="Total" fontWeight="bold" />
@@ -266,9 +290,14 @@ export const TableOrderDetail = ({
             label={
               selectedTable?.minOrder
                 ? isFullPayment
-                  ? currency(selectedTable.minOrder).toString()
+                  ? currency(
+                      selectedTable.minOrder -
+                        (coupons.length ? coupons[0].disc : 0),
+                    ).toString()
                   : currency(
-                      selectedTable.minOrder + selectedTable?.minOrder * 0.05,
+                      selectedTable.minOrder +
+                        selectedTable?.minOrder * 0.05 -
+                        (coupons.length ? coupons[0].disc : 0),
                     ).toString()
                 : ''
             }
@@ -298,7 +327,7 @@ export const TableOrderDetail = ({
         padding="12px 12px"
         backgroundColor={theme?.colors.SECTION}
         rounded={8}>
-        {promoApplied.map((promo, key) => {
+        {coupons?.map((promo, key) => {
           return (
             <View className="flex-row mb-3" key={key}>
               <Image
@@ -307,10 +336,12 @@ export const TableOrderDetail = ({
               />
               <View className="bg-black flex-1 justify-center px-3 rounded-tr-lg rounded-br-lg border-[0.5px] border-neutral-600 border-l-transparent flex-row items-center">
                 <DefaultText
-                  title="Discount 50% for ladies"
+                  title={promo.title}
                   titleClassName="font-inter-semibold flex-1"
                 />
-                <TouchableOpacity activeOpacity={0.7} onPress={() => {}}>
+                <TouchableOpacity
+                  activeOpacity={0.7}
+                  onPress={() => onRemoveCoupon(promo)}>
                   <Close size={22} color={colors.white} />
                 </TouchableOpacity>
               </View>
@@ -351,9 +382,9 @@ export const TableOrderDetail = ({
       <ModalBookingTablePromotion
         show={showPromo}
         hide={() => setShowPromo(false)}
-        onApplied={() =>
-          setPromoApplied([...promoApplied, new Date().valueOf()])
-        }
+        onApplied={onCouponApplied}
+        placeData={placeData}
+        appliedCoupons={coupons?.map(el => el.couponId)}
       />
     </BottomSheetScrollView>
   );

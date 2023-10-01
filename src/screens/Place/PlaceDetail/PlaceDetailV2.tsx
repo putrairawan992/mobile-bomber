@@ -345,9 +345,9 @@ export default function PlaceDetailV2() {
           ]}
           // {...PanResponder}
         >
-          {data && (
+          {/* {data && (
             <PlaceCard item={data} onSelect={() => undefined} isPlaceDetail />
-          )}
+          )} */}
         </Animated.View>
         <Animated.View
           style={[

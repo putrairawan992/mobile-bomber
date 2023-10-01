@@ -311,7 +311,7 @@ export default function MyBookingDetail({route, navigation}: Props) {
                 <Gap width={10} />
                 <DefaultText
                   title={`${memberInvited.length} Invited ${
-                    memberInvited.length - selectedInvitation.length
+                    memberInvited.filter(el => el.status === 'approved').length
                   } Accepted`}
                   titleClassName="font-inter-medium text-neutral-300"
                 />
@@ -459,9 +459,9 @@ export default function MyBookingDetail({route, navigation}: Props) {
               <Gap width={10} />
               <DefaultText
                 title={`${memberInvited.length} Invited ${
-                  memberInvited.length - selectedInvitation.length
+                  memberInvited.filter(el => el.status === 'approved').length
                 } Accepted`}
-                titleClassName="font-inter-medium text-neutral-300 flex-1"
+                titleClassName="font-inter-medium text-neutral-300"
               />
               <Image
                 source={IcChevronRight}

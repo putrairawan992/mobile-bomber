@@ -23,6 +23,8 @@ import {
 } from '../../atoms';
 import styles from './Style';
 import {Colors} from '../../../theme';
+import {UserLocationInterface} from '../../../interfaces/UserInterface';
+import {calculateDistance} from '../../../utils/calculateDistance';
 
 interface PlaceCardProps {
   item: PlaceInterface;
@@ -32,6 +34,7 @@ interface PlaceCardProps {
   operation?: PlaceOperationalTimeInterface | null;
   onOpenGallery?: () => void;
   isVertical?: boolean;
+  userLocation: UserLocationInterface | null;
 }
 
 export const PlaceCard = ({
@@ -42,6 +45,7 @@ export const PlaceCard = ({
   operation,
   onOpenGallery,
   isVertical,
+  userLocation,
 }: PlaceCardProps) => {
   const theme = useTheme();
   const aspectRatio = useImageAspectRatio(
@@ -192,7 +196,24 @@ export const PlaceCard = ({
                 ))}
                 <Text label={`${item.rating.toString()} / 5`} color="#A7B1C1" />
               </Section>
-              <Text variant="small" fontWeight="bold" label="5km" />
+              <Text
+                variant="small"
+                fontWeight="bold"
+                label={
+                  !!userLocation?.latitude && !!item?.latitude
+                    ? calculateDistance({
+                        origin: {
+                          latitude: Number(userLocation.latitude),
+                          longitude: Number(userLocation.longitude),
+                        },
+                        destination: {
+                          latitude: Number(item.latitude),
+                          longitude: Number(item.longitude),
+                        },
+                      }).toString() + ' km'
+                    : 'unknown'
+                }
+              />
             </Section>
             <Gap height={10} />
             <Text variant="small" label={item.address} />

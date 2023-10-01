@@ -1,6 +1,7 @@
 import {HorizontalMenuInterface} from '../components/molecules/Menu/HorizontalMenu';
 import {CardNotificationAppsInterface} from '../components/molecules/Notification/CardNotificationApps';
 import {PartyInterface} from '../interfaces/BookingInterface';
+import {CoordinateInterface} from '../interfaces/Interface';
 import {
   BillNotificationInterface,
   InvitationNotificationInterface,
@@ -557,4 +558,47 @@ export const CITY_SAMPLE_DATA = [
   'Changhua',
   'Chiayi',
   'Kinmen',
+];
+
+export const COORDINATE_DATA: CoordinateInterface[] = [
+  {
+    latitude: -7.725,
+    longitude: 112.589444,
+  },
+  {
+    latitude: -8.021875,
+    longitude: 112.952438,
+  },
+  {
+    latitude: -7.741727,
+    longitude: 112.534377,
+  },
+  {
+    latitude: -7.969469,
+    longitude: 112.802997,
+  },
+  {
+    latitude: -7.725,
+    longitude: 112.589444,
+  },
+  {
+    latitude: -7.911625,
+    longitude: 112.520709,
+  },
+  {
+    latitude: -8.021806,
+    longitude: 112.835899,
+  },
+  {
+    latitude: -7.797779,
+    longitude: 112.736859,
+  },
+  {
+    latitude: -7.904167,
+    longitude: 112.496667,
+  },
+  {
+    latitude: -8.436944,
+    longitude: 112.641667,
+  },
 ];

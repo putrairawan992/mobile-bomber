@@ -24,6 +24,8 @@ export interface PlaceInterface extends ResponseGetPlaceDetailInterface {
   isAuctionMode: boolean;
   category: string[];
   photos: PlacePhotoInterface[];
+  latitude?: number;
+  longitude?: number;
 }
 
 export interface PlaceOverviewFeaturesInterface {
@@ -127,4 +129,5 @@ export interface CouponInterface {
   createdAt: string;
   isDisabled: number;
   source: string;
+  couponId: string;
 }
