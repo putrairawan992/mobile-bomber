@@ -8,12 +8,14 @@ interface ModalPromoSuccessProps {
   show: boolean;
   hide: () => void;
   onBackHome: () => void;
+  isClaim?: boolean;
 }
 
 export default function ModalPromoSuccess({
   show,
   hide,
   onBackHome,
+  isClaim,
 }: ModalPromoSuccessProps) {
   return (
     <Modal
@@ -42,7 +44,7 @@ export default function ModalPromoSuccess({
           type="primary"
           TextComponent={
             <DefaultText
-              title="Back to homepage"
+              title={isClaim ? 'Close' : 'Back to order'}
               titleClassName="font-poppins-regular text-base"
             />
           }

@@ -13,6 +13,7 @@ interface ModalPromoProps {
   onUse: () => void;
   BannerComponent?: JSX.Element;
   data: CouponInterface;
+  isClaim?: boolean;
 }
 
 export default function ModalPromo({
@@ -21,6 +22,7 @@ export default function ModalPromo({
   onUse,
   BannerComponent,
   data,
+  isClaim,
 }: ModalPromoProps) {
   return (
     <Modal
@@ -90,7 +92,11 @@ export default function ModalPromo({
           <ArrowRight2 color={colors.white} size={20} />
         </TouchableOpacity>
         <Gap height={20} />
-        <Button title="Use" onPress={onUse} type="primary" />
+        <Button
+          title={isClaim ? 'Claim' : 'Use'}
+          onPress={onUse}
+          type="primary"
+        />
         <Gap height={15} />
       </View>
     </Modal>
