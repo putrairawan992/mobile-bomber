@@ -11,7 +11,6 @@ import Canceled from './Canceled';
 import Finished from './Finished';
 import LinearGradient from 'react-native-linear-gradient';
 import {MyEventService} from '../../service/MyEventService';
-import {useAppSelector} from '../../hooks/hooks';
 import {BookingInterface} from '../../interfaces/BookingInterface';
 import {MainStackParams} from '../../navigation/MainScreenStack';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
@@ -23,15 +22,15 @@ export default function EventScreen({navigation}: Props) {
   const [theme] = useState<string[]>([
     'Table Booking',
     'Walk in',
-    'Group Walk in',
-    'Auction',
+    // 'Group Walk in',
+    // 'Auction',
   ]);
   const [activeTheme, setActiveTheme] = useState<string>('Table Booking');
   const [status, setStatus] = useState<string>('paid');
   const [initialPage, setInitialPage] = useState<number>(0);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [dataEvents, setDataEvents] = useState<BookingInterface[]>([]);
-  const {user} = useAppSelector(state => state.user);
+  // const {user} = useAppSelector(state => state.user);
   const ref = createRef<PagerView>();
 
   useEffect(() => {
@@ -47,11 +46,13 @@ export default function EventScreen({navigation}: Props) {
     try {
       setIsLoading(true);
       await MyEventService.getEventAllBookingHistory({
-        user_id: user?.id,
+        user_id: 'FQ5OvkolZtSBZEMlG1R3gtowbQv1',
         tab: convertString(activeTheme),
         status: status.toLowerCase(),
       })
         .then(response => {
+          console.log("res=", response);
+          
           setDataEvents(response?.data);
         })
         .catch(error => {
@@ -100,6 +101,7 @@ export default function EventScreen({navigation}: Props) {
       <View>
         <FlatList
           horizontal={true}
+          className='text-center'
           data={theme}
           keyExtractor={(_, key) => key.toString()}
           showsHorizontalScrollIndicator={false}

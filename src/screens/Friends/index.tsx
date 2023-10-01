@@ -5,7 +5,7 @@ import * as React from 'react';
 import {createRef, useContext, useState} from 'react';
 import {Pressable, View} from 'react-native';
 import PagerView from 'react-native-pager-view';
-import {Gap, Layout, Loading, Section, TextInput} from '../../components/atoms';
+import {Gap, Layout, Loading, Section, Spacer, TextInput} from '../../components/atoms';
 
 import {Header, ModalToast, TabMenu} from '../../components/molecules';
 import {
@@ -187,7 +187,7 @@ function FriendsScreen({navigation}: Props) {
   };
 
   return (
-    <Layout contentContainerStyle={styles.container}>
+    <Layout contentContainerStyle={styles.container} isDisableKeyboardAware>
       <Header
         transparent
         title="Friends"
@@ -195,7 +195,7 @@ function FriendsScreen({navigation}: Props) {
         onRightCustomComponentPress={() => onOpenBottomSheet('profileSecurity')}
       />
       {isLoading && <Loading />}
-      <Section padding="22px 16px">
+      <Section padding="12px 16px">
         <TextInput
           type="search"
           value={searchValue}
@@ -203,6 +203,7 @@ function FriendsScreen({navigation}: Props) {
           placeholder="Search friend's name or email"
         />
       </Section>
+      <Spacer sm />
       <Section isRow isCenter>
         {menu.map((item, index) => {
           const isSelected = index === initialPage;

@@ -6702,7 +6702,7 @@ lodash.upperfirst@^4.3.1:
   resolved "https://registry.yarnpkg.com/lodash.upperfirst/-/lodash.upperfirst-4.3.1.tgz#1365edf431480481ef0d1c68957a5ed99d49f7ce"
   integrity sha512-sReKOYJIJf74dhJONhU4e0/shzi1trVbSWDOhKYE5XV2O+H7Sb2Dihwuc7xWxVl+DgFPyTqIN3zMfT9cq5iWDg==
 
-lodash@^4.17.10, lodash@^4.17.15, lodash@^4.17.21, lodash@^4.17.4:
+lodash@^4.14.2, lodash@^4.17.10, lodash@^4.17.15, lodash@^4.17.21, lodash@^4.17.4:
   version "4.17.21"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.21.tgz#679591c564c3bffaae8454cf0b3df370c3d6911c"
   integrity sha512-v2kDEe57lecTulaDIuNTPy3Ry4gLGJ6Z1O3vE1krgXZNrsQ+LFTGHVxVjcXPs17LhbZVGedAJv8XZ1tvj5FvSg==
@@ -8318,6 +8318,13 @@ react-native-calendars@^1.1300.0:
   optionalDependencies:
     moment "^2.29.4"
 
+react-native-camera-kit@^13.0.0:
+  version "13.0.0"
+  resolved "https://registry.yarnpkg.com/react-native-camera-kit/-/react-native-camera-kit-13.0.0.tgz#983d9146cdeb0ec0cb0c0a86b7fa5f7690df08f6"
+  integrity sha512-fnkyivCG2xzS+14/doP8pCAYNafYaTyg5J0t+JJltJdgKSHf328OG44Rd+fnbbEOydZxgy/bcuLB24R0kCbynw==
+  dependencies:
+    lodash "^4.14.2"
+
 react-native-circular-progress@^1.3.9:
   version "1.3.9"
   resolved "https://registry.yarnpkg.com/react-native-circular-progress/-/react-native-circular-progress-1.3.9.tgz#9552c26d6b2e6bb447a47da201ef2ae9a453e273"
@@ -8387,6 +8394,16 @@ react-native-gradle-plugin@^0.70.3:
   version "0.70.3"
   resolved "https://registry.yarnpkg.com/react-native-gradle-plugin/-/react-native-gradle-plugin-0.70.3.tgz#cbcf0619cbfbddaa9128701aa2d7b4145f9c4fc8"
   integrity sha512-oOanj84fJEXUg9FoEAQomA8ISG+DVIrTZ3qF7m69VQUJyOGYyDZmPqKcjvRku4KXlEH6hWO9i4ACLzNBh8gC0A==
+
+react-native-hole-view@^3.0.0-alpha3:
+  version "3.0.0-alpha3"
+  resolved "https://registry.yarnpkg.com/react-native-hole-view/-/react-native-hole-view-3.0.0-alpha3.tgz#8eca30b04b3ef7abd3360b0b76d617eefea648a1"
+  integrity sha512-GzKsirikGaDdynN/IA6tM2gfTZVvKOa4ISiKGcd34K3N/DrR0SLB62SOFRhhOisCcvTFZOegb4jyTQLg2+pCzg==
+
+react-native-image-crop-picker@^0.40.0:
+  version "0.40.0"
+  resolved "https://registry.yarnpkg.com/react-native-image-crop-picker/-/react-native-image-crop-picker-0.40.0.tgz#cf378a4cbdb64b9b6ff94399b8515ff3bdccbf9c"
+  integrity sha512-FpqiCS4CiPQp8qIorlELWKbpi1d9lyhJki9spZr4LShv9hk65GWo6tYJupfTV19o5XcRwJn8d4MHIUoyWMJRTQ==
 
 react-native-image-picker@5.4.0:
   version "5.4.0"
@@ -8465,6 +8482,11 @@ react-native-raw-bottom-sheet@^2.2.0:
   version "2.2.0"
   resolved "https://registry.yarnpkg.com/react-native-raw-bottom-sheet/-/react-native-raw-bottom-sheet-2.2.0.tgz#d11dabb86aadb014273767ef7b554924b13633c5"
   integrity sha512-qL4JKIqvbcVxbkKzeh51hjV7suoJN3ouxzvLmOg0FBUV1yiJAfEbacjQdtRCI6+OU5pyGFBIifLsTXcFDwHggg==
+
+react-native-reanimated-carousel@^3.5.1:
+  version "3.5.1"
+  resolved "https://registry.yarnpkg.com/react-native-reanimated-carousel/-/react-native-reanimated-carousel-3.5.1.tgz#3605b9959ffc0aa1c6b8b8736d98f91f46e36b17"
+  integrity sha512-9BBQV6JAYSQm2lV7MFtT4mzapXmW4IZO6s38gfiJL84Jg23ivGB1UykcNQauKgtHyhtW2NuZJzItb1s42lM+hA==
 
 react-native-reanimated@^2.14.4:
   version "2.17.0"
@@ -10218,6 +10240,11 @@ vary@~1.1.2:
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/vary/-/vary-1.1.2.tgz#2299f02c6ded30d4a5961b0b9f74524a18f634fc"
   integrity sha512-BNGbWLfd0eUPabhkXUVm0j8uuvREyTh5ovRa/dyow/BqAbZJyC+5fU+IzQOzmAKzYqYRAISoRhdQr3eIZ/PXqg==
+
+vision-camera-code-scanner@^0.2.0:
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/vision-camera-code-scanner/-/vision-camera-code-scanner-0.2.0.tgz#8adc0694319a17f6a95f6dfacc02ab7ac29b4742"
+  integrity sha512-H5hVkXfbIcGdg9YlhuS8Y/xDX5e32Vo6eK5FyDQsE9AGVjlqEHMmSLHZg7BX8UUm4ADmiAZc8wzc4n8TUqGr0g==
 
 vlq@^1.0.0:
   version "1.0.1"

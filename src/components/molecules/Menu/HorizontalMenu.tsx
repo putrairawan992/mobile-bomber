@@ -7,6 +7,7 @@ import {Gap, Section, Text} from '../../atoms';
 export interface HorizontalMenuInterface {
   id: number;
   title: string;
+  padding:number;
 }
 
 interface HorizontalSectionMenuProps {
@@ -37,6 +38,7 @@ const HorizontalSectionMenu = ({
                   marginRight: 20,
                   width: 'auto',
                   borderBottomWidth: 2,
+                  padding:30,
                   borderBottomColor: isSelected
                     ? theme?.colors.PRIMARY
                     : 'transparent',

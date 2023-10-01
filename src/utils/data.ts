@@ -60,6 +60,17 @@ export const PLACE_MENU: HorizontalMenuInterface[] = [
   },
 ];
 
+export const PLACE_MENU_SECOND: any[] = [
+  {
+    id: 1,
+    title: 'Walk in Ticket',
+  },
+  {
+    id: 2,
+    title: 'Booking Table',
+  }
+];
+
 export const PLACE_OVERVIEW: PlaceOverviewInterface = {
   about:
     'RUFF Taipei 創立於2020年9月提供HIP HOP 音樂，獨特的派對場地，歌手與藝術家，流行與潮流品牌，新鮮調酒與經典調酒等多元元素，座落於台北夜生活主要地點信義區，不定期舉辦特別活動。 歡迎熱愛HIP HOP及夜店文化的你／妳一同加入我們的大家庭。',
