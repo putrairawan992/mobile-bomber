@@ -51,4 +51,15 @@ export const ProfileService = {
     );
     return response.data;
   },
+  updateProflie: async ({
+    payload,
+  }: {
+    payload: any;
+  }): Promise<APIResponse<unknown>> => {
+    const response = await ax.put(
+      `${Config.API_ENDPOINT}/${URL}/modify_user_profile`,
+      payload,
+    );
+    return response.data;
+  },
 };

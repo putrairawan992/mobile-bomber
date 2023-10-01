@@ -16,6 +16,11 @@ const styles = EStyleSheet.create({
     bottom: 16,
     left: 16,
   },
+  totalSlider: {
+    position: 'absolute',
+    bottom: 16,
+    right: 20,
+  }
 });
 
 export default styles;

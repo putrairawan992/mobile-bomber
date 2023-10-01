@@ -13,7 +13,6 @@ import {DefaultText, Gap, Layout} from '../../components/atoms';
 import {Header} from '../../components/molecules';
 import LinearGradient from 'react-native-linear-gradient';
 import {IcPicture, IcUploadSecond} from '../../theme/Images';
-import {navigationRef} from '../../navigation/RootNavigation';
 import colors from '../../styles/colors';
 
 const {width: W} = Dimensions.get('window');
@@ -240,14 +239,15 @@ const VerificationID2 = () => {
           <TouchableOpacity
             className="mt-3"
             activeOpacity={0.8}
-            onPress={() => navigationRef.navigate('VerificationID3' as never)}>
+            // onPress={() => navigationRef.navigate('VerificationID3' as never)}
+            >
             <LinearGradient
               className="py-4"
               colors={['#AA5AFA', '#C111D5']}
               start={{x: 0, y: 0}}
               end={{x: 1, y: 0}}>
               <DefaultText
-                title="Next"
+                title="Submit"
                 titleClassName="text-base font-inter-bold text-center"
               />
             </LinearGradient>

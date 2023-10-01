@@ -1,23 +1,23 @@
 /* eslint-disable react-native/no-inline-styles */
 // eslint-disable-line @typescript-eslint/no-unused-vars
-import {Community, Flare, HalfMoon, User} from '../assets/icons';
-import {GradientText, Text} from '../components/atoms';
-import React, {ReactNode} from 'react';
+import { Community, Flare, HalfMoon, User } from '../assets/icons';
+import { GradientText, Text } from '../components/atoms';
+import React, { ReactNode } from 'react';
 
 import BookingTableScreen from '../screens/Booking/BookingTable';
 import EventScreen from '../screens/Event';
 import FriendsScreen from '../screens/Friends';
 import NotificationScreen from '../screens/Notification';
 import MyBookingDetail from '../screens/MyBookingDetail';
-import {PlaceDetail} from '../screens/Place/PlaceDetail';
+import { PlaceDetail } from '../screens/Place/PlaceDetail';
 import ProfileScreen from '../screens/Profile';
-import {ViewStyle} from 'react-native';
-import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import { ViewStyle } from 'react-native';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import useTheme from '../theme/useTheme';
 import NightlifeScreen from '../screens/Nightlife';
-import {BookingWalkInScreen} from '../screens/Booking/BookingWalkIn';
-import {WalkInTicketScreen} from '../screens/Booking/BookingWalkIn/WalkInTicket';
+import { BookingWalkInScreen } from '../screens/Booking/BookingWalkIn';
+import { WalkInTicketScreen } from '../screens/Booking/BookingWalkIn/WalkInTicket';
 import WineryOrder from '../screens/WineryOrder';
 import SongPlaylist from '../screens/SongPlaylist';
 import RequestSong from '../screens/RequestSong';
@@ -32,17 +32,26 @@ import {
   PlaceCategoryInterface,
   PlaceInterface,
 } from '../interfaces/PlaceInterface';
-import {GalleryScreen} from '../screens/Gallery';
+import { GalleryScreen } from '../screens/Gallery';
 import PrivacyPage from '../screens/Privacy';
 import ComingSoon from '../screens/ComingSoon';
 import PlaceByCategory from '../screens/Place/PlaceByCategory';
+import { Barcode } from '../assets/icons/Barcode';
+import { PlaceDetailSecond } from '../screens/Place/PlaceDetail/PlaceDetailSecond';
+import Order from '../screens/Order';
+import OrderQrCode from '../screens/Order/OrderQrCode';
 
 export type MainStackParams = {
   ComingSoon: undefined;
-  Nightlife: undefined;
+  Nightlife?: { isOrder?: boolean };
   Event: undefined;
   Friends: undefined;
   Profile: undefined;
+  Order: undefined;
+  OrderQrCode:undefined;
+  PlaceDetailSecond?: {
+    placeData?: PlaceInterface | null;
+  };
   PlaceDetail: {
     placeData: PlaceInterface | null;
   };
@@ -138,7 +147,7 @@ function Main() {
         component={NightlifeScreen}
         options={() => ({
           tabBarStyle: TabBarStyle,
-          tabBarIcon: ({focused}) => (
+          tabBarIcon: ({ focused }) => (
             <TabBarContent
               focused={focused}
               title="Nightlife"
@@ -155,7 +164,7 @@ function Main() {
         name="Event"
         component={EventScreen}
         options={() => ({
-          tabBarIcon: ({focused}) => (
+          tabBarIcon: ({ focused }) => (
             <TabBarContent
               focused={focused}
               title="My Event"
@@ -173,7 +182,7 @@ function Main() {
         name="Friends"
         component={FriendsScreen}
         options={() => ({
-          tabBarIcon: ({focused}) => (
+          tabBarIcon: ({ focused }) => (
             <TabBarContent
               focused={focused}
               title="Friends"
@@ -191,11 +200,29 @@ function Main() {
         name="Profile"
         component={ProfileScreen}
         options={() => ({
-          tabBarIcon: ({focused}) => (
+          tabBarIcon: ({ focused }) => (
             <TabBarContent
               focused={focused}
               title="Profile"
               icon={<User focused={focused} size={20} />}
+            />
+          ),
+          headerShown: false,
+          tabBarLabel() {
+            return false;
+          },
+          tabBarStyle: TabBarStyle,
+        })}
+      />
+      <Tab.Screen
+        name="Order"
+        component={Order}
+        options={() => ({
+          tabBarIcon: ({ focused }) => (
+            <TabBarContent
+              focused={focused}
+              title="Order"
+              icon={<Barcode focused={focused} size={20} />}
             />
           ),
           headerShown: false,
@@ -216,7 +243,9 @@ const MainScreenStack = () => {
       screenOptions={{
         headerShown: false,
         animation: 'slide_from_right',
-      }}>
+      }}> 
+      <Stack.Screen name="OrderQrCode" component={OrderQrCode} />
+      <Stack.Screen name="PlaceDetailSecond" component={PlaceDetailSecond} />
       <Stack.Screen name="ComingSoon" component={ComingSoon} />
       <Stack.Screen name="Main" component={Main} />
       <Stack.Screen name="Notification" component={NotificationScreen} />
@@ -236,10 +265,11 @@ const MainScreenStack = () => {
       <Stack.Screen name="PaymentPage" component={PaymentPage} />
       <Stack.Screen name="Offers" component={Offers} />
       <Stack.Screen name="Privacy" component={PrivacyPage} />
+
       <Stack.Screen
         name="Gallery"
         component={GalleryScreen}
-        initialParams={{placeId: '', title: ''}}
+        initialParams={{ placeId: '', title: '' }}
         options={{
           presentation: 'fullScreenModal',
           animationTypeForReplace: 'push',

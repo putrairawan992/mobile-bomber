@@ -54,7 +54,7 @@ const PlaceByCategory = ({route, navigation}: Props) => {
   }, []);
 
   const onPlaceSelect = (id: string) =>
-    navigation.navigate('PlaceDetail', {
+    navigation.navigate('PlaceDetailSecond', {
       placeData:
         placeData.find((item: PlaceInterface) => item.clubId === id) ?? null,
     });

@@ -163,8 +163,14 @@ const TableLayout = require('../assets/images/TableLayout.png');
 const DjBackground = require('../assets/images/DjBackground.png');
 const frameCard = require('../assets/images/frameCard.png');
 const ThreeDots = require('../assets/images/ThreeDots.png');
+const bannerPlaceDetail = require('../assets/images/banner_place_detail.png');
+const bannerPlaceDetailv2 = require('../assets/images/banner_place_detail_v2.png');
+const placeDetailDummy = require('../assets/images/place_detail_dummy.png');
 
 export {
+  placeDetailDummy,
+  bannerPlaceDetail,
+  bannerPlaceDetailv2,
   frameCard,
   BackHome,
   LeftArrowBlack,
