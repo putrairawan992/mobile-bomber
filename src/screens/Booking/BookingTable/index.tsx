@@ -12,6 +12,7 @@ import {
 } from '../../../components/atoms';
 import {CardTable, Header, ModalToast} from '../../../components/molecules';
 import {
+  CouponInterface,
   EventInterface,
   PlaceEventsInterface,
 } from '../../../interfaces/PlaceInterface';
@@ -92,6 +93,7 @@ function BookingTableScreen({route, navigation}: Props) {
     month: Number(dateFormatter(new Date(), 'M')),
     year: Number(dateFormatter(new Date(), 'yyyy')),
   });
+  const [coupons, setCoupons] = useState<CouponInterface[]>([]);
   const [sheetIndex, setSheetIndex] = React.useState<number>(-1);
   const bookingSheetRef = React.useRef<BottomSheetModal>(null);
   const snapPoints = React.useMemo(
@@ -355,17 +357,24 @@ function BookingTableScreen({route, navigation}: Props) {
           booking_date: selectedDate,
           total_price:
             Number(selectedTable?.minOrder) +
-            Number(selectedTable?.minOrder) * 0.05,
-          disc: isPayFull ? Number(selectedTable?.minOrder) * 0.05 : 0,
+            Number(selectedTable?.minOrder) * 0.05 -
+            (isPayFull ? Number(selectedTable?.minOrder) * 0.05 : 0) -
+            (coupons.length ? coupons[0].disc : 0),
+          disc:
+            (isPayFull ? Number(selectedTable?.minOrder) * 0.05 : 0) +
+            (coupons.length ? coupons[0].disc : 0),
           total_guest: selectedInvitation.length,
           table_id: selectedTable?.tableId as string,
           min_order: Number(selectedTable?.minOrder),
           payment_method: 'Credit Card',
           member_invited: selectedInvitation.map(item => item.customerId),
           is_full_payment: isPayFull ? 1 : 0,
-          coupon_used: 0,
+          coupon_used: coupons.length,
         },
       });
+      if (coupons?.length) {
+        await NightlifeService.putConfirmUseCoupon({id: coupons[0].id});
+      }
       setIsLoading(false);
       setTimeout(() => {
         bookingSheetRef.current?.close();
@@ -641,6 +650,12 @@ function BookingTableScreen({route, navigation}: Props) {
             selectedDate={selectedDate}
             onPay={handleOnPay}
             isLoading={isLoading}
+            coupons={coupons}
+            onCouponApplied={coupon => setCoupons([...coupons, ...[coupon]])}
+            onRemoveCoupon={coupon => {
+              setCoupons(coupons.filter(el => el.couponId !== coupon.couponId));
+              openToast('success', 'Coupon has been removed');
+            }}
           />
         )}
       </BottomSheetModal>

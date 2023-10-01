@@ -129,4 +129,5 @@ export interface CouponInterface {
   createdAt: string;
   isDisabled: number;
   source: string;
+  couponId: string;
 }

@@ -163,6 +163,7 @@ export default function CardPromo({
       )}
 
       <ModalPromo
+        isClaim={false}
         show={showModalPromo}
         hide={() => {
           setShowModalPromo(false);

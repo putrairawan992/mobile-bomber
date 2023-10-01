@@ -1,6 +1,7 @@
 import {APIResponse} from '../interfaces/BaseApiResponse';
 import {
   PayloadBookingInvitationInterface,
+  PayloadClaimCouponInterface,
   PayloadGetWalkInTicketInterface,
   PayloadPostBookingTableInterface,
   PayloadPostBookingWalkInInterface,
@@ -127,6 +128,42 @@ export const NightlifeService = {
     payload: PayloadBookingInvitationInterface;
   }): Promise<APIResponse<unknown>> => {
     const response = await ax.post(`${URL}/post_table_invitation`, payload);
+    return response.data;
+  },
+  postClaimCoupon: async ({
+    payload,
+  }: {
+    payload: PayloadClaimCouponInterface;
+  }): Promise<APIResponse<unknown>> => {
+    const response = await ax.post(`${URL}/post_claim_coupon`, payload);
+    return response.data;
+  },
+  getClaimedCoupon: async ({
+    customer_id,
+  }: {
+    customer_id: string;
+  }): Promise<APIResponse<CouponInterface[]>> => {
+    const response = await ax.get(
+      `${URL}/get_claimed_coupon_list/${customer_id}`,
+    );
+    return response.data;
+  },
+  getCouponAvaibility: async ({
+    coupon_id,
+  }: {
+    coupon_id: string;
+  }): Promise<APIResponse<CouponInterface[]>> => {
+    const response = await ax.get(
+      `${URL}/check_is_coupon_available/${coupon_id}`,
+    );
+    return response.data;
+  },
+  putConfirmUseCoupon: async ({
+    id,
+  }: {
+    id: string;
+  }): Promise<APIResponse<unknown>> => {
+    const response = await ax.put(`${URL}/confirmed_use_this_coupon`, {id});
     return response.data;
   },
 };

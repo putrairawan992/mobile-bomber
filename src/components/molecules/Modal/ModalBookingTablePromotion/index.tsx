@@ -1,26 +1,59 @@
-import {ScrollView, StyleSheet, View} from 'react-native';
-import React from 'react';
+/* eslint-disable react-native/no-inline-styles */
+import {ScrollView, TouchableOpacity, View} from 'react-native';
+import React, {useEffect, useState} from 'react';
 import Modal from 'react-native-modal';
 import DefaultText from '../../../atoms/Text/DefaultText';
-import {Gap} from '../../../atoms';
-import Header from '../../Header';
-import colors from '../../../../styles/colors';
+import {EntryAnimation, Gap, Loading, Section, Text} from '../../../atoms';
+import {Colors} from '../../../../theme';
+import {ArrowLeft} from 'iconsax-react-native';
+import useTheme from '../../../../theme/useTheme';
+import {
+  CouponInterface,
+  PlaceInterface,
+} from '../../../../interfaces/PlaceInterface';
+import {NightlifeService} from '../../../../service/NightlifeService';
+import {useAppSelector} from '../../../../hooks/hooks';
 import CardCoupon from '../../Card/CardCoupon';
 
 interface ModalBookingTablePromotion {
   show: boolean;
   hide: () => void;
-  onApplied: () => void;
+  onApplied: (coupon: CouponInterface) => void;
+  placeData: PlaceInterface | null;
+  appliedCoupons: string[];
 }
 
 export default function ModalBookingTablePromotion({
   show,
   hide,
   onApplied,
+  placeData,
+  appliedCoupons,
 }: ModalBookingTablePromotion) {
-  const onSuccess = () => {
+  const {user} = useAppSelector(state => state.user);
+  const theme = useTheme();
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [couponList, setCouponList] = useState<CouponInterface[]>([]);
+  useEffect(() => {
+    async function getCouponList() {
+      try {
+        setIsLoading(true);
+        const response = await NightlifeService.getClaimedCoupon({
+          customer_id: user.id,
+        });
+        if (!response.error) {
+          setCouponList(response.data);
+        }
+        setIsLoading(false);
+      } catch (error: any) {}
+    }
+    show && getCouponList();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [show]);
+
+  const onSuccess = (coupon: CouponInterface) => {
     hide();
-    onApplied();
+    onApplied(coupon);
   };
 
   return (
@@ -29,49 +62,47 @@ export default function ModalBookingTablePromotion({
       isVisible={show}
       onBackButtonPress={hide}
       onBackdropPress={hide}>
+      {isLoading && <Loading />}
       <View className="absolute bottom-0 right-0 left-0 top-0 bg-container rounded-t-xl bg-neutral-800 pt-4">
         <Gap height={10} />
-        <Header
-          hasBackBtn
-          transparent
-          title="Promotion"
-          titleStyle={styles.title}
-          onBackPress={hide}
-        />
+        <TouchableOpacity
+          style={{position: 'absolute', zIndex: 999, left: 16, top: 32}}
+          onPress={hide}>
+          <ArrowLeft size={24} color={theme?.colors.ICON} />
+        </TouchableOpacity>
+        <Section isCenter padding="10px 0px">
+          <Text
+            color={Colors['warning-500']}
+            label="Promotion"
+            fontWeight="semi-bold"
+            variant="base"
+          />
+        </Section>
         <Gap height={15} />
         <ScrollView showsVerticalScrollIndicator={false}>
           <View className="px-4">
             <View className="bg-[#2D2D2D] p-4 rounded-xl">
               <DefaultText
-                title="Inside Omni"
+                title={`Inside ${placeData?.name}`}
                 titleClassName="text-base font-inter-bold"
               />
               <Gap height={10} />
-              <CardCoupon
-                type="free"
-                title="Free 2 cocktail"
-                subtitle="Minimum purchase NT 15,000"
-                containerClassName="mx-0"
-                contentClassName="bg-neutral-800"
-                onSuccess={onSuccess}
-              />
-              <CardCoupon
-                type="discount"
-                title="Discount  50% for ladies"
-                subtitle="Entry before 11pm"
-                warning="4 hours before promo ended"
-                containerClassName="mx-0"
-                contentClassName="bg-neutral-800"
-                onSuccess={onSuccess}
-              />
-              <CardCoupon
-                type="discount"
-                title="Discount NT 3,000 for any Food"
-                subtitle="Entry before 11pm"
-                containerClassName="mx-0"
-                contentClassName="bg-neutral-800"
-                onSuccess={onSuccess}
-              />
+              {couponList
+                ?.filter(el => el.source === 'club_owner')
+                ?.map((item, idx) => (
+                  <EntryAnimation index={idx} key={`internal_${idx}`}>
+                    <CardCoupon
+                      couponType="discount"
+                      title={item.title}
+                      subtitle={item.description}
+                      containerClassName="mx-0"
+                      contentClassName="bg-neutral-800"
+                      onSuccess={onSuccess}
+                      data={item}
+                      appliedCoupons={appliedCoupons}
+                    />
+                  </EntryAnimation>
+                ))}
             </View>
             <Gap height={20} />
             <View className="bg-[#2D2D2D] p-4 rounded-xl">
@@ -80,30 +111,22 @@ export default function ModalBookingTablePromotion({
                 titleClassName="text-base font-inter-bold"
               />
               <Gap height={10} />
-              <CardCoupon
-                type="discount"
-                title="Discount NT 3,000 for any Food"
-                subtitle="Entry before 11pm"
-                containerClassName="mx-0"
-                contentClassName="bg-neutral-800"
-                onSuccess={onSuccess}
-              />
-              <CardCoupon
-                type="discount"
-                title="Discount NT 3,000 for any Food"
-                subtitle="Entry before 11pm"
-                containerClassName="mx-0"
-                contentClassName="bg-neutral-800"
-                onSuccess={onSuccess}
-              />
-              <CardCoupon
-                type="discount"
-                title="Discount NT 3,000 for any Food"
-                subtitle="Entry before 11pm"
-                containerClassName="mx-0"
-                contentClassName="bg-neutral-800"
-                onSuccess={onSuccess}
-              />
+              {couponList
+                ?.filter(el => el.source === 'internal_plattform')
+                ?.map((item, idx) => (
+                  <EntryAnimation index={idx} key={`internal_${idx}`}>
+                    <CardCoupon
+                      couponType="discount"
+                      title={item.title}
+                      subtitle={item.description}
+                      containerClassName="mx-0"
+                      contentClassName="bg-neutral-800"
+                      onSuccess={onSuccess}
+                      data={item}
+                      appliedCoupons={appliedCoupons}
+                    />
+                  </EntryAnimation>
+                ))}
             </View>
 
             <Gap height={30} />
@@ -113,9 +136,3 @@ export default function ModalBookingTablePromotion({
     </Modal>
   );
 }
-
-const styles = StyleSheet.create({
-  title: {
-    color: colors.white,
-  },
-});

@@ -98,10 +98,12 @@ export default function Offers({route}: Props) {
           .map((item, idx) => (
             <EntryAnimation index={idx} key={`coupon_owner_${idx}`}>
               <CardCoupon
-                type="discount"
+                couponType="discount"
                 title={item.title}
                 subtitle={item.description}
                 data={item}
+                isClaim
+                appliedCoupons={[]}
               />
             </EntryAnimation>
           ))}
@@ -116,10 +118,12 @@ export default function Offers({route}: Props) {
           .map((item, idx) => (
             <EntryAnimation index={idx} key={`coupon_owner_${idx}`}>
               <CardCoupon
-                type="discount"
+                couponType="discount"
                 title={item.title}
                 subtitle={item.description}
                 data={item}
+                isClaim
+                appliedCoupons={[]}
               />
             </EntryAnimation>
           ))}
