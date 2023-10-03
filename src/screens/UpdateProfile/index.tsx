@@ -6,27 +6,37 @@ import {
   TouchableOpacity,
   TextInput,
 } from 'react-native';
-import React, { useContext, useState } from 'react';
-import { DefaultText, Gap, Layout, Loading } from '../../components/atoms';
-import { Header } from '../../components/molecules';
+import React, {useContext, useState} from 'react';
+import {DefaultText, Gap, Layout, Loading} from '../../components/atoms';
+import {Header} from '../../components/molecules';
 import colors from '../../styles/colors';
-import { IcPencil, IcProfile } from '../../theme/Images';
+import {IcPencil, IcProfile} from '../../theme/Images';
 import LinearGradient from 'react-native-linear-gradient';
-import { Avatar } from '../AvatarProfile';
-import { ImageOrVideo } from 'react-native-image-crop-picker';
-import { ModalToastContext } from '../../context/AppModalToastContext';
-import { ProfileService } from '../../service/ProfileService';
-import { useAppSelector } from '../../hooks/hooks';
-import { navigationRef } from '../../navigation/RootNavigation';
+import {Avatar} from '../AvatarProfile';
+import {ImageOrVideo} from 'react-native-image-crop-picker';
+import {ModalToastContext} from '../../context/AppModalToastContext';
+import {ProfileService} from '../../service/ProfileService';
+import {useAppSelector} from '../../hooks/hooks';
+import {navigationRef} from '../../navigation/RootNavigation';
+import {MainStackParams} from '../../navigation/MainScreenStack';
+import {NativeStackScreenProps} from '@react-navigation/native-stack';
 
-export default function UpdateProfile() {
+type Props = NativeStackScreenProps<
+  MainStackParams,
+  'UpdateProfile',
+  'MyStack'
+>;
+
+export default function UpdateProfile({route}: Props) {
   const [about, setAbout] = useState<string>('');
+  const linkImage = route.params.linkImage;
   const [username, setUsername] = useState<string>('');
-  const [isShowUploadProfile, setIsShowUploadProfile] = useState<boolean>(false);
+  const [isShowUploadProfile, setIsShowUploadProfile] =
+    useState<boolean>(false);
   const [images, setImages] = useState<any | undefined>();
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const { user } = useAppSelector(state => state.user);
-  const { setIsShowToast, setToastMessage, setType } =
+  const {user} = useAppSelector(state => state.user);
+  const {setIsShowToast, setToastMessage, setType} =
     useContext(ModalToastContext);
 
   const openToast = (toastType: 'success' | 'error', message: string) => {
@@ -36,30 +46,42 @@ export default function UpdateProfile() {
   };
 
   const onPickImage = async () => {
-    setIsShowUploadProfile(!isShowUploadProfile);
+    setIsShowUploadProfile(true);
+  };
+
+  const closePickImage = async () => {
+    setIsShowUploadProfile(false);
   };
 
   const onAvatarChange = (image: ImageOrVideo) => {
-    setImages(image.path);
+    setImages(image);
   };
 
   const updateProfileList = async () => {
     setIsLoading(true);
+    let formData = new FormData();
+    formData.append('file', images ?? '');
+
+    console.log(formData);
+
     try {
       const response = await ProfileService.updateProflie({
         payload: {
           customer_id: user?.id,
           username: username,
-          photo_url: images,
-          bio: about
+          photo_url: linkImage,
+          bio: about,
         },
+        data: formData,
       });
       openToast('success', response.message);
-      navigationRef.navigate('Profile' as never)
+      navigationRef.navigate('Profile' as never);
       setIsLoading(false);
     } catch (err: any) {
+      console.log('err-<', err.response.data);
+
       setIsLoading(false);
-      openToast('error', err.response.data.message);
+      openToast('error', err.response.data.message || 'Internal Error');
     }
   };
 
@@ -81,7 +103,12 @@ export default function UpdateProfile() {
           <Gap height={10} />
           <View className="flex-row items-center">
             <View className="bg-neutral-400 w-[64] h-[64] rounded-full justify-center items-center mr-3">
-              <Avatar onChange={onAvatarChange} onPickImage={onPickImage} visible={isShowUploadProfile} source={IcProfile} />
+              <Avatar
+                onChange={onAvatarChange}
+                onPickImage={closePickImage}
+                visible={isShowUploadProfile}
+                source={IcProfile}
+              />
             </View>
 
             <TouchableOpacity
@@ -133,20 +160,27 @@ export default function UpdateProfile() {
             titleClassName="font-poppins-regular text-xs text-neutral-400 self-end mt-1"
           />
         </View>
-      </ScrollView> 
+      </ScrollView>
 
-      {isLoading ? <Loading /> : <TouchableOpacity className="mt-3" activeOpacity={0.8} onPress={() => updateProfileList()}>
-        <LinearGradient
-          className="py-4"
-          colors={['#AA5AFA', '#C111D5']}
-          start={{ x: 0, y: 0 }}
-          end={{ x: 1, y: 0 }}>
-          <DefaultText
-            title="Update"
-            titleClassName="text-base font-inter-bold text-center"
-          />
-        </LinearGradient>
-      </TouchableOpacity>}
+      {isLoading ? (
+        <Loading />
+      ) : (
+        <TouchableOpacity
+          className="mt-3"
+          activeOpacity={0.8}
+          onPress={() => updateProfileList()}>
+          <LinearGradient
+            className="py-4"
+            colors={['#AA5AFA', '#C111D5']}
+            start={{x: 0, y: 0}}
+            end={{x: 1, y: 0}}>
+            <DefaultText
+              title="Update"
+              titleClassName="text-base font-inter-bold text-center"
+            />
+          </LinearGradient>
+        </TouchableOpacity>
+      )}
     </Layout>
   );
 }

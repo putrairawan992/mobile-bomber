@@ -25,8 +25,12 @@ import {useDispatch} from 'react-redux';
 import auth from '@react-native-firebase/auth';
 import {useAppSelector} from '../hooks/hooks';
 import {getUserProfile} from '../service/AuthService';
+import {NativeStackScreenProps} from '@react-navigation/native-stack';
+import {MainStackParams} from '../navigation/MainScreenStack';
 
-function ProfileScreen() {
+type Props = NativeStackScreenProps<MainStackParams, 'Profile', 'MyStack'>;
+
+function ProfileScreen({navigation}: Props) {
   const {profile} = useAppSelector(state => state.profile);
   const dispatch = useDispatch();
   const onLogOut = async () => {
@@ -48,6 +52,8 @@ function ProfileScreen() {
     );
   };
 
+  console.log('profile?.user_profile[0]', profile?.user_profile[0].photoUrl);
+
   return (
     <Layout>
       <ScrollView showsVerticalScrollIndicator={false}>
@@ -56,12 +62,12 @@ function ProfileScreen() {
             <View className="bg-neutral-400 w-[64] h-[64] rounded-full justify-center items-center">
               <Image
                 source={
-                  profile?.user_profile[0]?.photoUrl
-                    ? {uri: profile.user_profile[0].photoUrl}
+                  profile?.user_profile[0].photoUrl
+                    ? {uri: profile?.user_profile[0].photoUrl}
                     : IcProfile
                 }
                 className={
-                  profile?.user_profile[0]?.photoUrl
+                  profile?.user_profile[0].photoUrl
                     ? 'w-full h-full rounded-full'
                     : 'w-[24] h-[24]'
                 }
@@ -79,7 +85,9 @@ function ProfileScreen() {
                   activeOpacity={0.7}
                   className="p-[5px]"
                   onPress={() =>
-                    navigationRef.navigate('UpdateProfile' as never)
+                    navigation.navigate('UpdateProfile', {
+                      linkImage: profile?.user_profile[0].photoUrl,
+                    })
                   }>
                   <Image source={IcPencil} className="w-[16] h-[16]" />
                 </TouchableOpacity>

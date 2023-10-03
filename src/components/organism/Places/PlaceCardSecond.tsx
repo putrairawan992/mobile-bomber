@@ -1,33 +1,36 @@
 /* eslint-disable react-native/no-inline-styles */
-import { ArrowDown2,  Star1 } from 'iconsax-react-native';
-import React from 'react';
+import {ArrowDown2, Star1} from 'iconsax-react-native';
+import React, { useEffect, useState } from 'react';
 import {
   Image,
+  Linking,
+  Platform,
   ScrollView,
   TouchableOpacity,
   View,
 } from 'react-native';
-import { useImageAspectRatio } from '../../../hooks/useImageAspectRatio';
+import {useImageAspectRatio} from '../../../hooks/useImageAspectRatio';
 import {
   PlaceInterface,
   PlaceOperationalTimeInterface,
 } from '../../../interfaces/PlaceInterface';
 import useTheme from '../../../theme/useTheme';
-import {
-  DefaultText,
-  Gap,
-  Layout,
-  Section,
-  Text,
-} from '../../atoms';
+import {DefaultText, Gap, Layout, Section, Text} from '../../atoms';
 import styles from './Style';
-import { Colors, Images } from '../../../theme';
-import { WIDTH } from '../../../utils/config';
+import {Colors, Images} from '../../../theme';
+import {WIDTH} from '../../../utils/config';
 import Carousel from 'react-native-reanimated-carousel';
-import { IcLegal } from '../../../theme/Images';
+import {IcLegal} from '../../../theme/Images';
+import Geolocation from 'react-native-geolocation-service';
+import { currency } from '../../../utils/function';
+
+const SingsouLocation = {
+  latitude: 25.0391667,
+  longitude: 121.5067244,
+};
 
 interface PlaceCardProps {
-  item: PlaceInterface;
+  data: PlaceInterface;
   onSelect: (id: string) => void;
   isPlaceDetail?: boolean;
   onOpenSchedule?: () => void;
@@ -37,19 +40,88 @@ interface PlaceCardProps {
 }
 
 export const PlaceCardSecond = ({
-  item,
+  data,
   isPlaceDetail = false,
   onOpenSchedule,
   operation,
 }: PlaceCardProps) => {
   const theme = useTheme();
   const aspectRatio = useImageAspectRatio(
-    item?.logo ?? 'https://bomber.app/club-logo/wave.png',
-  );
+    data?.logo ?? 'https://bomber.app/club-logo/wave.png',
+  ); 
+  const [currentLocation, setCurrentLocation] = useState<any>(null);
+  const [distanceToSingsou, setDistanceToSingsou] = useState<number | null>(null);
+
+
+  useEffect(() => {
+    Geolocation.getCurrentPosition(
+      (position) => {
+        const { latitude, longitude } = position.coords;
+        setCurrentLocation({ latitude, longitude });
+
+        const distance = calculateDistance(
+          position.coords.latitude,
+          position.coords.longitude,
+          SingsouLocation.latitude,
+          SingsouLocation.longitude
+        );
+        setDistanceToSingsou(distance);
+      },
+      (error) => {
+        console.error(error);
+      },
+      { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 }
+    );
+  }, []);
+
+  const calculateDistance = (
+    lat1: number,
+    lon1: number,
+    lat2: number,
+    lon2: number
+  ): number => {
+    const R = 6371; // Radius of the Earth in kilometers
+    const dLat = deg2rad(lat2 - lat1);
+    const dLon = deg2rad(lon2 - lon1);
+    const a =
+      Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+      Math.cos(deg2rad(lat1)) *
+        Math.cos(deg2rad(lat2)) *
+        Math.sin(dLon / 2) *
+        Math.sin(dLon / 2);
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    const distance = R * c;
+    return distance;
+  };
+
+  const deg2rad = (deg: number): number => {
+    return deg * (Math.PI / 180);
+  };
+
+  const openMapDirection = () => {
+    const url: any = Platform.select({
+      ios: `comgooglemaps://?center=${SingsouLocation.latitude},${SingsouLocation.longitude}&q=${SingsouLocation.latitude},${SingsouLocation.longitude}&zoom=14&views=traffic"`,
+      android: `geo://?q=${SingsouLocation.latitude},${SingsouLocation.longitude}`,
+    });
+    Linking.canOpenURL(url)
+      .then(supported => {
+        if (supported) {
+          return Linking.openURL(url);
+        } else {
+          const browser_url = `https://www.google.de/maps/@${SingsouLocation.latitude},${SingsouLocation.longitude}`;
+          return Linking.openURL(browser_url);
+        }
+      })
+      .catch(() => {
+        if (Platform.OS === 'ios') {
+          Linking.openURL(`maps://?q=${SingsouLocation.latitude},${SingsouLocation.longitude}`);
+        }
+      });
+  };
 
   const renderSchedule = () => {
     return (
-      <View className='ml-2'>
+      <View className="ml-2">
         <Section isRow>
           <Text
             label={operation?.isClose ? 'Closed' : 'Open Now'}
@@ -80,13 +152,13 @@ export const PlaceCardSecond = ({
   const dataImageSldier: any = [
     {
       urlImage: Images.bannerPlaceDetail,
-      itemTag: [{ name: 'LGBT' }, { name: 'EDM' }, { name: 'Rooftop' }]
+      itemTag: [{name: 'LGBT'}, {name: 'EDM'}, {name: 'Rooftop'}],
     },
     {
       urlImage: Images.bannerPlaceDetailv2,
-      itemTag: [{ name: 'LGBT' }, { name: 'EDM' }, { name: 'Rooftop' }]
-    }
-  ]
+      itemTag: [{name: 'LGBT'}, {name: 'EDM'}, {name: 'Rooftop'}],
+    },
+  ];
 
   return (
     <Layout>
@@ -98,8 +170,8 @@ export const PlaceCardSecond = ({
         data={dataImageSldier}
         scrollAnimationDuration={5000}
         // onSnapToItem={index => setPromoActive(index)}
-        renderItem={({ item }: any) => (
-          <TouchableOpacity activeOpacity={0.7} style={{ alignSelf: 'center' }}>
+        renderItem={({item}: any) => (
+          <TouchableOpacity activeOpacity={0.7} style={{alignSelf: 'center'}}>
             <Image
               resizeMode="cover"
               source={item.urlImage}
@@ -108,7 +180,9 @@ export const PlaceCardSecond = ({
                 height: WIDTH / 1.5,
               }}
             />
-            <Section padding="16px 16px" style={{ position: 'absolute', top: 22 }}>
+            <Section
+              padding="16px 16px"
+              style={{position: 'absolute', top: 22}}>
               <ScrollView horizontal>
                 {item.itemTag.map((cat: any, idx: number) => {
                   return (
@@ -126,34 +200,46 @@ export const PlaceCardSecond = ({
       <TouchableOpacity
         activeOpacity={0.7}
         className="flex-row items-center py-2 px-1 mb-2">
-        <DefaultText title='OMNI NIGHT CLUB' titleClassName="ml-1 text-xl text-secondary" />
+        <DefaultText
+          title="OMNI NIGHT CLUB"
+          titleClassName="ml-1 text-xl text-secondary"
+        />
         <Gap width={5} />
-        <Image source={IcLegal} resizeMode="contain" className="w-[20] h-[20]" />
+        <Image
+          source={IcLegal}
+          resizeMode="contain"
+          className="w-[20] h-[20]"
+        />
       </TouchableOpacity>
       <Gap height={10} />
       {renderSchedule()}
       <Gap height={10} />
       {isPlaceDetail ? (
-        <Section padding='10px 10px' isRow isBetween>
-          <View className='border-b-[1px] border-white w-36'>
-            <Text className='' label="Songsou, Taipei City" />
+        <Section padding="10px 10px" isRow isBetween>
+          <View className="border-b-[1px] border-white w-36">
+            <TouchableOpacity
+              onPress={() => openMapDirection()}
+              activeOpacity={0.7}>
+              <Text className="" label="Songsou, Taipei City" />
+            </TouchableOpacity>
           </View>
-          <Text className='ml-2' label='5 Km' />
+          {distanceToSingsou !== null &&
+          <Text className="ml-2" label={`${currency(distanceToSingsou.toFixed(2),true)} km`}/>}
         </Section>
       ) : (
-        <View className='ml-2'>
+        <View className="ml-2">
           <Image
             source={{
-              uri: item?.logo ?? 'https://bomber.app/club-logo/wave.png',
+              uri: data?.logo ?? 'https://bomber.app/club-logo/wave.png',
             }}
-            style={{ height: 56, aspectRatio, marginBottom: 50 }}
+            style={{height: 56, aspectRatio, marginBottom: 50}}
           />
 
           <Text label="Featured Today" />
           <Gap height={8} />
           <Section isRow>
-            {Array.isArray(item.featuredToday) &&
-              item.featuredToday.map((feat: string, idx: number) => {
+            {Array.isArray(data.featuredToday) &&
+              data.featuredToday.map((feat: string, idx: number) => {
                 return (
                   <View
                     key={`category_${idx}`}
@@ -183,16 +269,16 @@ export const PlaceCardSecond = ({
           <Section isRow isBetween>
             <Section isRow>
               {[1, 2, 3, 4].map((star: number) => (
-                <View style={{ marginRight: 6 }} key={`star_${star}`}>
+                <View style={{marginRight: 6}} key={`star_${star}`}>
                   <Star1 size={16} color="#3CA6EC" variant="Bold" />
                 </View>
               ))}
-              <Text label={`${item.rating.toString()} / 5`} color="#A7B1C1" />
+              <Text label={`${data.rating.toString()} / 5`} color="#A7B1C1" />
             </Section>
             <Text variant="small" fontWeight="bold" label="5km" />
           </Section>
           <Gap height={10} />
-          <Text variant="small" label={item.address} />
+          <Text variant="small" label={data.address} />
         </Section>
       )}
     </Layout>
