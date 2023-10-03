@@ -13,7 +13,7 @@ import Modal from 'react-native-modal';
 interface AvatarProps extends ImageProps {
   onChange?: (file: ImageOrVideo) => void;
   visible?: boolean;
-  onPickImage?:any
+  onPickImage?: any;
 }
 
 export const Avatar = (props: AvatarProps) => {
@@ -45,13 +45,22 @@ export const Avatar = (props: AvatarProps) => {
       .finally(props.onPickImage());
   };
 
-  
   const ImageIcon = () => {
-    return <Image style={styles.icon} source={require('../assets/images/image-gallery.png')} />;
+    return (
+      <Image
+        style={styles.icon}
+        source={require('../assets/images/image-gallery.png')}
+      />
+    );
   };
-  
+
   const CameraIcon = () => {
-    return <Image style={styles.icon} source={require('../assets/images/photo-camera.png')} />;
+    return (
+      <Image
+        style={styles.icon}
+        source={require('../assets/images/photo-camera.png')}
+      />
+    );
   };
 
   return (
@@ -65,19 +74,17 @@ export const Avatar = (props: AvatarProps) => {
       </TouchableOpacity>
       <Modal
         isVisible={props.visible}
-        onBackButtonPress={props.onPickImage()}
-        onBackdropPress={props.onPickImage()}
+        onBackButtonPress={() => props.onPickImage()}
+        onBackdropPress={() => props.onPickImage()}
         style={{justifyContent: 'flex-end', margin: 0}}>
         <SafeAreaView style={styles.options}>
           <TouchableOpacity style={styles.option} onPress={chooseImage}>
-         
-            <ImageIcon/>
+            <ImageIcon />
             <Text>Library </Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.option} onPress={openCamera}>
-          
-           <CameraIcon/>
-           <Text>Camera </Text>
+            <CameraIcon />
+            <Text>Camera </Text>
           </TouchableOpacity>
         </SafeAreaView>
       </Modal>

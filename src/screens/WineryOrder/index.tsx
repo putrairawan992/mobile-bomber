@@ -1,8 +1,8 @@
-import React, {createRef, useEffect, useState} from 'react';
-import {Layout, Loading, Spacer, TextInput} from '../../components/atoms';
-import {Header} from '../../components/molecules';
+import React, { createRef, useEffect, useState } from 'react';
+import { Layout, Loading, Spacer, TextInput } from '../../components/atoms';
+import { Header } from '../../components/molecules';
 import PagerView from 'react-native-pager-view';
-import {FlatList, StyleSheet, TouchableOpacity, View} from 'react-native';
+import { FlatList, StyleSheet, TouchableOpacity, View } from 'react-native';
 import DefaultText from '../../components/atoms/Text/DefaultText';
 import Champagne from './Champagne';
 import Gin from './Gin';
@@ -14,9 +14,9 @@ import ModalCartWineryOrder from '../../components/molecules/Modal/ModalCartWine
 import ModalWineryOrderPay from '../../components/molecules/Modal/ModalWineryOrderPay';
 import ModalWineryOrderBillGenerator from '../../components/molecules/Modal/ModalWineryOrderBillGenerator';
 import ModalWineryOrderDetail from '../../components/molecules/Modal/ModalWineryOrderDetail';
-import {EventService} from '../../service/EventService';
-import {NightlifeService} from '../../service/NightlifeService';
-import {ProductBasedOnClubIdInterface} from '../../interfaces/PlaceInterface';
+import { EventService } from '../../service/EventService';
+import { NightlifeService } from '../../service/NightlifeService';
+import { ProductBasedOnClubIdInterface } from '../../interfaces/PlaceInterface';
 export interface FriendInterface {
   customerId: string;
   fullName: string;
@@ -84,7 +84,7 @@ export default function WineryOrder() {
     let findItem: any = Boolean(
       checkoutItems.find(
         (item: any) =>
-          item.englishProductTitle === values.englishProductTitle &&
+          item.quantity > 0 && item.englishProductTitle === values.englishProductTitle &&
           item.chineseProductTitle === values.chineseProductTitle,
       ),
     );
@@ -94,7 +94,7 @@ export default function WineryOrder() {
       setCheckoutItems(
         checkoutItems.filter(
           (item: any) =>
-            item.englishProductTitle !== values.englishProductTitle &&
+            item.quantity !== 0 && item.englishProductTitle !== values.englishProductTitle &&
             item.chineseProductTitle !== values.chineseProductTitle,
         ),
       );
@@ -136,19 +136,17 @@ export default function WineryOrder() {
           horizontal={true}
           data={menu}
           keyExtractor={(_, key) => key.toString()}
-          renderItem={({index, item}) => {
+          renderItem={({ index, item }) => {
             return (
               <TouchableOpacity
                 onPress={() => ref.current?.setPage(index)}
                 activeOpacity={0.7}
-                className={`py-3 px-6 border-b-[2px] ${
-                  index === initialPage ? 'border-b-primary' : 'border-b-white'
-                }`}>
+                className={`py-3 px-6 border-b-[2px] ${index === initialPage ? 'border-b-primary' : 'border-b-white'
+                  }`}>
                 <DefaultText
                   title={item}
-                  titleClassName={`text-center font-inter-medium ${
-                    index === initialPage ? 'text-primary' : 'text-white'
-                  }`}
+                  titleClassName={`text-center font-inter-medium ${index === initialPage ? 'text-primary' : 'text-white'
+                    }`}
                 />
               </TouchableOpacity>
             );
@@ -188,8 +186,8 @@ export default function WineryOrder() {
         <LinearGradient
           className="py-4"
           colors={['#AA5AFA', '#C111D5']}
-          start={{x: 0, y: 0}}
-          end={{x: 1, y: 0}}>
+          start={{ x: 0, y: 0 }}
+          end={{ x: 1, y: 0 }}>
           <DefaultText
             title="View Cart"
             titleClassName="text-base font-inter-bold text-center"
@@ -200,6 +198,7 @@ export default function WineryOrder() {
       <ModalCartWineryOrder
         show={showCart}
         selectedCart={checkoutItems}
+        actionChangeGet={handleQuantityChange}
         hide={() => {
           setShowCart(false);
           setCheckoutItems([]);

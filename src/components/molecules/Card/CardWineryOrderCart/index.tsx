@@ -5,21 +5,17 @@ import {IcDelete, ImgWineryOrder} from '../../../../theme/Images';
 import {formatCurrency} from '../../../../utils/currency';
 
 interface CardWineryOrderCart {
-  onRemove: () => void;
+  onRemove: (val:number) => void;
   actionAkumulasi(val: number, price: number): void;
   data: any;
-  length: number;
 }
 
 export default function CardWineryOrderCart({
   data,
   onRemove,
   actionAkumulasi,
-  length
 }: CardWineryOrderCart) {
   const [value, setValue] = useState<number>(data?.quantity);
-
-console.log("winnery",data);
 
   useEffect(() => {
     actionAkumulasi(value, data?.price);
@@ -57,7 +53,7 @@ console.log("winnery",data);
       </View>
       <View className="w-full h-[1] bg-neutral-700 my-3" />
       <View className="flex-row items-center justify-between">
-        <TouchableOpacity onPress={() => onRemove()} activeOpacity={0.7}>
+        <TouchableOpacity onPress={() => onRemove(value - 1)} activeOpacity={0.7}>
           <Image
             source={IcDelete}
             resizeMode="contain"
@@ -68,7 +64,7 @@ console.log("winnery",data);
           <TouchableOpacity
             activeOpacity={0.7}
             onPress={() => {
-              value > 1 ? changeValueMin(value - 1) : onRemove();
+              value > 1 ? changeValueMin(value - 1) : onRemove(value - 1);
             }}>
             <DefaultText title="-" titleClassName="text-xl text-neutral-400" />
           </TouchableOpacity>
