@@ -77,7 +77,7 @@ export type MainStackParams = {
   RequestSong: undefined;
   HistoryRequestSong: undefined;
   UpdateProfile: {
-    linkImage?: any;
+    profileData?: any;
   };
   VerificationID: undefined;
   VerificationID2: undefined;

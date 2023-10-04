@@ -86,7 +86,7 @@ function ProfileScreen({navigation}: Props) {
                   className="p-[5px]"
                   onPress={() =>
                     navigation.navigate('UpdateProfile', {
-                      linkImage: profile?.user_profile[0].photoUrl,
+                      profileData: profile?.user_profile[0],
                     })
                   }>
                   <Image source={IcPencil} className="w-[16] h-[16]" />

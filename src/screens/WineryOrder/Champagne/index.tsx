@@ -5,12 +5,12 @@ import {ProductBasedOnClubIdInterface} from '../../../interfaces/PlaceInterface'
 
 interface ChampagneInterface {
   products: ProductBasedOnClubIdInterface[];
-  actionChangeGetProduct(values: any): void;
+  handleQuantityChange(values: any): void;
 }
 
 export default function Champagne({
   products,
-  actionChangeGetProduct,
+  handleQuantityChange,
 }: ChampagneInterface) {
   return (
     <ScrollView showsVerticalScrollIndicator={false}>
@@ -19,7 +19,7 @@ export default function Champagne({
           return (
             <CardWineryOrder
               key={item?.productId}
-              actionChangeGetProduct={actionChangeGetProduct}
+              handleQuantityChange={handleQuantityChange}
               item={item}
             />
           );

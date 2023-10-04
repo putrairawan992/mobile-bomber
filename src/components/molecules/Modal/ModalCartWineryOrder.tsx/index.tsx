@@ -25,7 +25,7 @@ interface ModalCartWineryOrder {
   show: boolean;
   hide: () => void;
   onCheckout: () => void;
-  actionChangeGet:any;
+  handleQuantityChange: any;
   selectedCart: any;
 }
 
@@ -34,7 +34,6 @@ export default function ModalCartWineryOrder({
   hide,
   onCheckout,
   selectedCart,
-  actionChangeGet
 }: ModalCartWineryOrder) {
   const [isCustom, setIsCustom] = useState<boolean>(false);
   const [isCustomComplete, setIsCustomComplete] = useState<boolean>(false);
@@ -56,7 +55,7 @@ export default function ModalCartWineryOrder({
 
   useEffect(() => {
     setTotalPrice(totalPrice - getPriceWinny);
-  }, [getPriceWinny]);
+  }, [getPriceWinny, totalPrice]);
 
   const onPickImage = async () => {
     const result = await launchImageLibrary({mediaType: 'photo'});
@@ -314,11 +313,10 @@ export default function ModalCartWineryOrder({
                   data={item}
                   actionAkumulasi={actionAkumulasi}
                   key={key}
-                  onRemove={(e) => {
+                  onRemove={() => {
                     setData(
                       data.filter((dt: any, index: any) => index !== key),
                     );
-                    // actionChangeGet({...item, quantity: e })
                     setGetPriceWinnty(item?.price);
                   }}
                 />

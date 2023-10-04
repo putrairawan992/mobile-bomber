@@ -162,22 +162,12 @@ export const PlaceDetailSecond = ({route, navigation}: Props) => {
 
         <Gap height={16} />
         <Section style={{flex: 1}}>
-          {initialPage === 0 && (
-            <View>
-              <Image
-                source={placeDetailDummy}
-                style={{width: '100%', height: 150}}
-              />
-            </View>
-          )}
-          {initialPage === 1 && (
-            <View>
-              <Image
-                source={placeDetailDummy}
-                style={{width: '100%', height: 150}}
-              />
-            </View>
-          )}
+          <View>
+            <Image
+              source={placeDetailDummy}
+              style={{width: '100%', height: 150}}
+            />
+          </View>
         </Section>
       </ScrollView>
 
@@ -188,10 +178,14 @@ export const PlaceDetailSecond = ({route, navigation}: Props) => {
             const isSelected = index === initialPage;
             return (
               <TabMenuSecond
-                onPress={idx => 
-                  navigation.navigate(isSelected ? 'BookingWalkIn': 'BookingTable', {
-                    placeData: data ?? null,
-                  })}
+                onPress={idx =>
+                  navigation.navigate(
+                    isSelected ? 'BookingWalkIn' : 'BookingTable',
+                    {
+                      placeData: data ?? null,
+                    },
+                  )
+                }
                 isSelected={isSelected}
                 width={WIDTH / menu.length}
                 item={item}
