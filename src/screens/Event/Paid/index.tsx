@@ -6,11 +6,17 @@ import {BookingInterface} from '../../../interfaces/BookingInterface';
 
 interface Paid {
   activeTheme: string;
+  status?: string;
   dataEvents: BookingInterface[];
   onSelect: (data: BookingInterface) => void;
 }
 
-export default function Paid({activeTheme, dataEvents, onSelect}: Paid) {
+export default function Paid({
+  activeTheme,
+  dataEvents,
+  onSelect,
+  status,
+}: Paid) {
   return (
     <ScrollView
       showsVerticalScrollIndicator={false}
@@ -22,6 +28,7 @@ export default function Paid({activeTheme, dataEvents, onSelect}: Paid) {
             <CardAuction data={value} key={key} />
           ) : (
             <CardBooking
+              status={status}
               data={value}
               key={key}
               type="Paid"

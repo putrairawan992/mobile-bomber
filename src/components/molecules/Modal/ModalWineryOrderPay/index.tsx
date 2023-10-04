@@ -8,22 +8,38 @@ import LinearGradient from 'react-native-linear-gradient';
 import {FlatList} from 'react-native';
 import {Checklist} from '../../../../assets/icons';
 import colors from '../../../../styles/colors';
+import {currency} from '../../../../utils/function';
+import QRCode from 'react-native-qrcode-svg';
 
 interface ModalWineryOrderPay {
   show: boolean;
   hide: () => void;
   onPay: () => void;
+  checkoutItems: any;
 }
 
 export default function ModalWineryOrderPay({
   show,
   hide,
   onPay,
+  checkoutItems,
 }: ModalWineryOrderPay) {
   const [splitBill, setSplitBill] = useState<boolean>(false);
   const [payment, setPayment] = useState<string>('visa');
   const [menu] = useState<string[]>(['Equally', 'Customized', 'Weighted']);
   const [initialPage, setInitialPage] = useState<number>(0);
+
+  console.log('checkoutItems', checkoutItems);
+
+  const calculateTotal = () => {
+    let total = 0;
+
+    for (const item of checkoutItems) {
+      total += item.price * item.quantity;
+    }
+
+    return total;
+  };
 
   return (
     <Modal
@@ -47,32 +63,23 @@ export default function ModalWineryOrderPay({
                 titleClassName="text-base font-inter-semibold"
               />
               <Gap height={10} />
-              <View className="flex-row items-center mb-[10]">
-                <View className="flex-1">
-                  <DefaultText
-                    title="Veuve Clicquot Brut Set x 6"
-                    titleClassName="font-inter-medium"
-                  />
-                  <DefaultText
-                    title="Table code: X3"
-                    titleClassName="text-xs font-inter-medium text-neutral-400"
-                  />
-                </View>
-                <DefaultText title="NT 36,000" />
-              </View>
-              <View className="flex-row items-center mb-[10]">
-                <View className="flex-1">
-                  <DefaultText
-                    title="Veuve Clicquot Brut Set x 6"
-                    titleClassName="font-inter-medium"
-                  />
-                  <DefaultText
-                    title="Table code: X3"
-                    titleClassName="text-xs font-inter-medium text-neutral-400"
-                  />
-                </View>
-                <DefaultText title="NT 36,000" />
-              </View>
+              {checkoutItems.map((item: any) => {
+                return (
+                  <View className="flex-row items-center mb-[10]">
+                    <View className="flex-1">
+                      <DefaultText
+                        title={`${item.englishProductTitle} x ${item.quantity}`}
+                        titleClassName="font-inter-medium"
+                      />
+                      <DefaultText
+                        title="Table code: X3"
+                        titleClassName="text-xs font-inter-medium text-neutral-400"
+                      />
+                    </View>
+                    <DefaultText title={currency(item.price * item.quantity)} />
+                  </View>
+                );
+              })}
               <Gap height={10} />
               <View className="flex-row items-center">
                 <View className="flex-1">
@@ -93,9 +100,27 @@ export default function ModalWineryOrderPay({
                   <DefaultText title="TOTAL" titleClassName="font-inter-bold" />
                 </View>
                 <DefaultText
-                  title="NT 31,500"
+                  title={`${currency(calculateTotal() + 1000)}`}
                   titleClassName="font-inter-bold"
                 />
+              </View>
+            </View>
+            <Gap height={10} />
+            <View className="px-4">
+              <DefaultText
+                title="Public QR"
+                titleClassName="font-inter-bold text-center"
+              />
+              <Gap height={10} />
+              <DefaultText
+                title={
+                  'Split bill can be paid by scan this QR,\nask your guest in bill list to scan'
+                }
+                titleClassName="text-center"
+              />
+              <Gap height={15} />
+              <View className="self-center bg-[#2D2D2D] rounded-lg p-2">
+                <QRCode value="http://awesome.link.qr" size={200} />
               </View>
             </View>
 
@@ -202,7 +227,7 @@ export default function ModalWineryOrderPay({
             start={{x: 0, y: 0}}
             end={{x: 1, y: 0}}>
             <DefaultText
-              title="Pay"
+              title="Save QR"
               titleClassName="text-base font-inter-bold text-center"
             />
           </LinearGradient>

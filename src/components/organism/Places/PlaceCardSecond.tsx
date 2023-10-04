@@ -1,6 +1,6 @@
 /* eslint-disable react-native/no-inline-styles */
 import {ArrowDown2, Star1} from 'iconsax-react-native';
-import React, { useEffect, useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   Image,
   Linking,
@@ -22,7 +22,7 @@ import {WIDTH} from '../../../utils/config';
 import Carousel from 'react-native-reanimated-carousel';
 import {IcLegal} from '../../../theme/Images';
 import Geolocation from 'react-native-geolocation-service';
-import { currency } from '../../../utils/function';
+import {currency} from '../../../utils/function';
 
 const SingsouLocation = {
   latitude: 25.0391667,
@@ -48,37 +48,34 @@ export const PlaceCardSecond = ({
   const theme = useTheme();
   const aspectRatio = useImageAspectRatio(
     data?.logo ?? 'https://bomber.app/club-logo/wave.png',
-  ); 
-  const [currentLocation, setCurrentLocation] = useState<any>(null);
-  const [distanceToSingsou, setDistanceToSingsou] = useState<number | null>(null);
-
+  );
+  const [distanceToSingsou, setDistanceToSingsou] = useState<number | null>(
+    null,
+  );
 
   useEffect(() => {
     Geolocation.getCurrentPosition(
-      (position) => {
-        const { latitude, longitude } = position.coords;
-        setCurrentLocation({ latitude, longitude });
-
+      position => {
         const distance = calculateDistance(
           position.coords.latitude,
           position.coords.longitude,
           SingsouLocation.latitude,
-          SingsouLocation.longitude
+          SingsouLocation.longitude,
         );
         setDistanceToSingsou(distance);
       },
-      (error) => {
+      error => {
         console.error(error);
       },
-      { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 }
-    );
+      {enableHighAccuracy: true, timeout: 20000, maximumAge: 1000},
+    ); // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const calculateDistance = (
     lat1: number,
     lon1: number,
     lat2: number,
-    lon2: number
+    lon2: number,
   ): number => {
     const R = 6371; // Radius of the Earth in kilometers
     const dLat = deg2rad(lat2 - lat1);
@@ -114,7 +111,9 @@ export const PlaceCardSecond = ({
       })
       .catch(() => {
         if (Platform.OS === 'ios') {
-          Linking.openURL(`maps://?q=${SingsouLocation.latitude},${SingsouLocation.longitude}`);
+          Linking.openURL(
+            `maps://?q=${SingsouLocation.latitude},${SingsouLocation.longitude}`,
+          );
         }
       });
   };
@@ -152,25 +151,37 @@ export const PlaceCardSecond = ({
   const dataImageSldier: any = [
     {
       urlImage: Images.bannerPlaceDetail,
-      itemTag: [{name: 'LGBT'}, {name: 'EDM'}, {name: 'Rooftop'}],
     },
     {
       urlImage: Images.bannerPlaceDetailv2,
-      itemTag: [{name: 'LGBT'}, {name: 'EDM'}, {name: 'Rooftop'}],
     },
   ];
 
+  const itemTag: any = [{name: 'LGBT'}, {name: 'EDM'}, {name: 'Rooftop'}];
+
   return (
     <Layout>
+      <Section
+        padding="16px 16px"
+        style={{position: 'absolute', top: 22, zIndex: 10}}>
+        <ScrollView horizontal>
+          {itemTag.map((cat: any, idx: number) => {
+            return (
+              <View key={`category_${idx}`} style={styles.piils}>
+                <Text variant="small" label={cat.name} />
+              </View>
+            );
+          })}
+        </ScrollView>
+      </Section>
       <Carousel
         loop
         width={WIDTH}
         height={WIDTH / 1.5}
         autoPlay={true}
         data={dataImageSldier}
-        scrollAnimationDuration={5000}
-        // onSnapToItem={index => setPromoActive(index)}
-        renderItem={({item}: any) => (
+        scrollAnimationDuration={6666}
+        renderItem={({item, index}: any) => (
           <TouchableOpacity activeOpacity={0.7} style={{alignSelf: 'center'}}>
             <Image
               resizeMode="cover"
@@ -182,15 +193,14 @@ export const PlaceCardSecond = ({
             />
             <Section
               padding="16px 16px"
-              style={{position: 'absolute', top: 22}}>
+              style={{position: 'absolute', bottom: -5, right: 0}}>
               <ScrollView horizontal>
-                {item.itemTag.map((cat: any, idx: number) => {
-                  return (
-                    <View key={`category_${idx}`} style={styles.piils}>
-                      <Text variant="small" label={cat.name} />
-                    </View>
-                  );
-                })}
+                <View style={styles.piils}>
+                  <Text
+                    variant="small"
+                    label={`${index + 1} / ${dataImageSldier.length}`}
+                  />
+                </View>
               </ScrollView>
             </Section>
           </TouchableOpacity>
@@ -223,8 +233,12 @@ export const PlaceCardSecond = ({
               <Text className="" label="Songsou, Taipei City" />
             </TouchableOpacity>
           </View>
-          {distanceToSingsou !== null &&
-          <Text className="ml-2" label={`${currency(distanceToSingsou.toFixed(2),true)} km`}/>}
+          {distanceToSingsou !== null && (
+            <Text
+              className="ml-2"
+              label={`${currency(distanceToSingsou.toFixed(2), true)} km`}
+            />
+          )}
         </Section>
       ) : (
         <View className="ml-2">

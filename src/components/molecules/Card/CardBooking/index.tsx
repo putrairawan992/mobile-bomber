@@ -9,6 +9,7 @@ import {BookingInterface} from '../../../../interfaces/BookingInterface';
 interface CardBooking {
   type: 'Paid' | 'Unpaid' | 'Canceled' | 'Finished';
   data?: BookingInterface;
+  status?: string;
   onSelect: (data: BookingInterface) => void;
 }
 

@@ -28,9 +28,9 @@ type Props = NativeStackScreenProps<
 >;
 
 export default function UpdateProfile({route}: Props) {
-  const [about, setAbout] = useState<string>('');
-  const linkImage = route.params.linkImage;
-  const [username, setUsername] = useState<string>('');
+  const profileData = route.params.profileData;
+  const [username, setUsername] = useState<string>(profileData?.userName);
+  const [about, setAbout] = useState<string>(profileData?.bio);
   const [isShowUploadProfile, setIsShowUploadProfile] =
     useState<boolean>(false);
   const [images, setImages] = useState<any | undefined>();
@@ -61,15 +61,12 @@ export default function UpdateProfile({route}: Props) {
     setIsLoading(true);
     let formData = new FormData();
     formData.append('file', images ?? '');
-
-    console.log(formData);
-
     try {
       const response = await ProfileService.updateProflie({
         payload: {
           customer_id: user?.id,
           username: username,
-          photo_url: linkImage,
+          photo_url: profileData?.photoUrl,
           bio: about,
         },
         data: formData,
@@ -79,7 +76,6 @@ export default function UpdateProfile({route}: Props) {
       setIsLoading(false);
     } catch (err: any) {
       console.log('err-<', err.response.data);
-
       setIsLoading(false);
       openToast('error', err.response.data.message || 'Internal Error');
     }
@@ -107,7 +103,9 @@ export default function UpdateProfile({route}: Props) {
                 onChange={onAvatarChange}
                 onPickImage={closePickImage}
                 visible={isShowUploadProfile}
-                source={IcProfile}
+                source={
+                  profileData?.photoUrl ? profileData?.photoUrl : IcProfile
+                }
               />
             </View>
 

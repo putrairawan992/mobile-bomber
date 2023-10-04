@@ -14,10 +14,11 @@ interface AvatarProps extends ImageProps {
   onChange?: (file: ImageOrVideo) => void;
   visible?: boolean;
   onPickImage?: any;
+  source: any;
 }
 
 export const Avatar = (props: AvatarProps) => {
-  const [uri, setUri] = React.useState(props.source?.uri || undefined);
+  const [uri, setUri] = React.useState(props.source || undefined);
 
   const chooseImage = () => {
     ImagePicker.openPicker({

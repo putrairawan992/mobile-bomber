@@ -124,7 +124,7 @@ const VerificationID2 = () => {
               </View>
               <Gap height={20} />
               <DefaultText
-                title={'2/3'}
+                title={'2/2'}
                 titleClassName="font-inter-bold text-xs"
               />
               <Gap height={10} />
@@ -240,7 +240,7 @@ const VerificationID2 = () => {
             className="mt-3"
             activeOpacity={0.8}
             // onPress={() => navigationRef.navigate('VerificationID3' as never)}
-            >
+          >
             <LinearGradient
               className="py-4"
               colors={['#AA5AFA', '#C111D5']}

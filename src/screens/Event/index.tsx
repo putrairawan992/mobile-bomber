@@ -18,14 +18,20 @@ import {NativeStackScreenProps} from '@react-navigation/native-stack';
 type Props = NativeStackScreenProps<MainStackParams, 'Event', 'MyStack'>;
 
 export default function EventScreen({navigation}: Props) {
-  const [menu] = useState<string[]>(['Paid', 'Unpaid', 'Canceled', 'Finished']);
+  const [menu] = useState<string[]>([
+    'Booking Table',
+    'Walk In',
+    'Direct Order',
+  ]);
   const [theme] = useState<string[]>([
-    'Table Booking',
-    'Walk in',
+    'Paid',
+    'Unpaid',
+    'Finished',
+    'Canceled',
     // 'Group Walk in',
     // 'Auction',
   ]);
-  const [activeTheme, setActiveTheme] = useState<string>('Table Booking');
+  const [activeTheme, setActiveTheme] = useState<string>('Booking Table');
   const [status, setStatus] = useState<string>('paid');
   const [initialPage, setInitialPage] = useState<number>(0);
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -51,8 +57,8 @@ export default function EventScreen({navigation}: Props) {
         status: status.toLowerCase(),
       })
         .then(response => {
-          console.log("res=", response);
-          
+          console.log('res=', response);
+
           setDataEvents(response?.data);
         })
         .catch(error => {
@@ -101,7 +107,7 @@ export default function EventScreen({navigation}: Props) {
       <View>
         <FlatList
           horizontal={true}
-          className='text-center'
+          className="text-center"
           data={theme}
           keyExtractor={(_, key) => key.toString()}
           showsHorizontalScrollIndicator={false}
@@ -140,6 +146,7 @@ export default function EventScreen({navigation}: Props) {
             <Loading />
           ) : (
             <Paid
+              status={status}
               activeTheme={activeTheme}
               dataEvents={dataEvents}
               onSelect={handleBookingSelect}

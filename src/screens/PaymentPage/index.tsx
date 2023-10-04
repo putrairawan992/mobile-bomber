@@ -48,7 +48,6 @@ export default function ProfilePage() {
       const response = await ProfileService.getCustomerPaymentList({
         id: user?.id as string,
       });
-      console.log('response?.data', response?.data);
       setPaymentList(response?.data);
       setIsLoading(false);
     } catch (error: any) {

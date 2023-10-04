@@ -65,6 +65,17 @@ export default function ModalAddNewCard({
     }
   };
 
+  const handleDateChange = (input: string) => {
+    const formattedInput = input.replace(/[^0-9]/g, '');
+    if (formattedInput.length <= 4) {
+      const formattedDate =
+        formattedInput.length > 2
+          ? formattedInput.slice(0, 2).concat('/', formattedInput.slice(2, 4))
+          : formattedInput;
+      setExpiry(formattedDate);
+    }
+  };
+
   return (
     <Modal
       className="m-0 p-0"
@@ -128,7 +139,7 @@ export default function ModalAddNewCard({
                     placeholderTextColor="#898E9A"
                     className="m-0 p-0 font-poppins-regular text-white"
                     value={expiry}
-                    onChangeText={value => setExpiry(value)}
+                    onChangeText={value => handleDateChange(value)}
                   />
                 </View>
               </View>
@@ -144,7 +155,8 @@ export default function ModalAddNewCard({
                     placeholderTextColor="#898E9A"
                     className="m-0 p-0 font-poppins-regular text-white"
                     value={cvv}
-                    onChangeText={value => setCvv(value)}
+                    maxLength={4}
+                    onChangeText={value => setCvv(value.replace(/[^0-9]/g, ''))}
                     keyboardType="number-pad"
                   />
                 </View>
