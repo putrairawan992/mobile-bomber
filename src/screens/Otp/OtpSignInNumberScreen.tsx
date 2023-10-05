@@ -7,6 +7,7 @@ import {
   Layout,
   Gap,
   TouchableSection,
+  Button,
 } from '../../components/atoms';
 import {useContext, useState} from 'react';
 import {StyleSheet, TouchableOpacity, View} from 'react-native';
@@ -37,6 +38,7 @@ function OtpSignInNumberScreen({route, navigation}: Props) {
   const userData = route.params.userData;
   const otpRef = React.useRef<any>();
   const [otpInputFill, setOtpInputFill] = useState(true);
+  const [isEnable, setIsEnable] = useState<boolean>(false);
   const [confirmation, setConfirmation] = useState<any>(null);
   const {
     isShowToast,
@@ -112,6 +114,7 @@ function OtpSignInNumberScreen({route, navigation}: Props) {
       setOtpInputFill(true);
     }
   };
+
   return (
     <Layout contentContainerStyle={styles.container} isDisableKeyboardAware>
       <View style={styles.signupLoginInputGroup}>
@@ -142,7 +145,14 @@ function OtpSignInNumberScreen({route, navigation}: Props) {
           <Gap height={12} />
           {otpInputFill ? (
             <OtpInputs
-              handleChange={code => setCodeInput(code)}
+              handleChange={code => {
+                if (code.length === 6) {
+                  setIsEnable(true);
+                } else {
+                  setIsEnable(false);
+                }
+                setCodeInput(code);
+              }}
               numberOfInputs={6}
               ref={otpRef}
               style={styles.otpInputContainer}
@@ -182,25 +192,30 @@ function OtpSignInNumberScreen({route, navigation}: Props) {
           />
         </Section>
         <Gap height={56} />
-        <TouchableSection
-          padding="12px 20px"
-          backgroundColor="#333"
-          rounded={8}
-          onPress={() => {
-            if (codeInput.length === 6) {
+        {isEnable ? (
+          <Button
+            type="primary"
+            title="Submit"
+            onPress={() => {
               setOtpInputFill(false);
               setTimeout(() => {
                 handleConfirmCode(codeInput);
               }, 2000);
-            }
-          }}>
-          <Text
-            variant="large"
-            label="Submit"
-            color={Colors['black-20']}
-            textAlign="center"
+            }}
           />
-        </TouchableSection>
+        ) : (
+          <TouchableSection
+            padding="12px 20px"
+            backgroundColor="#333"
+            rounded={8}
+            onPress={() => undefined}>
+            <Text
+              label="Submit"
+              color={Colors['black-20']}
+              textAlign="center"
+            />
+          </TouchableSection>
+        )}
       </View>
       <ModalToast
         isVisible={isShowToast}

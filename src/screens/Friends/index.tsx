@@ -5,7 +5,14 @@ import * as React from 'react';
 import {createRef, useContext, useState} from 'react';
 import {Pressable, View} from 'react-native';
 import PagerView from 'react-native-pager-view';
-import {Gap, Layout, Loading, Section, Spacer, TextInput} from '../../components/atoms';
+import {
+  Gap,
+  Layout,
+  Loading,
+  Section,
+  Spacer,
+  TextInput,
+} from '../../components/atoms';
 
 import {Header, ModalToast, TabMenu} from '../../components/molecules';
 import {

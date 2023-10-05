@@ -40,6 +40,8 @@ import {Barcode} from '../assets/icons/Barcode';
 import {PlaceDetailSecond} from '../screens/Place/PlaceDetail/PlaceDetailSecond';
 import Order from '../screens/Order';
 import OrderQrCode from '../screens/Order/OrderQrCode';
+import {GalleryMappingInterface} from '../interfaces/Interface';
+import GalleryDetail from '../screens/Gallery/GalleryDetail';
 
 export type MainStackParams = {
   ComingSoon: undefined;
@@ -92,6 +94,10 @@ export type MainStackParams = {
   };
   PlaceByCategory: {
     category: PlaceCategoryInterface;
+  };
+  GalleryDetail: {
+    index: number;
+    items: GalleryMappingInterface[];
   };
 };
 
@@ -279,6 +285,7 @@ const MainScreenStack = () => {
         }}
       />
       <Stack.Screen name="PlaceByCategory" component={PlaceByCategory} />
+      <Stack.Screen name="GalleryDetail" component={GalleryDetail} />
     </Stack.Navigator>
   );
 };
