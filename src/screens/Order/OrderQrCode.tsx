@@ -1,26 +1,62 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-import React from 'react';
-import {Layout} from '../../components/atoms';
-import {Header} from '../../components/molecules';
-import {StyleSheet, View} from 'react-native';
-import DefaultText from '../../components/atoms/Text/DefaultText';
+import * as React from 'react';
+
+import { StyleSheet, Text } from 'react-native';
+import { useCameraDevices, Camera } from 'react-native-vision-camera';
+import { useScanBarcodes, BarcodeFormat } from 'vision-camera-code-scanner';
 
 export default function OrderQrCode() {
+  const [hasPermission, setHasPermission] = React.useState(false);
+  const devices = useCameraDevices();
+  const device = devices.back;
+
+  const [frameProcessor, barcodes] = useScanBarcodes([BarcodeFormat.QR_CODE], {
+    checkInverted: true,
+  });
+
+  // Alternatively you can use the underlying function:
+  //
+  // const frameProcessor = useFrameProcessor((frame) => {
+  //   'worklet';
+  //   const detectedBarcodes = scanBarcodes(frame, [BarcodeFormat.QR_CODE], { checkInverted: true });
+  //   runOnJS(setBarcodes)(detectedBarcodes);
+  // }, []);
+
+  React.useEffect(() => {
+    (async () => {
+      const status = await Camera.requestCameraPermission();
+      setHasPermission(status === 'authorized');
+    })();
+  }, []);
+
+  if (device === null || device === undefined) {
+    return;
+  }
+
   return (
-    <Layout contentContainerStyle={styles.parent}>
-      <Header transparent title="Under Maintenance" hasBackBtn />
-      <View className="flex-row items-center justify-center">
-        <DefaultText
-          title="Coming Soon"
-          titleClassName="text-base mt-20 font-inter-medium mr-3"
+    device != null &&
+    hasPermission && (
+      <>
+        <Camera
+          style={StyleSheet.absoluteFill}
+          device={device}
+          isActive={true}
+          frameProcessor={frameProcessor}
+          frameProcessorFps={5}
         />
-      </View>
-    </Layout>
+        {barcodes.map((barcode, idx) => (
+          <Text key={idx} style={styles.barcodeTextURL}>
+            {barcode.displayValue}
+          </Text>
+        ))}
+      </>
+    )
   );
 }
 
 const styles = StyleSheet.create({
-  parent: {
-    flex: 1,
+  barcodeTextURL: {
+    fontSize: 20,
+    color: 'white',
+    fontWeight: 'bold',
   },
 });

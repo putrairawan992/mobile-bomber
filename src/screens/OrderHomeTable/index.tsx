@@ -50,7 +50,7 @@ const OrderHomeTable = ({navigation, actionShowPopUpOrders}: Props) => {
           type="primary"
           onPress={() =>
             navigation.navigate(
-              'WineryOrder',
+              'OrderQrCode',
               // {
               //     placeData:
               //         placeData.find((item: PlaceInterface) => item.clubId === 'd90dc31b-2384-4000-ad9e-f2a6b64f8321') ?? null,

@@ -1,6 +1,5 @@
 /* eslint-disable react-native/no-inline-styles */
 import React from 'react';
-import 'react-native-reanimated';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import {Provider} from 'react-redux';
