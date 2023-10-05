@@ -1,50 +1,46 @@
 /* eslint-disable react-native/no-inline-styles */
-import React, {createRef, useEffect, useState} from 'react';
+import React, {
+  FC,
+  ReactElement,
+  createRef,
+  useEffect,
+  useMemo,
+  useState,
+} from 'react';
 import styles from '../Styles';
 import {Header, TabMenu} from '../../components/molecules';
-import {
-  CustomShimmer,
-  Gap,
-  Layout,
-  Loading,
-  Section,
-  Text,
-} from '../../components/atoms';
+import {Gap, Layout, Loading, Section, Text} from '../../components/atoms';
 import {MainStackParams} from '../../navigation/MainScreenStack';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {Colors} from '../../theme';
 import PagerView from 'react-native-pager-view';
-import {FlatList, ImageBackground, TouchableOpacity, View} from 'react-native';
-import {ImageGallery, ImageObject} from '@georstat/react-native-image-gallery';
 import {
-  AppImageObject,
-  GalleryMappingInterface,
-} from '../../interfaces/Interface';
+  ImageBackground,
+  StyleProp,
+  TouchableOpacity,
+  View,
+  ViewStyle,
+} from 'react-native';
+import {GalleryMappingInterface} from '../../interfaces/Interface';
 import {NightlifeService} from '../../service/NightlifeService';
 import {GalleryCategoryInterface} from '../../interfaces/PlaceInterface';
-import {Close} from '../../assets/icons';
-import useTheme from '../../theme/useTheme';
-import {HEIGHT} from '../../utils/config';
+import MasonryList from '@react-native-seoul/masonry-list';
 
 type Props = NativeStackScreenProps<MainStackParams, 'Gallery', 'MyStack'>;
 
-export const GalleryScreen = ({route}: Props) => {
-  const theme = useTheme();
+export const GalleryScreen = ({route, navigation}: Props) => {
   const [menu, setMenu] = useState<string[]>([]);
   const [initialPage, setInitialPage] = useState<number>(0);
   const ref = createRef<PagerView>();
-  const [isOpen, setIsOpen] = useState(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const openGallery = () => setIsOpen(true);
-  const closeGallery = () => setIsOpen(false);
   const [galleryData, setGalleryData] = useState<GalleryCategoryInterface[]>(
     [],
   );
   const [categoryData, setCategoryData] = useState<GalleryMappingInterface[]>(
     [],
   );
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [loadingState, setLoadingState] = useState<boolean[]>([]);
-  const [selectedIndex, setSelectedIndex] = useState<number>(0);
   const fetchGallery = async () => {
     try {
       setIsLoading(true);
@@ -94,98 +90,84 @@ export const GalleryScreen = ({route}: Props) => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [initialPage]);
+  console.log(categoryData);
+
+  const GalleryCard: FC<{
+    item: GalleryMappingInterface;
+    style: StyleProp<ViewStyle>;
+    index: number;
+  }> = ({item, style, index}) => {
+    const randomBool = useMemo(() => Math.random() < 0.5, []);
+
+    return (
+      <TouchableOpacity
+        key={item.id}
+        style={[{marginTop: 12, flex: 1}, style]}
+        onPress={() =>
+          navigation.navigate('GalleryDetail', {
+            index,
+            items: categoryData,
+          })
+        }>
+        <ImageBackground
+          source={{uri: item.url}}
+          style={{
+            height: randomBool ? 150 : 280,
+            alignSelf: 'stretch',
+          }}
+          imageStyle={{borderRadius: 4}}
+          // onLoadStart={() =>
+          //   setLoadingState(
+          //     loadingState.map((el, idx) => (idx === index ? true : el)),
+          //   )
+          // }
+          // onLoadEnd={() =>
+          //   setLoadingState(
+          //     loadingState.map((el, idx) => (idx === index ? false : el)),
+          //   )
+          // }
+          resizeMode="cover">
+          {/* {loadingState[index] && (
+            <CustomShimmer height={randomBool ? 150 : 280} />
+          )} */}
+        </ImageBackground>
+        <Gap height={4} />
+        <Text label={item.caption} fontWeight="semi-bold" textAlign="center" />
+      </TouchableOpacity>
+    );
+  };
+
+  const renderItem = ({item, i}: any): ReactElement => {
+    return (
+      <GalleryCard
+        item={item}
+        style={{marginLeft: i % 2 === 0 ? 0 : 12}}
+        index={i}
+      />
+    );
+  };
 
   const renderGallery = () => {
     // eslint-disable-next-line react-hooks/rules-of-hooks
     return (
       <Section style={{flex: 1, justifyContent: 'center'}}>
-        <FlatList
+        <MasonryList
+          keyExtractor={(item: GalleryMappingInterface): string => item.id}
+          ListHeaderComponent={<View />}
+          contentContainerStyle={{
+            paddingHorizontal: 16,
+            alignSelf: 'stretch',
+          }}
+          onEndReached={() => undefined}
+          numColumns={2}
           data={categoryData}
-          renderItem={({item, index}) => (
-            <TouchableOpacity
-              onPress={() => {
-                setSelectedIndex(index);
-                openGallery();
-              }}
-              style={{
-                flex: 1,
-                flexDirection: 'column',
-                margin: 6,
-              }}>
-              <ImageBackground
-                onLoadStart={() =>
-                  setLoadingState(
-                    loadingState.map((el, idx) => (idx === index ? true : el)),
-                  )
-                }
-                onLoadEnd={() =>
-                  setLoadingState(
-                    loadingState.map((el, idx) => (idx === index ? false : el)),
-                  )
-                }
-                style={styles.imageThumbnail}
-                source={{uri: item.url}}>
-                {loadingState[index] && <CustomShimmer height={100} />}
-              </ImageBackground>
-            </TouchableOpacity>
-          )}
-          numColumns={3}
-          keyExtractor={item => item.id}
+          renderItem={renderItem}
+          onRefresh={() => {
+            fetchGallery();
+            setInitialPage(0);
+          }}
         />
       </Section>
-    );
-  };
-
-  const renderFooterComponent = (image: ImageObject, currentIndex: number) => {
-    return (
-      <View
-        style={{
-          backgroundColor: 'transparent',
-          alignSelf: 'center',
-          bottom: 30,
-        }}>
-        <Text
-          label={`${(currentIndex + 1).toString()} of ${categoryData.length}`}
-          color="#A5A5A5"
-        />
-      </View>
-    );
-  };
-
-  const renderHeaderComponent = (image: AppImageObject) => {
-    return (
-      <View
-        style={{
-          backgroundColor: 'transparent',
-          top: 100,
-        }}>
-        <TouchableOpacity
-          onPress={() => setIsOpen(false)}
-          style={{position: 'absolute', left: 16, zIndex: 999}}>
-          <Close size={24} color={theme?.colors.ICON} />
-        </TouchableOpacity>
-        <View
-          style={{
-            position: 'absolute',
-            paddingHorizontal: 8,
-            backgroundColor: '#2B2E34',
-            top: HEIGHT * 0.69,
-            alignSelf: 'center',
-            zIndex: 999,
-            borderRadius: 12,
-          }}>
-          <Text
-            label={image?.caption ?? ''}
-            textAlign="center"
-            color={theme?.colors.PRIMARY}
-          />
-        </View>
-        <Text
-          label={route.params.title + ' Gallery'}
-          variant="base"
-          textAlign="center"
-        />
-      </View>
     );
   };
 
@@ -232,16 +214,6 @@ export const GalleryScreen = ({route}: Props) => {
           <></>
         )}
       </Section>
-      <ImageGallery
-        close={closeGallery}
-        isOpen={isOpen}
-        images={categoryData}
-        thumbSize={64}
-        thumbColor={Colors.white}
-        initialIndex={selectedIndex}
-        renderFooterComponent={renderFooterComponent}
-        renderHeaderComponent={renderHeaderComponent}
-      />
     </Layout>
   );
 };

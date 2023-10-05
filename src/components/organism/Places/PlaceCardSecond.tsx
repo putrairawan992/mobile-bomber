@@ -43,12 +43,15 @@ export const PlaceCardSecond = ({
   data,
   isPlaceDetail = false,
   onOpenSchedule,
+  onOpenGallery,
   operation,
 }: PlaceCardProps) => {
   const theme = useTheme();
   const aspectRatio = useImageAspectRatio(
     data?.logo ?? 'https://bomber.app/club-logo/wave.png',
   );
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [currentLocation, setCurrentLocation] = useState<any>(null);
   const [distanceToSingsou, setDistanceToSingsou] = useState<number | null>(
     null,
   );
@@ -56,6 +59,9 @@ export const PlaceCardSecond = ({
   useEffect(() => {
     Geolocation.getCurrentPosition(
       position => {
+        const {latitude, longitude} = position.coords;
+        setCurrentLocation({latitude, longitude});
+
         const distance = calculateDistance(
           position.coords.latitude,
           position.coords.longitude,
@@ -68,7 +74,8 @@ export const PlaceCardSecond = ({
         console.error(error);
       },
       {enableHighAccuracy: true, timeout: 20000, maximumAge: 1000},
-    ); // eslint-disable-next-line react-hooks/exhaustive-deps
+    );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const calculateDistance = (
@@ -180,9 +187,13 @@ export const PlaceCardSecond = ({
         height={WIDTH / 1.5}
         autoPlay={true}
         data={dataImageSldier}
-        scrollAnimationDuration={6666}
+        scrollAnimationDuration={5000}
+        // onSnapToItem={index => setPromoActive(index)}
         renderItem={({item, index}: any) => (
-          <TouchableOpacity activeOpacity={0.7} style={{alignSelf: 'center'}}>
+          <TouchableOpacity
+            activeOpacity={0.7}
+            style={{alignSelf: 'center'}}
+            onPress={onOpenGallery}>
             <Image
               resizeMode="cover"
               source={item.urlImage}
