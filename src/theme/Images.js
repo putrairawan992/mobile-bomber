@@ -118,6 +118,7 @@ const IcPeopleTwo = require('../assets/images/people_two.png');
 const IcCoupon = require('../assets/images/coupon.png');
 const IcGlass = require('../assets/images/glass.png');
 const IcCalendarPlus = require('../assets/images/calendar_plus.png');
+const IcCalendar = require('../assets/images/calendar_.png');
 const IcDetailBooking = require('../assets/images/detail_booking.png');
 const IcPeopleThree = require('../assets/images/people_three.png');
 const IcChevronRight = require('../assets/images/chevron_right.png');
@@ -168,6 +169,7 @@ const bannerPlaceDetailv2 = require('../assets/images/banner_place_detail_v2.png
 const placeDetailDummy = require('../assets/images/place_detail_dummy.png');
 
 export {
+  IcCalendar,
   placeDetailDummy,
   bannerPlaceDetail,
   bannerPlaceDetailv2,
