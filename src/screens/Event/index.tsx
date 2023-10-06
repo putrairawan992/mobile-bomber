@@ -31,8 +31,8 @@ export default function EventScreen({navigation}: Props) {
     // 'Group Walk in',
     // 'Auction',
   ]);
-  const [activeTheme, setActiveTheme] = useState<string>('Booking Table');
-  const [status, setStatus] = useState<string>('paid');
+  const [activeTheme, setActiveTheme] = useState<string>('Paid');
+  const [status, setStatus] = useState<any>('Booking Table');
   const [initialPage, setInitialPage] = useState<number>(0);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [dataEvents, setDataEvents] = useState<BookingInterface[]>([]);
@@ -42,7 +42,7 @@ export default function EventScreen({navigation}: Props) {
   useEffect(() => {
     fetchData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [status, activeTheme]);
+  }, [status]);
 
   const convertString = (inputArray: string): string => {
     return inputArray.toLowerCase().replace(/ /g, '_');
@@ -57,7 +57,7 @@ export default function EventScreen({navigation}: Props) {
         status: status.toLowerCase(),
       })
         .then(response => {
-          console.log('res=', response);
+          console.log('res=', response.data);
 
           setDataEvents(response?.data);
         })
@@ -85,7 +85,7 @@ export default function EventScreen({navigation}: Props) {
             <TouchableOpacity
               onPress={() => {
                 ref.current?.setPage(index);
-                setStatus(item);
+                setStatus(initialPage);
               }}
               activeOpacity={0.7}
               key={item}

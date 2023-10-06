@@ -1,5 +1,5 @@
 import {ScrollView, StyleSheet} from 'react-native';
-import React from 'react';
+import React, {memo} from 'react';
 import CardBooking from '../../../components/molecules/Card/CardBooking';
 import CardAuction from '../../../components/molecules/Card/CardAuction';
 import {BookingInterface} from '../../../interfaces/BookingInterface';
@@ -11,12 +11,7 @@ interface Paid {
   onSelect: (data: BookingInterface) => void;
 }
 
-export default function Paid({
-  activeTheme,
-  dataEvents,
-  onSelect,
-  status,
-}: Paid) {
+function Paid({activeTheme, dataEvents, onSelect, status}: Paid) {
   return (
     <ScrollView
       showsVerticalScrollIndicator={false}
@@ -39,6 +34,8 @@ export default function Paid({
     </ScrollView>
   );
 }
+
+export default memo(Paid);
 
 const styles = StyleSheet.create({
   container: {
