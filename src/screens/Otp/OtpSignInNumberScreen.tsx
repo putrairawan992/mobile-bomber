@@ -9,7 +9,7 @@ import {
   TouchableSection,
   Button,
 } from '../../components/atoms';
-import {useContext, useState} from 'react';
+import {useContext, useRef, useState} from 'react';
 import {StyleSheet, TouchableOpacity, View} from 'react-native';
 import OtpInputs from 'react-native-otp-inputs';
 import styles from './Styles/OtpStyle';
@@ -33,6 +33,7 @@ type Props = NativeStackScreenProps<AuthStackParams, 'OtpSignIn', 'MyStack'>;
 
 function OtpSignInNumberScreen({route, navigation}: Props) {
   const theme = useTheme();
+  let otpInput = useRef(null);
   const s = useThemedStyles(Styles);
   const dispatch = useDispatch();
   const userData = route.params.userData;
@@ -55,9 +56,9 @@ function OtpSignInNumberScreen({route, navigation}: Props) {
   const dateTimeOneMinutes = NOW_IN_MS + ONE_MINUTES;
 
   React.useEffect(() => {
-    if (!route.params.isResend) {
-      signInWithMobileNumber();
-    }
+    // if (!route.params.isResend) {
+    //   signInWithMobileNumber();
+    // }
     setTimeout(() => {
       otpRef?.current?.focus();
     }, 1000);
@@ -157,6 +158,10 @@ function OtpSignInNumberScreen({route, navigation}: Props) {
               ref={otpRef}
               style={styles.otpInputContainer}
               inputStyles={s.otpStyle}
+              inputContainerStyles={{
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}
               autofillFromClipboard={false}
             />
           ) : (
@@ -239,9 +244,8 @@ const Styles = (theme: ThemeInterface) =>
       borderWidth: 1,
       borderColor: theme?.colors.BORDER,
       textAlign: 'center',
-      fontSize: 32,
+      fontSize: 30,
       lineHeight: 38,
-      alignContent: 'center',
       fontFamily: 'Poppins-Regular',
       color: theme?.colors.TEXT_PRIMARY,
     },

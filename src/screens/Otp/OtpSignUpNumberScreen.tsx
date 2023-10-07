@@ -157,6 +157,10 @@ function OtpSignUpNumberScreen({route, navigation}: Props) {
               style={styles.otpInputContainer}
               inputStyles={s.otpStyle}
               autofillFromClipboard={false}
+              inputContainerStyles={{
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}
             />
           ) : (
             <View style={styles.loaderContent}>
@@ -232,9 +236,8 @@ const Styles = (theme: ThemeInterface) =>
       borderWidth: 1,
       borderColor: theme?.colors.BORDER,
       textAlign: 'center',
-      fontSize: 32,
+      fontSize: 30,
       lineHeight: 38,
-      alignContent: 'center',
       fontFamily: 'Poppins-Regular',
       color: theme?.colors.TEXT_PRIMARY,
     },
