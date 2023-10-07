@@ -15,10 +15,10 @@ import {
   PlaceOperationalTimeInterface,
 } from '../../../interfaces/PlaceInterface';
 import useTheme from '../../../theme/useTheme';
-import {DefaultText, Gap, Layout, Section, Text} from '../../atoms';
+import {Gap, GradientText, Layout, Section, Text} from '../../atoms';
 import styles from './Style';
 import {Colors, Images} from '../../../theme';
-import {WIDTH} from '../../../utils/config';
+import {WIDTH, gradientMapping} from '../../../utils/config';
 import Carousel from 'react-native-reanimated-carousel';
 import {IcLegal} from '../../../theme/Images';
 import Geolocation from 'react-native-geolocation-service';
@@ -221,10 +221,18 @@ export const PlaceCardSecond = ({
       <TouchableOpacity
         activeOpacity={0.7}
         className="flex-row items-center py-2 px-1 mb-2">
-        <DefaultText
-          title="OMNI NIGHT CLUB"
-          titleClassName="ml-1 text-xl text-secondary"
-        />
+        <GradientText
+          xAxis={1.0}
+          colors={
+            gradientMapping['textPrimary' as keyof typeof gradientMapping].color
+          }
+          style={{
+            fontSize: 24,
+            fontFamily: 'Inter-SemiBold',
+            lineHeight: 32,
+          }}>
+          {data.name}
+        </GradientText>
         <Gap width={5} />
         <Image
           source={IcLegal}
@@ -237,11 +245,13 @@ export const PlaceCardSecond = ({
       <Gap height={10} />
       {isPlaceDetail ? (
         <Section padding="10px 10px" isRow isBetween>
-          <View className="border-b-[1px] border-white w-36">
+          <View
+            className="border-b-[1px] border-white"
+            style={{width: WIDTH * 0.6}}>
             <TouchableOpacity
               onPress={() => openMapDirection()}
               activeOpacity={0.7}>
-              <Text className="" label="Songsou, Taipei City" />
+              <Text className="" label={data.address} />
             </TouchableOpacity>
           </View>
           {distanceToSingsou !== null && (
