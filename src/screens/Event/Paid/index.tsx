@@ -1,17 +1,15 @@
 import {ScrollView, StyleSheet} from 'react-native';
-import React, {memo} from 'react';
+import React from 'react';
 import CardBooking from '../../../components/molecules/Card/CardBooking';
-import CardAuction from '../../../components/molecules/Card/CardAuction';
 import {BookingInterface} from '../../../interfaces/BookingInterface';
 
 interface Paid {
-  activeTheme: string;
   status?: string;
-  dataEvents: BookingInterface[];
+  dataEvents: any[];
   onSelect: (data: BookingInterface) => void;
 }
 
-function Paid({activeTheme, dataEvents, onSelect, status}: Paid) {
+function Paid({dataEvents, onSelect, status}: Paid) {
   return (
     <ScrollView
       showsVerticalScrollIndicator={false}
@@ -19,12 +17,10 @@ function Paid({activeTheme, dataEvents, onSelect, status}: Paid) {
       {dataEvents &&
         dataEvents?.length > 0 &&
         dataEvents?.map((value: any, key: any) => {
-          return activeTheme === 'Auction' ? (
-            <CardAuction data={value} key={key} />
-          ) : (
+          return (
             <CardBooking
-              status={status}
               data={value}
+              status={status}
               key={key}
               type="Paid"
               onSelect={onSelect}
@@ -35,7 +31,7 @@ function Paid({activeTheme, dataEvents, onSelect, status}: Paid) {
   );
 }
 
-export default memo(Paid);
+export default Paid;
 
 const styles = StyleSheet.create({
   container: {

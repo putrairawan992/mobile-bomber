@@ -60,6 +60,10 @@ export default function ModalAddNewCard({
       openToast('success', res.message);
       setIsLoading(false);
       onAddNew();
+      setCardNumber('');
+      setCardHolder(' ');
+      setExpiry('');
+      setCvv('');
     } catch (error: any) {
       openToast('error', error.response.data.message);
     }
@@ -139,6 +143,7 @@ export default function ModalAddNewCard({
                     placeholderTextColor="#898E9A"
                     className="m-0 p-0 font-poppins-regular text-white"
                     value={expiry}
+                    keyboardType="number-pad"
                     onChangeText={value => handleDateChange(value)}
                   />
                 </View>

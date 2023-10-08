@@ -1,62 +1,19 @@
 import * as React from 'react';
-
-import { StyleSheet, Text } from 'react-native';
-import { useCameraDevices, Camera } from 'react-native-vision-camera';
-import { useScanBarcodes, BarcodeFormat } from 'vision-camera-code-scanner';
+import {Text, View} from 'react-native';
+import QRCodeScanner from 'react-native-qrcode-scanner';
+import {RNCamera} from 'react-native-camera';
 
 export default function OrderQrCode() {
-  const [hasPermission, setHasPermission] = React.useState(false);
-  const devices = useCameraDevices();
-  const device = devices.back;
-
-  const [frameProcessor, barcodes] = useScanBarcodes([BarcodeFormat.QR_CODE], {
-    checkInverted: true,
-  });
-
-  // Alternatively you can use the underlying function:
-  //
-  // const frameProcessor = useFrameProcessor((frame) => {
-  //   'worklet';
-  //   const detectedBarcodes = scanBarcodes(frame, [BarcodeFormat.QR_CODE], { checkInverted: true });
-  //   runOnJS(setBarcodes)(detectedBarcodes);
-  // }, []);
-
-  React.useEffect(() => {
-    (async () => {
-      const status = await Camera.requestCameraPermission();
-      setHasPermission(status === 'authorized');
-    })();
-  }, []);
-
-  if (device === null || device === undefined) {
-    return;
-  }
+  const [datas, setData] = React.useState('kosong');
 
   return (
-    device != null &&
-    hasPermission && (
-      <>
-        <Camera
-          style={StyleSheet.absoluteFill}
-          device={device}
-          isActive={true}
-          frameProcessor={frameProcessor}
-          frameProcessorFps={5}
-        />
-        {barcodes.map((barcode, idx) => (
-          <Text key={idx} style={styles.barcodeTextURL}>
-            {barcode.displayValue}
-          </Text>
-        ))}
-      </>
-    )
+    <QRCodeScanner
+      onRead={({data}) => setData(data)}
+      flashMode={RNCamera.Constants.FlashMode.torch}
+      showMarker={true}
+      topContent={
+        <View>{datas && <Text>Succes Scan QR Code {datas}</Text>}</View>
+      }
+    />
   );
 }
-
-const styles = StyleSheet.create({
-  barcodeTextURL: {
-    fontSize: 20,
-    color: 'white',
-    fontWeight: 'bold',
-  },
-});
