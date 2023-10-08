@@ -170,7 +170,7 @@ export const PlaceCardSecond = ({
     <Layout>
       <Section
         padding="16px 16px"
-        style={{position: 'absolute', top: 22, zIndex: 10}}>
+        style={{position: 'absolute', top: 0, zIndex: 10}}>
         <ScrollView horizontal>
           {itemTag.map((cat: any, idx: number) => {
             return (
@@ -185,7 +185,7 @@ export const PlaceCardSecond = ({
         loop
         width={WIDTH}
         height={WIDTH / 1.5}
-        autoPlay={true}
+        // autoPlay={true}
         data={dataImageSldier}
         scrollAnimationDuration={5000}
         // onSnapToItem={index => setPromoActive(index)}

@@ -1,12 +1,15 @@
 import {Image, TouchableOpacity, View, Text} from 'react-native';
-import React, {memo} from 'react';
+import React from 'react';
 import DefaultText from '../../../atoms/Text/DefaultText';
-import {Gap} from '../../../atoms';
-import {IcCalendar, IcPeopleTwo} from '../../../../theme/Images';
+import {Gap, Section} from '../../../atoms';
+import {IcPeopleTwo} from '../../../../theme/Images';
 import moment from 'moment';
 import {BookingInterface} from '../../../../interfaces/BookingInterface';
 import {Sofa} from '../../../../assets/icons';
 import {Colors} from '../../../../theme';
+import {CalendarSecond} from '../../../../assets/icons/CalendarSecond';
+import {currency} from '../../../../utils/function';
+import LinearGradient from 'react-native-linear-gradient';
 interface CardBooking {
   type: 'Paid' | 'Unpaid' | 'Canceled' | 'Finished';
   data?: BookingInterface;
@@ -15,7 +18,20 @@ interface CardBooking {
 }
 
 function CardBooking({type, data, onSelect, status}: CardBooking) {
-  console.log('Status: ' + status);
+  let tagOne = 'Deposit';
+  let bgColorTagOne = '#EF9533';
+  let tagTwo = 'Checked';
+  let bgColorTagTwo = '#0CA35F';
+  switch (status) {
+    case 'Walk In':
+      tagOne = 'VIP Ticket';
+      break;
+    case 'Direct Order':
+      tagOne = 'Host Order';
+      break;
+    default:
+      break;
+  }
 
   return (
     <TouchableOpacity
@@ -24,21 +40,42 @@ function CardBooking({type, data, onSelect, status}: CardBooking) {
       onPress={() => (data ? onSelect(data) : undefined)}>
       <View className="flex-row justify-between">
         <View className="flex-row">
-          <Text
-            className="text-xs font-inter-semibold text-white text-center"
-            style={{backgroundColor: '#EF9533', width: 60, padding: 5}}>
-            Deposit
-          </Text>
-          <Text
-            className="text-xs font-inter-semibold text-white text-center"
-            style={{
-              backgroundColor: '#0CA35F',
-              width: 60,
-              padding: 5,
-              marginLeft: 5,
-            }}>
-            Deposit
-          </Text>
+          {status === 'Walk In' ? (
+            <LinearGradient
+              style={{borderRadius: 4}}
+              start={{x: 0.8, y: 0}}
+              end={{x: 0, y: 1}}
+              colors={['#FFE419', '#F27611']}
+              className="p-1 rounded-sm">
+              <Text className="text-xs font-inter-semibold text-white text-center">
+                {tagOne}
+              </Text>
+            </LinearGradient>
+          ) : (
+            status === 'Booking Table' && (
+              <>
+                <Text
+                  className="text-xs font-inter-semibold text-white p-1 rounded-sm text-center"
+                  style={{backgroundColor: bgColorTagOne}}>
+                  {tagOne}
+                </Text>
+                <Text
+                  className="text-xs font-inter-semibold text-white p-1 rounded-sm text-center ml-2"
+                  style={{
+                    backgroundColor: bgColorTagTwo,
+                  }}>
+                  {tagTwo}
+                </Text>
+              </>
+            )
+          )}
+          {status === 'Direct Order' && (
+            <Text
+              className="text-xs font-inter-semibold text-white p-1 rounded-sm text-center"
+              style={{backgroundColor: bgColorTagTwo}}>
+              {tagOne}
+            </Text>
+          )}
         </View>
         <DefaultText
           title={`${moment(data?.bookingDate).format('ddd, DD MMM hh:mm')}`}
@@ -58,66 +95,97 @@ function CardBooking({type, data, onSelect, status}: CardBooking) {
             title={`ID : ${data?.club_id}`}
             titleClassName="text-xs text-neutral-400 flex-1"
           />
+          <Gap height={status === 'Walk In' ? 2.5 : 10} />
           <DefaultText
             title={`${data?.clubName}`}
             titleClassName="text-base font-poppins-semibold"
           />
           <Gap height={2.5} />
-          <View className="flex-row items-center">
-            <TouchableOpacity className="mr-1.5">
-              <Sofa color={Colors['white-70']} size={20} />
-            </TouchableOpacity>
-            <DefaultText
-              title={`Table ${data?.tableName}`}
-              titleClassName="text-xs font-inter-semibold"
-              subtitleClassName="text-xs font-inter-medium"
-            />
-            <TouchableOpacity className="ml-2.5">
-              <Image
-                source={IcCalendar}
-                resizeMode="contain"
-                className="w-[16] tex-white h-[16] mr-1.5"
+          {status === 'Walk In' ? (
+            <View className="flex-row items-center">
+              <TouchableOpacity
+                className={status === 'Walk In' ? 'ml-0' : 'ml-2.5'}>
+                <CalendarSecond color={Colors['white-70']} size={20} />
+              </TouchableOpacity>
+              <DefaultText
+                title={`${moment(data?.bookingDate).format('ddd, DD MMM')}`}
+                titleClassName="text-xs font-inter-semibold ml-1.5"
               />
-            </TouchableOpacity>
-            <Gap height={5} />
-            <DefaultText
-              title={`${moment(data?.bookingDate).format('ddd, DD MMM')}`}
-              titleClassName="text-xs font-inter-semibold"
-              subtitleClassName="text-xs font-inter-medium mr-1.5"
-            />
-          </View>
-          <Gap height={5} />
-          <View className="flex-row items-center">
-            <Image
-              source={IcPeopleTwo}
-              resizeMode="contain"
-              className="w-[16] h-[16]"
-            />
-            <DefaultText
-              title={`${data?.joinedTotal}`}
-              titleClassName="text-xs font-inter-medium text-neutral-500 ml-1"
-            />
-            {/* <Gap width={5} />
-            <Image
-              source={IcCoupon}
-              resizeMode="contain"
-              className="w-[16] h-[16]"
-            />
-            <DefaultText
-              title={`${data?.couponUsed} coupon used`}
-              titleClassName="text-xs font-inter-medium text-neutral-500 ml-1"
-            /> */}
-          </View>
+            </View>
+          ) : (
+            status === 'Booking Table' && (
+              <View className="flex-row items-center">
+                <TouchableOpacity className="mr-1.5">
+                  <Sofa color={Colors['white-70']} size={20} />
+                </TouchableOpacity>
+                <DefaultText
+                  title={`Table ${data?.tableName}`}
+                  titleClassName="text-xs font-inter-semibold"
+                />
+                <TouchableOpacity
+                  className={status === 'Booking Table' ? 'ml-2.5' : 'ml-0'}>
+                  <CalendarSecond color={Colors['white-70']} size={20} />
+                </TouchableOpacity>
+                <DefaultText
+                  title={`${moment(data?.bookingDate).format('ddd, DD MMM')}`}
+                  titleClassName="text-xs font-inter-semibold ml-1.5"
+                />
+              </View>
+            )
+          )}
+          {status !== 'Direct Order' && <Gap height={10} />}
+          {status !== 'Direct Order' && (
+            <View className="w-full h-[0.5px] bg-neutral-600" />
+          )}
+          {status !== 'Direct Order' && <Gap height={10} />}
+          {status === 'Booking Table' ? (
+            <Section isRow isBetween>
+              <Section isRow>
+                <>
+                  <Image
+                    source={IcPeopleTwo}
+                    resizeMode="contain"
+                    className="w-[16] h-[16]"
+                  />
+                  <DefaultText
+                    title={`${data?.joinedTotal}`}
+                    titleClassName="text-xs font-inter-medium text-neutral-500 ml-1"
+                  />
+                </>
+              </Section>
+              <DefaultText
+                title={`${currency(data?.paidTotal)} | ${type.toUpperCase()}`}
+                titleClassName={
+                  'text-right text-green-500 font-inter-bold text-xs'
+                }
+              />
+            </Section>
+          ) : (
+            status === 'Walk In' && (
+              <DefaultText
+                title={`${currency(data?.paidTotal)} | ${type.toUpperCase()}`}
+                titleClassName={
+                  'text-right text-green-500 font-inter-bold text-xs'
+                }
+              />
+            )
+          )}
+          {status === 'Direct Order' && (
+            <DefaultText title={'1x Jack D, 1x Balihai beer, 2x Singapo...'} />
+          )}
           <Gap height={10} />
-
-          <DefaultText
-            title={`NT ${data?.paidTotal} | ${type.toUpperCase()}`}
-            titleClassName="text-green-500 font-inter-bold text-xs text-right"
-          />
+          {status === 'Direct Order' && (
+            <DefaultText
+              title={`${currency(data?.paidTotal)} | ${type.toUpperCase()}`}
+              titleClassName={
+                'text-left text-green-500 font-inter-bold text-xs'
+              }
+            />
+          )}
         </View>
       </View>
     </TouchableOpacity>
   );
 }
 
-export default memo(CardBooking);
+export default CardBooking;

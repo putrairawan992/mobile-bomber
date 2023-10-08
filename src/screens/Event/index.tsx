@@ -1,9 +1,13 @@
-import React, {createRef, useEffect, useState} from 'react';
-import {Layout, Loading, Spacer} from '../../components/atoms';
+import React, {useEffect, useState} from 'react';
+import {Layout, Spacer} from '../../components/atoms';
 import {Header} from '../../components/molecules';
 import styles from '../Styles';
-import PagerView from 'react-native-pager-view';
-import {FlatList, TouchableOpacity, View} from 'react-native';
+import {
+  ActivityIndicator,
+  FlatList,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import DefaultText from '../../components/atoms/Text/DefaultText';
 import Paid from './Paid';
 import Unpaid from './Unpaid';
@@ -14,6 +18,7 @@ import {MyEventService} from '../../service/MyEventService';
 import {BookingInterface} from '../../interfaces/BookingInterface';
 import {MainStackParams} from '../../navigation/MainScreenStack';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
+import useTheme from '../../theme/useTheme';
 
 type Props = NativeStackScreenProps<MainStackParams, 'Event', 'MyStack'>;
 
@@ -37,12 +42,12 @@ export default function EventScreen({navigation}: Props) {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [dataEvents, setDataEvents] = useState<BookingInterface[]>([]);
   // const {user} = useAppSelector(state => state.user);
-  const ref = createRef<PagerView>();
+  const themes = useTheme();
 
   useEffect(() => {
     fetchData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [status]);
+  }, [status, activeTheme]);
 
   const convertString = (inputArray: string): string => {
     return inputArray.toLowerCase().replace(/ /g, '_');
@@ -53,12 +58,11 @@ export default function EventScreen({navigation}: Props) {
       setIsLoading(true);
       await MyEventService.getEventAllBookingHistory({
         user_id: 'FQ5OvkolZtSBZEMlG1R3gtowbQv1',
-        tab: convertString(activeTheme),
-        status: status.toLowerCase(),
+        tab: convertString(status),
+        status: activeTheme.toLowerCase(),
       })
         .then(response => {
           console.log('res=', response.data);
-
           setDataEvents(response?.data);
         })
         .catch(error => {
@@ -84,8 +88,8 @@ export default function EventScreen({navigation}: Props) {
           return (
             <TouchableOpacity
               onPress={() => {
-                ref.current?.setPage(index);
-                setStatus(initialPage);
+                setInitialPage(index);
+                setStatus(item);
               }}
               activeOpacity={0.7}
               key={item}
@@ -136,45 +140,52 @@ export default function EventScreen({navigation}: Props) {
         />
       </View>
 
-      <PagerView
-        className="flex-1"
-        initialPage={initialPage}
-        ref={ref}
-        onPageSelected={e => setInitialPage(e.nativeEvent.position)}>
-        <View key="1">
-          {isLoading ? (
-            <Loading />
-          ) : (
-            <Paid
-              status={status}
+      <View className="flex-1">
+        {activeTheme === 'Paid' && (
+          <View key="1">
+            {isLoading ? (
+              <ActivityIndicator
+                style={{position: 'absolute', top: 150, left: 0, right: 0}}
+                size={'large'}
+                color={themes?.colors.PRIMARY}
+              />
+            ) : (
+              <Paid
+                status={status}
+                dataEvents={dataEvents}
+                onSelect={handleBookingSelect}
+              />
+            )}
+          </View>
+        )}
+        <View key="2">
+          {activeTheme === 'Unpaid' && (
+            <Unpaid
               activeTheme={activeTheme}
               dataEvents={dataEvents}
               onSelect={handleBookingSelect}
             />
           )}
         </View>
-        <View key="2">
-          <Unpaid
-            activeTheme={activeTheme}
-            dataEvents={dataEvents}
-            onSelect={handleBookingSelect}
-          />
-        </View>
         <View key="3">
-          <Canceled
-            activeTheme={activeTheme}
-            dataEvents={dataEvents}
-            onSelect={handleBookingSelect}
-          />
+          {activeTheme === 'Canceled' && (
+            <Canceled
+              activeTheme={activeTheme}
+              dataEvents={dataEvents}
+              onSelect={handleBookingSelect}
+            />
+          )}
         </View>
         <View key="4">
-          <Finished
-            activeTheme={activeTheme}
-            dataEvents={dataEvents}
-            onSelect={handleBookingSelect}
-          />
+          {activeTheme === 'Finished' && (
+            <Finished
+              activeTheme={activeTheme}
+              dataEvents={dataEvents}
+              onSelect={handleBookingSelect}
+            />
+          )}
         </View>
-      </PagerView>
+      </View>
     </Layout>
   );
 }
