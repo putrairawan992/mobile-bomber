@@ -56,9 +56,9 @@ function OtpSignInNumberScreen({route, navigation}: Props) {
   const dateTimeOneMinutes = NOW_IN_MS + ONE_MINUTES;
 
   React.useEffect(() => {
-    // if (!route.params.isResend) {
-    //   signInWithMobileNumber();
-    // }
+    if (!route.params.isResend) {
+      signInWithMobileNumber();
+    }
     setTimeout(() => {
       otpRef?.current?.focus();
     }, 1000);
