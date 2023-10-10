@@ -65,7 +65,7 @@ function Button({
       borderColor: 'transparent',
     },
     outlined: {
-      backgroundColor: theme?.colors.TEXT_PRIMARY,
+      backgroundColor: 'transparent',
       borderColor: theme?.colors.PRIMARY,
     },
     danger: {
@@ -172,6 +172,7 @@ function Button({
             />
           ) : (
             <View style={{flexDirection: 'row', alignItems: 'center'}}>
+              {LeftComponent ?? null}
               <Text
                 color={
                   type === 'secondary' ||

@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-inline-styles */
 import * as React from 'react';
 import * as Yup from 'yup';
 import {TouchableOpacity} from 'react-native';
@@ -26,6 +27,11 @@ import {ModalToastContext} from '../../context/AppModalToastContext';
 import {setStorage} from '../../service/mmkvStorage';
 import {useDispatch} from 'react-redux';
 import {loginSuccess, setUserType} from '../../store/user/userActions';
+import {
+  GoogleSignin,
+  statusCodes,
+} from '@react-native-google-signin/google-signin';
+import {Google} from 'iconsax-react-native';
 
 type Props = NativeStackScreenProps<AuthStackParams, 'LogIn', 'MyStack'>;
 
@@ -33,6 +39,7 @@ function LogInScreen({navigation}: Props) {
   const theme = useTheme();
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isLoadingDj, setIsLoadingDj] = useState<boolean>(false);
+  const [isLoadingGoogle, setIsLoadingGoogle] = useState<boolean>(false);
   const dispatch = useDispatch();
   const {
     isShowToast,
@@ -99,7 +106,6 @@ function LogInScreen({navigation}: Props) {
         phone,
         password,
       });
-
       if (login.error) {
         openToast('error', login.message);
         setIsLoading(false);
@@ -125,11 +131,59 @@ function LogInScreen({navigation}: Props) {
     }
   };
 
+  const googleLogin = async () => {
+    try {
+      setIsLoadingGoogle(true);
+      await GoogleSignin.hasPlayServices();
+      const userInfo = await GoogleSignin.signIn();
+      const userAuth = {
+        id: userInfo.user.id,
+        fullName: userInfo.user.name as string,
+        username: userInfo.user.givenName as string,
+        phone: '',
+        photoUrl: userInfo.user.photo as string,
+        email: userInfo.user.email,
+        creationTime: 0,
+        lastSignInTime: 0,
+        emailVerified: false,
+        age: 0,
+        bio: '',
+      };
+      await setStorage('userAuth', JSON.stringify(userAuth));
+      await setStorage('userType', 'regular');
+      await setStorage('refreshToken', userInfo.idToken as string);
+      setIsLoadingGoogle(false);
+      openToast('success', 'Login successfully');
+      setTimeout(() => {
+        dispatch(loginSuccess(userAuth));
+        dispatch(setUserType('regular'));
+      }, 2000);
+    } catch (error: any) {
+      if (error.code === statusCodes.SIGN_IN_CANCELLED) {
+        console.log(error);
+      } else if (error.code === statusCodes.IN_PROGRESS) {
+        console.log(error);
+      } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
+        console.log(error);
+      }
+      setIsLoadingGoogle(false);
+    }
+  };
+
   useEffect(() => {
     const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
     return () => {
       subscriber;
     };
+  }, []);
+
+  const webClientId =
+    '578578395924-l0p8clduffn00buak88gi3hfe731f1md.apps.googleusercontent.com';
+
+  useEffect(() => {
+    GoogleSignin.configure({
+      webClientId: webClientId,
+    });
   }, []);
 
   const djSignIn = async () => {
@@ -201,6 +255,20 @@ function LogInScreen({navigation}: Props) {
         onPress={() => formik.handleSubmit()}
         title="Sign In"
         isLoading={isLoading}
+      />
+      <Spacer sm />
+      <Button
+        type="outlined"
+        onPress={googleLogin}
+        title="Login with Google"
+        isLoading={isLoadingGoogle}
+        LeftComponent={
+          <Google
+            size={16}
+            color={theme?.colors.PRIMARY}
+            style={{marginRight: 8}}
+          />
+        }
       />
       <Spacer lxx />
       <Section isRow>

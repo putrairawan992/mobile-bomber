@@ -40,6 +40,7 @@ export const fontFamilyMapper: Record<FontWeightType, FontFamilyType> = {
   'raleway-medium': 'Raleway-Medium',
   'raleway-regular': 'Raleway-Regular',
   'poppins-regular': 'Poppins-Regular',
+  'poppins-semi-bold': 'Poppins-SemiBold',
 };
 
 const textLineHeightMapper: Record<TextVariantType, TextLineHeightType> = {
