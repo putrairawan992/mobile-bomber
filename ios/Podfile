@@ -15,8 +15,8 @@ target 'Bomber' do
   pod 'FirebaseCoreInternal', :modular_headers => true
   pod 'FirebaseCore', :modular_headers => true
   pod 'GoogleUtilities', :modular_headers => true
-  pod 'GoogleSignIn', '~> 5.0.2'
-  pod 'GTMSessionFetcher', '~> 1.1'
+  pod 'GoogleSignIn', '~> 7.0'
+  pod 'GTMSessionFetcher', '~> 2.1'
 
   permissions_path = "../node_modules/react-native-permissions/ios"
   pod "Permission-Camera", :path => "#{permissions_path}/Camera"

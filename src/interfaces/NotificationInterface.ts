@@ -53,3 +53,9 @@ export interface RequestFriendNotificationInterface {
   bio: string;
   invitedPhotoUrl: string;
 }
+
+export interface PayloadPushNotificationInterface {
+  target: string;
+  title: string;
+  body: string;
+}

@@ -4,7 +4,10 @@ import * as Yup from 'yup';
 import {TouchableOpacity} from 'react-native';
 
 import {AuthStackParams} from '../../navigation/AuthScreenStack';
-import {LoginPayloadInterface} from '../../interfaces/UserInterface';
+import {
+  LoginPayloadInterface,
+  UserInterface,
+} from '../../interfaces/UserInterface';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import styles from './Styles/LogInStyle';
 import {useFormik} from 'formik';
@@ -32,6 +35,7 @@ import {
   statusCodes,
 } from '@react-native-google-signin/google-signin';
 import {Google} from 'iconsax-react-native';
+import Config from 'react-native-config';
 
 type Props = NativeStackScreenProps<AuthStackParams, 'LogIn', 'MyStack'>;
 
@@ -136,28 +140,52 @@ function LogInScreen({navigation}: Props) {
       setIsLoadingGoogle(true);
       await GoogleSignin.hasPlayServices();
       const userInfo = await GoogleSignin.signIn();
-      const userAuth = {
-        id: userInfo.user.id,
-        fullName: userInfo.user.name as string,
-        username: userInfo.user.givenName as string,
-        phone: '',
-        photoUrl: userInfo.user.photo as string,
+      const res = await AuthService.checkRegisteredEmail({
         email: userInfo.user.email,
-        creationTime: 0,
-        lastSignInTime: 0,
-        emailVerified: false,
-        age: 0,
-        bio: '',
-      };
-      await setStorage('userAuth', JSON.stringify(userAuth));
-      await setStorage('userType', 'regular');
-      await setStorage('refreshToken', userInfo.idToken as string);
-      setIsLoadingGoogle(false);
-      openToast('success', 'Login successfully');
-      setTimeout(() => {
-        dispatch(loginSuccess(userAuth));
-        dispatch(setUserType('regular'));
-      }, 2000);
+      });
+
+      let userAuth;
+      if (res?.data?.length) {
+        const data = res?.data[0];
+        userAuth = {
+          id: data.id,
+          fullName: data.username,
+          username: data.username,
+          phone: data.phone,
+          photoUrl: data.photoUrl,
+          email: data.email,
+          creationTime: 0,
+          lastSignInTime: 0,
+          emailVerified: false,
+          age: 0,
+          bio: data.bio,
+        };
+      } else {
+        await AuthService.postRegister({
+          id: userInfo.user.id.toString(),
+          username: userInfo.user.givenName as string,
+          phone: '',
+          email: userInfo.user.email,
+          password: '',
+          photo_url: userInfo.user.photo as string,
+        });
+        console.log('tidak ada');
+        userAuth = {
+          id: userInfo.user.id.toString(),
+          fullName: userInfo.user.name as string,
+          username: userInfo.user.givenName as string,
+          phone: '',
+          photoUrl: userInfo.user.photo as string,
+          email: userInfo.user.email,
+          creationTime: 0,
+          lastSignInTime: 0,
+          emailVerified: false,
+          age: 0,
+          bio: '',
+        };
+      }
+      console.log('authh :', userAuth);
+      handleAutoSignIn(userAuth);
     } catch (error: any) {
       if (error.code === statusCodes.SIGN_IN_CANCELLED) {
         console.log(error);
@@ -170,6 +198,18 @@ function LogInScreen({navigation}: Props) {
     }
   };
 
+  const handleAutoSignIn = async (userAuth: UserInterface) => {
+    await setStorage('userAuth', JSON.stringify(userAuth));
+    await setStorage('userType', 'regular');
+    await setStorage('refreshToken', userAuth.id as string);
+    setIsLoadingGoogle(false);
+    openToast('success', 'Login successfully');
+    setTimeout(() => {
+      dispatch(loginSuccess(userAuth));
+      dispatch(setUserType('regular'));
+    }, 2000);
+  };
+
   useEffect(() => {
     const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
     return () => {
@@ -177,13 +217,13 @@ function LogInScreen({navigation}: Props) {
     };
   }, []);
 
-  const webClientId =
-    '578578395924-l0p8clduffn00buak88gi3hfe731f1md.apps.googleusercontent.com';
+  const webClientId = Config.WEB_CLIENT_ID;
 
   useEffect(() => {
     GoogleSignin.configure({
       webClientId: webClientId,
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const djSignIn = async () => {
@@ -215,7 +255,7 @@ function LogInScreen({navigation}: Props) {
 
   return (
     <Layout contentContainerStyle={styles.container}>
-      {isLoadingDj && <Loading />}
+      {(isLoadingDj || isLoadingGoogle) && <Loading />}
       <LogoLabel
         title="Nightlife Awaits!"
         subtitle="Access your account and get ready for an unforgettable night of fun and celebration."

@@ -11,6 +11,8 @@ import {
   UPDATE_USER_LOCATION,
   SET_USER_TYPE,
   SetUserTypeI,
+  SetFcmTokenI,
+  SET_FCM_TOKEN,
 } from './userTypes';
 
 export interface UserStateI {
@@ -19,6 +21,7 @@ export interface UserStateI {
   isLoading: boolean;
   userLocation: UserLocationInterface;
   userType: string;
+  fcmToken: string | null;
 }
 
 const UserState: UserStateI = {
@@ -48,9 +51,15 @@ const UserState: UserStateI = {
     longitude: null,
   },
   userType: '',
+  fcmToken: null,
 };
 
-type UserAction = LoginSuccessI | LogOutI | UpdateUserLocationI | SetUserTypeI;
+type UserAction =
+  | LoginSuccessI
+  | LogOutI
+  | UpdateUserLocationI
+  | SetUserTypeI
+  | SetFcmTokenI;
 
 const userReducer = (state = UserState, action: UserAction) => {
   switch (action.type) {
@@ -93,6 +102,12 @@ const userReducer = (state = UserState, action: UserAction) => {
       return {
         ...state,
         userType: action.payload,
+      };
+
+    case SET_FCM_TOKEN:
+      return {
+        ...state,
+        fcmToken: action.payload,
       };
 
     default:
