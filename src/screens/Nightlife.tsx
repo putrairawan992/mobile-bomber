@@ -55,7 +55,7 @@ type Props = NativeStackScreenProps<MainStackParams, 'Nightlife', 'MyStack'>;
 function NightlifeScreen({route, navigation}: Props) {
   const isOrder = route.params?.isOrder;
   const theme = useTheme();
-  const {user, userLocation} = useAppSelector(state => state.user);
+  const {user, userLocation, fcmToken} = useAppSelector(state => state.user);
   const [searchValue, setSearchValue] = React.useState<string>('');
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
   const [banner, setBanner] = React.useState<string>('');
@@ -145,6 +145,20 @@ function NightlifeScreen({route, navigation}: Props) {
       await NotificationService.getRequestFriendNotification(user.id, dispatch);
     } catch (error: any) {}
   };
+
+  useEffect(() => {
+    async function sendWelcomeNotification() {
+      await NotificationService.pushNotification({
+        target: fcmToken as string,
+        title: 'Welcome to Bomber',
+        body: 'Nightlife is coming !! 🥳🙌🏻🥂',
+      });
+    }
+
+    if (fcmToken) {
+      sendWelcomeNotification();
+    }
+  }, [fcmToken]);
 
   useFocusEffect(
     React.useCallback(() => {

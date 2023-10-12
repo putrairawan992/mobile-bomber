@@ -32,6 +32,7 @@
     "@georstat/react-native-image-gallery": "^1.1.0",
     "@gorhom/bottom-sheet": "^4",
     "@jest/globals": "^29.5.0",
+    "@notifee/react-native": "^7.8.0",
     "@react-native-async-storage/async-storage": "^1.19.2",
     "@react-native-clipboard/clipboard": "^1.11.2",
     "@react-native-community/checkbox": "0.5.12",

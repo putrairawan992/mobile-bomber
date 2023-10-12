@@ -3,6 +3,7 @@ import {PermissionsAndroid, Platform} from 'react-native';
 import {AuthService} from '../service/AuthService';
 import {AppDispatch} from '../store';
 import {setFcmToken} from '../store/user/userActions';
+import notifee from '@notifee/react-native';
 
 const usePushNotification = () => {
   const requestUserPermission = async () => {
@@ -46,10 +47,10 @@ const usePushNotification = () => {
 
   const listenToForegroundNotifications = async () => {
     const unsubscribe = messaging().onMessage(async remoteMessage => {
-      console.log(
-        'A new message arrived! (FOREGROUND)',
-        JSON.stringify(remoteMessage),
-      );
+      onDisplayForegroundNotification({
+        body: remoteMessage.notification?.body ?? '',
+        title: remoteMessage.notification?.title ?? '',
+      });
     });
     return unsubscribe;
   };
@@ -88,6 +89,37 @@ const usePushNotification = () => {
       );
     }
   };
+
+  async function onDisplayForegroundNotification({
+    body,
+    title,
+  }: {
+    body: string;
+    title: string;
+  }) {
+    // Request permissions (required for iOS)
+    await notifee.requestPermission();
+
+    // Create a channel (required for Android)
+    const channelId = await notifee.createChannel({
+      id: 'default',
+      name: 'Default Channel',
+    });
+
+    // Display a notification
+    await notifee.displayNotification({
+      title: title,
+      body: body,
+      android: {
+        channelId,
+        smallIcon: 'ic_launcher', // optional, defaults to 'ic_launcher'.
+        // pressAction is needed if you want the notification to open the app when pressed
+        pressAction: {
+          id: 'default',
+        },
+      },
+    });
+  }
 
   return {
     requestUserPermission,

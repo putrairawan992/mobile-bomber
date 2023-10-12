@@ -169,7 +169,6 @@ function LogInScreen({navigation}: Props) {
           password: '',
           photo_url: userInfo.user.photo as string,
         });
-        console.log('tidak ada');
         userAuth = {
           id: userInfo.user.id.toString(),
           fullName: userInfo.user.name as string,
@@ -184,7 +183,6 @@ function LogInScreen({navigation}: Props) {
           bio: '',
         };
       }
-      console.log('authh :', userAuth);
       handleAutoSignIn(userAuth);
     } catch (error: any) {
       if (error.code === statusCodes.SIGN_IN_CANCELLED) {
