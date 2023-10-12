@@ -1,7 +1,7 @@
 /* eslint-disable react-native/no-inline-styles */
 // eslint-disable-line @typescript-eslint/no-unused-vars
 import {Community, Flare, HalfMoon, User} from '../assets/icons';
-import {GradientText, Text} from '../components/atoms';
+import {Text} from '../components/atoms';
 import React, {ReactNode} from 'react';
 
 import BookingTableScreen from '../screens/Booking/BookingTable';
@@ -116,16 +116,15 @@ function Main() {
       <>
         {item.icon}
         {item.focused ? (
-          <GradientText
-            xAxis={1}
-            colors={['#EF9533', '#FEDB19']}
+          <Text
+            color={'#EF9533'}
             style={{
               fontSize: 14,
               fontFamily: 'Poppins-Bold',
               lineHeight: 18,
-            }}>
-            {item.title}
-          </GradientText>
+            }}
+            label={item.title}
+          />
         ) : (
           <Text
             label={item.title}
@@ -159,7 +158,7 @@ function Main() {
             <TabBarContent
               focused={focused}
               title="Nightlife"
-              icon={<HalfMoon focused={focused} size={20} />}
+              icon={<HalfMoon focused={focused} size={22} />}
             />
           ),
           headerShown: false,
@@ -176,7 +175,7 @@ function Main() {
             <TabBarContent
               focused={focused}
               title="Event"
-              icon={<Flare focused={focused} size={20} />}
+              icon={<Flare focused={focused} size={22} />}
             />
           ),
           headerShown: false,
@@ -194,7 +193,7 @@ function Main() {
             <TabBarContent
               focused={focused}
               title="Friends"
-              icon={<Community focused={focused} size={21} />}
+              icon={<Community focused={focused} size={22} />}
             />
           ),
           headerShown: false,
@@ -212,7 +211,7 @@ function Main() {
             <TabBarContent
               focused={focused}
               title="Profile"
-              icon={<User focused={focused} size={20} />}
+              icon={<User focused={focused} size={22} />}
             />
           ),
           headerShown: false,
@@ -230,7 +229,7 @@ function Main() {
             <TabBarContent
               focused={focused}
               title="Order"
-              icon={<Barcode focused={focused} size={20} />}
+              icon={<Barcode focused={focused} size={22} />}
             />
           ),
           headerShown: false,

@@ -9,8 +9,7 @@ import React, {useContext, useEffect, useState} from 'react';
 import {DefaultText, Gap, Layout, Loading} from '../../components/atoms';
 import {Header} from '../../components/molecules';
 import colors from '../../styles/colors';
-import LinearGradient from 'react-native-linear-gradient';
-import {IcBomber, IcGift, IcPlusRounded} from '../../theme/Images';
+import {IcPlusRounded} from '../../theme/Images';
 import CardPaymentPage from '../../components/molecules/Card/CardPaymentPage';
 import ModalPaymentPage from '../../components/molecules/Modal/ModalPaymentPage';
 import ModalAddNewCard from '../../components/molecules/Modal/ModalAddNewCard';
@@ -103,7 +102,7 @@ export default function ProfilePage() {
       />
       <ScrollView showsVerticalScrollIndicator={false}>
         <View className="px-5 py-3">
-          <LinearGradient
+          {/* <LinearGradient
             start={{x: 0, y: 0}}
             end={{x: 1, y: 0}}
             colors={['#ff937b', '#ff63cf', '#6c64ed']}
@@ -139,7 +138,7 @@ export default function ProfilePage() {
               <Gap width={5} />
               <DefaultText title="check special redeem" />
             </View>
-          </LinearGradient>
+          </LinearGradient> */}
           <Gap height={20} />
           <DefaultText
             title="Payment option"

@@ -66,7 +66,10 @@ export default function VerificationID() {
             />
           </View>
           <Gap height={20} />
-          <DefaultText title={'1/3'} titleClassName="font-inter-bold text-xs" />
+          <DefaultText
+            title={'Step 1/2'}
+            titleClassName="font-inter-bold text-xs"
+          />
           <Gap height={5} />
           <GradientText
             xAxis={0.5}

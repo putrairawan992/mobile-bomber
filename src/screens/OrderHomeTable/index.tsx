@@ -48,15 +48,16 @@ const OrderHomeTable = ({navigation, actionShowPopUpOrders}: Props) => {
         <Button
           TextComponent={<DefaultText title="Gotcha" />}
           type="primary"
-          onPress={() =>
+          onPress={() => {
             navigation.navigate(
               'OrderQrCode',
               // {
               //     placeData:
               //         placeData.find((item: PlaceInterface) => item.clubId === 'd90dc31b-2384-4000-ad9e-f2a6b64f8321') ?? null,
               // }
-            )
-          }
+            );
+            actionShowPopUpOrders();
+          }}
         />
         <Gap height={30} />
       </View>

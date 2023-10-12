@@ -58,14 +58,12 @@ export const ProfileService = {
     payload: any;
     data: any;
   }): Promise<APIResponse<unknown>> => {
-    console.log(data);
-
     const response = await axios.put(
       `${Config.API_ENDPOINT}/${URL}/modify_user_profile?customer_id=${payload.customer_id}&
       username=${payload.username}&
       photo_url=${payload.photo_url}&
       bio=${payload.bio}`,
-      {data: data},
+      {data: data ? data : undefined},
       {headers: {'Content-Type': 'multipart/form-data'}},
     );
     return response.data;
