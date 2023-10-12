@@ -8,7 +8,7 @@ import HeaderRight from './Right';
 import HeaderLeft from './Left';
 import {useNavigation} from '@react-navigation/native';
 import useTheme from '../../../theme/useTheme';
-import {Text} from '../../atoms';
+import {Gap, Text} from '../../atoms';
 import {Images} from '../../../theme';
 import {Logo, LogoText} from '../../../assets/icons';
 import {ArrowLeft} from 'iconsax-react-native';
@@ -62,39 +62,40 @@ function Header({
   const theme = useTheme();
   const navigation = useNavigation();
   return (
-    <View style={[styles.header, style, transparent && styles.transparent]}>
-      {hasBackBtn && (
-        <HeaderLeft>
-          <TouchableOpacity
-            style={styles.backBtn}
-            onPress={() => {
-              onBackPress ? onBackPress() : navigation.goBack();
-            }}>
-            <ArrowLeft size={24} color={theme?.colors.ICON} />
-          </TouchableOpacity>
-        </HeaderLeft>
-      )}
+    <View>
+      <View style={[styles.header, style, transparent && styles.transparent]}>
+        {hasBackBtn && (
+          <HeaderLeft>
+            <TouchableOpacity
+              style={styles.backBtn}
+              onPress={() => {
+                onBackPress ? onBackPress() : navigation.goBack();
+              }}>
+              <ArrowLeft size={24} color={theme?.colors.ICON} />
+            </TouchableOpacity>
+          </HeaderLeft>
+        )}
 
-      {CenterComponent && (
-        <View className="flex-1 justify-center items-center">
-          {CenterComponent}
-        </View>
-      )}
-
-      {hasLogo && (
-        <HeaderLeft>
-          <View
-            style={{
-              flexDirection: 'row',
-              alignItems: 'center',
-            }}>
-            <Logo size={23} style={{marginRight: 4}} />
-            <LogoText />
+        {CenterComponent && (
+          <View className="flex-1 justify-center items-center">
+            {CenterComponent}
           </View>
-        </HeaderLeft>
-      )}
+        )}
 
-      {/* {hasLocation && (
+        {hasLogo && (
+          <HeaderLeft>
+            <View
+              style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+              }}>
+              <Logo size={23} style={{marginRight: 4}} />
+              <LogoText />
+            </View>
+          </HeaderLeft>
+        )}
+
+        {/* {hasLocation && (
         <HeaderLeftLoaction
           onLocationPress={() => {
             if (onLocationPress) {
@@ -104,7 +105,7 @@ function Header({
         />
       )} */}
 
-      {/* {userIcon && (
+        {/* {userIcon && (
           <UserLeft>
             <View style={styles.userIcon}>
               <TouchableOpacity>
@@ -118,23 +119,23 @@ function Header({
           </UserLeft>
         )} */}
 
-      {title && (
-        <Text
-          variant="large"
-          fontWeight="bold"
-          label={title}
-          color={theme?.colors.WARNING}
-          style={[
-            {
-              paddingHorizontal: 10,
-              marginLeft: 'auto',
-              marginRight: 'auto',
-              ...titleStyle,
-            },
-          ]}
-        />
-      )}
-      {/* {centerLogo && (
+        {title && (
+          <Text
+            variant="large"
+            fontWeight="bold"
+            label={title}
+            color={theme?.colors.WARNING}
+            style={[
+              {
+                paddingHorizontal: 10,
+                marginLeft: 'auto',
+                marginRight: 'auto',
+                ...titleStyle,
+              },
+            ]}
+          />
+        )}
+        {/* {centerLogo && (
           <TitleLogo>
             <Image
               source={Images.efftTitleWhite}
@@ -143,62 +144,64 @@ function Header({
             />
           </TitleLogo>
         )} */}
-      {hasLocation && (
-        <HeaderRight
-          hasLocation
-          hasNotification
-          rightCustomComponent={rightCustomComponent}
-          onRightCustomComponentPress={() => {
-            if (onRightCustomComponentPress) {
-              onRightCustomComponentPress();
-            }
-          }}
-          onLocationPress={() => {
-            if (onLocationPress) {
-              onLocationPress();
-            }
-          }}
-          onNotificationPress={() => {
-            if (onNotificationPress) {
-              onNotificationPress();
-            }
-          }}>
-          {/* {children} */}
-        </HeaderRight>
-      )}
-      {clearText && (
-        <HeaderRight
-          clearText
-          onFilterBtnPress={() => {
-            if (onclearTextPress) {
-              onclearTextPress();
-            }
-          }}
-        />
-      )}
-      {filterBtn && (
-        <HeaderRight
-          filterBtn
-          onFilterBtnPress={() => {
-            if (onFilterBtnPress) {
-              onFilterBtnPress();
-            }
-          }}
-        />
-      )}
+        {hasLocation && (
+          <HeaderRight
+            hasLocation
+            hasNotification
+            rightCustomComponent={rightCustomComponent}
+            onRightCustomComponentPress={() => {
+              if (onRightCustomComponentPress) {
+                onRightCustomComponentPress();
+              }
+            }}
+            onLocationPress={() => {
+              if (onLocationPress) {
+                onLocationPress();
+              }
+            }}
+            onNotificationPress={() => {
+              if (onNotificationPress) {
+                onNotificationPress();
+              }
+            }}>
+            {/* {children} */}
+          </HeaderRight>
+        )}
+        {clearText && (
+          <HeaderRight
+            clearText
+            onFilterBtnPress={() => {
+              if (onclearTextPress) {
+                onclearTextPress();
+              }
+            }}
+          />
+        )}
+        {filterBtn && (
+          <HeaderRight
+            filterBtn
+            onFilterBtnPress={() => {
+              if (onFilterBtnPress) {
+                onFilterBtnPress();
+              }
+            }}
+          />
+        )}
 
-      {RightComponent ?? null}
-      {!!rightCustomComponent && (
-        <HeaderRight
-          rightCustomComponent={rightCustomComponent}
-          onRightCustomComponentPress={() => {
-            if (onRightCustomComponentPress) {
-              onRightCustomComponentPress();
-            }
-          }}>
-          {/* {children} */}
-        </HeaderRight>
-      )}
+        {RightComponent ?? null}
+        {!!rightCustomComponent && (
+          <HeaderRight
+            rightCustomComponent={rightCustomComponent}
+            onRightCustomComponentPress={() => {
+              if (onRightCustomComponentPress) {
+                onRightCustomComponentPress();
+              }
+            }}>
+            {/* {children} */}
+          </HeaderRight>
+        )}
+      </View>
+      <Gap height={23} />
     </View>
   );
 }

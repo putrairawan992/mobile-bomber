@@ -29,7 +29,7 @@ export default function EventScreen({navigation}: Props) {
   const {user} = useAppSelector(state => state.user);
   const [menu] = useState<string[]>([
     'Booking Table',
-    'Walk In',
+    'Walk in Ticket',
     'Direct Order',
   ]);
   const [theme] = useState<string[]>([
@@ -63,7 +63,7 @@ export default function EventScreen({navigation}: Props) {
     try {
       setIsLoading(true);
       await MyEventService.getEventAllBookingHistory({
-        user_id: user.id,
+        user_id: 'FQ5OvkolZtSBZEMlG1R3gtowbQv1',
         tab: convertString(status),
         status: activeTheme.toLowerCase(),
       })
@@ -100,12 +100,12 @@ export default function EventScreen({navigation}: Props) {
               activeOpacity={0.7}
               key={item}
               className={`flex-1 py-3 border-b-[2px] ${
-                index === initialPage ? 'border-b-secondary' : 'border-b-white'
+                index === initialPage ? 'border-b-primary' : 'border-b-white'
               }`}>
               <DefaultText
                 title={item}
                 titleClassName={`text-center font-inter-medium ${
-                  index === initialPage ? 'text-secondary' : 'text-white'
+                  index === initialPage ? 'text-primary' : 'text-white'
                 }`}
               />
             </TouchableOpacity>

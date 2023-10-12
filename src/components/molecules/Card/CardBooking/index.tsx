@@ -23,13 +23,11 @@ function CardBooking({type, data, onSelect, status}: CardBooking) {
   let tagTwo = 'Checked';
   let bgColorTagTwo = '#0CA35F';
   switch (status) {
-    case 'Walk In':
+    case 'Walk in Ticket':
       tagOne = 'VIP Ticket';
       break;
     case 'Direct Order':
       tagOne = 'Host Order';
-      break;
-    default:
       break;
   }
 
@@ -40,9 +38,9 @@ function CardBooking({type, data, onSelect, status}: CardBooking) {
       onPress={() => (data ? onSelect(data) : undefined)}>
       <View className="flex-row justify-between">
         <View className="flex-row">
-          {status === 'Walk In' ? (
+          {status === 'Walk in Ticket' ? (
             <LinearGradient
-              style={{borderRadius: 4}}
+              style={{borderRadius: 4, width: 100}}
               start={{x: 0.8, y: 0}}
               end={{x: 0, y: 1}}
               colors={['#FFE419', '#F27611']}
@@ -54,27 +52,43 @@ function CardBooking({type, data, onSelect, status}: CardBooking) {
           ) : (
             status === 'Booking Table' && (
               <>
-                <Text
-                  className="text-xs font-inter-semibold text-white p-1 rounded-sm text-center"
-                  style={{backgroundColor: bgColorTagOne}}>
-                  {tagOne}
-                </Text>
-                <Text
-                  className="text-xs font-inter-semibold text-white p-1 rounded-sm text-center ml-2"
+                <View
+                  className="p-1 rounded-sm"
+                  style={{
+                    backgroundColor: bgColorTagOne,
+                    borderRadius: 4,
+                    width: 80,
+                  }}>
+                  <Text className="text-xs font-inter-semibold text-white text-center">
+                    {tagOne}
+                  </Text>
+                </View>
+                <View
+                  className="ml-2 p-1 rounded-sm"
                   style={{
                     backgroundColor: bgColorTagTwo,
+                    borderRadius: 4,
+                    width: 80,
                   }}>
-                  {tagTwo}
-                </Text>
+                  <Text className="text-xs font-inter-semibold text-white text-center">
+                    {tagTwo}
+                  </Text>
+                </View>
               </>
             )
           )}
           {status === 'Direct Order' && (
-            <Text
-              className="text-xs font-inter-semibold text-white p-1 rounded-sm text-center"
-              style={{backgroundColor: bgColorTagTwo}}>
-              {tagOne}
-            </Text>
+            <View
+              className="p-1 rounded-sm"
+              style={{
+                backgroundColor: bgColorTagTwo,
+                borderRadius: 4,
+                width: 100,
+              }}>
+              <Text className="text-xs font-inter-semibold text-white text-center">
+                {tagOne}
+              </Text>
+            </View>
           )}
         </View>
         <DefaultText
@@ -95,16 +109,16 @@ function CardBooking({type, data, onSelect, status}: CardBooking) {
             title={`ID : ${data?.club_id}`}
             titleClassName="text-xs text-neutral-400 flex-1"
           />
-          <Gap height={status === 'Walk In' ? 2.5 : 10} />
+          <Gap height={status === 'Walk in Ticket' ? 2.5 : 10} />
           <DefaultText
             title={`${data?.clubName}`}
             titleClassName="text-base font-poppins-semibold"
           />
           <Gap height={2.5} />
-          {status === 'Walk In' ? (
+          {status === 'Walk in Ticket' ? (
             <View className="flex-row items-center">
               <TouchableOpacity
-                className={status === 'Walk In' ? 'ml-0' : 'ml-2.5'}>
+                className={status === 'Walk in Ticket' ? 'ml-0' : 'ml-2.5'}>
                 <CalendarSecond color={Colors['white-70']} size={20} />
               </TouchableOpacity>
               <DefaultText
@@ -127,7 +141,9 @@ function CardBooking({type, data, onSelect, status}: CardBooking) {
                   <CalendarSecond color={Colors['white-70']} size={20} />
                 </TouchableOpacity>
                 <DefaultText
-                  title={`${moment(data?.bookingDate).format('ddd, DD MMM')}`}
+                  title={`${moment(data?.bookingDate).format(
+                    'ddd, DD MMM hh:mm',
+                  )}`}
                   titleClassName="text-xs font-inter-semibold ml-1.5"
                 />
               </View>
@@ -161,7 +177,7 @@ function CardBooking({type, data, onSelect, status}: CardBooking) {
               />
             </Section>
           ) : (
-            status === 'Walk In' && (
+            status === 'Walk in Ticket' && (
               <DefaultText
                 title={`${currency(data?.paidTotal)} | ${type.toUpperCase()}`}
                 titleClassName={

@@ -1,10 +1,14 @@
 import {Image, ScrollView, TouchableOpacity, View} from 'react-native';
-import React, {useContext, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import Modal from 'react-native-modal';
 import DefaultText from '../../../atoms/Text/DefaultText';
 import {Gap, Loading} from '../../../atoms';
 import {TextInput} from 'react-native';
-import {IcMasterCard} from '../../../../theme/Images';
+import {
+  IcAmericanExpress,
+  IcMasterCard,
+  IcVisaLogo,
+} from '../../../../theme/Images';
 import LinearGradient from 'react-native-linear-gradient';
 import {useAppSelector} from '../../../../hooks/hooks';
 import {ProfileService} from '../../../../service/ProfileService';
@@ -25,10 +29,41 @@ export default function ModalAddNewCard({
   const [cardNumber, setCardNumber] = useState<string>('');
   const [expiry, setExpiry] = useState<string>('');
   const [cvv, setCvv] = useState<string>('');
+  const [detectionCardType, setDetectionCardType] = useState<any>('');
   const {user} = useAppSelector(state => state.user);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const {setIsShowToast, setToastMessage, setType} =
     useContext(ModalToastContext);
+
+  function detectCreditCardType(valNumber: string): string {
+    let numberParse = valNumber?.replace(/[-\s]/g, '');
+    const cardPatterns: {[key: string]: RegExp} = {
+      Visa: /^4[0-9]{12}(?:[0-9]{3})?$/,
+      MasterCard: /^5[1-5][0-9]{14}$/,
+      AmericanExpress: /^3[47][0-9]{13}$/,
+      Discover: /^6(?:011|5[0-9]{2})[0-9]{12}$/,
+      JCB: /^(?:2131|1800|35\d{3})\d{11}$/,
+      DinersClub: /^3(?:0[0-5]|[68][0-9])[0-9]{11}$/,
+    };
+    for (const cardType in cardPatterns) {
+      if (cardPatterns[cardType].test(numberParse)) {
+        return cardType;
+      }
+    }
+    return 'Unknown';
+  }
+
+  useEffect(() => {
+    let imageUrl = IcMasterCard;
+    switch (detectCreditCardType(cardNumber)) {
+      case 'Visa':
+        imageUrl = IcVisaLogo;
+        break;
+      case 'AmericanExpress':
+        imageUrl = IcAmericanExpress;
+    }
+    setDetectionCardType(imageUrl);
+  }, [cardNumber]);
 
   const openToast = (toastType: 'success' | 'error', message: string) => {
     setIsShowToast(true);
@@ -116,7 +151,7 @@ export default function ModalAddNewCard({
             />
             <View className="bg-screen p-3 rounded-md border-[1px] border-neutral-700 flex-row items-center">
               <Image
-                source={IcMasterCard}
+                source={detectionCardType}
                 resizeMode="contain"
                 className="w-[20] h-[20]"
               />

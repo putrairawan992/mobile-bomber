@@ -128,6 +128,8 @@ const IcDelete = require('../assets/images/delete.png');
 const IcUpload = require('../assets/images/upload.png');
 const UserCrown = require('../assets/images/UserCrown.png');
 const IcBookRounded = require('../assets/images/book_rounded.png');
+const IcVisaLogo = require('../assets/images/visa-logo.png');
+const IcAmericanExpress = require('../assets/images/american_express.png');
 const ImgBackgroundDj = require('../assets/images/background_dj.png');
 
 const IcPencil = require('../assets/images/pencil.png');
@@ -169,6 +171,8 @@ const bannerPlaceDetailv2 = require('../assets/images/banner_place_detail_v2.png
 const placeDetailDummy = require('../assets/images/place_detail_dummy.png');
 
 export {
+  IcAmericanExpress,
+  IcVisaLogo,
   IcCalendar,
   placeDetailDummy,
   bannerPlaceDetail,

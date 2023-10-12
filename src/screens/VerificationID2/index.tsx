@@ -124,7 +124,7 @@ const VerificationID2 = () => {
               </View>
               <Gap height={20} />
               <DefaultText
-                title={'2/2'}
+                title={'Step 2/2'}
                 titleClassName="font-inter-bold text-xs"
               />
               <Gap height={10} />
@@ -155,7 +155,7 @@ const VerificationID2 = () => {
                   />
                 </TouchableOpacity>
               ) : (
-                <View className="bg-grey-one rounded-lg p-5 border-[2px] border-neutral-400 border-dotted">
+                <View className="bg-grey-one p-5 border-[1.5px] border-neutral-400 border-dashed">
                   <TouchableOpacity
                     activeOpacity={0.7}
                     onPress={() => {
@@ -169,14 +169,14 @@ const VerificationID2 = () => {
                     />
                     <Gap height={10} />
                     <DefaultText
-                      title="Upload your ID Card"
+                      title="Take photo of your id card"
                       titleClassName="font-inter-bold text-lg text-center"
                     />
                     <Gap height={10} />
-                    <DefaultText
+                    {/* <DefaultText
                       title="Browse files"
                       titleClassName="border-b-[1px] border-b-white self-center"
-                    />
+                    /> */}
                   </TouchableOpacity>
                 </View>
               )}
@@ -209,7 +209,7 @@ const VerificationID2 = () => {
                   />
                 </TouchableOpacity>
               ) : (
-                <View className="bg-grey-one rounded-lg p-5 border-[2px] border-neutral-400 border-dotted">
+                <View className="bg-grey-one p-5 border-[1.5px] border-neutral-400 border-dashed">
                   <TouchableOpacity
                     activeOpacity={0.7}
                     onPress={() => {
@@ -223,14 +223,14 @@ const VerificationID2 = () => {
                     />
                     <Gap height={10} />
                     <DefaultText
-                      title="Upload your ID Card"
+                      title="Take photo of your id card"
                       titleClassName="font-inter-bold text-lg text-center"
                     />
                     <Gap height={10} />
-                    <DefaultText
+                    {/* <DefaultText
                       title="Browse files"
                       titleClassName="border-b-[1px] border-b-white self-center"
-                    />
+                    /> */}
                   </TouchableOpacity>
                 </View>
               )}
