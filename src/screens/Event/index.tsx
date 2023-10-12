@@ -1,4 +1,5 @@
-import React, {useEffect, useState} from 'react';
+/* eslint-disable react-native/no-inline-styles */
+import React, {useState} from 'react';
 import {Layout, Spacer} from '../../components/atoms';
 import {Header} from '../../components/molecules';
 import styles from '../Styles';
@@ -19,10 +20,13 @@ import {BookingInterface} from '../../interfaces/BookingInterface';
 import {MainStackParams} from '../../navigation/MainScreenStack';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import useTheme from '../../theme/useTheme';
+import {useAppSelector} from '../../hooks/hooks';
+import {useFocusEffect} from '@react-navigation/native';
 
 type Props = NativeStackScreenProps<MainStackParams, 'Event', 'MyStack'>;
 
 export default function EventScreen({navigation}: Props) {
+  const {user} = useAppSelector(state => state.user);
   const [menu] = useState<string[]>([
     'Booking Table',
     'Walk In',
@@ -44,10 +48,12 @@ export default function EventScreen({navigation}: Props) {
   // const {user} = useAppSelector(state => state.user);
   const themes = useTheme();
 
-  useEffect(() => {
-    fetchData();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [status, activeTheme]);
+  useFocusEffect(
+    React.useCallback(() => {
+      !!user && fetchData();
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [navigation, status, activeTheme]),
+  );
 
   const convertString = (inputArray: string): string => {
     return inputArray.toLowerCase().replace(/ /g, '_');
@@ -57,7 +63,7 @@ export default function EventScreen({navigation}: Props) {
     try {
       setIsLoading(true);
       await MyEventService.getEventAllBookingHistory({
-        user_id: 'FQ5OvkolZtSBZEMlG1R3gtowbQv1',
+        user_id: user.id,
         tab: convertString(status),
         status: activeTheme.toLowerCase(),
       })

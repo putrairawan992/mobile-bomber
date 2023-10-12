@@ -27,18 +27,24 @@ import {useAppSelector} from '../hooks/hooks';
 import {getUserProfile} from '../service/AuthService';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {MainStackParams} from '../navigation/MainScreenStack';
+import {useEffect, useState} from 'react';
 
 type Props = NativeStackScreenProps<MainStackParams, 'Profile', 'MyStack'>;
 
 function ProfileScreen({navigation}: Props) {
   const {profile} = useAppSelector(state => state.profile);
+  const {user} = useAppSelector(state => state.user);
+  const [isFirebaseLogin, setIsFirebaseLogin] = useState<boolean>(true);
   const dispatch = useDispatch();
   const onLogOut = async () => {
     await removeStorage('refreshToken');
     await removeStorage('userAuth');
     await removeStorage('userType');
     await removeStorage('historySearchLocation');
-    await auth().signOut();
+    if (isFirebaseLogin) {
+      await auth().signOut();
+    }
+
     dispatch(handleLogOut());
   };
 
@@ -52,7 +58,18 @@ function ProfileScreen({navigation}: Props) {
     );
   };
 
-  console.log('profile?.user_profile[0]', profile?.user_profile[0].photoUrl);
+  const onAuthStateChanged = async (userAuth: any) => {
+    if (!userAuth) {
+      setIsFirebaseLogin(false);
+    }
+  };
+
+  useEffect(() => {
+    const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
+    return () => {
+      subscriber;
+    };
+  }, []);
 
   return (
     <Layout>
@@ -62,12 +79,12 @@ function ProfileScreen({navigation}: Props) {
             <View className="bg-neutral-400 w-[64] h-[64] rounded-full justify-center items-center">
               <Image
                 source={
-                  profile?.user_profile[0].photoUrl
+                  profile?.user_profile[0]?.photoUrl
                     ? {uri: profile?.user_profile[0].photoUrl}
-                    : IcProfile
+                    : {uri: user.photoUrl as string} ?? IcProfile
                 }
                 className={
-                  profile?.user_profile[0].photoUrl
+                  profile?.user_profile[0]?.photoUrl || user.photoUrl
                     ? 'w-full h-full rounded-full'
                     : 'w-[24] h-[24]'
                 }
@@ -77,7 +94,9 @@ function ProfileScreen({navigation}: Props) {
             <View>
               <View className="flex-row items-center">
                 <DefaultText
-                  title={profile?.user_profile[0]?.fullName ?? ''}
+                  title={
+                    profile?.user_profile[0]?.fullName ?? user.fullName ?? ''
+                  }
                   titleClassName="font-inter-bold text-2xl"
                 />
                 <Gap width={5} />
@@ -93,7 +112,9 @@ function ProfileScreen({navigation}: Props) {
                 </TouchableOpacity>
               </View>
               <DefaultText
-                title={`@${profile?.user_profile[0]?.userName ?? ''}`}
+                title={`@${
+                  profile?.user_profile[0]?.userName ?? user.username ?? ''
+                }`}
                 titleClassName="text-neutral-400 text-xs"
               />
               {profile?.user_profile[0]?.status !== 1 ? (

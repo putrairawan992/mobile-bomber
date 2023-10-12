@@ -32,6 +32,27 @@ export const AuthService = {
     );
     return response.data;
   },
+  checkRegisteredEmail: async ({
+    email,
+  }: {
+    email: string;
+  }): Promise<APIResponse<UserInterface[]>> => {
+    const response = await ax.get(`${URL}/get_profile_by_email/${email}`);
+    return response.data;
+  },
+  putFcmToken: async ({
+    user_id,
+    token,
+  }: {
+    user_id: string;
+    token: string;
+  }): Promise<APIResponse<UserInterface[]>> => {
+    const response = await ax.put(`${URL}/update_fcm_token`, {
+      user_id,
+      token,
+    });
+    return response.data;
+  },
 };
 
 export const getUserProfile = () => async (dispatch: AppDispatch) => {

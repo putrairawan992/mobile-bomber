@@ -7,6 +7,7 @@ export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
 export const LOG_OUT = 'LOG_OUT';
 export const UPDATE_USER_LOCATION = 'UPDATE_USER_LOCATION';
 export const SET_USER_TYPE = 'SET_USER_TYPE';
+export const SET_FCM_TOKEN = 'SET_FCM_TOKEN';
 
 export interface LoginSuccessI {
   type: typeof LOGIN_SUCCESS;
@@ -24,5 +25,10 @@ export interface UpdateUserLocationI {
 
 export interface SetUserTypeI {
   type: typeof SET_USER_TYPE;
+  payload: string;
+}
+
+export interface SetFcmTokenI {
+  type: typeof SET_FCM_TOKEN;
   payload: string;
 }

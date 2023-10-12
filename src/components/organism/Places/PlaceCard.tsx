@@ -1,5 +1,5 @@
 /* eslint-disable react-native/no-inline-styles */
-import {ArrowDown2, Gallery, Star1} from 'iconsax-react-native';
+import {ArrowDown2, Gallery} from 'iconsax-react-native';
 import React from 'react';
 import {
   Image,
@@ -25,6 +25,7 @@ import styles from './Style';
 import {Colors} from '../../../theme';
 import {UserLocationInterface} from '../../../interfaces/UserInterface';
 import {calculateDistance} from '../../../utils/calculateDistance';
+import {Star} from '../../../assets/icons';
 
 interface PlaceCardProps {
   item: PlaceInterface;
@@ -51,6 +52,7 @@ export const PlaceCard = ({
   const aspectRatio = useImageAspectRatio(
     item?.logo ?? 'https://bomber.app/club-logo/wave.png',
   );
+
   const renderSchedule = () => {
     return (
       <View style={styles.scheduleContainer}>
@@ -187,11 +189,17 @@ export const PlaceCard = ({
                 borderBottomRightRadius: 12,
               }),
             }}>
+            <Text
+              variant="base"
+              fontWeight="poppins-semi-bold"
+              label={item.name}
+            />
+            <Gap height={6} />
             <Section isRow isBetween>
               <Section isRow>
                 {[1, 2, 3, 4].map((star: number) => (
                   <View style={{marginRight: 6}} key={`star_${star}`}>
-                    <Star1 size={16} color="#3CA6EC" variant="Bold" />
+                    <Star size={16} color="#FB8500" />
                   </View>
                 ))}
                 <Text label={`${item.rating.toString()} / 5`} color="#A7B1C1" />

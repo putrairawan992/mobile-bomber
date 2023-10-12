@@ -48,6 +48,7 @@ import {COORDINATE_DATA} from '../utils/data';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import Carousel from 'react-native-reanimated-carousel';
 import OrderHomeTable from './OrderHomeTable';
+import usePushNotification from '../hooks/usePostNotification';
 
 type Props = NativeStackScreenProps<MainStackParams, 'Nightlife', 'MyStack'>;
 
@@ -83,6 +84,38 @@ function NightlifeScreen({route, navigation}: Props) {
     type,
     setType,
   } = useContext(ModalToastContext);
+
+  const {
+    requestUserPermission,
+    getFCMToken,
+    listenToBackgroundNotifications,
+    listenToForegroundNotifications,
+    onNotificationOpenedAppFromBackground,
+    onNotificationOpenedAppFromQuit,
+  } = usePushNotification();
+
+  useEffect(() => {
+    const listenToNotifications = () => {
+      try {
+        getFCMToken({userId: user.id, dispatch});
+        requestUserPermission();
+        onNotificationOpenedAppFromQuit();
+        listenToBackgroundNotifications();
+        listenToForegroundNotifications();
+        onNotificationOpenedAppFromBackground();
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    listenToNotifications();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
+    requestUserPermission();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [userLocation]);
 
   const openToast = (toastType: 'success' | 'error', message: string) => {
     setIsShowToast(true);

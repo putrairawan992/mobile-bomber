@@ -1,9 +1,13 @@
+/* eslint-disable react-native/no-inline-styles */
 import * as React from 'react';
 import * as Yup from 'yup';
 import {TouchableOpacity} from 'react-native';
 
 import {AuthStackParams} from '../../navigation/AuthScreenStack';
-import {LoginPayloadInterface} from '../../interfaces/UserInterface';
+import {
+  LoginPayloadInterface,
+  UserInterface,
+} from '../../interfaces/UserInterface';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import styles from './Styles/LogInStyle';
 import {useFormik} from 'formik';
@@ -26,6 +30,12 @@ import {ModalToastContext} from '../../context/AppModalToastContext';
 import {setStorage} from '../../service/mmkvStorage';
 import {useDispatch} from 'react-redux';
 import {loginSuccess, setUserType} from '../../store/user/userActions';
+import {
+  GoogleSignin,
+  statusCodes,
+} from '@react-native-google-signin/google-signin';
+import {Google} from 'iconsax-react-native';
+import Config from 'react-native-config';
 
 type Props = NativeStackScreenProps<AuthStackParams, 'LogIn', 'MyStack'>;
 
@@ -33,6 +43,7 @@ function LogInScreen({navigation}: Props) {
   const theme = useTheme();
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isLoadingDj, setIsLoadingDj] = useState<boolean>(false);
+  const [isLoadingGoogle, setIsLoadingGoogle] = useState<boolean>(false);
   const dispatch = useDispatch();
   const {
     isShowToast,
@@ -99,7 +110,6 @@ function LogInScreen({navigation}: Props) {
         phone,
         password,
       });
-
       if (login.error) {
         openToast('error', login.message);
         setIsLoading(false);
@@ -125,11 +135,95 @@ function LogInScreen({navigation}: Props) {
     }
   };
 
+  const googleLogin = async () => {
+    try {
+      setIsLoadingGoogle(true);
+      await GoogleSignin.hasPlayServices();
+      const userInfo = await GoogleSignin.signIn();
+      const res = await AuthService.checkRegisteredEmail({
+        email: userInfo.user.email,
+      });
+
+      let userAuth;
+      if (res?.data?.length) {
+        const data = res?.data[0];
+        userAuth = {
+          id: data.id,
+          fullName: data.username,
+          username: data.username,
+          phone: data.phone,
+          photoUrl: data.photoUrl,
+          email: data.email,
+          creationTime: 0,
+          lastSignInTime: 0,
+          emailVerified: false,
+          age: 0,
+          bio: data.bio,
+        };
+      } else {
+        await AuthService.postRegister({
+          id: userInfo.user.id.toString(),
+          username: userInfo.user.givenName as string,
+          phone: '',
+          email: userInfo.user.email,
+          password: '',
+          photo_url: userInfo.user.photo as string,
+        });
+        console.log('tidak ada');
+        userAuth = {
+          id: userInfo.user.id.toString(),
+          fullName: userInfo.user.name as string,
+          username: userInfo.user.givenName as string,
+          phone: '',
+          photoUrl: userInfo.user.photo as string,
+          email: userInfo.user.email,
+          creationTime: 0,
+          lastSignInTime: 0,
+          emailVerified: false,
+          age: 0,
+          bio: '',
+        };
+      }
+      console.log('authh :', userAuth);
+      handleAutoSignIn(userAuth);
+    } catch (error: any) {
+      if (error.code === statusCodes.SIGN_IN_CANCELLED) {
+        console.log(error);
+      } else if (error.code === statusCodes.IN_PROGRESS) {
+        console.log(error);
+      } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
+        console.log(error);
+      }
+      setIsLoadingGoogle(false);
+    }
+  };
+
+  const handleAutoSignIn = async (userAuth: UserInterface) => {
+    await setStorage('userAuth', JSON.stringify(userAuth));
+    await setStorage('userType', 'regular');
+    await setStorage('refreshToken', userAuth.id as string);
+    setIsLoadingGoogle(false);
+    openToast('success', 'Login successfully');
+    setTimeout(() => {
+      dispatch(loginSuccess(userAuth));
+      dispatch(setUserType('regular'));
+    }, 2000);
+  };
+
   useEffect(() => {
     const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
     return () => {
       subscriber;
     };
+  }, []);
+
+  const webClientId = Config.WEB_CLIENT_ID;
+
+  useEffect(() => {
+    GoogleSignin.configure({
+      webClientId: webClientId,
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const djSignIn = async () => {
@@ -161,7 +255,7 @@ function LogInScreen({navigation}: Props) {
 
   return (
     <Layout contentContainerStyle={styles.container}>
-      {isLoadingDj && <Loading />}
+      {(isLoadingDj || isLoadingGoogle) && <Loading />}
       <LogoLabel
         title="Nightlife Awaits!"
         subtitle="Access your account and get ready for an unforgettable night of fun and celebration."
@@ -201,6 +295,20 @@ function LogInScreen({navigation}: Props) {
         onPress={() => formik.handleSubmit()}
         title="Sign In"
         isLoading={isLoading}
+      />
+      <Spacer sm />
+      <Button
+        type="outlined"
+        onPress={googleLogin}
+        title="Login with Google"
+        isLoading={isLoadingGoogle}
+        LeftComponent={
+          <Google
+            size={16}
+            color={theme?.colors.PRIMARY}
+            style={{marginRight: 8}}
+          />
+        }
       />
       <Spacer lxx />
       <Section isRow>

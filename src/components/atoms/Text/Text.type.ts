@@ -30,7 +30,8 @@ export type FontWeightType =
   | 'raleway-bold'
   | 'raleway-medium'
   | 'raleway-regular'
-  | 'poppins-regular';
+  | 'poppins-regular'
+  | 'poppins-semi-bold';
 export type TextAlignType = 'left' | 'center' | 'right' | 'justify';
 export type TextDecorationType = 'underline' | 'none' | 'line-through';
 export type TextTransformType =

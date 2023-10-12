@@ -29,6 +29,7 @@ export interface SignUpPayloadInterface {
   confirmPassword?: string;
   email: string;
   id?: string;
+  photo_url?: string;
 }
 
 export interface ResetPasswordInterface {

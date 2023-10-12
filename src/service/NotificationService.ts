@@ -1,8 +1,10 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
+import Config from 'react-native-config';
 import {APIResponse} from '../interfaces/BaseApiResponse';
 import {
   InviteNotificationInterface,
   PayloadActionInvitationInterface,
+  PayloadPushNotificationInterface,
   PayloadReadNotificationInterface,
   RequestFriendNotificationInterface,
 } from '../interfaces/NotificationInterface';
@@ -81,5 +83,31 @@ export const NotificationService = {
     dispatch(setFriendRequest(friendRequestData));
     dispatch(setFriendRequestCount(friendRequestData.length));
     return response.data;
+  },
+  pushNotification: async (
+    payload: PayloadPushNotificationInterface,
+  ): Promise<APIResponse<unknown>> => {
+    const result = await fetch('https://fcm.googleapis.com/fcm/send', {
+      method: 'POST',
+      body: JSON.stringify({
+        to: payload.target,
+        notification: {
+          title: payload.title,
+          body: payload.body,
+          mutable_content: true,
+          sound: 'Tri-tone',
+        },
+        data: {
+          url: '<url of media image>',
+          dl: '<deeplink action on tap of notification>',
+        },
+      }),
+      headers: {
+        'Content-type': 'application/json; charset=UTF-8',
+        Authorization: `key=${Config.FCM_KEY}`,
+      },
+    });
+    const data = await result.json();
+    return data;
   },
 };
