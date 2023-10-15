@@ -296,6 +296,7 @@ function NightlifeScreen({route, navigation}: Props) {
               onChangeText={(value: string) => setSearchValue(value)}
               placeholder="Search party"
               type="search"
+              onFocus={() => navigation.navigate('Search')}
             />
           </Section>
         </EntryAnimation>
