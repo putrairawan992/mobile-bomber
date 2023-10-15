@@ -37,3 +37,8 @@ export interface CoordinateInterface {
   latitude: number;
   longitude: number;
 }
+
+export interface LabelValueInterface {
+  label: string;
+  value: string;
+}

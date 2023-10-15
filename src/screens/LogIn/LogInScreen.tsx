@@ -36,6 +36,8 @@ import {
 } from '@react-native-google-signin/google-signin';
 import {Google} from 'iconsax-react-native';
 import Config from 'react-native-config';
+import {PhoneInput} from '../../components/atoms/Form/PhoneInput';
+import {COUNTRY_PHONE_CODE} from '../../utils/data';
 
 type Props = NativeStackScreenProps<AuthStackParams, 'LogIn', 'MyStack'>;
 
@@ -43,6 +45,9 @@ function LogInScreen({navigation}: Props) {
   const theme = useTheme();
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isLoadingDj, setIsLoadingDj] = useState<boolean>(false);
+  const [phoneCode, setPhoneCode] = useState<string>(
+    COUNTRY_PHONE_CODE[0].country,
+  );
   const [isLoadingGoogle, setIsLoadingGoogle] = useState<boolean>(false);
   const dispatch = useDispatch();
   const {
@@ -66,9 +71,8 @@ function LogInScreen({navigation}: Props) {
     enableReinitialize: true,
     onSubmit: values =>
       handleSignIn(
-        values.phone.includes('+')
-          ? formatPhoneNumber(values.phone)
-          : '+' + formatPhoneNumber(values.phone),
+        (COUNTRY_PHONE_CODE.find(el => el.country === phoneCode)
+          ?.code as string) + values.phone,
         values.password,
       ),
   });
@@ -86,6 +90,7 @@ function LogInScreen({navigation}: Props) {
     setToastMessage(message);
   };
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   function formatPhoneNumber(phoneNumber: string): string {
     // Hapus semua karakter non-digit dari nomor telepon
     const cleanedPhoneNumber = phoneNumber.replace(/\D/g, '');
@@ -258,16 +263,22 @@ function LogInScreen({navigation}: Props) {
         title="Nightlife Awaits!"
         subtitle="Access your account and get ready for an unforgettable night of fun and celebration."
       />
-      <TextInput
-        value={formik.values.phone}
-        label="Phone Number"
-        errorText={formik.errors.phone}
+      <PhoneInput
+        data={COUNTRY_PHONE_CODE.map(item => {
+          return {
+            value: item.country,
+            label: item.code,
+          };
+        })}
+        errorText={formik.errors.phone ?? ''}
+        value={phoneCode}
+        onChange={value => setPhoneCode(value)}
+        label="Phone number"
+        textValue={formik.values.phone}
         onChangeText={value => {
           formik.setFieldValue('phone', value);
           formik.setFieldError('phone', undefined);
         }}
-        placeholder="Phone number"
-        isNumeric
       />
       <Spacer l />
       <TextInput
@@ -278,7 +289,7 @@ function LogInScreen({navigation}: Props) {
           formik.setFieldValue('password', value);
           formik.setFieldError('password', undefined);
         }}
-        placeholder="Password"
+        placeholder="password"
         type="password"
       />
       <Spacer sm />

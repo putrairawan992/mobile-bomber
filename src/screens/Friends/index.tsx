@@ -44,6 +44,7 @@ import {useFocusEffect} from '@react-navigation/native';
 import {RequestFriendNotificationInterface} from '../../interfaces/NotificationInterface';
 import {NotificationService} from '../../service/NotificationService';
 import {useDispatch} from 'react-redux';
+import {AuthService} from '../../service/AuthService';
 
 type Props = NativeStackScreenProps<MainStackParams, 'Friends', 'MyStack'>;
 
@@ -161,6 +162,14 @@ function FriendsScreen({navigation}: Props) {
           customer_id: user.id,
           new_friend_id: selectedUser?.customerId as string,
         },
+      });
+      const fcmTarget = await AuthService.getFcmToken({
+        user_id: selectedUser?.customerId as string,
+      });
+      await NotificationService.pushNotification({
+        target: fcmTarget.data[0].fcm_token,
+        title: 'New Friend Request',
+        body: `${user.username} want to add you as friend 🙌🏻🥂`,
       });
       await fetchData();
       setIsLoading(false);

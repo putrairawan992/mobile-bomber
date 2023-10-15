@@ -29,10 +29,13 @@ import {NotificationService} from '../../service/NotificationService';
 import {useDispatch} from 'react-redux';
 import {ModalToastContext} from '../../context/AppModalToastContext';
 import {FriendshipService} from '../../service/FriendshipService';
+import {NativeStackScreenProps} from '@react-navigation/native-stack';
+import {MainStackParams} from '../../navigation/MainScreenStack';
 
-// type Props = NativeStackScreenProps<MainStackParams, 'Saved', 'MyStack'>;
+type Props = NativeStackScreenProps<MainStackParams, 'Notification', 'MyStack'>;
 
-function NotificationScreen() {
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+function NotificationScreen({route}: Props) {
   const [menu] = useState<string[]>(['Apps', 'Invitation', 'Bill', 'Friends']);
   const {invitation, invitationCount, friendRequest, friendRequestCount} =
     useAppSelector(state => state.notification);
@@ -64,6 +67,15 @@ function NotificationScreen() {
     setType(toastType);
     setToastMessage(message);
   };
+
+  // React.useEffect(() => {
+  //   if (route.params?.activeTab) {
+  //     setTimeout(() => {
+  //       setInitialPage(Number(route.params.activeTab));
+  //     }, 500);
+  //   }
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [route.params]);
 
   const onOpenInvitation = async (data: InviteNotificationInterface) => {
     try {

@@ -53,6 +53,14 @@ export const AuthService = {
     });
     return response.data;
   },
+  getFcmToken: async ({
+    user_id,
+  }: {
+    user_id: string;
+  }): Promise<APIResponse<any[]>> => {
+    const response = await ax.get(`${URL}/get_fcm_token/${user_id}`);
+    return response.data;
+  },
 };
 
 export const getUserProfile = () => async (dispatch: AppDispatch) => {

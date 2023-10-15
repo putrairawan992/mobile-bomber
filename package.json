@@ -5,7 +5,7 @@
   "scripts": {
     "android": "react-native run-android",
     "ios": "react-native run-ios",
-    "ios-11": "npx react-native run-ios --udid 3D1CF9BA-B226-458A-8C78-DA38B46AA943",
+    "ios-11": "npx react-native run-ios --udid 3725D52A-CF78-4D08-B3C1-B41A05368C96",
     "ios-14": "npx react-native run-ios --udid AFF756C0-8566-4333-B944-341041C1E6A9",
     "start": "react-native start",
     "test": "jest",
@@ -25,7 +25,8 @@
     "ios-clean-build": "cd ios && xcodebuild clean",
     "pod-install": "cd ios && pod install",
     "apk": "cd android && ./gradlew assembleRelease",
-    "reactotron": "adb reverse tcp:9090 tcp:9090"
+    "reactotron": "adb reverse tcp:9090 tcp:9090",
+    "clean": "watchman watch-del-all; rm -fr $TMPDIR/react-*; "
   },
   "dependencies": {
     "@apolloeagle/loading-dots": "^3.0.0",
@@ -72,6 +73,7 @@
     "react-native-circular-progress": "^1.3.9",
     "react-native-config": "^1.5.1",
     "react-native-eject": "^0.2.0",
+    "react-native-element-dropdown": "^2.10.0",
     "react-native-extended-stylesheet": "^0.12.0",
     "react-native-geolocation-service": "5.3.0-beta.1",
     "react-native-gesture-handler": "2.9.0",
