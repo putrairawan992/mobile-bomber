@@ -15,7 +15,6 @@ import {Eye, EyeSlash} from 'iconsax-react-native';
 import useTheme from '../../../theme/useTheme';
 import useThemedStyles from '../../../theme/useThemedStyles';
 import {Text} from '..';
-import colors from '../../../styles/colors';
 import {SHADOWS} from '../../../utils/config';
 import {Search} from '../../../assets/icons/Search';
 import {Colors} from '../../../theme';
@@ -63,11 +62,11 @@ export const TextInput = React.forwardRef((props: Props, ref) => {
 
   const borderWidth = isFocused ? 1 : 1;
   if (errorText) {
-    color = theme?.colors.ERROR;
+    color = Colors['danger-400'];
   }
 
   if (errorText) {
-    borderColor = theme?.colors.ERROR;
+    borderColor = Colors['danger-400'];
   }
 
   const internalInputRef = React.useRef<any>();
@@ -84,7 +83,7 @@ export const TextInput = React.forwardRef((props: Props, ref) => {
       <View
         style={{
           flexDirection: 'row',
-          paddingHorizontal: 22,
+          paddingHorizontal: 12,
           ...(Platform.OS === 'ios' && {paddingVertical: 12}),
           borderRadius: 8,
           borderWidth,
@@ -149,7 +148,11 @@ export const TextInput = React.forwardRef((props: Props, ref) => {
       {errorText && (
         <View>
           <Spacer xs />
-          <Text variant="small" color={colors.errorRed} label={errorText} />
+          <Text
+            variant="small"
+            color={Colors['danger-400']}
+            label={errorText}
+          />
         </View>
       )}
     </View>

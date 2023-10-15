@@ -4,8 +4,11 @@ import {AuthService} from '../service/AuthService';
 import {AppDispatch} from '../store';
 import {setFcmToken} from '../store/user/userActions';
 import notifee from '@notifee/react-native';
+import {useNavigation} from '@react-navigation/native';
 
 const usePushNotification = () => {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const navigation = useNavigation<any>();
   const requestUserPermission = async () => {
     if (Platform.OS === 'ios') {
       //Request iOS permission
@@ -81,7 +84,6 @@ const usePushNotification = () => {
 
   const onNotificationOpenedAppFromQuit = async () => {
     const message = await messaging().getInitialNotification();
-
     if (message) {
       console.log(
         'App opened from QUIT by tapping notification:',

@@ -42,6 +42,7 @@ import Order from '../screens/Order';
 import OrderQrCode from '../screens/Order/OrderQrCode';
 import {GalleryMappingInterface} from '../interfaces/Interface';
 import GalleryDetail from '../screens/Gallery/GalleryDetail';
+import SearchScreen from '../screens/Search';
 
 export type MainStackParams = {
   ComingSoon: undefined;
@@ -99,6 +100,7 @@ export type MainStackParams = {
     index: number;
     items: GalleryMappingInterface[];
   };
+  Search: undefined;
 };
 
 interface TabBarContentProps {
@@ -285,6 +287,15 @@ const MainScreenStack = () => {
       />
       <Stack.Screen name="PlaceByCategory" component={PlaceByCategory} />
       <Stack.Screen name="GalleryDetail" component={GalleryDetail} />
+      <Stack.Screen
+        name="Search"
+        component={SearchScreen}
+        options={{
+          presentation: 'fullScreenModal',
+          animationTypeForReplace: 'push',
+          animation: 'slide_from_right',
+        }}
+      />
     </Stack.Navigator>
   );
 };

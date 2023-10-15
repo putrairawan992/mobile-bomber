@@ -563,7 +563,6 @@ function BookingTableScreen({route, navigation}: Props) {
       {step === 2 &&
       !!selectedDate &&
       !!selectedTable &&
-      selectedInvitation.length &&
       tableExpand?.isAvailable ? (
         <Button
           type="primary"
