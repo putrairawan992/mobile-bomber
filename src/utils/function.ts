@@ -76,7 +76,7 @@ export const getInitialNameForFallbackAvatar = ({name}: {name: string}) => {
 
 export const currency = (value: any, hasNoPrefix?: boolean) => {
   return (
-    (hasNoPrefix ? '' : 'NT ') + new Intl.NumberFormat('en-DE').format(value)
+    new Intl.NumberFormat('en-DE').format(value) + (hasNoPrefix ? '' : ' NTD')
   );
 };
 

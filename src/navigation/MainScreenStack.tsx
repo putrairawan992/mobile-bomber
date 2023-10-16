@@ -69,6 +69,7 @@ export type MainStackParams = {
   };
   MyBookingDetail: {
     bookingId: string;
+    club_id: string;
     status: string;
   };
   BookingTable: {
@@ -119,20 +120,16 @@ function Main() {
         {item.icon}
         {item.focused ? (
           <Text
+            fontWeight="semi-bold"
             color={'#EF9533'}
             style={{
               fontSize: 14,
-              fontFamily: 'Poppins-Bold',
               lineHeight: 18,
             }}
             label={item.title}
           />
         ) : (
-          <Text
-            label={item.title}
-            color="#FBFDFF"
-            fontWeight="poppins-regular"
-          />
+          <Text label={item.title} color="#FBFDFF" fontWeight="regular" />
         )}
       </>
     );

@@ -7,11 +7,11 @@ import {
   Text,
   TouchableOpacity,
 } from 'react-native';
-import ImagePicker, {ImageOrVideo} from 'react-native-image-crop-picker';
+import ImagePicker from 'react-native-image-crop-picker';
 import Modal from 'react-native-modal';
 
 interface AvatarProps extends ImageProps {
-  onChange?: (file: ImageOrVideo) => void;
+  onChange?: (file: any) => void;
   visible?: boolean;
   onPickImage?: any;
   source: any;
@@ -38,6 +38,7 @@ export const Avatar = (props: AvatarProps) => {
       width: 300,
       height: 400,
       cropping: true,
+      includeBase64: true,
     })
       .then(image => {
         setUri(image.path);

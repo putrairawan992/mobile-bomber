@@ -292,12 +292,12 @@ export const TableOrderDetail = ({
                 ? isFullPayment
                   ? currency(
                       selectedTable.minOrder -
-                        (coupons.length ? coupons[0].disc : 0),
+                        (coupons?.length ? coupons[0].disc : 0),
                     ).toString()
                   : currency(
                       selectedTable.minOrder +
                         selectedTable?.minOrder * 0.05 -
-                        (coupons.length ? coupons[0].disc : 0),
+                        (coupons?.length ? coupons[0].disc : 0),
                     ).toString()
                 : ''
             }

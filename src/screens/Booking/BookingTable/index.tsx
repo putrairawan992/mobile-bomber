@@ -359,17 +359,17 @@ function BookingTableScreen({route, navigation}: Props) {
             Number(selectedTable?.minOrder) +
             Number(selectedTable?.minOrder) * 0.05 -
             (isPayFull ? Number(selectedTable?.minOrder) * 0.05 : 0) -
-            (coupons.length ? coupons[0].disc : 0),
+            (coupons?.length ? coupons[0].disc : 0),
           disc:
             (isPayFull ? Number(selectedTable?.minOrder) * 0.05 : 0) +
-            (coupons.length ? coupons[0].disc : 0),
+            (coupons?.length ? coupons[0].disc : 0),
           total_guest: selectedInvitation.length,
           table_id: selectedTable?.tableId as string,
           min_order: Number(selectedTable?.minOrder),
           payment_method: 'Credit Card',
           member_invited: selectedInvitation.map(item => item.customerId),
           is_full_payment: isPayFull ? 1 : 0,
-          coupon_used: coupons.length,
+          coupon_used: coupons?.length,
         },
       });
       if (coupons?.length) {

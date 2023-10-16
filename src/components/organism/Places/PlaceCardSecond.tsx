@@ -185,10 +185,10 @@ export const PlaceCardSecond = ({
         loop
         width={WIDTH}
         height={WIDTH / 1.5}
-        // autoPlay={true}
+        autoPlay={true}
         data={dataImageSldier}
-        scrollAnimationDuration={5000}
-        // onSnapToItem={index => setPromoActive(index)}
+        autoPlayInterval={5000}
+        scrollAnimationDuration={100}
         renderItem={({item, index}: any) => (
           <TouchableOpacity
             activeOpacity={0.7}

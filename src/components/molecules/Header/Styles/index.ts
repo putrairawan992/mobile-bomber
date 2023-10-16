@@ -8,6 +8,8 @@ import {WIDTH} from '../../../../utils/config';
 export default EStyleSheet.create({
   header: {
     paddingHorizontal: 16,
+    marginLeft: 10,
+    marginTop: 20,
     paddingTop: 12,
     width: '100%',
     flexDirection: 'row',

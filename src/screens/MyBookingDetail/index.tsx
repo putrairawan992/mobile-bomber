@@ -58,7 +58,9 @@ export default function MyBookingDetail({route, navigation}: Props) {
     'Request',
   ]);
   const bookingId = route.params.bookingId;
+  const clubId = route.params.club_id;
   const [initialPage, setInitialPage] = useState<number>(0);
+  const [base64Qr, setBase64Qr] = useState<any>();
   const [showDetailTicket, setShowDetailTicket] = useState<boolean>(false);
   const [showInviteFriends, setShowInviteFriends] = useState<boolean>(false);
   const [content2, setContent2] = useState<number>();
@@ -138,11 +140,15 @@ export default function MyBookingDetail({route, navigation}: Props) {
         MyEventService.getBookingDetail({
           booking_id: bookingId,
         }),
+        MyEventService.getGenerateQrCode({
+          club_id: clubId,
+        }),
       ])
         .then(response => {
           setFriendshipData(response[0].data);
           setBooking(response[1].data.bookingDetail[0]);
           setMemberInvited(response[1].data.memberInvited);
+          setBase64Qr(response[2]?.data);
         })
         .catch(() => {
           openToast('error', 'Failed get booking detail');
@@ -269,7 +275,7 @@ export default function MyBookingDetail({route, navigation}: Props) {
           </View>
           <Spacer height={10} />
           <View className="items-center bg-black rounded-lg p-2 w-full">
-            <QRCode value="http://awesome.link.qr" size={300} />
+            <QRCode logo={{uri: base64Qr}} size={300} />
           </View>
           <Spacer height={15} />
           <View className="w-[200] h-[5] bg-white rounded-full self-center">

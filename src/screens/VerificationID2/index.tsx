@@ -155,7 +155,7 @@ const VerificationID2 = () => {
                   />
                 </TouchableOpacity>
               ) : (
-                <View className="bg-grey-one p-5 border-[1.5px] border-neutral-400 border-dashed">
+                <View style={styles.dahsed} className="bg-grey-one p-5">
                   <TouchableOpacity
                     activeOpacity={0.7}
                     onPress={() => {
@@ -209,7 +209,7 @@ const VerificationID2 = () => {
                   />
                 </TouchableOpacity>
               ) : (
-                <View className="bg-grey-one p-5 border-[1.5px] border-neutral-400 border-dashed">
+                <View style={styles.dahsed} className="bg-grey-one p-5">
                   <TouchableOpacity
                     activeOpacity={0.7}
                     onPress={() => {
@@ -261,6 +261,13 @@ const VerificationID2 = () => {
 const styles = StyleSheet.create({
   title: {
     color: colors.white,
+  },
+  dahsed: {
+    strokeDasharray: 11,
+    borderRadius: 8, // Mengatur radius sudut menjadi 8px
+    borderWidth: 1, // Ketebalan garis batas
+    borderStyle: 'dashed', // Mengatur tipe garis batas menjadi dashed
+    borderColor: '#9F9E9F', // Warna garis batas (sesuaikan dengan yang Anda inginkan)
   },
   buttonBackChild: {
     backgroundColor: 'rgba(0,0,0,0.2)',

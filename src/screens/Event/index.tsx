@@ -29,7 +29,7 @@ export default function EventScreen({navigation}: Props) {
   const {user} = useAppSelector(state => state.user);
   const [menu] = useState<string[]>([
     'Booking Table',
-    'Walk in Ticket',
+    'Walk In Ticket',
     'Direct Order',
   ]);
   const [theme] = useState<string[]>([
@@ -45,7 +45,6 @@ export default function EventScreen({navigation}: Props) {
   const [initialPage, setInitialPage] = useState<number>(0);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [dataEvents, setDataEvents] = useState<BookingInterface[]>([]);
-  // const {user} = useAppSelector(state => state.user);
   const themes = useTheme();
 
   useFocusEffect(
@@ -56,7 +55,7 @@ export default function EventScreen({navigation}: Props) {
   );
 
   const convertString = (inputArray: string): string => {
-    return inputArray.toLowerCase().replace(/ /g, '_');
+    return inputArray?.replace('Ticket', '').replace(/\s/g, '');
   };
 
   const fetchData = async () => {
@@ -65,21 +64,24 @@ export default function EventScreen({navigation}: Props) {
       await MyEventService.getEventAllBookingHistory({
         user_id: 'FQ5OvkolZtSBZEMlG1R3gtowbQv1',
         tab: convertString(status),
-        status: activeTheme.toLowerCase(),
+        status: activeTheme,
       })
         .then(response => {
-          console.log('res=', response.data);
           setDataEvents(response?.data);
         })
         .catch(error => {
-          console.log(error);
+          console.log(error.response.data.message);
         })
         .finally(() => setIsLoading(false));
     } catch (error: any) {}
   };
 
   const handleBookingSelect = (data: BookingInterface) =>
-    navigation.navigate('MyBookingDetail', {bookingId: data.bookingId, status});
+    navigation.navigate('MyBookingDetail', {
+      bookingId: data.bookingId,
+      status,
+      club_id: data?.club_id,
+    });
 
   return (
     <Layout contentContainerStyle={styles.container}>

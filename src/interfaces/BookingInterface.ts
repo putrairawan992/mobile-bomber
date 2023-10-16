@@ -81,8 +81,11 @@ export interface PayloadWaitingListInterface {
 
 export interface BookingInterface {
   bookingId: string;
+  ticketName: string;
+  isChecked: number;
   tableId: string;
   bookingDate: string;
+  isFullPayment: number;
   paidTotal: number;
   club_id: string;
   joinedTotal: number;
