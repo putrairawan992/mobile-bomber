@@ -53,7 +53,7 @@
     "axios": "^1.4.0",
     "date-fns": "^2.30.0",
     "dayjs": "^1.11.9",
-    "deprecated-react-native-prop-types": "^4.2.1",
+    "deprecated-react-native-prop-types": "^5.0.0",
     "eject": "^0.0.4",
     "eslint-plugin-sonarjs": "^0.19.0",
     "formik": "^2.4.1",

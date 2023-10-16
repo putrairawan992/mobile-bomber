@@ -305,12 +305,13 @@ function NightlifeScreen({route, navigation}: Props) {
             <CustomShimmer width={WIDTH} height={WIDTH} />
           ) : (
             <Carousel
-              loop
+              loop={false}
               width={width}
               height={width}
               autoPlay={true}
+              autoPlayInterval={5000}
               data={[1, 2, 3, 4]}
-              scrollAnimationDuration={5000}
+              scrollAnimationDuration={100}
               // eslint-disable-next-line @typescript-eslint/no-unused-vars
               renderItem={({item}: any) => (
                 <TouchableOpacity

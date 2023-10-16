@@ -18,13 +18,38 @@ interface CardBooking {
 }
 
 function CardBooking({type, data, onSelect, status}: CardBooking) {
-  let tagOne = 'Deposit';
-  let bgColorTagOne = '#EF9533';
+  let tagOne = 'Deposit' as any;
   let tagTwo = 'Checked';
+
+  let bgColorTagOne = '#EF9533';
   let bgColorTagTwo = '#0CA35F';
+  let bgColorTagThree: any;
+
+  if (data?.isFullPayment === 1) {
+    tagOne = 'Full Paid';
+    bgColorTagOne = '#0CA35F';
+  }
+
+  if (data?.isChecked !== 1) {
+    tagTwo = '';
+    bgColorTagTwo = 'transparent';
+  }
+
+  if (['VIP Ticket', 'Couples Package'].includes(data?.ticketName as any)) {
+    bgColorTagOne = '#FFE419';
+    bgColorTagTwo = '#F27611';
+    bgColorTagThree = undefined;
+  }
+
+  if (data?.ticketName === 'Hot Ticket') {
+    bgColorTagOne = '#FF1919';
+    bgColorTagTwo = '#FA3E16';
+    bgColorTagThree = '#F27611';
+  }
+
   switch (status) {
-    case 'Walk in Ticket':
-      tagOne = 'VIP Ticket';
+    case 'Walk In Ticket':
+      tagOne = data?.ticketName;
       break;
     case 'Direct Order':
       tagOne = 'Host Order';
@@ -34,17 +59,17 @@ function CardBooking({type, data, onSelect, status}: CardBooking) {
   return (
     <TouchableOpacity
       activeOpacity={0.7}
-      className="mx-3 p-2 bg-neutral-800 rounded-xl mb-3"
+      className="mx-3 p-4 bg-neutral-800 rounded-xl mb-3"
       onPress={() => (data ? onSelect(data) : undefined)}>
       <View className="flex-row justify-between">
         <View className="flex-row">
-          {status === 'Walk in Ticket' ? (
+          {status === 'Walk In Ticket' ? (
             <LinearGradient
-              style={{borderRadius: 4, width: 100}}
+              style={{borderRadius: 4}}
               start={{x: 0.8, y: 0}}
               end={{x: 0, y: 1}}
-              colors={['#FFE419', '#F27611']}
-              className="p-1 rounded-sm">
+              colors={[bgColorTagOne, bgColorTagTwo, bgColorTagThree]}
+              className="mt-1 p-1">
               <Text className="text-xs font-inter-semibold text-white text-center">
                 {tagOne}
               </Text>
@@ -53,22 +78,20 @@ function CardBooking({type, data, onSelect, status}: CardBooking) {
             status === 'Booking Table' && (
               <>
                 <View
-                  className="p-1 rounded-sm"
+                  className="mt-1 p-1"
                   style={{
                     backgroundColor: bgColorTagOne,
                     borderRadius: 4,
-                    width: 80,
                   }}>
                   <Text className="text-xs font-inter-semibold text-white text-center">
                     {tagOne}
                   </Text>
                 </View>
                 <View
-                  className="ml-2 p-1 rounded-sm"
+                  className="mt-1 ml-2 p-1"
                   style={{
                     backgroundColor: bgColorTagTwo,
                     borderRadius: 4,
-                    width: 80,
                   }}>
                   <Text className="text-xs font-inter-semibold text-white text-center">
                     {tagTwo}
@@ -79,11 +102,10 @@ function CardBooking({type, data, onSelect, status}: CardBooking) {
           )}
           {status === 'Direct Order' && (
             <View
-              className="p-1 rounded-sm"
+              className="mt-1 p-1"
               style={{
                 backgroundColor: bgColorTagTwo,
                 borderRadius: 4,
-                width: 100,
               }}>
               <Text className="text-xs font-inter-semibold text-white text-center">
                 {tagOne}
@@ -93,32 +115,32 @@ function CardBooking({type, data, onSelect, status}: CardBooking) {
         </View>
         <DefaultText
           title={`${moment(data?.bookingDate).format('ddd, DD MMM hh:mm')}`}
-          titleClassName="text-xs text-neutral-400"
+          titleClassName="text-xs mt-2 text-neutral-400"
         />
       </View>
       <Gap height={10} />
       <View className="flex-row">
         <Image
           source={{uri: data?.clubImg}}
-          className="w-[80] h-[80] rounded-lg"
+          className="w-[100] h-[100] rounded-lg"
           resizeMode="cover"
         />
         <Gap width={10} />
-        <View className="flex-1">
+        <View className="flex-1 ml-2">
           <DefaultText
             title={`ID : ${data?.club_id}`}
             titleClassName="text-xs text-neutral-400 flex-1"
           />
-          <Gap height={status === 'Walk in Ticket' ? 2.5 : 10} />
+          <Gap height={status === 'Walk In Ticket' ? 2.5 : 10} />
           <DefaultText
             title={`${data?.clubName}`}
             titleClassName="text-base font-poppins-semibold"
           />
           <Gap height={2.5} />
-          {status === 'Walk in Ticket' ? (
+          {status === 'Walk In Ticket' ? (
             <View className="flex-row items-center">
               <TouchableOpacity
-                className={status === 'Walk in Ticket' ? 'ml-0' : 'ml-2.5'}>
+                className={status === 'Walk In Ticket' ? 'ml-0' : 'ml-2.5'}>
                 <CalendarSecond color={Colors['white-70']} size={20} />
               </TouchableOpacity>
               <DefaultText
@@ -129,7 +151,7 @@ function CardBooking({type, data, onSelect, status}: CardBooking) {
           ) : (
             status === 'Booking Table' && (
               <View className="flex-row items-center">
-                <TouchableOpacity className="mr-1.5">
+                <TouchableOpacity className="mt-1 mr-1.5">
                   <Sofa color={Colors['white-70']} size={20} />
                 </TouchableOpacity>
                 <DefaultText
@@ -177,7 +199,7 @@ function CardBooking({type, data, onSelect, status}: CardBooking) {
               />
             </Section>
           ) : (
-            status === 'Walk in Ticket' && (
+            status === 'Walk In Ticket' && (
               <DefaultText
                 title={`${currency(data?.paidTotal)} | ${type.toUpperCase()}`}
                 titleClassName={
@@ -187,7 +209,7 @@ function CardBooking({type, data, onSelect, status}: CardBooking) {
             )
           )}
           {status === 'Direct Order' && (
-            <DefaultText title={'1x Jack D, 1x Balihai beer, 2x Singapo...'} />
+            <DefaultText title={'1x Jack D, 1x Balihai beer'} />
           )}
           <Gap height={10} />
           {status === 'Direct Order' && (

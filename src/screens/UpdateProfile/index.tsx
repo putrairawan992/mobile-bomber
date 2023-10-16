@@ -13,7 +13,6 @@ import colors from '../../styles/colors';
 import {IcPencil, IcProfile} from '../../theme/Images';
 import LinearGradient from 'react-native-linear-gradient';
 import {Avatar} from '../AvatarProfile';
-import {ImageOrVideo} from 'react-native-image-crop-picker';
 import {ModalToastContext} from '../../context/AppModalToastContext';
 import {ProfileService} from '../../service/ProfileService';
 import {useAppSelector} from '../../hooks/hooks';
@@ -53,15 +52,20 @@ export default function UpdateProfile({route}: Props) {
     setIsShowUploadProfile(false);
   };
 
-  const onAvatarChange = (image: ImageOrVideo) => {
+  const onAvatarChange = (image: any) => {
     setImages(image);
   };
 
   const updateProfileList = async () => {
     setIsLoading(true);
-    let formData = new FormData();
-    formData.append('file', images ?? '');
     try {
+      let formData = new FormData();
+      formData.append('file', {
+        url: images.path,
+        name: 'imageUpdateProfile.png',
+        fileName: 'image',
+        type: images.mime,
+      });
       const response = await ProfileService.updateProflie({
         payload: {
           customer_id: user?.id,
@@ -75,7 +79,7 @@ export default function UpdateProfile({route}: Props) {
       navigationRef.navigate('Profile' as never);
       setIsLoading(false);
     } catch (err: any) {
-      console.log('err-<', err.response.data);
+      console.log('err===>', err.response.data);
       setIsLoading(false);
       openToast('error', err.response.data.message || 'Internal Error');
     }
@@ -150,11 +154,11 @@ export default function UpdateProfile({route}: Props) {
               textAlignVertical="top"
               className="m-0 p-0 font-poppins-regular text-base text-white"
               value={about}
-              onChangeText={value => value.length <= 150 && setAbout(value)}
+              onChangeText={value => value?.length <= 150 && setAbout(value)}
             />
           </View>
           <DefaultText
-            title={`${about.length}/150`}
+            title={`${about?.length}/150`}
             titleClassName="font-poppins-regular text-xs text-neutral-400 self-end mt-1"
           />
         </View>

@@ -4,13 +4,7 @@ import DefaultText from '../../../atoms/Text/DefaultText';
 import {Gap} from '../../../atoms';
 import {WaveLogoImg} from '../../../../theme/Images';
 
-interface CardAuction {
-  data?:any
-}
-
-export default function CardAuction({data}: CardAuction) {
-  console.log("CardAuction",data);
-  
+export default function CardAuction() {
   return (
     <TouchableOpacity
       activeOpacity={0.7}

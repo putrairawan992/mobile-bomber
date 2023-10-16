@@ -72,6 +72,16 @@ export const MyEventService = {
     );
     return response.data;
   },
+  getGenerateQrCode: async ({
+    club_id,
+  }: {
+    club_id: string;
+  }): Promise<APIResponse<ResponseGetTableInterface>> => {
+    const response = await ax.get(
+      `https://s-backend.bomber.app/app/global_api/generate_qrcode_for_menu/${club_id}`,
+    );
+    return response.data;
+  },
   getPlaceGallery: async ({
     club_id,
   }: {
