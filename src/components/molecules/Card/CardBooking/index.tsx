@@ -23,7 +23,7 @@ function CardBooking({type, data, onSelect, status}: CardBooking) {
 
   let bgColorTagOne = '#EF9533';
   let bgColorTagTwo = '#0CA35F';
-  let bgColorTagThree = '#0CA35F' as any;
+  let bgColorTagThree;
 
   if (data?.isFullPayment === 1) {
     tagOne = 'Full Paid';
@@ -55,6 +55,11 @@ function CardBooking({type, data, onSelect, status}: CardBooking) {
       break;
   }
 
+  const colorRadient: any =
+    data?.ticketName === 'Hot Ticket'
+      ? [bgColorTagOne, bgColorTagTwo, bgColorTagThree]
+      : [bgColorTagOne, bgColorTagTwo];
+
   return (
     <TouchableOpacity
       activeOpacity={0.7}
@@ -67,7 +72,7 @@ function CardBooking({type, data, onSelect, status}: CardBooking) {
               style={{borderRadius: 4}}
               start={{x: 0.8, y: 0}}
               end={{x: 0, y: 1}}
-              colors={[bgColorTagOne, bgColorTagTwo, bgColorTagThree]}
+              colors={colorRadient}
               className="mt-1 p-1">
               <Text className="text-xs font-inter-semibold text-white text-center">
                 {tagOne}
