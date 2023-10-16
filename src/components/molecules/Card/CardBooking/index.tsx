@@ -23,7 +23,7 @@ function CardBooking({type, data, onSelect, status}: CardBooking) {
 
   let bgColorTagOne = '#EF9533';
   let bgColorTagTwo = '#0CA35F';
-  let bgColorTagThree: any;
+  let bgColorTagThree = '#0CA35F' as any;
 
   if (data?.isFullPayment === 1) {
     tagOne = 'Full Paid';
@@ -38,7 +38,6 @@ function CardBooking({type, data, onSelect, status}: CardBooking) {
   if (['VIP Ticket', 'Couples Package'].includes(data?.ticketName as any)) {
     bgColorTagOne = '#FFE419';
     bgColorTagTwo = '#F27611';
-    bgColorTagThree = undefined;
   }
 
   if (data?.ticketName === 'Hot Ticket') {
