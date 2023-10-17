@@ -51,7 +51,7 @@ export const PlaceDetailSecond = ({route, navigation}: Props) => {
   const aspectRatio = useImageAspectRatio(data?.logo as string);
   const placeDetailSheetRef = React.useRef<BottomSheetModal>(null);
   const [menu] = useState<string[]>(['Walk in Ticket', 'Booking Table']);
-  const [initialPage, setInitialPage] = useState<number>(0);
+  const [initialPage, setInitialPage] = useState<number>(1);
   const [sheetIndex, setSheetIndex] = React.useState<number>(-1);
 
   const getPlaceData = async () => {
@@ -178,9 +178,10 @@ export const PlaceDetailSecond = ({route, navigation}: Props) => {
             const isSelected = index === initialPage;
             return (
               <TabMenuSecond
+                key={`menu_${index}`}
                 onPress={idx =>
                   navigation.navigate(
-                    isSelected ? 'BookingWalkIn' : 'BookingTable',
+                    isSelected ? 'BookingTable' : 'BookingWalkIn',
                     {
                       placeData: data ?? null,
                     },

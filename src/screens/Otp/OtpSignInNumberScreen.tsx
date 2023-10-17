@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable react-native/no-inline-styles */
 import * as React from 'react';
 import {
@@ -9,7 +8,7 @@ import {
   TouchableSection,
   Button,
 } from '../../components/atoms';
-import {useContext, useRef, useState} from 'react';
+import {useContext, useEffect, useState} from 'react';
 import {StyleSheet, TouchableOpacity, View} from 'react-native';
 import OtpInputs from 'react-native-otp-inputs';
 import styles from './Styles/OtpStyle';
@@ -27,13 +26,12 @@ import {loginSuccess, setUserType} from '../../store/user/userActions';
 import {setStorage} from '../../service/mmkvStorage';
 import {Colors} from '../../theme';
 import {Edit2} from 'iconsax-react-native';
-import CountdownTimer from '../../components/molecules/Countdown';
+import moment from 'moment';
 
 type Props = NativeStackScreenProps<AuthStackParams, 'OtpSignIn', 'MyStack'>;
 
 function OtpSignInNumberScreen({route, navigation}: Props) {
   const theme = useTheme();
-  let otpInput = useRef(null);
   const s = useThemedStyles(Styles);
   const dispatch = useDispatch();
   const userData = route.params.userData;
@@ -50,10 +48,20 @@ function OtpSignInNumberScreen({route, navigation}: Props) {
     setType,
   } = useContext(ModalToastContext);
   const [codeInput, setCodeInput] = useState<string>('');
-  const ONE_MINUTES = 1 * 60 * 1000;
-  const NOW_IN_MS = new Date().getTime();
+  const WAITING_DURATION = 59;
+  const [waitingTime, setWaitingTime] = useState(0);
 
-  const dateTimeOneMinutes = NOW_IN_MS + ONE_MINUTES;
+  useEffect(() => {
+    if (!waitingTime) {
+      return;
+    }
+
+    const intervalId = setInterval(() => {
+      setWaitingTime(waitingTime - 1);
+    }, 1000);
+
+    return () => clearInterval(intervalId);
+  }, [waitingTime]);
 
   React.useEffect(() => {
     if (!route.params.isResend) {
@@ -75,6 +83,7 @@ function OtpSignInNumberScreen({route, navigation}: Props) {
     try {
       const result: any = await auth().signInWithPhoneNumber(userData.phone);
       setConfirmation(result);
+      setWaitingTime(WAITING_DURATION);
     } catch (error: any) {
       openToast('error', 'Please try again');
     }
@@ -183,18 +192,21 @@ function OtpSignInNumberScreen({route, navigation}: Props) {
             color={theme?.colors.TEXT_SECONDARY}
             fontWeight="medium"
           />
-          <CountdownTimer
-            targetDate={dateTimeOneMinutes}
-            component={
-              <TouchableOpacity onPress={signInWithMobileNumber}>
-                <Text
-                  variant="base"
-                  label="Resent"
-                  color={theme?.colors.PRIMARY}
-                />
-              </TouchableOpacity>
-            }
-          />
+          {waitingTime === 0 ? (
+            <TouchableOpacity onPress={signInWithMobileNumber}>
+              <Text
+                variant="base"
+                label="Resent"
+                color={theme?.colors.PRIMARY}
+              />
+            </TouchableOpacity>
+          ) : (
+            <Text
+              variant="base"
+              label={moment.utc(waitingTime * 1000).format('mm:ss')}
+              color={theme?.colors.PRIMARY}
+            />
+          )}
         </Section>
         <Gap height={56} />
         {isEnable ? (
