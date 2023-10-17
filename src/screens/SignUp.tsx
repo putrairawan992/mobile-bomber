@@ -12,12 +12,18 @@ import {Button, TextInput} from '../components/atoms';
 import {LogoLabel} from '../components/molecules';
 import styles from './LogIn/Styles/LogInStyle';
 import CheckBox from '@react-native-community/checkbox';
+import {PhoneInput} from '../components/atoms/Form/PhoneInput';
+import {COUNTRY_PHONE_CODE} from '../utils/data';
+import {Colors} from '../theme';
 
 type Props = NativeStackScreenProps<AuthStackParams, 'SignUp', 'MyStack'>;
 
 export const SignUp = ({navigation}: Props) => {
   const theme = useTheme();
   const [isAgree, setIsAgree] = useState<boolean>(false);
+  const [phoneCode, setPhoneCode] = useState<string>(
+    COUNTRY_PHONE_CODE[0].country,
+  );
   let EMAIL_REGX = /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$/;
   const formik = useFormik<SignUpPayloadInterface>({
     initialValues: {
@@ -47,7 +53,9 @@ export const SignUp = ({navigation}: Props) => {
         payload: {
           username: values.username,
           password: values.password,
-          phone: '+' + values.phone,
+          phone:
+            (COUNTRY_PHONE_CODE.find(el => el.country === phoneCode)
+              ?.code as string) + values.phone,
           email: values.email,
         },
       });
@@ -70,16 +78,22 @@ export const SignUp = ({navigation}: Props) => {
         placeholder="Username"
       />
       <Spacer l />
-      <TextInput
-        value={formik.values.phone}
-        label="Phone Number"
-        errorText={formik.errors.phone}
+      <PhoneInput
+        data={COUNTRY_PHONE_CODE.map(item => {
+          return {
+            value: item.country,
+            label: item.code,
+          };
+        })}
+        errorText={formik.errors.phone ?? ''}
+        value={phoneCode}
+        onChange={value => setPhoneCode(value)}
+        label="Phone number"
+        textValue={formik.values.phone}
         onChangeText={value => {
           formik.setFieldValue('phone', value);
           formik.setFieldError('phone', undefined);
         }}
-        placeholder="Phone number"
-        isNumeric
       />
       <Spacer l />
       <TextInput
@@ -123,9 +137,10 @@ export const SignUp = ({navigation}: Props) => {
           value={isAgree}
           onValueChange={newValue => setIsAgree(newValue)}
           boxType="square"
-          onCheckColor={theme?.colors.PRIMARY}
-          onTintColor={theme?.colors.PRIMARY}
-          onFillColor="#FFF"
+          tintColors={{
+            true: theme?.colors.PRIMARY,
+            false: Colors['white-100'],
+          }}
           style={{
             marginRight: Platform.OS === 'android' ? 16 : 4,
             width: 20,
