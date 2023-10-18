@@ -96,7 +96,7 @@ function NotificationScreen({route}: Props) {
   const [sheetIndex, setSheetIndex] = React.useState<number>(-1);
   const notificationSheetRef = React.useRef<BottomSheet>(null);
   const snapPoints = React.useMemo(
-    () => (sheetAction === 'bill' ? ['50'] : ['80']),
+    () => (sheetAction === 'bill' ? ['65'] : ['80']),
     [sheetAction],
   );
   const handleSheetChanges = React.useCallback((index: number) => {
@@ -106,7 +106,9 @@ function NotificationScreen({route}: Props) {
   const onSelectBill = (billId: string) => {
     setSelectedBill(BILL_NOTIFICATION.find(item => item.id === billId) ?? null);
     setSheetAction('bill');
-    openBottomSheet();
+    setTimeout(() => {
+      openBottomSheet();
+    }, 100);
   };
 
   const openBottomSheet = () => {

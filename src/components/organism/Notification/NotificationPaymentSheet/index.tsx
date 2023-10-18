@@ -22,6 +22,7 @@ export const NotificationPaymentSheet = ({
   data,
 }: NotificationPaymentSheetProps) => {
   const theme = useTheme();
+
   return (
     <Section
       padding="0px 16px"

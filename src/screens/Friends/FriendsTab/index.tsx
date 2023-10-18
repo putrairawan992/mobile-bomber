@@ -55,8 +55,10 @@ export const FriendsTab = ({
       });
       if (type === 'favorites') {
         setIsExpandFavorites(isShow);
+        setIsExpandFriends(!isShow);
       } else {
         setIsExpandFriends(isShow);
+        setIsExpandFavorites(!isShow);
       }
     },
     [],

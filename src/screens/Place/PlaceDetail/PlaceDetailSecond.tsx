@@ -91,31 +91,36 @@ export const PlaceDetailSecond = ({route, navigation}: Props) => {
               <Section padding="12px 12px">
                 <DefaultText title="Our Facilities" />
                 <Gap height={12} />
-                {data?.features.map((item: PlaceOverviewFeaturesInterface) => {
-                  return (
-                    <Section key={item.title} isRow style={{marginBottom: 12}}>
-                      {item.icon === 'rated' && (
-                        <Speaker size={30} color={theme?.colors.ICON} />
-                      )}
-                      {item.icon === 'clothing' && (
-                        <WristClock size={30} color={theme?.colors.ICON} />
-                      )}
-                      {item.icon === 'live' && (
-                        <Video size={30} color={theme?.colors.ICON} />
-                      )}
-                      <Gap width={12} />
-                      <Section padding="12px 12px">
-                        <Text label={item.title} />
-                        <Text
-                          label={item.subtitle}
-                          style={{width: 333}}
-                          variant="extra-small"
-                          color={theme?.colors.TEXT_SECONDARY}
-                        />
+                {data?.features.map(
+                  (item: PlaceOverviewFeaturesInterface, idx: number) => {
+                    return (
+                      <Section
+                        key={`facilities_${idx}`}
+                        isRow
+                        style={{marginBottom: 12}}>
+                        {item.icon === 'rated' && (
+                          <Speaker size={30} color={theme?.colors.ICON} />
+                        )}
+                        {item.icon === 'clothing' && (
+                          <WristClock size={30} color={theme?.colors.ICON} />
+                        )}
+                        {item.icon === 'live' && (
+                          <Video size={30} color={theme?.colors.ICON} />
+                        )}
+                        <Gap width={12} />
+                        <Section padding="12px 12px">
+                          <Text label={item.title} />
+                          <Text
+                            label={item.subtitle}
+                            style={{width: 333}}
+                            variant="extra-small"
+                            color={theme?.colors.TEXT_SECONDARY}
+                          />
+                        </Section>
                       </Section>
-                    </Section>
-                  );
-                })}
+                    );
+                  },
+                )}
               </Section>
             </Section>
           </EntryAnimation>
@@ -127,7 +132,6 @@ export const PlaceDetailSecond = ({route, navigation}: Props) => {
   const handleSheetChanges = React.useCallback((index: number) => {
     setSheetIndex(index);
   }, []);
-
   return (
     <Layout contentContainerStyle={styles.container} isScrollable={false}>
       <ScrollView>
@@ -182,9 +186,7 @@ export const PlaceDetailSecond = ({route, navigation}: Props) => {
                 onPress={idx =>
                   navigation.navigate(
                     isSelected ? 'BookingTable' : 'BookingWalkIn',
-                    {
-                      placeData: data ?? null,
-                    },
+                    {placeData: data ? data : null},
                   )
                 }
                 isSelected={isSelected}

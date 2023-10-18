@@ -1,4 +1,5 @@
 import {PlaceEventsInterface} from '../interfaces/PlaceInterface';
+import {Colors} from '../theme';
 import {dateFormatter} from './dateFormatter';
 
 export const randomNumber = (digit: any) => {
@@ -17,6 +18,7 @@ export const generateCalendarEvents = (
 ) => {
   return arr
     .map((item: PlaceEventsInterface) => {
+      const isPast = new Date(item.date) < new Date();
       return {
         date: item.date,
         style: {
@@ -30,7 +32,7 @@ export const generateCalendarEvents = (
                 selectedDate === item.date ? '#1F5EFF' : '#3B414A',
             },
             text: {
-              color: 'white',
+              color: isPast ? Colors['gray-600'] : 'white',
               fontWeight: '400',
             },
           },
@@ -43,6 +45,7 @@ export const generateCalendarEvents = (
 export const generateCalendarOtherDay = (arr: string[]) => {
   return arr
     .map((item: string) => {
+      const isPast = new Date(item) < new Date();
       return {
         date: item,
         style: {
@@ -54,7 +57,7 @@ export const generateCalendarOtherDay = (arr: string[]) => {
               borderRadius: 8,
             },
             text: {
-              color: 'white',
+              color: isPast ? Colors['gray-600'] : 'white',
               fontWeight: '400',
             },
           },

@@ -9,7 +9,7 @@ import React, {
 } from 'react';
 import styles from '../Styles';
 import {Header, TabMenu} from '../../components/molecules';
-import {Gap, Layout, Loading, Section, Text} from '../../components/atoms';
+import {Gap, Layout, Loading, Section} from '../../components/atoms';
 import {MainStackParams} from '../../navigation/MainScreenStack';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {Colors} from '../../theme';
@@ -90,7 +90,6 @@ export const GalleryScreen = ({route, navigation}: Props) => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [initialPage]);
-  console.log(categoryData);
 
   const GalleryCard: FC<{
     item: GalleryMappingInterface;
@@ -131,8 +130,6 @@ export const GalleryScreen = ({route, navigation}: Props) => {
             <CustomShimmer height={randomBool ? 150 : 280} />
           )} */}
         </ImageBackground>
-        <Gap height={4} />
-        <Text label={item.caption} fontWeight="semi-bold" textAlign="center" />
       </TouchableOpacity>
     );
   };

@@ -290,7 +290,7 @@ function NightlifeScreen({route, navigation}: Props) {
           />
         </EntryAnimation>
         <EntryAnimation index={1}>
-          <Section padding="12px 16px">
+          <Section padding="0px 16px" style={{marginBottom: 12}}>
             <TextInput
               value={searchValue}
               onChangeText={(value: string) => setSearchValue(value)}

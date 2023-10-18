@@ -264,7 +264,7 @@ function ProfileScreen({navigation}: Props) {
           <CardProfileMenu
             icon={IcSetting}
             title="Settings"
-            onPress={() => navigationRef.navigate('ComingSoon' as never)}
+            onPress={() => navigationRef.navigate('Settings' as never)}
           />
           <CardProfileMenu
             icon={IcInbox}
