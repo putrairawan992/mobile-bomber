@@ -30,6 +30,7 @@ export const BookingCalendar = ({
   onMonthChange,
 }: BookingCalendarProps) => {
   const theme = useTheme();
+  const today = dateFormatter(new Date(), 'yyyy-MM-dd');
   return (
     <Section
       key={'dark'}
@@ -43,6 +44,7 @@ export const BookingCalendar = ({
         markingType={'custom'}
         onDayPress={day => onSelectDate(day.dateString)}
         onMonthChange={onMonthChange}
+        minDate={today}
         headerStyle={{
           backgroundColor: '#171717',
         }}

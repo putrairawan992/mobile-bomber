@@ -1,9 +1,8 @@
 /* eslint-disable react-native/no-inline-styles */
 import {BottomSheetModal} from '@gorhom/bottom-sheet';
-import {Setting2} from 'iconsax-react-native';
 import * as React from 'react';
 import {createRef, useContext, useState} from 'react';
-import {Pressable, View} from 'react-native';
+import {Pressable, TouchableOpacity, View} from 'react-native';
 import PagerView from 'react-native-pager-view';
 import {
   Gap,
@@ -11,10 +10,10 @@ import {
   Loading,
   Section,
   Spacer,
-  TextInput,
+  Text,
 } from '../../components/atoms';
 
-import {Header, ModalToast, TabMenu} from '../../components/molecules';
+import {ModalToast, TabMenu} from '../../components/molecules';
 import {
   FriendInviteConfirmationSheet,
   FriendOptionSheet,
@@ -45,14 +44,20 @@ import {RequestFriendNotificationInterface} from '../../interfaces/NotificationI
 import {NotificationService} from '../../service/NotificationService';
 import {useDispatch} from 'react-redux';
 import {AuthService} from '../../service/AuthService';
+import {Search} from '../../assets/icons/Search';
 
 type Props = NativeStackScreenProps<MainStackParams, 'Friends', 'MyStack'>;
 
 function FriendsScreen({navigation}: Props) {
-  const [menu] = useState<string[]>(['Friends', 'Explore', 'Request', 'Squad']);
+  const [menu] = useState<string[]>([
+    'Connected',
+    'Explore',
+    'Request',
+    'Squad',
+  ]);
   const [sheetAction, setSheetAction] = useState<string>('');
   const [initialPage, setInitialPage] = useState<number>(0);
-  const [searchValue, setSearchValue] = useState<string>('');
+  const [searchValue] = useState<string>('');
   const [selectedUser, setSelectedUser] = useState<FriendInterface | null>(
     null,
   );
@@ -204,21 +209,13 @@ function FriendsScreen({navigation}: Props) {
 
   return (
     <Layout contentContainerStyle={styles.container} isDisableKeyboardAware>
-      <Header
-        transparent
-        title="Friends"
-        rightCustomComponent={<Setting2 size={24} color={theme?.colors.ICON} />}
-        onRightCustomComponentPress={() => onOpenBottomSheet('profileSecurity')}
-      />
-      {isLoading && <Loading />}
-      <Section padding="12px 16px">
-        <TextInput
-          type="search"
-          value={searchValue}
-          onChangeText={(text: string) => setSearchValue(text)}
-          placeholder="Search friend's name or email"
-        />
+      <Section isRow isBetween padding="24px 16px">
+        <Text variant="large" color={Colors.white} label="Friends" />
+        <TouchableOpacity onPress={() => navigation.navigate('SearchFriends')}>
+          <Search size={24} color={theme?.colors.PRIMARY} />
+        </TouchableOpacity>
       </Section>
+      {isLoading && <Loading />}
       <Spacer sm />
       <Section isRow isCenter>
         {menu.map((item, index) => {

@@ -28,6 +28,9 @@ function HeaderRight({
   const {invitationCount, friendRequestCount} = useAppSelector(
     state => state.notification,
   );
+  const userPosition = userLocation.city
+    ? userLocation.city + ', ' + userLocation.country
+    : 'unknown';
   return (
     <>
       {/* // <View style={[styles.right, style]}>
@@ -55,9 +58,9 @@ function HeaderRight({
           <Pin color={theme?.colors.ICON} size={16} style={{marginRight: 4}} />
           <Text
             label={
-              userLocation.city
-                ? `${userLocation.city}, ${userLocation.country}`
-                : 'Unknown'
+              userPosition.length > 26
+                ? userPosition.substring(0, 26) + '...'
+                : userPosition
             }
           />
           {hasNotification && (
@@ -66,7 +69,8 @@ function HeaderRight({
                 if (onNotificationPress) {
                   onNotificationPress();
                 }
-              }}>
+              }}
+              style={{right: 8, bottom: 4}}>
               <Section
                 isCenter
                 style={{

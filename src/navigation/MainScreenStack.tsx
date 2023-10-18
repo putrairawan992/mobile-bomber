@@ -43,6 +43,8 @@ import OrderQrCode from '../screens/Order/OrderQrCode';
 import {GalleryMappingInterface} from '../interfaces/Interface';
 import GalleryDetail from '../screens/Gallery/GalleryDetail';
 import SearchScreen from '../screens/Search';
+import Settings from '../screens/Profile/Settings';
+import SearchFriends from '../screens/Friends/Search';
 
 export type MainStackParams = {
   ComingSoon: undefined;
@@ -102,6 +104,8 @@ export type MainStackParams = {
     items: GalleryMappingInterface[];
   };
   Search: undefined;
+  Settings: undefined;
+  SearchFriends: undefined;
 };
 
 interface TabBarContentProps {
@@ -287,6 +291,24 @@ const MainScreenStack = () => {
       <Stack.Screen
         name="Search"
         component={SearchScreen}
+        options={{
+          presentation: 'fullScreenModal',
+          animationTypeForReplace: 'push',
+          animation: 'slide_from_right',
+        }}
+      />
+      <Stack.Screen
+        name="Settings"
+        component={Settings}
+        options={{
+          presentation: 'fullScreenModal',
+          animationTypeForReplace: 'push',
+          animation: 'slide_from_right',
+        }}
+      />
+      <Stack.Screen
+        name="SearchFriends"
+        component={SearchFriends}
         options={{
           presentation: 'fullScreenModal',
           animationTypeForReplace: 'push',

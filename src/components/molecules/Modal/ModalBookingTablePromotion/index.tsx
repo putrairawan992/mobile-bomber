@@ -87,6 +87,10 @@ export default function ModalBookingTablePromotion({
                 titleClassName="text-base font-inter-bold"
               />
               <Gap height={10} />
+              {!couponList?.filter(el => el.source === 'club_owner')
+                ?.length && (
+                <Text color={Colors['gray-400']} label="There are no coupon" />
+              )}
               {couponList
                 ?.filter(el => el.source === 'club_owner')
                 ?.map((item, idx) => (
@@ -111,6 +115,10 @@ export default function ModalBookingTablePromotion({
                 titleClassName="text-base font-inter-bold"
               />
               <Gap height={10} />
+              {!couponList?.filter(el => el.source === 'internal_plattform')
+                ?.length && (
+                <Text color={Colors['gray-400']} label="There are no coupon" />
+              )}
               {couponList
                 ?.filter(el => el.source === 'internal_plattform')
                 ?.map((item, idx) => (

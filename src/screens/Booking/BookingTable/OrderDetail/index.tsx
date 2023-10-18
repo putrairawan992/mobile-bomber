@@ -25,13 +25,14 @@ import {
 } from '../../../../interfaces/PlaceInterface';
 import {Colors, Images} from '../../../../theme';
 import useTheme from '../../../../theme/useTheme';
-import {WIDTH} from '../../../../utils/config';
+import {WIDTH, gradientMapping} from '../../../../utils/config';
 import {dateFormatter} from '../../../../utils/dateFormatter';
 import {IcChevronRight} from '../../../../theme/Images';
 import {images} from '../../../../utils/images';
 import colors from '../../../../styles/colors';
 import ModalBookingTablePromotion from '../../../../components/molecules/Modal/ModalBookingTablePromotion';
 import {currency} from '../../../../utils/function';
+import {PillsGradient} from '../../../../components/molecules';
 
 interface TableOrderDetailProps {
   placeData: PlaceInterface | null;
@@ -118,16 +119,14 @@ export const TableOrderDetail = ({
                   fontWeight="bold"
                   label={placeData?.name}
                 />
-                <Section
-                  padding="2px 4px"
-                  rounded={4}
-                  style={{borderWidth: 1, borderColor: 'blue'}}>
-                  <Text
-                    variant="small"
-                    fontWeight="medium"
-                    label="Table Booking"
-                  />
-                </Section>
+                <PillsGradient
+                  colors={
+                    gradientMapping[
+                      'textPrimary' as keyof typeof gradientMapping
+                    ].color
+                  }
+                  title="Table Booking"
+                />
               </Section>
               <Gap height={12} />
               <Text
