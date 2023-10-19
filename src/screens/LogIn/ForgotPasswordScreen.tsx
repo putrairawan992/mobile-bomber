@@ -37,7 +37,12 @@ function ForgotPasswordScreen({navigation}: Props) {
       phone: '',
     },
     validationSchema: Yup.object({
-      phone: Yup.string().required('Phone number is required'),
+      phone: Yup.string()
+        .required('Phone number is required')
+        .matches(/^[6-9]\d{9}$/, {
+          message: 'Please enter valid number.',
+          excludeEmptyString: false,
+        }),
     }),
     // validateOnChange: false,
     enableReinitialize: true,

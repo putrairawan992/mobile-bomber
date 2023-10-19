@@ -34,14 +34,32 @@ export const SignUp = ({navigation}: Props) => {
       email: '',
     },
     validationSchema: Yup.object({
-      username: Yup.string().required('Username is required'),
-      phone: Yup.string().required('Phone number is required'),
+      username: Yup.string()
+        .required('Username is required')
+        .matches(
+          /[^A-Za-z0-9]+/,
+          'Field must contain at least one special character',
+        )
+        .min(4, 'Username must be at least 4 characters long'),
+      phone: Yup.string()
+        .required('Phone number is required')
+        .matches(/^[6-9]\d{9}$/, {
+          message: 'Please enter valid number.',
+          excludeEmptyString: false,
+        }),
       email: Yup.string()
         .required('Email is required')
         .matches(EMAIL_REGX, 'Invalid email address'),
       password: Yup.string()
-        .required('Password is required')
-        .min(8, 'Password is too short - should be 8 chars minimum.'),
+        .min(8, 'Password must be at least 8 characters')
+        .matches(/[A-Z]/, 'Password must contain at least one uppercase letter')
+        .matches(/[a-z]/, 'Password must contain at least one lowercase letter')
+        .matches(/[0-9]/, 'Password must contain at least one number')
+        .matches(
+          /[!@#$%^&*(),.?":{}|<>]/,
+          'Password must contain at least one special character',
+        )
+        .required('Password is required'),
       confirmPassword: Yup.string()
         .oneOf([Yup.ref('password'), ''], 'Passwords must match')
         .required('Password confirmation is required'),

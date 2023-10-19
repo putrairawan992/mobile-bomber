@@ -64,7 +64,12 @@ function LogInScreen({navigation}: Props) {
       password: '',
     },
     validationSchema: Yup.object({
-      phone: Yup.string().required('Phone number is required'),
+      phone: Yup.string()
+        .matches(/^[6-9]\d{9}$/, {
+          message: 'Please enter valid number.',
+          excludeEmptyString: false,
+        })
+        .required('Phone number is required'),
       password: Yup.string().required('Password is required'),
     }),
     validateOnChange: false,
