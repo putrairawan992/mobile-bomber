@@ -101,6 +101,7 @@
     "react-native-snap-carousel": "^3.9.1",
     "react-native-svg": "^13.10.0",
     "react-native-switch": "^1.5.1",
+    "react-native-tab-view": "^3.5.2",
     "react-native-vision-camera": "^2.16.1",
     "react-native-webview": "^13.6.0",
     "react-redux": "7.2.6",

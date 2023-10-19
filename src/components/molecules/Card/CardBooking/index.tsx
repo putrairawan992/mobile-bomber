@@ -52,6 +52,7 @@ function CardBooking({type, data, onSelect, status}: CardBooking) {
       break;
     case 'Direct Order':
       tagOne = 'Host Order';
+      bgColorTagTwo = '#0CA35F';
       break;
   }
 
@@ -69,13 +70,13 @@ function CardBooking({type, data, onSelect, status}: CardBooking) {
         <View className="flex-row">
           {status === 'Walk In Ticket' ? (
             <LinearGradient
-              style={{borderRadius: 4}}
+              style={{borderRadius: 4, width: 100}}
               start={{x: 0.8, y: 0}}
               end={{x: 0, y: 1}}
               colors={colorRadient}
               className="mt-1 p-1">
               <Text className="text-xs font-inter-semibold text-white text-center">
-                {tagOne}
+                {tagOne?.length > 12 ? tagOne?.slice(0, 11) + '...' : tagOne}
               </Text>
             </LinearGradient>
           ) : (
@@ -86,21 +87,24 @@ function CardBooking({type, data, onSelect, status}: CardBooking) {
                   style={{
                     backgroundColor: bgColorTagOne,
                     borderRadius: 4,
+                    width: tagTwo?.length > 0 ? undefined : 100,
                   }}>
                   <Text className="text-xs font-inter-semibold text-white text-center">
                     {tagOne}
                   </Text>
                 </View>
-                <View
-                  className="mt-1 ml-2 p-1"
-                  style={{
-                    backgroundColor: bgColorTagTwo,
-                    borderRadius: 4,
-                  }}>
-                  <Text className="text-xs font-inter-semibold text-white text-center">
-                    {tagTwo}
-                  </Text>
-                </View>
+                {tagTwo?.length > 0 && (
+                  <View
+                    className="mt-1 ml-2 p-1"
+                    style={{
+                      backgroundColor: bgColorTagTwo,
+                      borderRadius: 4,
+                    }}>
+                    <Text className="text-xs font-inter-semibold text-white text-center">
+                      {tagTwo}
+                    </Text>
+                  </View>
+                )}
               </>
             )
           )}
@@ -110,6 +114,7 @@ function CardBooking({type, data, onSelect, status}: CardBooking) {
               style={{
                 backgroundColor: bgColorTagTwo,
                 borderRadius: 4,
+                width: 100,
               }}>
               <Text className="text-xs font-inter-semibold text-white text-center">
                 {tagOne}
