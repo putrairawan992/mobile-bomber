@@ -17,8 +17,12 @@ import {
   GradientText,
   Section,
   Text,
+  TouchableSection,
 } from '../../../../components/atoms';
-import {TableInterface} from '../../../../interfaces/BookingInterface';
+import {
+  CardPaymentInterface,
+  TableInterface,
+} from '../../../../interfaces/BookingInterface';
 import {
   CouponInterface,
   PlaceInterface,
@@ -27,11 +31,16 @@ import {Colors, Images} from '../../../../theme';
 import useTheme from '../../../../theme/useTheme';
 import {WIDTH, gradientMapping} from '../../../../utils/config';
 import {dateFormatter} from '../../../../utils/dateFormatter';
-import {IcChevronRight} from '../../../../theme/Images';
+import {
+  IcAmericanExpress,
+  IcChevronRight,
+  IcMasterCard,
+  IcVisaLogo,
+} from '../../../../theme/Images';
 import {images} from '../../../../utils/images';
 import colors from '../../../../styles/colors';
 import ModalBookingTablePromotion from '../../../../components/molecules/Modal/ModalBookingTablePromotion';
-import {currency} from '../../../../utils/function';
+import {currency, detectCreditCardType} from '../../../../utils/function';
 import {PillsGradient} from '../../../../components/molecules';
 
 interface TableOrderDetailProps {
@@ -48,8 +57,12 @@ interface TableOrderDetailProps {
   onPay: () => void;
   isLoading: boolean;
   coupons: CouponInterface[];
+  paymentList?: CardPaymentInterface[];
+  selectedPayment?: CardPaymentInterface | null;
   onCouponApplied: (coupon: CouponInterface) => void;
   onRemoveCoupon: (coupon: CouponInterface) => void;
+  onAddPayment: () => void;
+  setSelectedPayment: (value: CardPaymentInterface) => void;
 }
 
 export const TableOrderDetail = ({
@@ -66,8 +79,12 @@ export const TableOrderDetail = ({
   onPay,
   isLoading,
   coupons,
+  paymentList,
+  selectedPayment,
   onCouponApplied,
   onRemoveCoupon,
+  onAddPayment,
+  setSelectedPayment,
 }: TableOrderDetailProps) => {
   const theme = useTheme();
 
@@ -312,14 +329,61 @@ export const TableOrderDetail = ({
         style={{flex: 1}}>
         <Section isRow isBetween>
           <Text fontWeight="bold" label="Payment Method" />
-          <AddCircle color={theme?.colors.ICON} size={24} />
+          <TouchableOpacity onPress={onAddPayment}>
+            <AddCircle color={theme?.colors.ICON} size={24} />
+          </TouchableOpacity>
         </Section>
         <Gap height={20} />
-        <Section isRow>
-          <CircleDot size={16} color={Colors['info-500']} />
-          <Gap width={4} />
-          <Text fontWeight="medium" label="VISA +64" />
-        </Section>
+        {!paymentList?.length && (
+          <Text
+            color={Colors['gray-400']}
+            label="There are no payment method, add one"
+          />
+        )}
+        {paymentList?.map((item, idx) => {
+          let imageUrl = IcMasterCard;
+          switch (detectCreditCardType(item.cardNumber)) {
+            case 'Visa':
+              imageUrl = IcVisaLogo;
+              break;
+            case 'AmericanExpress':
+              // eslint-disable-next-line @typescript-eslint/no-unused-vars
+              imageUrl = IcAmericanExpress;
+          }
+          return (
+            <TouchableSection
+              isRow
+              key={`card_${idx}`}
+              style={{marginBottom: 8}}
+              onPress={() => setSelectedPayment(item)}>
+              {selectedPayment?.id === item.id ? (
+                <CircleDot size={16} color={Colors['info-500']} />
+              ) : (
+                <View
+                  style={{
+                    height: 12,
+                    width: 12,
+                    marginLeft: 2,
+                    marginRight: 2,
+                    borderRadius: 6,
+                    borderWidth: 1.5,
+                    borderColor: Colors['black-20'],
+                  }}
+                />
+              )}
+              <Gap width={6} />
+              <Text
+                fontWeight="medium"
+                label={detectCreditCardType(item.cardNumber)}
+              />
+              <Gap width={6} />
+              <Text
+                fontWeight="medium"
+                label={'+ ' + item.cardNumber.split(' - ').reverse()[0]}
+              />
+            </TouchableSection>
+          );
+        })}
       </Section>
       <Gap height={20} />
       <Section

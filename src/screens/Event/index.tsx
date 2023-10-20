@@ -105,14 +105,14 @@ export default function EventScreen({navigation}: Props) {
                 onPress={() => setActiveTheme(item)}>
                 {item === activeTheme ? (
                   <LinearGradient
-                    className="rounded-lg p-2 mx-2"
+                    className="rounded-xl px-[10px] py-2 mx-2"
                     colors={['#AA5AFA', '#C111D5']}
                     start={{x: 0, y: 0}}
                     end={{x: 1, y: 0}}>
                     <DefaultText title={item} />
                   </LinearGradient>
                 ) : (
-                  <View className="border-[1px] border-white rounded-lg p-2 mx-2">
+                  <View className="border-[1px] border-white rounded-xl px-2 py-[6px] mx-2">
                     <DefaultText title={item} />
                   </View>
                 )}
@@ -121,6 +121,7 @@ export default function EventScreen({navigation}: Props) {
           }}
           contentContainerStyle={styles.eventThemeContainer}
         />
+        <Spacer height={12} />
       </View>
       <View className="flex-1">
         {activeTheme === 'Paid' && (
