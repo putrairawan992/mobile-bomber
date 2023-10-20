@@ -123,3 +123,10 @@ export interface PayloadClaimCouponInterface {
   customer_id: string;
   coupon_id: string;
 }
+
+export interface CardPaymentInterface {
+  id: string;
+  cardNumber: string;
+  customerId: string;
+  isDefault: number;
+}

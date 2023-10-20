@@ -28,7 +28,10 @@ import {
 import {useCallback, useContext, useEffect, useState} from 'react';
 
 import {BottomSheetModal} from '@gorhom/bottom-sheet';
-import {TableInterface} from '../../../interfaces/BookingInterface';
+import {
+  CardPaymentInterface,
+  TableInterface,
+} from '../../../interfaces/BookingInterface';
 import {dateFormatter} from '../../../utils/dateFormatter';
 import {
   generateCalendarEvents,
@@ -54,6 +57,8 @@ import {FriendshipService} from '../../../service/FriendshipService';
 import {useAppSelector} from '../../../hooks/hooks';
 import {ModalToastContext} from '../../../context/AppModalToastContext';
 import {Map1} from 'iconsax-react-native';
+import {ProfileService} from '../../../service/ProfileService';
+import ModalAddNewCard from '../../../components/molecules/Modal/ModalAddNewCard';
 
 type Props = NativeStackScreenProps<MainStackParams, 'BookingTable', 'MyStack'>;
 
@@ -94,11 +99,17 @@ function BookingTableScreen({route, navigation}: Props) {
     year: Number(dateFormatter(new Date(), 'yyyy')),
   });
   const [coupons, setCoupons] = useState<CouponInterface[]>([]);
+  const [paymentList, setPaymentList] = useState<CardPaymentInterface[]>([]);
+  const [selectedPayment, setSelectedPayment] =
+    useState<CardPaymentInterface | null>(null);
+  const [isAddPayment, setIsAddPayment] = useState<boolean>(false);
   const [sheetIndex, setSheetIndex] = React.useState<number>(-1);
   const bookingSheetRef = React.useRef<BottomSheetModal>(null);
   const snapPoints = React.useMemo(
     () =>
-      isWaitingList && waitingListStep === 1
+      isAddPayment
+        ? ['50']
+        : isWaitingList && waitingListStep === 1
         ? ['75']
         : isWaitingList && waitingListStep === 2
         ? ['30']
@@ -107,7 +118,7 @@ function BookingTableScreen({route, navigation}: Props) {
         : isTableLayout
         ? ['60']
         : ['70'],
-    [isWaitingList, waitingListStep, isTableLayout],
+    [isWaitingList, waitingListStep, isTableLayout, isAddPayment],
   );
 
   const [isPayFull, setIsPayFull] = useState(false);
@@ -227,7 +238,24 @@ function BookingTableScreen({route, navigation}: Props) {
     );
   };
 
+  const fetchPaymentList = async () => {
+    try {
+      setIsLoading(true);
+      const response = await ProfileService.getCustomerPaymentList({
+        id: user?.id as string,
+      });
+      if (response?.data?.length) {
+        setPaymentList(response?.data);
+        setSelectedPayment(response?.data.find(item => item.isDefault === 1));
+      }
+      setIsLoading(false);
+    } catch (error: any) {
+      setIsLoading(false);
+    }
+  };
+
   useEffect(() => {
+    fetchPaymentList();
     setTimeout(() => {
       step === 0 && onShowCalendar(true);
     }, 200);
@@ -655,9 +683,31 @@ function BookingTableScreen({route, navigation}: Props) {
               setCoupons(coupons.filter(el => el.couponId !== coupon.couponId));
               openToast('success', 'Coupon has been removed');
             }}
+            paymentList={paymentList}
+            selectedPayment={selectedPayment}
+            setSelectedPayment={value => setSelectedPayment(value)}
+            onAddPayment={() => {
+              bookingSheetRef.current?.close();
+              setTimeout(() => {
+                setIsAddPayment(true);
+              }, 100);
+            }}
           />
         )}
       </BottomSheetModal>
+      <ModalAddNewCard
+        show={isAddPayment}
+        hide={() => {
+          setIsAddPayment(false);
+          bookingSheetRef.current?.present();
+        }}
+        onAddNew={async () => {
+          setIsAddPayment(false);
+          await fetchPaymentList();
+          bookingSheetRef.current?.present();
+        }}
+        hasBackNavigation
+      />
       <ModalToast
         isVisible={isShowToast}
         onCloseModal={() => {

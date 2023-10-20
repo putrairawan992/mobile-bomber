@@ -13,18 +13,23 @@ import LinearGradient from 'react-native-linear-gradient';
 import {useAppSelector} from '../../../../hooks/hooks';
 import {ProfileService} from '../../../../service/ProfileService';
 import {ModalToastContext} from '../../../../context/AppModalToastContext';
+import {ArrowLeft2} from 'iconsax-react-native';
+import useTheme from '../../../../theme/useTheme';
 
 interface ModalAddNewCard {
   show: boolean;
   hide: () => void;
   onAddNew: () => void;
+  hasBackNavigation?: boolean;
 }
 
 export default function ModalAddNewCard({
   show,
   hide,
   onAddNew,
+  hasBackNavigation,
 }: ModalAddNewCard) {
+  const theme = useTheme();
   const [cardHolder, setCardHolder] = useState<string>('');
   const [cardNumber, setCardNumber] = useState<string>('');
   const [expiry, setExpiry] = useState<string>('');
@@ -122,6 +127,16 @@ export default function ModalAddNewCard({
       onBackButtonPress={hide}
       onBackdropPress={hide}>
       <View className="absolute bottom-0 right-0 left-0 bg-container rounded-t-xl bg-neutral-800 pt-4 max-h-[700]">
+        {hasBackNavigation && (
+          <TouchableOpacity
+            // eslint-disable-next-line react-native/no-inline-styles
+            style={{position: 'absolute', zIndex: 999, left: 16, top: 36}}
+            onPress={() => {
+              hide();
+            }}>
+            <ArrowLeft2 size={20} color={theme?.colors.ICON} />
+          </TouchableOpacity>
+        )}
         <View className="w-[50] h-[4] rounded-full bg-neutral-600 self-center" />
         <Gap height={15} />
         <DefaultText

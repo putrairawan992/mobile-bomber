@@ -91,6 +91,12 @@ export const PlaceDetailSecond = ({route, navigation}: Props) => {
               <Section padding="12px 12px">
                 <DefaultText title="Our Facilities" />
                 <Gap height={12} />
+                {!data?.features?.length && (
+                  <Text
+                    color={Colors['gray-400']}
+                    label="There are no facilities"
+                  />
+                )}
                 {data?.features.map(
                   (item: PlaceOverviewFeaturesInterface, idx: number) => {
                     return (

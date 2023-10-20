@@ -140,15 +140,8 @@ export const PlaceCardSecond = ({
             color={theme?.colors.TEXT_PRIMARY}
           />
           <Gap width={4} />
-          <TouchableOpacity
-            onPress={onOpenSchedule}
-            style={{
-              padding: 2,
-              borderRadius: 8,
-              borderColor: theme?.colors.ICON,
-              borderWidth: 1,
-            }}>
-            <ArrowDown2 size={14} color={theme?.colors.ICON} variant="Bold" />
+          <TouchableOpacity onPress={onOpenSchedule}>
+            <ArrowDown2 size={16} color={theme?.colors.ICON} />
           </TouchableOpacity>
         </Section>
       </View>
