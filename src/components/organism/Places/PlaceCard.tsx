@@ -224,7 +224,7 @@ export const PlaceCard = ({
               />
             </Section>
             <Gap height={10} />
-            <Text variant="small" label={item.address} />
+            <Text variant="small" label={item.address.slice(0, 80) + '...'} />
           </Section>
         )}
       </>

@@ -42,11 +42,8 @@ export const SignUp = ({navigation}: Props) => {
         )
         .min(4, 'Username must be at least 4 characters long'),
       phone: Yup.string()
-        .required('Phone number is required')
-        .matches(/^[6-9]\d{9}$/, {
-          message: 'Please enter valid number.',
-          excludeEmptyString: false,
-        }),
+        .min(6, 'Please enter valid number.')
+        .required('Phone number is required'),
       email: Yup.string()
         .required('Email is required')
         .matches(EMAIL_REGX, 'Invalid email address'),

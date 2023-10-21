@@ -56,12 +56,12 @@ export default function EventScreen({navigation}: Props) {
 
   useFocusEffect(
     React.useCallback(() => {
-      let statuss = 'Booking Table';
+      let statuss = 'BookingTable';
       if (index === 1) {
-        statuss = 'Walk In';
+        statuss = 'WalkIn';
       }
       if (index === 2) {
-        statuss = 'Direct Order';
+        statuss = 'DirectOrder';
       }
       !!user && fetchData(statuss);
       // eslint-disable-next-line react-hooks/exhaustive-deps
