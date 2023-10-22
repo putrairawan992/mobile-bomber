@@ -14,7 +14,10 @@ import styles from '../../Styles';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {MainStackParams} from '../../../../navigation/MainScreenStack';
 import {CardTicket} from '../../../../components/molecules/Card/CardTicket';
-import {TicketInterface} from '../../../../interfaces/BookingInterface';
+import {
+  CardPaymentInterface,
+  TicketInterface,
+} from '../../../../interfaces/BookingInterface';
 import BottomSheet from '@gorhom/bottom-sheet';
 import {TableOrderDetail} from '../../BookingTable/OrderDetail';
 import {Colors} from '../../../../theme';
@@ -26,6 +29,9 @@ import {InviteFriendsOnboardingSheet} from '../../../../components/organism';
 import {useAppSelector} from '../../../../hooks/hooks';
 import {dateFormatter} from '../../../../utils/dateFormatter';
 import {ModalToastContext} from '../../../../context/AppModalToastContext';
+import {ProfileService} from '../../../../service/ProfileService';
+import ModalAddNewCard from '../../../../components/molecules/Modal/ModalAddNewCard';
+import {CouponInterface} from '../../../../interfaces/PlaceInterface';
 
 if (Platform.OS === 'android') {
   if (UIManager.setLayoutAnimationEnabledExperimental) {
@@ -55,6 +61,11 @@ export const WalkInTicketScreen = ({route, navigation}: Props) => {
   const [ticket, setTicket] = useState<TicketInterface[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isLoadingPayment, setIsLoadingPayment] = useState<boolean>(false);
+  const [paymentList, setPaymentList] = useState<CardPaymentInterface[]>([]);
+  const [selectedPayment, setSelectedPayment] =
+    useState<CardPaymentInterface | null>(null);
+  const [isAddPayment, setIsAddPayment] = useState<boolean>(false);
+  const [coupons, setCoupons] = useState<CouponInterface[]>([]);
 
   const {
     isShowToast,
@@ -74,6 +85,22 @@ export const WalkInTicketScreen = ({route, navigation}: Props) => {
     setTimeout(() => {
       bookingSheetRef.current?.collapse();
     }, 100);
+  };
+
+  const fetchPaymentList = async () => {
+    try {
+      setIsLoading(true);
+      const response = await ProfileService.getCustomerPaymentList({
+        id: user?.id as string,
+      });
+      if (response?.data?.length) {
+        setPaymentList(response?.data);
+        setSelectedPayment(response?.data.find(item => item.isDefault === 1));
+      }
+      setIsLoading(false);
+    } catch (error: any) {
+      setIsLoading(false);
+    }
   };
 
   const fetchData = async () => {
@@ -101,6 +128,7 @@ export const WalkInTicketScreen = ({route, navigation}: Props) => {
 
   useEffect(() => {
     fetchData();
+    fetchPaymentList();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -315,9 +343,37 @@ export const WalkInTicketScreen = ({route, navigation}: Props) => {
             }}
             isLoading={isLoadingPayment}
             onPay={handleOnPay}
+            coupons={coupons}
+            onCouponApplied={coupon => setCoupons([...coupons, ...[coupon]])}
+            onRemoveCoupon={coupon => {
+              setCoupons(coupons.filter(el => el.couponId !== coupon.couponId));
+              openToast('success', 'Coupon has been removed');
+            }}
+            paymentList={paymentList}
+            selectedPayment={selectedPayment}
+            setSelectedPayment={value => setSelectedPayment(value)}
+            onAddPayment={() => {
+              bookingSheetRef.current?.close();
+              setTimeout(() => {
+                setIsAddPayment(true);
+              }, 100);
+            }}
           />
         )}
       </BottomSheet>
+      <ModalAddNewCard
+        show={isAddPayment}
+        hide={() => {
+          setIsAddPayment(false);
+          bookingSheetRef.current?.collapse();
+        }}
+        onAddNew={async () => {
+          setIsAddPayment(false);
+          await fetchPaymentList();
+          bookingSheetRef.current?.collapse();
+        }}
+        hasBackNavigation
+      />
       <ModalToast
         isVisible={isShowToast}
         onCloseModal={() => {
