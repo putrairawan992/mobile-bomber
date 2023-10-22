@@ -38,7 +38,7 @@ import React, {useEffect, useState} from 'react';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {MainStackParams} from '../../../navigation/MainScreenStack';
 import {Close, Star} from '../../../assets/icons';
-import {randomNumber} from '../../../utils/function';
+import {currency, randomNumber} from '../../../utils/function';
 import styles from '../Styles';
 import {useImageAspectRatio} from '../../../hooks/useImageAspectRatio';
 import useTheme from '../../../theme/useTheme';
@@ -261,15 +261,15 @@ export const PlaceDetail = ({route, navigation}: Props) => {
           <CardPromo
             image={ImgProductPromo}
             title="FREE FLOW"
-            subtitle="SPENT WITH MINIMUM PURCHASE
-            NT 40,000"
+            subtitle={`SPENT WITH MINIMUM PURCHASE
+            ${currency(40000)}`}
             headerClassName="self-end"
           />
           <CardPromo
             image={ImgProductPromo2}
             title="Disc up to 50%"
-            subtitle="SPENT WITH MINIMUM PURCHASE
-            NT 40,000"
+            subtitle={`SPENT WITH MINIMUM PURCHASE
+            ${currency(40000)}`}
             showLogo={false}
             contentClassName="flex-row-reverse px-3 py-3"
             imageClassName="w-[140] h-[116] absolute -bottom-10 -left-5"

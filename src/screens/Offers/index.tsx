@@ -15,6 +15,7 @@ import {CouponInterface} from '../../interfaces/PlaceInterface';
 import {NightlifeService} from '../../service/NightlifeService';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {MainStackParams} from '../../navigation/MainScreenStack';
+import {currency} from '../../utils/function';
 
 type Props = NativeStackScreenProps<MainStackParams, 'Offers', 'MyStack'>;
 
@@ -64,15 +65,15 @@ export default function Offers({route}: Props) {
           <CardPromo
             image={ImgProductPromo}
             title="FREE FLOW"
-            subtitle="SPENT WITH MINIMUM PURCHASE
-            NT 40,000"
+            subtitle={`SPENT WITH MINIMUM PURCHASE
+            ${currency(40000)}`}
             time="14:10"
           />
           <CardPromo
             image={ImgProductPromo2}
             title="Disc up to 50%"
-            subtitle="SPENT WITH MINIMUM PURCHASE
-              NT 40,000"
+            subtitle={`SPENT WITH MINIMUM PURCHASE
+              ${currency(40000)}`}
             showLogo={false}
             contentClassName="flex-row-reverse px-2"
             imageClassName="w-[140] h-[116] absolute -bottom-12 -left-5"

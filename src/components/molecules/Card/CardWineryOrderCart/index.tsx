@@ -1,11 +1,11 @@
 import {Image, TouchableOpacity, View} from 'react-native';
 import React, {useState, useEffect} from 'react';
 import {DefaultText, Gap} from '../../../atoms';
-import {IcDelete, ImgWineryOrder} from '../../../../theme/Images';
-import {formatCurrency} from '../../../../utils/currency';
+import {IcDelete} from '../../../../theme/Images';
+import {currency} from '../../../../utils/function';
 
 interface CardWineryOrderCart {
-  onRemove: (val:number) => void;
+  onRemove: (val: number) => void;
   actionAkumulasi(val: number, price: number): void;
   data: any;
 }
@@ -18,11 +18,11 @@ export default function CardWineryOrderCart({
   const [value, setValue] = useState<number>(data?.quantity);
 
   useEffect(() => {
-    actionAkumulasi(value, data?.price);
-  }, [data,value]);
+    actionAkumulasi(value, data?.price); // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [data, value]);
 
-  const changeValueMin = (value: number) => {
-    setValue(value);
+  const changeValueMin = (values: number) => {
+    setValue(values);
   };
 
   return (
@@ -46,14 +46,16 @@ export default function CardWineryOrderCart({
           />
           <Gap height={10} />
           <DefaultText
-            title={`NT ${formatCurrency(String(data?.price ?? ''))}`}
+            title={currency(data?.price)}
             titleClassName="font-inter-medium text-xs text-[#3ca6ec]"
           />
         </View>
       </View>
       <View className="w-full h-[1] bg-neutral-700 my-3" />
       <View className="flex-row items-center justify-between">
-        <TouchableOpacity onPress={() => onRemove(value - 1)} activeOpacity={0.7}>
+        <TouchableOpacity
+          onPress={() => onRemove(value - 1)}
+          activeOpacity={0.7}>
           <Image
             source={IcDelete}
             resizeMode="contain"
@@ -68,7 +70,7 @@ export default function CardWineryOrderCart({
             }}>
             <DefaultText title="-" titleClassName="text-xl text-neutral-400" />
           </TouchableOpacity>
-          <DefaultText title={value} titleClassName="font-poppins-bold mx-6" />
+          <DefaultText title={value} titleClassName="font-inter-bold mx-6" />
           <TouchableOpacity
             activeOpacity={0.7}
             onPress={() => changeValueMin(value + 1)}>

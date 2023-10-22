@@ -15,6 +15,7 @@ import {
   Section,
   Text,
 } from '../../../atoms';
+import {currency} from '../../../../utils/function';
 
 interface CardTicketProps {
   data: TicketInterface;
@@ -78,7 +79,7 @@ export const CardTicket = ({data, onSelect, index}: CardTicketProps) => {
                     fontFamily: 'Inter-Bold',
                     lineHeight: 27,
                   }}>
-                  {'NT ' + data.price}
+                  {currency(data?.price)}
                 </GradientText>
               </Section>
             </Section>

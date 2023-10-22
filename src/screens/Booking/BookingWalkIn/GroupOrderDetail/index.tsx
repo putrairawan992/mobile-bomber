@@ -84,7 +84,7 @@ export const GroupOrderDetail = ({
           <Text
             variant="base"
             label="WHAT IS GROUP TICKET ?"
-            fontWeight="poppins-regular"
+            fontWeight="regular"
             textAlign="center"
           />
           <Gap height={20} />

@@ -116,7 +116,7 @@ export const WaitingListSheet = ({
         <Section>
           <Text
             variant="base"
-            fontWeight="poppins-regular"
+            fontWeight="regular"
             label="WHAT IS WAITING LIST"
             textAlign="center"
             color={Colors['black-10']}

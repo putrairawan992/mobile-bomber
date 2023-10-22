@@ -85,11 +85,7 @@ const PlaceByCategory = ({route, navigation}: Props) => {
           backgroundColor={theme?.colors.SECTION}>
           {category.icon}
           <Gap width={6} />
-          <Text
-            variant="small"
-            fontWeight="raleway-medium"
-            label={category.title}
-          />
+          <Text variant="small" fontWeight="medium" label={category.title} />
         </Section>
         <Gap width={12} />
         <TextInput
@@ -120,7 +116,7 @@ const PlaceByCategory = ({route, navigation}: Props) => {
           <Text
             color={theme?.colors.PRIMARY}
             label="Discover All Place"
-            fontWeight="raleway-bold"
+            fontWeight="bold"
           />
           <Gap height={32} />
           {placeData?.length ? (

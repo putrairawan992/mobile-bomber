@@ -92,7 +92,7 @@ export default function ModalWineryOrderPay({
                     titleClassName="text-xs font-inter-medium text-neutral-400"
                   />
                 </View>
-                <DefaultText title="NT 1,000" />
+                <DefaultText title={currency(1000)} />
               </View>
               <Gap height={10} />
               <View className="flex-row items-center">
@@ -273,11 +273,11 @@ const SplitBillItem = () => {
       <View className="flex-1">
         <DefaultText
           title={'Jennifer'}
-          titleClassName="font-poppins-semibold text-base"
+          titleClassName="font-inter-semibold text-base"
         />
         <DefaultText
-          title={'NT 7,400'}
-          titleClassName="font-poppins-regular text-neutral-400"
+          title={currency(15000)}
+          titleClassName="font-inter-regular text-neutral-400"
         />
       </View>
       <TouchableOpacity

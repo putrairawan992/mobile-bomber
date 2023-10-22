@@ -30,7 +30,7 @@ export default function CardAuction() {
           />
           <DefaultText
             title="WAVE"
-            titleClassName="font-raleway-medium text-xs mt-1"
+            titleClassName="font-inter-medium text-xs mt-1"
           />
         </View>
         <Gap width={10} />
@@ -38,13 +38,13 @@ export default function CardAuction() {
           <View className="flex-row items-center">
             <DefaultText
               title={'X3'}
-              titleClassName="text-base font-poppins-semibold"
+              titleClassName="text-base font-inter-semibold"
               subtitle=" at "
               subtitleClassName="text-xs text-neutral-400"
             />
             <DefaultText
               title={'Wave Taipei'}
-              titleClassName="text-base font-poppins-semibold"
+              titleClassName="text-base font-inter-semibold"
             />
           </View>
           <Gap height={10} />

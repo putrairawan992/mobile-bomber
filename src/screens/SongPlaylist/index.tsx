@@ -110,7 +110,7 @@ export default function SongPlaylist() {
           TextComponent={
             <DefaultText
               title="Request Song"
-              titleClassName="font-poppins-regular text-base"
+              titleClassName="font-inter-regular text-base"
             />
           }
         />

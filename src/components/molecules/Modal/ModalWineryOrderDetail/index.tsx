@@ -4,6 +4,7 @@ import Modal from 'react-native-modal';
 import DefaultText from '../../../atoms/Text/DefaultText';
 import {Gap} from '../../../atoms';
 import QRCode from 'react-native-qrcode-svg';
+import {currency} from '../../../../utils/function';
 
 interface ModalWineryOrderDetail {
   show: boolean;
@@ -47,7 +48,7 @@ export default function ModalWineryOrderDetail({
                     titleClassName="text-xs font-inter-medium text-neutral-400"
                   />
                 </View>
-                <DefaultText title="NT 36,000" />
+                <DefaultText title={currency(1500)} />
               </View>
               <View className="flex-row items-center mb-[10]">
                 <View className="flex-1">
@@ -60,7 +61,7 @@ export default function ModalWineryOrderDetail({
                     titleClassName="text-xs font-inter-medium text-neutral-400"
                   />
                 </View>
-                <DefaultText title="NT 36,000" />
+                <DefaultText title={currency(1500)} />
               </View>
               <Gap height={10} />
               <View className="flex-row items-center">
@@ -74,7 +75,7 @@ export default function ModalWineryOrderDetail({
                     titleClassName="text-xs font-inter-medium text-neutral-400"
                   />
                 </View>
-                <DefaultText title="NT 1,000" />
+                <DefaultText title={currency(1000)} />
               </View>
               <Gap height={10} />
               <View className="flex-row items-center">
@@ -82,7 +83,7 @@ export default function ModalWineryOrderDetail({
                   <DefaultText title="TOTAL" titleClassName="font-inter-bold" />
                 </View>
                 <DefaultText
-                  title="NT 31,500"
+                  title={currency(66000)}
                   titleClassName="font-inter-bold"
                 />
               </View>
@@ -138,16 +139,16 @@ const SplitBillItem = () => {
       <View className="flex-1">
         <DefaultText
           title={'Not yet pay'}
-          titleClassName="font-poppins-regular text-xs text-red-600"
+          titleClassName="font-inter-regular text-xs text-red-600"
         />
         <Gap height={5} />
         <DefaultText
           title={'Jennifer'}
-          titleClassName="font-poppins-semibold text-base"
+          titleClassName="font-inter-semibold text-base"
         />
         <DefaultText
-          title={'NT 7,400'}
-          titleClassName="font-poppins-regular text-neutral-400 text-xs"
+          title={currency(10500)}
+          titleClassName="font-inter-regular text-neutral-400 text-xs"
         />
       </View>
       <TouchableOpacity

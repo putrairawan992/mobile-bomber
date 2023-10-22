@@ -29,11 +29,7 @@ const CalendarEventCard = ({data, isShowBorder, index}: CalendarEventCard) => {
             fontWeight="semi-bold"
             color={Colors['white-70']}
           />
-          <Text
-            label={data.time}
-            fontWeight="poppins-regular"
-            color="#9F9E9F"
-          />
+          <Text label={data.time} fontWeight="regular" color="#9F9E9F" />
         </Section>
       </Section>
     </EntryAnimation>

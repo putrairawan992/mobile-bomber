@@ -25,11 +25,7 @@ export const PlaceCategory = ({title, data, onSelect}: PlaceCategoryProps) => {
   const theme = useTheme();
   return (
     <Section padding="0px 16px">
-      <Text
-        color={theme?.colors.PRIMARY}
-        label={title}
-        fontWeight="raleway-bold"
-      />
+      <Text color={theme?.colors.PRIMARY} label={title} fontWeight="bold" />
       <Spacer sm />
       <Section isRow isBetween>
         {Array.isArray(data) &&

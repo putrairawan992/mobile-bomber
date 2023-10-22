@@ -45,7 +45,7 @@ export default function ModalPromoSuccess({
           TextComponent={
             <DefaultText
               title={isClaim ? 'Close' : 'Back to order'}
-              titleClassName="font-poppins-regular text-base"
+              titleClassName="font-inter-regular text-base"
             />
           }
           onPress={onBackHome}

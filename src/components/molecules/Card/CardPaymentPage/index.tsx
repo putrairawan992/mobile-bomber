@@ -1,27 +1,48 @@
 import {TouchableOpacity} from 'react-native';
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {Image} from 'react-native';
 import {DefaultText} from '../../../atoms';
-import {IcMasterCard} from '../../../../theme/Images';
+import {
+  IcAmericanExpress,
+  IcMasterCard,
+  IcVisaLogo,
+} from '../../../../theme/Images';
+import {detectCreditCardType} from '../../../../utils/function';
 
 interface CardPaymentPage {
   isDefault: boolean;
   number: string;
+  noMask: string;
   onPress: () => void;
 }
 
 export default function CardPaymentPage({
   isDefault,
   number,
+  noMask,
   onPress,
 }: CardPaymentPage) {
+  const [detectionCardType, setDetectionCardType] = useState<any>('');
+
+  useEffect(() => {
+    let imageUrl = IcMasterCard;
+    switch (detectCreditCardType(noMask)) {
+      case 'Visa':
+        imageUrl = IcVisaLogo;
+        break;
+      case 'AmericanExpress':
+        imageUrl = IcAmericanExpress;
+    }
+    setDetectionCardType(imageUrl);
+  }, [noMask]);
+
   return (
     <TouchableOpacity
       activeOpacity={0.7}
       className="flex-row bg-[#2f2f2f] h-[52] rounded-md justify-center items-center px-4 mb-3"
       onPress={() => onPress()}>
       <Image
-        source={IcMasterCard}
+        source={detectionCardType}
         resizeMode="contain"
         className="h-[16] w-[19]"
       />

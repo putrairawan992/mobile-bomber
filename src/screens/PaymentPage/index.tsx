@@ -153,6 +153,7 @@ export default function ProfilePage() {
                 <CardPaymentPage
                   isDefault={item.isDefault === 1}
                   number={maskCreditCard(item.cardNumber)}
+                  noMask={item.cardNumber}
                   onPress={() => {
                     setShowModal(true);
                     setListSelect(item);
