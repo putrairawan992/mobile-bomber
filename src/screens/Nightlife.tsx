@@ -366,7 +366,7 @@ function NightlifeScreen({route, navigation}: Props) {
         ref={homeSheetRef}
         index={0}
         enablePanDownToClose
-        snapPoints={isOrder ? ['35%'] : snapPoints}
+        snapPoints={isOrder ? ['28%'] : snapPoints}
         backdropComponent={({style}) =>
           sheetIndex >= 0 ? (
             <Pressable

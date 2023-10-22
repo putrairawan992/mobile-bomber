@@ -143,7 +143,7 @@ function CardBooking({type, data, onSelect, status}: CardBooking) {
           <Gap height={status === 'Walk In Ticket' ? 2.5 : 10} />
           <DefaultText
             title={`${data?.clubName}`}
-            titleClassName="text-base font-poppins-semibold"
+            titleClassName="text-base font-inter-semibold"
           />
           <Gap height={2.5} />
           {status === 'Walk In Ticket' ? (
@@ -164,7 +164,7 @@ function CardBooking({type, data, onSelect, status}: CardBooking) {
                   <Sofa color={Colors['white-70']} size={20} />
                 </TouchableOpacity>
                 <DefaultText
-                  title={`Table ${data?.tableName}`}
+                  title={`Table ${data?.tableName.replace('Table', '')}`}
                   titleClassName="text-xs font-inter-semibold"
                 />
                 <TouchableOpacity

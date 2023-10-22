@@ -35,7 +35,7 @@ export const TopPlaces = ({
       <Text
         color={theme?.colors.PRIMARY}
         label={title}
-        fontWeight="raleway-bold"
+        fontWeight="bold"
         style={{marginLeft: 16}}
       />
       <Spacer sm />

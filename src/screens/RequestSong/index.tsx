@@ -61,7 +61,6 @@ export default function RequestSong() {
     const user: any = await getStorage('userAuth');
     const requested_by = JSON.parse(user).id;
 
-
     setLoading(true);
     SongService.postRequestSong({
       song_title: title,
@@ -136,15 +135,12 @@ export default function RequestSong() {
         </GradientText>
         <Gap height={15} />
         <View className="mx-5">
-          <DefaultText
-            title="Title"
-            titleClassName="font-poppins-regular mb-2"
-          />
+          <DefaultText title="Title" titleClassName="font-inter-regular mb-2" />
           <View className="border-[0.5px] border-neutral-700 rounded-md p-4">
             <TextInput
               placeholder="Write your song title here"
               placeholderTextColor="#898e9a"
-              className="m-0 p-0 font-poppins-regular text-white"
+              className="m-0 p-0 font-inter-regular text-white"
               value={title}
               onChangeText={value => setTitle(value)}
             />
@@ -152,13 +148,13 @@ export default function RequestSong() {
           <Gap height={15} />
           <DefaultText
             title="Artist"
-            titleClassName="font-poppins-regular mb-2"
+            titleClassName="font-inter-regular mb-2"
           />
           <View className="border-[0.5px] border-neutral-700 rounded-md p-4">
             <TextInput
               placeholder="Write artist for your song"
               placeholderTextColor="#898e9a"
-              className="m-0 p-0 font-poppins-regular text-white"
+              className="m-0 p-0 font-inter-regular text-white"
               value={artist}
               onChangeText={value => setArtist(value)}
             />
@@ -166,13 +162,13 @@ export default function RequestSong() {
           <Gap height={15} />
           <DefaultText
             title="Tip for DJ"
-            titleClassName="font-poppins-regular mb-2"
+            titleClassName="font-inter-regular mb-2"
           />
           <View className="border-[0.5px] border-neutral-700 rounded-md p-4">
             <TextInput
               placeholder="Support the DJ"
               placeholderTextColor="#898e9a"
-              className="m-0 p-0 font-poppins-regular text-white"
+              className="m-0 p-0 font-inter-regular text-white"
               value={tip}
               onChangeText={value => setTip(value)}
               keyboardType="number-pad"
@@ -257,6 +253,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 15,
   },
   inputText: {
-    fontFamily: 'Poppins-Regular',
+    fontFamily: 'inter-regular',
   },
 });

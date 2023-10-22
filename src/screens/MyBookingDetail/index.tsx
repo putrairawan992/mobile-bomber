@@ -230,7 +230,7 @@ export default function MyBookingDetail({route, navigation}: Props) {
               <Spacer height={2.5} />
               <DefaultText
                 title={booking?.clubName}
-                titleClassName="font-raleway-medium text-xs text-center"
+                titleClassName="font-inter-medium text-xs text-center"
               />
             </View>
             <Spacer className="flex-1" />
@@ -292,8 +292,8 @@ export default function MyBookingDetail({route, navigation}: Props) {
                 ? `Spent ${
                     booking?.currentSpend === null
                       ? 0
-                      : currency(booking?.paidTotal, true)
-                  } / ${currency(booking?.paidTotal, true)} NT`
+                      : currency(booking?.paidTotal)
+                  } / ${currency(booking?.paidTotal)}`
                 : ''
             }
             titleClassName="text-center font-inter-medium text-neutral-400"
@@ -488,7 +488,7 @@ export default function MyBookingDetail({route, navigation}: Props) {
                 title={
                   memberInvited.length > 0 ? 'Check them out' : 'Invite Friend'
                 }
-                titleClassName="font-raleway-bold"
+                titleClassName="font-inter-bold"
               />
             }
             type="primary"

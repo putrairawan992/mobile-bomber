@@ -141,7 +141,7 @@ export default function VerificationID3() {
               TextComponent={
                 <DefaultText
                   title="Face Recognition"
-                  titleClassName="text-base font-poppins-regular"
+                  titleClassName="text-base font-inter-regular"
                 />
               }
               onPress={() => setShowCamera(true)}

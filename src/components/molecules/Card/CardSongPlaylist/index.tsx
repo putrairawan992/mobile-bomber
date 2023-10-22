@@ -2,7 +2,7 @@ import {Image, View, useWindowDimensions} from 'react-native';
 import React from 'react';
 import LinearGradient from 'react-native-linear-gradient';
 import {DefaultText, Gap} from '../../../atoms';
-import {formatCurrency} from '../../../../utils/currency';
+import {currency} from '../../../../utils/function';
 
 interface CardSongPlaylistProps {
   title: string;
@@ -36,7 +36,7 @@ export default function CardSongPlaylist({
             titleClassName="font-inter-medium flex-1"
           />
           <DefaultText
-            title={`NT ${formatCurrency(String(tip))}`}
+            title={currency(tip)}
             titleClassName="font-inter-medium text-neutral-400"
           />
         </View>

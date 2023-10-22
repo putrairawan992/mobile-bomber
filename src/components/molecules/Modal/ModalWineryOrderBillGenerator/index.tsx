@@ -7,6 +7,7 @@ import LinearGradient from 'react-native-linear-gradient';
 import colors from '../../../../styles/colors';
 import {ArrowLeft} from 'iconsax-react-native';
 import QRCode from 'react-native-qrcode-svg';
+import {currency} from '../../../../utils/function';
 
 interface ModalWineryOrderBillGenerator {
   show: boolean;
@@ -115,16 +116,16 @@ const SplitBillItem = () => {
       <View className="flex-1">
         <DefaultText
           title={'Not yet pay'}
-          titleClassName="font-poppins-regular text-xs text-red-600"
+          titleClassName="font-inter-regular text-xs text-red-600"
         />
         <Gap height={5} />
         <DefaultText
           title={'Jennifer'}
-          titleClassName="font-poppins-semibold text-base"
+          titleClassName="font-inter-semibold text-base"
         />
         <DefaultText
-          title={'NT 7,400'}
-          titleClassName="font-poppins-regular text-neutral-400 text-xs"
+          title={currency(1500)}
+          titleClassName="font-inter-regular text-neutral-400 text-xs"
         />
       </View>
       <TouchableOpacity

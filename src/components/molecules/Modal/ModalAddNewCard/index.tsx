@@ -15,6 +15,7 @@ import {ProfileService} from '../../../../service/ProfileService';
 import {ModalToastContext} from '../../../../context/AppModalToastContext';
 import {ArrowLeft2} from 'iconsax-react-native';
 import useTheme from '../../../../theme/useTheme';
+import {detectCreditCardType} from '../../../../utils/function';
 
 interface ModalAddNewCard {
   show: boolean;
@@ -39,24 +40,6 @@ export default function ModalAddNewCard({
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const {setIsShowToast, setToastMessage, setType} =
     useContext(ModalToastContext);
-
-  function detectCreditCardType(valNumber: string): string {
-    let numberParse = valNumber?.replace(/[-\s]/g, '');
-    const cardPatterns: {[key: string]: RegExp} = {
-      Visa: /^4[0-9]{12}(?:[0-9]{3})?$/,
-      MasterCard: /^5[1-5][0-9]{14}$/,
-      AmericanExpress: /^3[47][0-9]{13}$/,
-      Discover: /^6(?:011|5[0-9]{2})[0-9]{12}$/,
-      JCB: /^(?:2131|1800|35\d{3})\d{11}$/,
-      DinersClub: /^3(?:0[0-5]|[68][0-9])[0-9]{11}$/,
-    };
-    for (const cardType in cardPatterns) {
-      if (cardPatterns[cardType].test(numberParse)) {
-        return cardType;
-      }
-    }
-    return 'Unknown';
-  }
 
   useEffect(() => {
     let imageUrl = IcMasterCard;
@@ -148,13 +131,13 @@ export default function ModalAddNewCard({
           <View className="px-4">
             <DefaultText
               title="Card Holder*"
-              titleClassName="font-poppins-regular mb-1"
+              titleClassName="font-inter-regular mb-1"
             />
             <View className="bg-screen p-3 rounded-md border-[1px] border-neutral-700">
               <TextInput
                 placeholder="card holder"
                 placeholderTextColor="#898E9A"
-                className="m-0 p-0 font-poppins-regular text-white"
+                className="m-0 p-0 font-inter-regular text-white"
                 value={cardHolder}
                 onChangeText={value => setCardHolder(value)}
               />
@@ -162,7 +145,7 @@ export default function ModalAddNewCard({
             <Gap height={15} />
             <DefaultText
               title="Credit/debit card number*"
-              titleClassName="font-poppins-regular mb-1"
+              titleClassName="font-inter-regular mb-1"
             />
             <View className="bg-screen p-3 rounded-md border-[1px] border-neutral-700 flex-row items-center">
               <Image
@@ -173,7 +156,7 @@ export default function ModalAddNewCard({
               <TextInput
                 placeholder="XXXX - XXXX - XXXX - XXXX"
                 placeholderTextColor="#898E9A"
-                className="m-0 p-0 font-poppins-regular text-white flex-1 ml-2"
+                className="m-0 p-0 font-inter-regular text-white flex-1 ml-2"
                 value={cardNumber}
                 maxLength={25}
                 onChangeText={handleInputChange}
@@ -185,13 +168,13 @@ export default function ModalAddNewCard({
               <View className="flex-1">
                 <DefaultText
                   title="Expiry*"
-                  titleClassName="font-poppins-regular mb-1"
+                  titleClassName="font-inter-regular mb-1"
                 />
                 <View className="bg-screen p-3 rounded-md border-[1px] border-neutral-700">
                   <TextInput
                     placeholder="MM/YY"
                     placeholderTextColor="#898E9A"
-                    className="m-0 p-0 font-poppins-regular text-white"
+                    className="m-0 p-0 font-inter-regular text-white"
                     value={expiry}
                     keyboardType="number-pad"
                     onChangeText={value => handleDateChange(value)}
@@ -202,13 +185,13 @@ export default function ModalAddNewCard({
               <View className="flex-1">
                 <DefaultText
                   title="CVV*"
-                  titleClassName="font-poppins-regular mb-1"
+                  titleClassName="font-inter-regular mb-1"
                 />
                 <View className="bg-screen p-3 rounded-md border-[1px] border-neutral-700">
                   <TextInput
                     placeholder="CVV"
                     placeholderTextColor="#898E9A"
-                    className="m-0 p-0 font-poppins-regular text-white"
+                    className="m-0 p-0 font-inter-regular text-white"
                     value={cvv}
                     maxLength={4}
                     onChangeText={value => setCvv(value.replace(/[^0-9]/g, ''))}

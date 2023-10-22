@@ -2,6 +2,7 @@ import {Image, View, useWindowDimensions} from 'react-native';
 import React from 'react';
 import DefaultText from '../../../atoms/Text/DefaultText';
 import {Spacer} from '../../../atoms';
+import {currency} from '../../../../utils/function';
 
 export default function CardBookingOrder() {
   const {width} = useWindowDimensions();
@@ -13,17 +14,17 @@ export default function CardBookingOrder() {
       <View className="flex-row items-center">
         <DefaultText
           title="#OR33212"
-          titleClassName="flex-1 font-poppins-regular text-neutral-500"
+          titleClassName="flex-1 font-inter-regular text-neutral-500"
         />
         <DefaultText
-          title="Total 465,000 NT"
+          title={`Total ${currency(50000)}`}
           titleClassName="font-inter-medium text-yellow-600"
         />
       </View>
       <Spacer height={2} />
       <DefaultText
         title="Ready to serve"
-        titleClassName="font-poppins-semibold text-base text-green-700"
+        titleClassName="font-inter-semibold text-base text-green-700"
       />
       <Spacer height={12} />
       <View className="flex-row items-center">
@@ -54,7 +55,7 @@ export default function CardBookingOrder() {
       <Spacer height={24} />
       <DefaultText
         title="ordered 13 hours ago"
-        titleClassName="text-neutral-500 font-poppins-regular"
+        titleClassName="text-neutral-500 font-inter-regular"
       />
     </View>
   );

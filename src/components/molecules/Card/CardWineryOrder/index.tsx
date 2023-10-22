@@ -3,7 +3,7 @@ import React, {useState} from 'react';
 import {DefaultText, Gap} from '../../../atoms';
 import ModalImage from '../../Modal/ModalImage';
 import {ItemProductBasedOnClubIdInterface} from '../../../../interfaces/PlaceInterface';
-import {formatCurrency} from '../../../../utils/currency';
+import {currency} from '../../../../utils/function';
 
 interface CardWineryOrderInterface {
   item: ItemProductBasedOnClubIdInterface;
@@ -32,7 +32,7 @@ export default function CardWineryOrder({
         />
         <Gap height={4} />
         <DefaultText
-          title={`NT ${formatCurrency(String(item?.price ?? ''))}`}
+          title={currency(item.price)}
           titleClassName="font-inter-medium text-xs text-[#3ca6ec]"
         />
         <Gap height={8} />
@@ -49,10 +49,7 @@ export default function CardWineryOrder({
                 titleClassName="text-xl text-neutral-400"
               />
             </TouchableOpacity>
-            <DefaultText
-              title={value}
-              titleClassName="font-poppins-bold mx-6"
-            />
+            <DefaultText title={value} titleClassName="font-inter-bold mx-6" />
             <TouchableOpacity
               activeOpacity={0.7}
               onPress={() => {

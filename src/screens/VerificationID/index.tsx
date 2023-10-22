@@ -81,13 +81,13 @@ export default function VerificationID() {
           <View className="bg-grey-one rounded-lg px-3 py-4">
             <DefaultText
               title="First Name"
-              titleClassName="font-poppins-regular mb-1"
+              titleClassName="font-inter-regular mb-1"
             />
             <View className="bg-screen p-3 rounded-md border-[1px] border-neutral-700">
               <TextInput
                 placeholder="your first name"
                 placeholderTextColor="#898E9A"
-                className="m-0 p-0 font-poppins-regular text-white"
+                className="m-0 p-0 font-inter-regular text-white"
                 value={firstName}
                 onChangeText={value => setFirstName(value)}
               />
@@ -95,13 +95,13 @@ export default function VerificationID() {
             <Gap height={10} />
             <DefaultText
               title="Last Name"
-              titleClassName="font-poppins-regular mb-1"
+              titleClassName="font-inter-regular mb-1"
             />
             <View className="bg-screen p-3 rounded-md border-[1px] border-neutral-700">
               <TextInput
                 placeholder="your last name"
                 placeholderTextColor="#898E9A"
-                className="m-0 p-0 font-poppins-regular text-white"
+                className="m-0 p-0 font-inter-regular text-white"
                 value={lastName}
                 onChangeText={value => setLastName(value)}
               />
@@ -109,13 +109,13 @@ export default function VerificationID() {
             <Gap height={10} />
             <DefaultText
               title="ID number"
-              titleClassName="font-poppins-regular mb-1"
+              titleClassName="font-inter-regular mb-1"
             />
             <View className="bg-screen p-3 rounded-md border-[1px] border-neutral-700">
               <TextInput
                 placeholder="id number"
                 placeholderTextColor="#898E9A"
-                className="m-0 p-0 font-poppins-regular text-white"
+                className="m-0 p-0 font-inter-regular text-white"
                 value={idNumber}
                 onChangeText={value => setIdNumber(value)}
                 keyboardType="number-pad"
@@ -124,7 +124,7 @@ export default function VerificationID() {
             <Gap height={10} />
             <DefaultText
               title="Birthday"
-              titleClassName="font-poppins-regular mb-1"
+              titleClassName="font-inter-regular mb-1"
             />
             <View className="bg-screen p-3 rounded-md border-[1px] border-neutral-700">
               <TouchableOpacity
@@ -134,7 +134,7 @@ export default function VerificationID() {
                   editable={false}
                   placeholder="Select Calendar"
                   placeholderTextColor="#898E9A"
-                  className="m-0 p-0 font-poppins-regular text-white"
+                  className="m-0 p-0 font-inter-regular text-white"
                   value={
                     datedBrithday
                       ? moment(datedBrithday).format('DD MMMM YYYY')

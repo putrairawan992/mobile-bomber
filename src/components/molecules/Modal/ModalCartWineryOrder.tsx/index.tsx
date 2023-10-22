@@ -19,7 +19,7 @@ import {Asset, launchImageLibrary} from 'react-native-image-picker';
 import {Close} from '../../../../assets/icons';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import dayjs from 'dayjs';
-import {formatCurrency} from '../../../../utils/currency';
+import {currency} from '../../../../utils/function';
 
 interface ModalCartWineryOrder {
   show: boolean;
@@ -95,11 +95,11 @@ export default function ModalCartWineryOrder({
             <View className="flex-row">
               <DefaultText
                 title="Total"
-                titleClassName="flex-1 font-poppins-regular"
+                titleClassName="flex-1 font-inter-regular"
               />
               <DefaultText
-                title={`NT ${formatCurrency(String(totalPrice ?? ''))}`}
-                titleClassName="font-poppins-bold text-primary"
+                title={currency(totalPrice)}
+                titleClassName="font-inter-bold text-primary"
               />
             </View>
             <Gap height={4} />
@@ -153,8 +153,8 @@ export default function ModalCartWineryOrder({
                       }
                       titleClassName={
                         time.length > 0
-                          ? 'font-poppins-regular flex-1 text-white'
-                          : 'font-poppins-regular flex-1 text-[#555f6d]'
+                          ? 'font-inter-regular flex-1 text-white'
+                          : 'font-inter-regular flex-1 text-[#555f6d]'
                       }
                     />
                     <Image
@@ -166,7 +166,7 @@ export default function ModalCartWineryOrder({
                   <Gap height={10} />
                   <View className="bg-[#262626] px-3 py-3 rounded-md min-h-[100]">
                     <TextInput
-                      className="p-0 m-0 font-poppins-regular text-white"
+                      className="p-0 m-0 font-inter-regular text-white"
                       placeholder="Any additional notes? write here"
                       placeholderTextColor="#555f6d"
                       multiline={true}
@@ -258,7 +258,7 @@ export default function ModalCartWineryOrder({
                       onPress={onPickImage}>
                       <DefaultText
                         title="Click to upload image"
-                        titleClassName="font-poppins-regular flex-1"
+                        titleClassName="font-inter-regular flex-1"
                       />
                       <Image
                         source={IcUpload}
@@ -271,7 +271,7 @@ export default function ModalCartWineryOrder({
                   <Gap height={10} />
                   <View className="bg-[#262626] px-3 py-3 rounded-md">
                     <TextInput
-                      className="p-0 m-0 font-poppins-regular text-white"
+                      className="p-0 m-0 font-inter-regular text-white"
                       placeholder="Subtitle"
                       placeholderTextColor="#555f6d"
                       value={subtitle}

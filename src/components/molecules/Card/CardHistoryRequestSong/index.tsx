@@ -2,6 +2,7 @@ import {Image, View} from 'react-native';
 import React from 'react';
 import {DefaultText, Gap} from '../../../atoms';
 import {WaveLogoImg} from '../../../../theme/Images';
+import {currency} from '../../../../utils/function';
 
 interface CardHistoryRequestSongProps {
   showBorder?: boolean;
@@ -44,7 +45,7 @@ export default function CardHistoryRequestSong({
             subtitleClassName="text-neutral-500"
           />
           <DefaultText
-            title={'50 NT'}
+            title={currency(50000)}
             titleClassName="leading-5 font-inter-medium"
           />
         </View>

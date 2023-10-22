@@ -98,7 +98,7 @@ export default function UpdateProfile({route}: Props) {
         <View className="bg-grey-one rounded-lg p-3 mx-5">
           <DefaultText
             title="Profile Picture"
-            titleClassName="font-poppins-semibold"
+            titleClassName="font-inter-semibold"
           />
           <Gap height={10} />
           <View className="flex-row items-center">
@@ -129,13 +129,13 @@ export default function UpdateProfile({route}: Props) {
           <Gap height={15} />
           <DefaultText
             title="Update User Name"
-            titleClassName="font-poppins-semibold"
+            titleClassName="font-inter-semibold"
           />
           <View className="bg-screen p-3 rounded-md border-[1px] border-neutral-700">
             <TextInput
               placeholder="My name"
               placeholderTextColor="#898E9A"
-              className="m-0 p-0 font-poppins-regular text-white"
+              className="m-0 p-0 font-inter-regular text-white"
               value={username}
               onChangeText={value => setUsername(value)}
             />
@@ -143,7 +143,7 @@ export default function UpdateProfile({route}: Props) {
           <Gap height={15} />
           <DefaultText
             title="About your self"
-            titleClassName="font-poppins-semibold"
+            titleClassName="font-inter-semibold"
           />
           <Gap height={10} />
           <View className="bg-screen py-2 px-3 rounded-md border-[1px] border-neutral-700 min-h-[100]">
@@ -152,14 +152,14 @@ export default function UpdateProfile({route}: Props) {
               placeholderTextColor="#898E9A"
               multiline={true}
               textAlignVertical="top"
-              className="m-0 p-0 font-poppins-regular text-base text-white"
+              className="m-0 p-0 font-inter-regular text-base text-white"
               value={about}
               onChangeText={value => value?.length <= 150 && setAbout(value)}
             />
           </View>
           <DefaultText
             title={`${about?.length}/150`}
-            titleClassName="font-poppins-regular text-xs text-neutral-400 self-end mt-1"
+            titleClassName="font-inter-regular text-xs text-neutral-400 self-end mt-1"
           />
         </View>
       </ScrollView>
@@ -199,7 +199,7 @@ const styles = StyleSheet.create({
     padding: 20,
   },
   inputText: {
-    fontFamily: 'Poppins-Regular',
+    fontFamily: 'inter-regular',
     fontSize: 16,
   },
 });

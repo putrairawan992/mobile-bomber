@@ -28,7 +28,6 @@ import {
 } from '../../interfaces/UserInterface';
 import {Colors} from '../../theme';
 import useTheme from '../../theme/useTheme';
-import {WIDTH} from '../../utils/config';
 import {PARTY_DATA} from '../../utils/data';
 import styles from '../Styles';
 import {ExploreTab} from './ExploreTab';
@@ -224,7 +223,7 @@ function FriendsScreen({navigation}: Props) {
             <TabMenu
               onPress={idx => ref.current?.setPage(idx)}
               isSelected={isSelected}
-              width={WIDTH / menu.length}
+              width={100}
               item={item}
               index={index}
             />

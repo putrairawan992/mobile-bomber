@@ -148,7 +148,7 @@ export default function ModalInviteFriends({
                 <Gap height={15} />
                 <View className="bg-neutral-800 rounded-md p-3">
                   <RNTextInput
-                    className="font-poppins-regular m-0 p-0 min-h-[120] text-white"
+                    className="font-inter-regular m-0 p-0 min-h-[120] text-white"
                     placeholder="Any additional notes? write here"
                     placeholderTextColor={colors.blackCoral}
                     textAlignVertical="top"

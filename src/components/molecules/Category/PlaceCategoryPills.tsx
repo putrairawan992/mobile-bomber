@@ -7,14 +7,30 @@ import {Spacer, Text, TouchableSection} from '../../atoms';
 
 interface PlaceCategoryPillsProps {
   data: PlaceCategoryInterface;
+  length: any;
   onSelect: (data: PlaceCategoryInterface) => void;
 }
 
 export const PlaceCategoryPills = ({
   data,
   onSelect,
+  length,
 }: PlaceCategoryPillsProps) => {
   const theme = useTheme();
+  let widthCard = WIDTH as any;
+
+  if (length < 3) {
+    widthCard = '48%';
+  }
+
+  if (length >= 3) {
+    widthCard = '32%';
+  }
+
+  if (length >= 4) {
+    widthCard = WIDTH / 4.7;
+  }
+
   return (
     <TouchableSection
       onPress={() => onSelect(data)}
@@ -22,7 +38,7 @@ export const PlaceCategoryPills = ({
       style={{
         backgroundColor: theme?.colors.SECTION,
         borderRadius: 8,
-        width: WIDTH / 5,
+        width: widthCard,
       }}
       isCenter>
       {data.icon}
