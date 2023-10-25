@@ -5,7 +5,7 @@ import {PlaceOperationalTimeInterface} from '../../../../interfaces/PlaceInterfa
 import {Colors} from '../../../../theme';
 import useTheme from '../../../../theme/useTheme';
 import {gradientMapping} from '../../../../utils/config';
-import {dateFormatter} from '../../../../utils/dateFormatter';
+import {dateFormatter, getDayNight} from '../../../../utils/dateFormatter';
 import {EntryAnimation, Gap, GradientText, Section, Text} from '../../../atoms';
 import {ScrollView} from 'react-native-gesture-handler';
 
@@ -39,6 +39,9 @@ export const OperationalHoursSheet = ({data}: OperationalHoursSheetProps) => {
         <ScrollView>
           <Section backgroundColor="#333" padding="4px 16px" rounded={12}>
             {data.map((item, idx) => {
+              const currentTime =
+                new Date().getHours() + '.' + new Date().getMinutes();
+              const isOpen = Number(currentTime) > Number(item.open);
               const isClose = item.isClose;
               return (
                 <EntryAnimation index={idx + 1} key={`${item.day}_${idx}`}>
@@ -53,22 +56,25 @@ export const OperationalHoursSheet = ({data}: OperationalHoursSheetProps) => {
                       label={
                         isClose
                           ? `${item.day}: Close`
-                          : `${item.day}: ${item.open} - ${item.close}`
+                          : `${item.day}: ${getDayNight(
+                              item.open as string,
+                            )} - ${getDayNight(item.close as string)}`
                       }
                       fontWeight="regular"
                       variant="small"
                       color={isClose ? Colors['danger-400'] : undefined}
                     />
                     <Gap width={4} />
-                    {dateFormatter(new Date(), 'eeee') === item.day &&
-                      !isClose && (
-                        <Text
-                          label={'(Open)'}
-                          color={Colors['success-500']}
-                          variant="small"
-                          fontWeight="bold"
-                        />
-                      )}
+                    {dateFormatter(new Date(), 'eeee') === item.day && (
+                      <Text
+                        label={`(${isOpen ? 'Open' : 'Closed'})`}
+                        color={
+                          isOpen ? Colors['success-500'] : Colors['danger-400']
+                        }
+                        variant="small"
+                        fontWeight="bold"
+                      />
+                    )}
                   </Section>
                 </EntryAnimation>
               );

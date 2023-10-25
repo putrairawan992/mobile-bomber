@@ -1,4 +1,5 @@
 import * as dateFns from 'date-fns';
+import moment from 'moment';
 
 export type DateFormatType =
   | 'EEE, dd MMM yyy'
@@ -90,4 +91,10 @@ export const isToday = ({date}: {date: Date}) => {
 
 export const isPrevDate = ({date}: {date: Date}) => {
   return dateFns.isBefore(date, new Date());
+};
+
+export const getDayNight = (value: string) => {
+  return moment
+    .utc(`2023-10-17T${value.replace(/\./g, ':')}:00.000Z`)
+    .format('LT');
 };

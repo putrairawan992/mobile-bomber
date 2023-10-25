@@ -23,6 +23,7 @@ import Carousel from 'react-native-reanimated-carousel';
 import {IcLegal} from '../../../theme/Images';
 import Geolocation from 'react-native-geolocation-service';
 import {currency} from '../../../utils/function';
+import {getDayNight} from '../../../utils/dateFormatter';
 
 const SingsouLocation = {
   latitude: 25.0391667,
@@ -126,17 +127,19 @@ export const PlaceCardSecond = ({
   };
 
   const renderSchedule = () => {
+    const currentTime = new Date().getHours() + '.' + new Date().getMinutes();
+    const isOpen = Number(currentTime) > Number(operation?.open);
     return (
       <View className="ml-2">
         <Section isRow>
           <Text
-            label={operation?.isClose ? 'Closed' : 'Open Now'}
-            color={
-              operation?.isClose ? Colors['danger-400'] : theme?.colors.SUCCESS
-            }
+            label={isOpen ? 'Open Now' : 'Closed'}
+            color={isOpen ? theme?.colors.SUCCESS : Colors['danger-400']}
           />
           <Text
-            label={` | ${operation?.open} - ${operation?.close}`}
+            label={` | ${getDayNight(operation?.open ?? '')} - ${getDayNight(
+              operation?.close ?? '',
+            )}`}
             color={theme?.colors.TEXT_PRIMARY}
           />
           <Gap width={4} />
