@@ -112,17 +112,15 @@ export default function MyBookingDetail({route, navigation}: Props) {
       );
     }
   };
+
   const onSaveCalendar = () => {
     RNCalendarEvents.requestPermissions()
       .then(() => {
-        const newDate = new Date();
-        const date = new Date();
-        newDate.setHours(newDate.getHours() + 2);
         RNCalendarEvents.saveEvent('Booking Detail - Bomber | Event', {
           calendarId: '1',
           location: 'Taiwan',
-          startDate: date.toISOString(),
-          endDate: newDate.toISOString(),
+          startDate: new Date(booking?.bookingDate as string).toISOString(),
+          endDate: new Date(booking?.bookingDate as string).toISOString(),
         })
           .then(() => openToast('success', 'Success save to calendar'))
           .catch(err => console.log('save event error: ', err));

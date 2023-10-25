@@ -12,14 +12,16 @@ import styles from '../../Styles';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {MainStackParams} from '../../../navigation/MainScreenStack';
 import useTheme from '../../../theme/useTheme';
-import {WIDTH} from '../../../utils/config';
 import {PlaceInterface} from '../../../interfaces/PlaceInterface';
 import {NightlifeService} from '../../../service/NightlifeService';
 import {TopPlaces} from '../../../components/organism/Places/TopPlaces';
 import {PlaceCard} from '../../../components/organism';
-import {ScrollView} from 'react-native';
+import {ScrollView, StyleSheet} from 'react-native';
 import {useAppSelector} from '../../../hooks/hooks';
 import {COORDINATE_DATA} from '../../../utils/data';
+import {Dropdown} from 'react-native-element-dropdown';
+import {Colors} from '../../../theme';
+import {ArrowDown2, ArrowUp2} from 'iconsax-react-native';
 
 type Props = NativeStackScreenProps<
   MainStackParams,
@@ -34,6 +36,7 @@ const PlaceByCategory = ({route, navigation}: Props) => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [placeData, setPlaceData] = useState<PlaceInterface[]>([]);
   const {userLocation} = useAppSelector(state => state.user);
+  const [vValue, setvValue] = useState(category.title);
 
   const fetchData = async () => {
     try {
@@ -72,28 +75,76 @@ const PlaceByCategory = ({route, navigation}: Props) => {
         placeData.find((item: PlaceInterface) => item.clubId === id) ?? null,
     });
 
+  const data = [
+    {
+      label: category.title,
+      value: '1',
+      image: category.icon,
+    },
+  ];
+
   return (
     <Layout contentContainerStyle={styles.container} isDisableKeyboardAware>
       {isLoading && <Loading />}
       <Gap height={5} />
-      <Section isRow isBetween padding="8px 16px">
-        <Section
-          isRow
-          style={{width: WIDTH * 0.25, top: 4}}
-          rounded={8}
-          padding="14px 6px"
-          backgroundColor={theme?.colors.SECTION}>
-          {category.icon}
-          <Gap width={6} />
-          <Text variant="small" fontWeight="medium" label={category.title} />
-        </Section>
-        <Gap width={12} />
+      <Section padding="8px 16px">
+        <Dropdown
+          selectedTextStyle={{
+            fontSize: 14,
+            marginLeft: 10,
+            textAlign: 'left',
+            fontFamily: 'Inter-Regular',
+            color: theme?.colors.TEXT_PRIMARY,
+          }}
+          inputSearchStyle={s.inputSearchStyle}
+          iconStyle={s.iconStyle}
+          itemTextStyle={{
+            fontSize: 14,
+            color: Colors['white-100'],
+            fontFamily: 'Inter-Regular',
+          }}
+          containerStyle={{
+            borderBottomLeftRadius: 20,
+            borderBottomRightRadius: 20,
+            borderWidth: 0,
+            width: '100%',
+          }}
+          style={[
+            s.dropdown,
+            {
+              backgroundColor: theme?.colors.SECTION,
+            },
+          ]}
+          renderRightIcon={visible =>
+            visible ? (
+              <ArrowUp2 color={theme?.colors.PRIMARY} size={16} />
+            ) : (
+              <ArrowDown2 color={theme?.colors.PRIMARY} size={16} />
+            )
+          }
+          data={data}
+          labelField="label"
+          valueField="value"
+          value={vValue}
+          renderLeftIcon={() => category.icon as any}
+          renderItem={item => (
+            <Section backgroundColor={theme?.colors.BACKGROUND2}>
+              <Section isRow rounded={8} padding="14px 6px">
+                {item.image}
+                <Gap width={6} />
+                <Text variant="small" fontWeight="medium" label={item.label} />
+              </Section>
+            </Section>
+          )}
+          onChange={item => {
+            setvValue(item.value);
+          }}
+        />
         <TextInput
           value={searchValue}
           onChangeText={(value: string) => setSearchValue(value)}
           placeholder="Search party"
           type="search"
-          width={WIDTH * 0.65}
           textInputBackgroundColor={theme?.colors.SECTION}
         />
       </Section>
@@ -136,5 +187,25 @@ const PlaceByCategory = ({route, navigation}: Props) => {
     </Layout>
   );
 };
+
+const s = StyleSheet.create({
+  dropdown: {
+    borderRadius: 8,
+    padding: 6,
+  },
+  icon: {
+    marginRight: 5,
+  },
+  iconStyle: {
+    width: 20,
+    height: 20,
+  },
+  inputSearchStyle: {
+    height: 40,
+    fontSize: 14,
+    fontFamily: 'Inter-Regular',
+    color: '#111827',
+  },
+});
 
 export default PlaceByCategory;

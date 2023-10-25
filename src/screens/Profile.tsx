@@ -213,7 +213,7 @@ function ProfileScreen({navigation}: Props) {
                 />
               </LinearGradient>
             </TouchableOpacity> */}
-            <Gap width={20} />
+            {/* <Gap width={20} /> */}
             <TouchableOpacity
               activeOpacity={0.7}
               className="flex-1"
@@ -232,7 +232,7 @@ function ProfileScreen({navigation}: Props) {
                 />
               </LinearGradient>
             </TouchableOpacity>
-            <Gap width={20} />
+            <Gap width={10} />
             <TouchableOpacity
               activeOpacity={0.7}
               className="flex-1"
