@@ -49,6 +49,8 @@ import {TouchableOpacity} from 'react-native-gesture-handler';
 import Carousel from 'react-native-reanimated-carousel';
 import OrderHomeTable from './OrderHomeTable';
 import usePushNotification from '../hooks/usePostNotification';
+import {TryBeverage} from '../components/organism/Places/TryBeverage';
+import {NewestEvent} from '../components/organism/Places/NewestEvent';
 
 type Props = NativeStackScreenProps<MainStackParams, 'Nightlife', 'MyStack'>;
 
@@ -360,6 +362,24 @@ function NightlifeScreen({route, navigation}: Props) {
         ) : (
           <></>
         )}
+        <Gap height={32} />
+        <TryBeverage
+          userLocation={userLocation}
+          title="Must try beverage"
+          data={topFiveNightClub}
+          itemWidthStyle
+          fullSliderWidth
+          onSelect={onPlaceSelect}
+        />
+        <Gap height={32} />
+        <NewestEvent
+          userLocation={userLocation}
+          title="Newst event"
+          data={topFiveNightClub}
+          itemWidthStyle
+          fullSliderWidth
+          onSelect={onPlaceSelect}
+        />
         <Gap height={32} />
       </ScrollView>
       <BottomSheetModal
