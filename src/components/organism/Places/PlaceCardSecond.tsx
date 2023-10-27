@@ -17,7 +17,7 @@ import {
 import useTheme from '../../../theme/useTheme';
 import {Gap, GradientText, Layout, Section, Text} from '../../atoms';
 import styles from './Style';
-import {Colors, Images} from '../../../theme';
+import {Colors} from '../../../theme';
 import {WIDTH, gradientMapping} from '../../../utils/config';
 import Carousel from 'react-native-reanimated-carousel';
 import {IcLegal} from '../../../theme/Images';
@@ -125,6 +125,7 @@ export const PlaceCardSecond = ({
         }
       });
   };
+  console.log('data===>', data);
 
   const renderSchedule = () => {
     const currentTime = new Date().getHours() + '.' + new Date().getMinutes();
@@ -151,15 +152,6 @@ export const PlaceCardSecond = ({
     );
   };
 
-  const dataImageSldier: any = [
-    {
-      urlImage: Images.bannerPlaceDetail,
-    },
-    {
-      urlImage: Images.bannerPlaceDetailv2,
-    },
-  ];
-
   const itemTag: any = [{name: 'LGBT'}, {name: 'EDM'}, {name: 'Rooftop'}];
 
   return (
@@ -182,7 +174,7 @@ export const PlaceCardSecond = ({
         width={WIDTH}
         height={WIDTH / 1.5}
         autoPlay={true}
-        data={dataImageSldier}
+        data={data?.photos}
         autoPlayInterval={5000}
         scrollAnimationDuration={100}
         renderItem={({item, index}: any) => (
@@ -192,7 +184,7 @@ export const PlaceCardSecond = ({
             onPress={onOpenGallery}>
             <Image
               resizeMode="cover"
-              source={item.urlImage}
+              source={{uri: item.url}}
               style={{
                 width: WIDTH,
                 height: WIDTH / 1.5,
@@ -205,7 +197,7 @@ export const PlaceCardSecond = ({
                 <View style={styles.piils}>
                   <Text
                     variant="small"
-                    label={`${index + 1} / ${dataImageSldier.length}`}
+                    label={`${index + 1} / ${data?.photos?.length}`}
                   />
                 </View>
               </ScrollView>

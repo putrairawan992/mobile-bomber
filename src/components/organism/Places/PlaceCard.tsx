@@ -1,13 +1,7 @@
 /* eslint-disable react-native/no-inline-styles */
 import {ArrowDown2, Gallery} from 'iconsax-react-native';
 import React from 'react';
-import {
-  Image,
-  ImageBackground,
-  ScrollView,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import {Image, ImageBackground, TouchableOpacity, View} from 'react-native';
 import {useImageAspectRatio} from '../../../hooks/useImageAspectRatio';
 import {
   PlaceInterface,
@@ -130,19 +124,7 @@ export const PlaceCard = ({
                 </TouchableSection>
               </Section>
             )}
-            {/* <Section isRow style={{flexWrap: 'wrap', display: 'flex'}}> */}
-            <ScrollView horizontal>
-              {Array.isArray(item.category) &&
-                item.category[0].split(', ').map((cat: string, idx: number) => {
-                  return (
-                    <View key={`category_${idx}`} style={styles.piils}>
-                      <Text variant="small" label={cat} />
-                    </View>
-                  );
-                })}
-            </ScrollView>
-            {/* </Section> */}
-            <Gap height={16} />
+            <Gap height={isPlaceDetail ? 16 : 35} />
             {isPlaceDetail ? (
               <>
                 <Text label="Songsou, Taipei City" />
@@ -194,6 +176,9 @@ export const PlaceCard = ({
               fontWeight="poppins-semi-bold"
               label={item.name}
             />
+
+            <Gap height={10} />
+            <Text variant="small" label={item.address.slice(0, 80) + '...'} />
             <Gap height={6} />
             <Section isRow isBetween>
               <Section isRow>
@@ -202,7 +187,7 @@ export const PlaceCard = ({
                     <Star size={16} color="#FB8500" />
                   </View>
                 ))}
-                <Text label={`${item.rating.toString()} / 5`} color="#A7B1C1" />
+                <Text label={`${item.rating.toString()}`} color="#A7B1C1" />
               </Section>
               <Text
                 variant="small"
@@ -223,8 +208,6 @@ export const PlaceCard = ({
                 }
               />
             </Section>
-            <Gap height={10} />
-            <Text variant="small" label={item.address.slice(0, 80) + '...'} />
           </Section>
         )}
       </>

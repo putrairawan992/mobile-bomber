@@ -47,6 +47,8 @@ export const GalleryScreen = ({route, navigation}: Props) => {
       const response = await NightlifeService.getPlaceGallery({
         club_id: route.params.placeId,
       });
+      console.log('response', response);
+
       setGalleryData(response.data);
       setMenu(response.data.map(item => item.categoryName));
       setIsLoading(false);
