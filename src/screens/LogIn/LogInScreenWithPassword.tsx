@@ -1,6 +1,6 @@
 import * as React from 'react';
 import * as Yup from 'yup';
-import {TouchableOpacity} from 'react-native';
+import {ImageBackground, TouchableOpacity} from 'react-native';
 
 import {AuthStackParams} from '../../navigation/AuthScreenStack';
 import {LoginPayloadInterface} from '../../interfaces/UserInterface';
@@ -17,6 +17,8 @@ import {
   Layout,
 } from '../../components/atoms';
 import {LogoLabel} from '../../components/molecules';
+import {bgOnboarding} from '../../theme/Images';
+import {HEIGHT, WIDTH} from '../../utils/config';
 
 type Props = NativeStackScreenProps<AuthStackParams, 'LogIn', 'MyStack'>;
 
@@ -54,57 +56,64 @@ function LogInScreenWithPassword({navigation}: Props) {
     },
   });
   return (
-    <Layout contentContainerStyle={styles.container}>
-      <LogoLabel
-        title="Nightlife Awaits!"
-        subtitle="Access your account and get ready for an unforgettable night of fun and celebration."
-      />
-      <TextInput
-        value={formik.values.phone}
-        label="Phone Number"
-        errorText={formik.errors.phone}
-        onChangeText={formik.handleChange('phone')}
-        placeholder="Phone number"
-        isNumeric
-      />
-      <Spacer l />
-      <TextInput
-        value={formik.values.password}
-        label="Password"
-        errorText={formik.errors.password}
-        onChangeText={formik.handleChange('password')}
-        placeholder="Password"
-        type="password"
-      />
-      <Spacer sm />
-      <TouchableOpacity
-        style={styles.forgotPasswordLink}
-        onPress={() => navigation.navigate('ForgotPassword')}>
-        <Text label="Forgot Password?" color={theme?.colors.PRIMARY} />
-      </TouchableOpacity>
-      <Spacer lxx />
-      <Button
-        type="primary"
-        onPress={() => formik.handleSubmit()}
-        title="Sign In"
-        isLoading={isLoading}
-      />
-      <Spacer lxx />
-      <Section isRow>
-        <Text
-          variant="base"
-          label="Don’t have an account yet? "
-          color={theme?.colors.TEXT_SECONDARY}
+    <ImageBackground
+      source={bgOnboarding}
+      style={{width: WIDTH, height: HEIGHT}}
+      resizeMode="cover">
+      <Layout
+        backgroundColor="transparent"
+        contentContainerStyle={styles.container}>
+        <LogoLabel
+          title="Nightlife Awaits!"
+          subtitle="Access your account and get ready for an unforgettable night of fun and celebration."
         />
-        <TouchableOpacity onPress={() => navigation.navigate('SignUp')}>
+        <TextInput
+          value={formik.values.phone}
+          label="Phone Number"
+          errorText={formik.errors.phone}
+          onChangeText={formik.handleChange('phone')}
+          placeholder="Phone number"
+          isNumeric
+        />
+        <Spacer l />
+        <TextInput
+          value={formik.values.password}
+          label="Password"
+          errorText={formik.errors.password}
+          onChangeText={formik.handleChange('password')}
+          placeholder="Password"
+          type="password"
+        />
+        <Spacer sm />
+        <TouchableOpacity
+          style={styles.forgotPasswordLink}
+          onPress={() => navigation.navigate('ForgotPassword')}>
+          <Text label="Forgot Password?" color={theme?.colors.PRIMARY} />
+        </TouchableOpacity>
+        <Spacer lxx />
+        <Button
+          type="primary"
+          onPress={() => formik.handleSubmit()}
+          title="Sign In"
+          isLoading={isLoading}
+        />
+        <Spacer lxx />
+        <Section isRow>
           <Text
             variant="base"
-            label="Register Now"
-            color={theme?.colors.PRIMARY}
+            label="Don’t have an account yet? "
+            color={theme?.colors.TEXT_SECONDARY}
           />
-        </TouchableOpacity>
-      </Section>
-    </Layout>
+          <TouchableOpacity onPress={() => navigation.navigate('SignUp')}>
+            <Text
+              variant="base"
+              label="Register Now"
+              color={theme?.colors.PRIMARY}
+            />
+          </TouchableOpacity>
+        </Section>
+      </Layout>
+    </ImageBackground>
   );
 }
 

@@ -9,18 +9,29 @@ import {GradientText, Section, Spacer, Text} from '../../atoms';
 interface LogoLabelPropsI {
   title: string;
   subtitle: string;
+  colors?: string;
 }
 
-export const LogoLabel = ({title, subtitle}: LogoLabelPropsI) => {
+export const LogoLabel = ({title, subtitle, colors}: LogoLabelPropsI) => {
   const theme = useTheme();
   const s = useThemedStyles(Styles);
   return (
     <Section>
       <Logo size={64} color={theme?.colors.PRIMARY} />
       <Spacer sm />
-      <GradientText colors={['#A060FA', '#C800CC']} style={s.headerText}>
-        {title}
-      </GradientText>
+      {!colors ? (
+        <GradientText colors={['#C800CC', '#A060FA']} style={s.headerText}>
+          {title}
+        </GradientText>
+      ) : (
+        <Text
+          variant="ultra-large"
+          label={title}
+          color={theme?.colors.PRIMARY}
+          style={{marginBottom: 10, fontSize: 32}}
+        />
+      )}
+
       <Text
         variant="base"
         label={subtitle}

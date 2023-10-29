@@ -64,7 +64,15 @@ export const ProfileService = {
       photo_url=${payload.photo_url}&
       bio=${payload.bio}`,
       data,
-      {headers: {'Content-Type': 'multipart/form-data'}},
+      {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+          type: 'formData',
+        },
+        transformRequest: vData => {
+          return vData; // thats enough
+        },
+      },
     );
     return response.data;
   },

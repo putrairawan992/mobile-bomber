@@ -29,15 +29,11 @@ export default function ModalWineryOrderPay({
   const [menu] = useState<string[]>(['Equally', 'Customized', 'Weighted']);
   const [initialPage, setInitialPage] = useState<number>(0);
 
-  console.log('checkoutItems', checkoutItems);
-
   const calculateTotal = () => {
     let total = 0;
-
     for (const item of checkoutItems) {
       total += item.price * item.quantity;
     }
-
     return total;
   };
 

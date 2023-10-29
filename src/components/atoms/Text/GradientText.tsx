@@ -16,8 +16,8 @@ const GradientText = ({colors, xAxis, width, ...rest}: GradientTextProps) => {
     <MaskedView maskElement={<Text {...rest} />}>
       <LinearGradient
         colors={colors}
-        start={{x: 0.3, y: 0.9}}
-        end={{x: xAxis ?? 0.5, y: 0.1}}
+        start={{x: 0.7, y: 0.1}}
+        end={{x: xAxis ?? 0.0, y: 0.4}}
         style={{width: width ?? '100%'}}>
         <Text {...rest} style={[rest.style, {opacity: 0}]} />
       </LinearGradient>

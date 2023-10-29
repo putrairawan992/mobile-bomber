@@ -13,6 +13,7 @@ const Google = require('../assets/images/google.png');
 const Facebook = require('../assets/images/facebook.png');
 const Success = require('../assets/images/success.png');
 const UserImage = require('../assets/images/userImage.png');
+const OmniNight = require('../assets/images/OmniNight.png');
 const LocationImage = require('../assets/images/LocationImage.png');
 const SearchIcon = require('../assets/images/SearchIcon.png');
 const NotificationImage = require('../assets/images/Notification.png');
@@ -79,6 +80,7 @@ const PopularDestionationMap = require('../assets/images/PopularDestionationMap.
 const ChatIcon = require('../assets/images/Chat.png');
 const ShareFillIcon = require('../assets/images/ShareFillIcon.png');
 const PapperMapIcon = require('../assets/images/PapperMapIcon.png');
+const bgOnboarding = require('../assets/images/bgOnboarding.png');
 const chatUser1 = require('../assets/images/chatUser1.png');
 const chatUser2 = require('../assets/images/chatUser2.png');
 const chatUser3 = require('../assets/images/chatUser3.png');
@@ -171,6 +173,8 @@ const bannerPlaceDetailv2 = require('../assets/images/banner_place_detail_v2.png
 const placeDetailDummy = require('../assets/images/place_detail_dummy.png');
 
 export {
+  bgOnboarding,
+  OmniNight,
   IcAmericanExpress,
   IcVisaLogo,
   IcCalendar,
