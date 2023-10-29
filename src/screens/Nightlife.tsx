@@ -71,13 +71,18 @@ function NightlifeScreen({route, navigation}: Props) {
   >([]);
   const dispatch = useDispatch();
   const {width} = useWindowDimensions();
+  const [sheetOrderIndex, setSheetOrderIndex] = React.useState<number>(-1);
   const [sheetIndex, setSheetIndex] = React.useState<number>(-1);
+  const homeSheetOrderRef = React.useRef<BottomSheetModal>(null);
   const homeSheetRef = React.useRef<BottomSheetModal>(null);
-  const [isOrderShow, setIsOrderShow] = React.useState<boolean>(false);
   const snapPoints = React.useMemo(() => ['60', '80', '90'], []);
+  const handleSheetOrderChanges = React.useCallback((index: number) => {
+    setSheetOrderIndex(index);
+  }, []);
   const handleSheetChanges = React.useCallback((index: number) => {
     setSheetIndex(index);
   }, []);
+
   const {
     isShowToast,
     setIsShowToast,
@@ -127,18 +132,17 @@ function NightlifeScreen({route, navigation}: Props) {
 
   useEffect(() => {
     if (isOrder) {
-      setIsOrderShow(true);
-      homeSheetRef.current?.present();
+      homeSheetOrderRef.current?.present();
     }
     if (isFineLocationGranted) {
       getOneTimeLocation();
     }
     fetchHistorySearchLocation();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isOrder, isOrderShow]);
+  }, [isOrder]);
 
   const actionShowPopUpOrders = () => {
-    homeSheetRef.current?.forceClose();
+    homeSheetOrderRef.current?.forceClose();
   };
 
   const fetchNotification = async () => {
@@ -287,7 +291,9 @@ function NightlifeScreen({route, navigation}: Props) {
             hasLocation
             hasNotification
             hasLogo
-            onLocationPress={() => homeSheetRef.current?.present()}
+            onLocationPress={() => {
+              homeSheetRef.current?.present();
+            }}
             onNotificationPress={() => navigation.navigate('Notification')}
           />
         </EntryAnimation>
@@ -405,17 +411,37 @@ function NightlifeScreen({route, navigation}: Props) {
         }}
         handleIndicatorStyle={{backgroundColor: Colors['black-70']}}
         onChange={handleSheetChanges}>
-        {isOrder && isOrderShow ? (
-          <OrderHomeTable
-            navigation={navigation}
-            actionShowPopUpOrders={actionShowPopUpOrders}
-          />
-        ) : (
-          <SelectLocationSheet
-            history={historySearchPlace}
-            onSelectLocation={handleSelectLocation}
-          />
-        )}
+        <SelectLocationSheet
+          history={historySearchPlace}
+          onSelectLocation={handleSelectLocation}
+        />
+      </BottomSheetModal>
+      <BottomSheetModal
+        ref={homeSheetOrderRef}
+        index={0}
+        enablePanDownToClose
+        snapPoints={isOrder ? ['28%'] : snapPoints}
+        backdropComponent={({style}) =>
+          sheetOrderIndex >= 0 ? (
+            <Pressable
+              onPress={() => homeSheetOrderRef.current?.close()}
+              style={[style, {backgroundColor: 'rgba(0, 0, 0, 0.60)'}]}
+            />
+          ) : (
+            <></>
+          )
+        }
+        handleStyle={{
+          backgroundColor: theme?.colors.SHEET,
+          borderTopRightRadius: 14,
+          borderTopLeftRadius: 14,
+        }}
+        handleIndicatorStyle={{backgroundColor: Colors['black-70']}}
+        onChange={handleSheetOrderChanges}>
+        <OrderHomeTable
+          navigation={navigation}
+          actionShowPopUpOrders={actionShowPopUpOrders}
+        />
       </BottomSheetModal>
       <ModalToast
         isVisible={isShowToast}
