@@ -37,7 +37,6 @@ export function PhoneInput({
   if (errorText) {
     borderColor = Colors['danger-400'];
   }
-  console.log(errorText);
   return (
     <Section>
       {!!label && (

@@ -38,6 +38,8 @@ const PlaceByCategory = ({route, navigation}: Props) => {
   const {userLocation} = useAppSelector(state => state.user);
   const [vValue, setvValue] = useState(category.title);
 
+  const [isFocus, setIsFocus] = useState(false);
+
   const fetchData = async () => {
     try {
       setIsLoading(true);
@@ -96,6 +98,8 @@ const PlaceByCategory = ({route, navigation}: Props) => {
             fontFamily: 'Inter-Regular',
             color: theme?.colors.TEXT_PRIMARY,
           }}
+          placeholderStyle={{color: theme?.colors.TEXT_PRIMARY, marginLeft: 10}}
+          placeholder={!isFocus ? `${category.title}` : '...'}
           inputSearchStyle={s.inputSearchStyle}
           iconStyle={s.iconStyle}
           itemTextStyle={{
@@ -124,6 +128,8 @@ const PlaceByCategory = ({route, navigation}: Props) => {
           }
           data={data}
           labelField="label"
+          onFocus={() => setIsFocus(true)}
+          onBlur={() => setIsFocus(false)}
           valueField="value"
           value={vValue}
           renderLeftIcon={() => category.icon as any}
@@ -138,6 +144,7 @@ const PlaceByCategory = ({route, navigation}: Props) => {
           )}
           onChange={item => {
             setvValue(item.value);
+            setIsFocus(false);
           }}
         />
         <TextInput
@@ -197,8 +204,8 @@ const s = StyleSheet.create({
     marginRight: 5,
   },
   iconStyle: {
-    width: 20,
-    height: 20,
+    width: 10,
+    height: 10,
   },
   inputSearchStyle: {
     height: 40,

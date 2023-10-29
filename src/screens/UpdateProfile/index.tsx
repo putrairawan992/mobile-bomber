@@ -60,12 +60,13 @@ export default function UpdateProfile({route}: Props) {
     setIsLoading(true);
     try {
       let formData = new FormData();
-      formData.append('file', {
-        url: images.path,
-        name: 'imageUpdateProfile.png',
-        fileName: 'image',
-        type: images.mime,
-      });
+      const paramsImage = {
+        size: images?.size,
+        uri: images?.path,
+        name: images?.path?.substring(images?.path.lastIndexOf('/') + 1),
+        type: images?.mime,
+      };
+      formData.append('file', paramsImage.uri ? paramsImage : '');
       const response = await ProfileService.updateProflie({
         payload: {
           customer_id: user?.id,
@@ -79,7 +80,6 @@ export default function UpdateProfile({route}: Props) {
       navigationRef.navigate('Profile' as never);
       setIsLoading(false);
     } catch (err: any) {
-      console.log('err===>', err.response.data);
       setIsLoading(false);
       openToast('error', err.response.data.message || 'Internal Error');
     }

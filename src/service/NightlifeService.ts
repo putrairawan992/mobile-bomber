@@ -171,7 +171,6 @@ export const NightlifeService = {
   }: {
     place_name: string;
   }): Promise<APIResponse<PlaceInterface[]>> => {
-    console.log('name :', place_name);
     const response = await ax.get(
       `${URL}/search_engine_for_place/${place_name}`,
     );

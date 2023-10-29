@@ -26,7 +26,7 @@ import {useImageAspectRatio} from '../../../hooks/useImageAspectRatio';
 import useTheme from '../../../theme/useTheme';
 import {BottomSheetModal} from '@gorhom/bottom-sheet';
 import {NightlifeService} from '../../../service/NightlifeService';
-import {WIDTH} from '../../../utils/config';
+import {HEIGHT, WIDTH} from '../../../utils/config';
 import {dateFormatter} from '../../../utils/dateFormatter';
 
 import {PlaceCardSecond} from '../../../components/organism/Places/PlaceCardSecond';
@@ -46,7 +46,9 @@ export const PlaceDetailSecond = ({route, navigation}: Props) => {
   const ref = createRef<PagerView>();
   const snapPoints = React.useMemo(() => ['50'], []);
   const theme = useTheme();
-  const [data, setData] = useState<PlaceInterface | undefined>(undefined);
+  const [data, setData] = useState<PlaceInterface | undefined>(
+    undefined,
+  ) as any;
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const aspectRatio = useImageAspectRatio(data?.logo as string);
   const placeDetailSheetRef = React.useRef<BottomSheetModal>(null);
@@ -88,7 +90,9 @@ export const PlaceDetailSecond = ({route, navigation}: Props) => {
               style={{borderTopColor: '#2E2E2E', borderTopWidth: 1}}
               key={1}
               rounded={8}>
-              <Section padding="12px 12px">
+              <Section
+                style={{marginBottom: data?.features?.length > 2 ? 0 : 95}}
+                padding="12px 12px">
                 <DefaultText title="Our Facilities" />
                 <Gap height={12} />
                 {!data?.features?.length && (
@@ -128,6 +132,11 @@ export const PlaceDetailSecond = ({route, navigation}: Props) => {
                   },
                 )}
               </Section>
+
+              <Image
+                source={placeDetailDummy}
+                style={{width: '100%', height: 150}}
+              />
             </Section>
           </EntryAnimation>
         )}
@@ -138,10 +147,11 @@ export const PlaceDetailSecond = ({route, navigation}: Props) => {
   const handleSheetChanges = React.useCallback((index: number) => {
     setSheetIndex(index);
   }, []);
+
   return (
     <Layout contentContainerStyle={styles.container} isScrollable={false}>
       <ScrollView>
-        <Header transparent hasBackBtn style={{height: 70}} />
+        {/* <Header transparent hasBackBtn style={{height: 70}} /> */}
         <View style={styles.headerLogo}>
           <Image source={{uri: data?.logo}} style={{height: 56, aspectRatio}} />
         </View>
@@ -155,7 +165,8 @@ export const PlaceDetailSecond = ({route, navigation}: Props) => {
               isPlaceDetail
               onOpenSchedule={() => placeDetailSheetRef.current?.present()}
               operation={data.operation.find(
-                item => item.day === dateFormatter(new Date(), 'eeee'),
+                (item: {day: string}) =>
+                  item.day === dateFormatter(new Date(), 'eeee'),
               )}
               onOpenGallery={() =>
                 navigation.navigate('Gallery', {
@@ -169,19 +180,7 @@ export const PlaceDetailSecond = ({route, navigation}: Props) => {
 
         <Gap height={16} />
         {PlaceOverview()}
-
-        <Gap height={16} />
-        <Section style={{flex: 1}}>
-          <View>
-            <Image
-              source={placeDetailDummy}
-              style={{width: '100%', height: 150}}
-            />
-          </View>
-        </Section>
       </ScrollView>
-
-      <Gap height={12} />
       <Section>
         <View className="flex-row">
           {menu.map((item, index) => {

@@ -19,6 +19,9 @@ import {
   TextInput,
 } from '../../components/atoms';
 import {LogoLabel} from '../../components/molecules';
+import {ImageBackground} from 'react-native';
+import {bgOnboarding} from '../../theme/Images';
+import {HEIGHT, WIDTH} from '../../utils/config';
 
 type Props = NativeStackScreenProps<
   AuthStackParams,
@@ -49,42 +52,50 @@ function ForgotPasswordScreen({navigation}: Props) {
       }),
   });
   return (
-    <Layout contentContainerStyle={styles.container}>
-      <LogoLabel
-        title="Forgot Your Password?"
-        subtitle="No worries! We'll help you get back into the groove. Enter your email to reset your password."
-      />
-      <TextInput
-        value={formik.values.phone}
-        label="Phone Number"
-        errorText={formik.errors.phone}
-        onChangeText={formik.handleChange('phone')}
-        placeholder="Phone Number"
-        isNumeric
-      />
-      <Spacer xl />
-      <Button
-        type="primary"
-        onPress={() => formik.handleSubmit()}
-        title="Submit"
-        isLoading={false}
-      />
-
-      <Section style={{marginTop: 28}} isRow>
-        <Text
-          variant="base"
-          label="Remember the password? "
-          color={theme?.colors.TEXT_SECONDARY}
+    <ImageBackground
+      source={bgOnboarding}
+      style={{width: WIDTH, height: HEIGHT}}
+      resizeMode="cover">
+      <Layout
+        backgroundColor="transparent"
+        contentContainerStyle={styles.container}>
+        <LogoLabel
+          colors={theme?.colors.PRIMARY}
+          title="Forgot Your Password?"
+          subtitle="No worries! We'll help you get back into the groove. Enter your email to reset your password."
         />
-        <TouchableOpacity onPress={() => navigation.navigate('LogIn')}>
+        <TextInput
+          value={formik.values.phone}
+          label="Phone Number"
+          errorText={formik.errors.phone}
+          onChangeText={formik.handleChange('phone')}
+          placeholder="Phone Number"
+          isNumeric
+        />
+        <Spacer xl />
+        <Button
+          type="primary"
+          onPress={() => formik.handleSubmit()}
+          title="Submit"
+          isLoading={false}
+        />
+
+        <Section style={{marginTop: 28}} isRow>
           <Text
             variant="base"
-            label="Login Now"
-            color={theme?.colors.PRIMARY}
+            label="Remember the password? "
+            color={theme?.colors.TEXT_SECONDARY}
           />
-        </TouchableOpacity>
-      </Section>
-    </Layout>
+          <TouchableOpacity onPress={() => navigation.navigate('LogIn')}>
+            <Text
+              variant="base"
+              label="Login Now"
+              color={theme?.colors.PRIMARY}
+            />
+          </TouchableOpacity>
+        </Section>
+      </Layout>
+    </ImageBackground>
   );
 }
 

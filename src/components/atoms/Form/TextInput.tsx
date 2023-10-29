@@ -140,7 +140,7 @@ export const TextInput = React.forwardRef((props: Props, ref) => {
           </TouchableOpacity>
         )}
         {type === 'search' && (
-          <TouchableOpacity style={{right: 12}}>
+          <TouchableOpacity style={{right: 23}}>
             <Search size={20} color={theme?.colors.PRIMARY} />
           </TouchableOpacity>
         )}

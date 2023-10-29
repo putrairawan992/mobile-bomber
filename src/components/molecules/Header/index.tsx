@@ -1,15 +1,13 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable react-native/no-inline-styles */
 import React, {CSSProperties} from 'react';
-import {View, Image, TouchableOpacity, TextStyle} from 'react-native';
+import {View, TouchableOpacity, TextStyle} from 'react-native';
 import styles from './Styles';
-import HeaderLeftLoaction from './LeftLocation';
 import HeaderRight from './Right';
 import HeaderLeft from './Left';
 import {useNavigation} from '@react-navigation/native';
 import useTheme from '../../../theme/useTheme';
 import {Gap, Text} from '../../atoms';
-import {Images} from '../../../theme';
 import {Logo, LogoText} from '../../../assets/icons';
 import {ArrowLeft} from 'iconsax-react-native';
 
@@ -122,7 +120,7 @@ function Header({
         {title && (
           <Text
             variant="large"
-            fontWeight="bold"
+            fontWeight="semi-bold"
             label={title}
             color={theme?.colors.WARNING}
             style={[
@@ -201,7 +199,7 @@ function Header({
           </HeaderRight>
         )}
       </View>
-      <Gap height={23} />
+      <Gap height={10} />
     </View>
   );
 }
