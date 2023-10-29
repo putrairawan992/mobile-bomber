@@ -347,7 +347,6 @@ export const TableOrderDetail = ({
               imageUrl = IcVisaLogo;
               break;
             case 'AmericanExpress':
-              // eslint-disable-next-line @typescript-eslint/no-unused-vars
               imageUrl = IcAmericanExpress;
           }
           return (
@@ -372,14 +371,15 @@ export const TableOrderDetail = ({
                 />
               )}
               <Gap width={6} />
-              <Text
-                fontWeight="medium"
-                label={detectCreditCardType(item.cardNumber)}
+              <Image
+                source={imageUrl}
+                style={{width: 40, height: 20}}
+                resizeMode="contain"
               />
               <Gap width={6} />
               <Text
                 fontWeight="medium"
-                label={'+ ' + item.cardNumber.split(' - ').reverse()[0]}
+                label={'- ' + item.cardNumber.split(' - ').reverse()[0]}
               />
             </TouchableSection>
           );
