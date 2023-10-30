@@ -20,7 +20,7 @@ import styles from './Style';
 import {Colors} from '../../../theme';
 import {WIDTH} from '../../../utils/config';
 import Carousel from 'react-native-reanimated-carousel';
-import {IcLegal, OmniNight} from '../../../theme/Images';
+import {IcLegal} from '../../../theme/Images';
 import Geolocation from 'react-native-geolocation-service';
 import {currency} from '../../../utils/function';
 import HeaderLeft from '../../molecules/Header/Left';
@@ -212,22 +212,29 @@ export const PlaceCardSecond = ({
       </View>
       <Gap height={20} />
       <View className="flex-row">
-        <Gap width={10} />
-        <Image
-          source={data?.logo ? {uri: data?.logo} : OmniNight}
-          className="w-[100] h-[100]"
-          resizeMode="cover"
-        />
-        <Gap width={20} />
+        {data?.logo && <Gap width={10} />}
+        {data?.logo && (
+          <Image
+            source={{uri: data?.logo}}
+            className="w-[100] h-[100]"
+            style={{
+              borderColor: '#525252',
+              borderWidth: 1,
+              borderRadius: 4,
+            }}
+            resizeMode="cover"
+          />
+        )}
+        <Gap width={data?.logo ? 20 : 10} />
         <View className="flex-1">
-          <Section isRow isBetween>
+          <Section style={{marginLeft: -1}} isRow isBetween>
             <TouchableOpacity
               activeOpacity={0.7}
-              className="flex-row items-center mb-1">
+              className="flex-row items-center mb-1.5">
               <GradientText
                 colors={['#C800CC', '#A060FA']}
                 style={{
-                  fontSize: 24,
+                  fontSize: 23,
                   fontFamily: 'Inter-SemiBold',
                 }}>
                 {data.name}
@@ -252,13 +259,13 @@ export const PlaceCardSecond = ({
           <Gap height={20} />
           {isPlaceDetail ? (
             <Section isRow>
-              <View style={{width: 140}}>
+              <View style={{width: data?.logo ? 140 : '40%'}}>
                 <TouchableOpacity
                   onPress={() => openMapDirection()}
                   activeOpacity={0.7}>
                   <Text
                     className=""
-                    label={data.address.slice(0, 20) + '...'}
+                    label={data.address.slice(0, data?.logo ? 20 : 30) + '...'}
                   />
                 </TouchableOpacity>
               </View>
