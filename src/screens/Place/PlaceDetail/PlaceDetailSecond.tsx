@@ -12,7 +12,6 @@ import {
   Section,
   Text,
 } from '../../../components/atoms';
-import {Header} from '../../../components/molecules';
 import {Image, Pressable, ScrollView, View} from 'react-native';
 import {
   PlaceInterface,
@@ -26,7 +25,7 @@ import {useImageAspectRatio} from '../../../hooks/useImageAspectRatio';
 import useTheme from '../../../theme/useTheme';
 import {BottomSheetModal} from '@gorhom/bottom-sheet';
 import {NightlifeService} from '../../../service/NightlifeService';
-import {HEIGHT, WIDTH} from '../../../utils/config';
+import {WIDTH} from '../../../utils/config';
 import {dateFormatter} from '../../../utils/dateFormatter';
 
 import {PlaceCardSecond} from '../../../components/organism/Places/PlaceCardSecond';
@@ -90,9 +89,7 @@ export const PlaceDetailSecond = ({route, navigation}: Props) => {
               style={{borderTopColor: '#2E2E2E', borderTopWidth: 1}}
               key={1}
               rounded={8}>
-              <Section
-                style={{marginBottom: data?.features?.length > 2 ? 0 : 95}}
-                padding="12px 12px">
+              <Section padding="12px 12px">
                 <DefaultText title="Our Facilities" />
                 <Gap height={12} />
                 {!data?.features?.length && (
@@ -151,10 +148,6 @@ export const PlaceDetailSecond = ({route, navigation}: Props) => {
   return (
     <Layout contentContainerStyle={styles.container} isScrollable={false}>
       <ScrollView>
-        {/* <Header transparent hasBackBtn style={{height: 70}} /> */}
-        <View style={styles.headerLogo}>
-          <Image source={{uri: data?.logo}} style={{height: 56, aspectRatio}} />
-        </View>
         {isLoading || !data ? (
           <CustomShimmer width={WIDTH} height={230} />
         ) : (
@@ -177,7 +170,6 @@ export const PlaceDetailSecond = ({route, navigation}: Props) => {
             />
           </EntryAnimation>
         )}
-
         <Gap height={16} />
         {PlaceOverview()}
       </ScrollView>

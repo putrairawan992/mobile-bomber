@@ -22,6 +22,7 @@ import {COORDINATE_DATA} from '../../../utils/data';
 import {Dropdown} from 'react-native-element-dropdown';
 import {Colors} from '../../../theme';
 import {ArrowDown2, ArrowUp2} from 'iconsax-react-native';
+import {Beer, DiscoLight, Karaoke, WineBottle} from '../../../assets/icons';
 
 type Props = NativeStackScreenProps<
   MainStackParams,
@@ -77,11 +78,26 @@ const PlaceByCategory = ({route, navigation}: Props) => {
         placeData.find((item: PlaceInterface) => item.clubId === id) ?? null,
     });
 
-  const data = [
+  const PLACE_CATEGORY: any[] = [
     {
-      label: category.title,
       value: '1',
-      image: category.icon,
+      label: 'Nightclub',
+      image: <DiscoLight size={24} color={theme?.colors.ICON} />,
+    },
+    {
+      value: '2',
+      label: 'KTV',
+      image: <Karaoke size={24} color={theme?.colors.ICON} />,
+    },
+    {
+      value: '3',
+      label: 'Pregames',
+      image: <Beer size={24} color={theme?.colors.ICON} />,
+    },
+    {
+      value: '4',
+      label: 'Bar',
+      image: <WineBottle size={24} color={theme?.colors.ICON} />,
     },
   ];
 
@@ -126,7 +142,7 @@ const PlaceByCategory = ({route, navigation}: Props) => {
               <ArrowDown2 color={theme?.colors.PRIMARY} size={16} />
             )
           }
-          data={data}
+          data={PLACE_CATEGORY}
           labelField="label"
           onFocus={() => setIsFocus(true)}
           onBlur={() => setIsFocus(false)}

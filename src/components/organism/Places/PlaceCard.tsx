@@ -20,6 +20,7 @@ import {Colors} from '../../../theme';
 import {UserLocationInterface} from '../../../interfaces/UserInterface';
 import {calculateDistance} from '../../../utils/calculateDistance';
 import {Star} from '../../../assets/icons';
+import {ScrollView} from 'react-native';
 
 interface PlaceCardProps {
   item: PlaceInterface;
@@ -77,12 +78,23 @@ export const PlaceCard = ({
     );
   };
 
+  const itemTag: any = [
+    {name: 'LGBT'},
+    {name: 'EDM'},
+    {name: 'Rooftop'},
+    {name: 'Freeflow'},
+  ];
+
   return (
     <ScaleAnimation
       onPress={() => onSelect(item.clubId.toString())}
       disabled={isPlaceDetail ? true : false}
       scaleTo={0.97}
       style={{
+        backgroundColor: '#262626',
+        ...(!isPlaceDetail && {
+          borderRadius: 8,
+        }),
         marginLeft: isPlaceDetail || isVertical ? 0 : 20,
         ...(isVertical && {marginBottom: 20}),
       }}>
@@ -94,12 +106,22 @@ export const PlaceCard = ({
           style={{width: '100%', height: 231}}
           imageStyle={{
             ...(!isPlaceDetail && {
-              borderTopLeftRadius: 12,
-              borderTopRightRadius: 12,
+              borderRadius: 8,
             }),
             opacity: 0.4,
           }}
           resizeMode="cover">
+          <View style={{position: 'absolute', top: 15, left: 10}}>
+            <ScrollView horizontal>
+              {itemTag.map((cat: any, idx: number) => {
+                return (
+                  <View key={`category_${idx}`} style={styles.piils}>
+                    <Text variant="small" label={cat.name} />
+                  </View>
+                );
+              })}
+            </ScrollView>
+          </View>
           {isPlaceDetail && !!operation && renderSchedule()}
           <Section padding="16px 16px">
             {isPlaceDetail && (
@@ -182,7 +204,7 @@ export const PlaceCard = ({
             <Gap height={6} />
             <Section isRow isBetween>
               <Section isRow>
-                {[1, 2, 3, 4].map((star: number) => (
+                {[1].map((star: number) => (
                   <View style={{marginRight: 6}} key={`star_${star}`}>
                     <Star size={16} color="#FB8500" />
                   </View>

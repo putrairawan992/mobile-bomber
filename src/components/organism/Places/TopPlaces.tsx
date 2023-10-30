@@ -31,7 +31,7 @@ export const TopPlaces = ({
     <PlaceCard item={item} onSelect={onSelect} userLocation={userLocation} />
   );
   return (
-    <Section>
+    <Section style={{backgroundColor: 'transparent'}}>
       <Text
         color={theme?.colors.PRIMARY}
         label={title}

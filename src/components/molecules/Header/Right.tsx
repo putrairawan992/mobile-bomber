@@ -31,6 +31,8 @@ function HeaderRight({
   const userPosition = userLocation.city
     ? userLocation.city + ', ' + userLocation.country
     : 'unknown';
+
+  const totalNotif = invitationCount + friendRequestCount;
   return (
     <>
       {/* // <View style={[styles.right, style]}>
@@ -82,10 +84,16 @@ function HeaderRight({
                   bottom: 4,
                 }}
                 rounded={20}
-                backgroundColor={Colors['danger-400']}>
+                backgroundColor={
+                  totalNotif > 0 ? Colors['danger-400'] : 'transparent'
+                }>
                 <Text
                   variant="small"
-                  label={(invitationCount + friendRequestCount).toString()}
+                  label={
+                    totalNotif > 0
+                      ? (invitationCount + friendRequestCount).toString()
+                      : ''
+                  }
                 />
               </Section>
               <Notification
