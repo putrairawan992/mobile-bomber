@@ -259,7 +259,7 @@ export const PlaceCardSecond = ({
           <Gap height={20} />
           {isPlaceDetail ? (
             <Section isRow>
-              <View style={{width: data?.logo ? 140 : '40%'}}>
+              <View style={{width: data?.logo ? 150 : '50%'}}>
                 <TouchableOpacity
                   onPress={() => openMapDirection()}
                   activeOpacity={0.7}>
