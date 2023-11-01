@@ -55,6 +55,7 @@ export interface PayloadPostBookingTableInterface {
   member_invited: string[];
   is_full_payment: number;
   coupon_used: number;
+  source: string;
 }
 
 export interface PayloadPostBookingWalkInInterface {
