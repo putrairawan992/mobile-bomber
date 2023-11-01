@@ -41,4 +41,5 @@ export interface CoordinateInterface {
 export interface LabelValueInterface {
   label: string;
   value: string;
+  image?: string;
 }

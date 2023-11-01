@@ -56,6 +56,7 @@ export const PlaceCardSecond = ({
   const [distanceToSingsou, setDistanceToSingsou] = useState<number | null>(
     null,
   );
+  console.log('PlaceCardSecond', data);
 
   useEffect(() => {
     Geolocation.getCurrentPosition(
@@ -101,26 +102,17 @@ export const PlaceCardSecond = ({
   };
 
   const openMapDirection = () => {
-    const url: any = Platform.select({
-      ios: `comgooglemaps://?center=${SingsouLocation.latitude},${SingsouLocation.longitude}&q=${SingsouLocation.latitude},${SingsouLocation.longitude}&zoom=14&views=traffic"`,
-      android: `geo://?q=${SingsouLocation.latitude},${SingsouLocation.longitude}`,
+    const scheme = Platform.select({
+      ios: 'maps://0,0?q=',
+      android: 'geo:0,0?q=',
     });
-    Linking.canOpenURL(url)
-      .then(supported => {
-        if (supported) {
-          return Linking.openURL(url);
-        } else {
-          const browser_url = `https://www.google.de/maps/@${SingsouLocation.latitude},${SingsouLocation.longitude}`;
-          return Linking.openURL(browser_url);
-        }
-      })
-      .catch(() => {
-        if (Platform.OS === 'ios') {
-          Linking.openURL(
-            `maps://?q=${SingsouLocation.latitude},${SingsouLocation.longitude}`,
-          );
-        }
-      });
+    const latLng = `${data?.latitude},${data?.longitude}`;
+    const label = data?.address;
+    const url = Platform.select({
+      ios: `${scheme}${label}@${latLng}`,
+      android: `${scheme}${latLng}(${label})`,
+    });
+    Linking.openURL(url as string);
   };
 
   const renderSchedule = () => {

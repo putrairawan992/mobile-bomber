@@ -35,7 +35,10 @@ import {
 } from '@react-native-google-signin/google-signin';
 import Config from 'react-native-config';
 import {PhoneInput} from '../../components/atoms/Form/PhoneInput';
-import {COUNTRY_PHONE_CODE} from '../../utils/data';
+import {
+  COUNTRY_PHONE_CODE,
+  COUNTRY_PHONE_CODE_WITH_ICON,
+} from '../../utils/data';
 import {HEIGHT, WIDTH} from '../../utils/config';
 import {bgOnboarding} from '../../theme/Images';
 
@@ -274,10 +277,11 @@ function LogInScreen({navigation}: Props) {
           subtitle="Access your account and get ready for an unforgettable night of fun and celebration."
         />
         <PhoneInput
-          data={COUNTRY_PHONE_CODE.map(item => {
+          data={COUNTRY_PHONE_CODE_WITH_ICON.map(item => {
             return {
-              value: item.country,
-              label: item.code,
+              value: item.name,
+              label: item.dial_code,
+              image: item.flag,
             };
           })}
           errorText={formik.errors.phone ?? ''}

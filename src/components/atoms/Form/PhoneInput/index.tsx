@@ -10,6 +10,7 @@ import {ArrowDown2, ArrowUp2} from 'iconsax-react-native';
 import {Colors} from '../../../../theme';
 import {LabelValueInterface} from '../../../../interfaces/Interface';
 import {WIDTH} from '../../../../utils/config';
+import {Search} from '../../../../assets/icons/Search';
 
 // type Props = NativeStackScreenProps<MainStackParams, 'Saved', 'MyStack'>;
 interface Props {
@@ -37,6 +38,31 @@ export function PhoneInput({
   if (errorText) {
     borderColor = Colors['danger-400'];
   }
+  const inputCustom = (onSearch: any) => (
+    <Section
+      isRow
+      style={{
+        borderTopColor: '#323232',
+        borderTopWidth: 1,
+        borderBottomColor: '#323232',
+        borderBottomWidth: 1,
+      }}
+      padding="1px 5px"
+      backgroundColor={theme?.colors.BACKGROUND2}>
+      <Search size={20} color={theme?.colors.TEXT_PRIMARY} />
+      <TextInput
+        placeholderTextColor={theme?.colors.TEXT_PLACEHOLDER}
+        placeholder="search country"
+        style={{
+          backgroundColor: theme?.colors.BACKGROUND2,
+          color: theme?.colors.TEXT_PRIMARY,
+        }}
+        onChangeText={text => {
+          onSearch(text);
+        }}
+      />
+    </Section>
+  );
   return (
     <Section>
       {!!label && (
@@ -70,6 +96,7 @@ export function PhoneInput({
             bottom: 2,
           }}
           inputSearchStyle={s.inputSearchStyle}
+          renderInputSearch={onSearch => inputCustom(onSearch)}
           iconStyle={s.iconStyle}
           itemTextStyle={{
             fontSize: 14,
@@ -84,63 +111,70 @@ export function PhoneInput({
           }}
           data={data}
           maxHeight={300}
+          search
           labelField="label"
           valueField="value"
           placeholder=""
           value={value}
           renderItem={(item, selected) => (
-            <Section
-              isRow
-              isBetween
+            <View
               style={{
-                width: WIDTH * 0.8,
-                flex: 1,
-              }}
-              padding="10px 16px"
-              backgroundColor={theme?.colors.BACKGROUND2}>
-              <Section isRow>
-                <Text
-                  fontWeight="regular"
-                  label={item.label}
-                  style={{width: 60}}
-                  textAlign="right"
-                />
-                <Gap width={8} />
-                <Text fontWeight="regular" label={item.value} />
-              </Section>
+                borderBottomColor: '#323232',
+                borderBottomWidth: 1,
+              }}>
+              <Section
+                isRow
+                isBetween
+                style={{
+                  width: WIDTH * 0.8,
+                  flex: 1,
+                }}
+                padding="10px 16px"
+                backgroundColor={theme?.colors.BACKGROUND2}>
+                <Section isRow>
+                  <Text fontWeight="regular" label={item.image} />
+                  <Text fontWeight="regular" label={item.value} />
+                  <Text
+                    fontWeight="regular"
+                    label={item.label}
+                    style={{width: 50}}
+                    textAlign="right"
+                  />
+                </Section>
 
-              {selected ? (
-                <View
-                  style={{
-                    width: 20,
-                    height: 20,
-                    borderRadius: 10,
-                    borderWidth: 2,
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    borderColor: theme?.colors.PRIMARY,
-                  }}>
+                {selected ? (
                   <View
                     style={{
-                      width: 10,
-                      height: 10,
-                      borderRadius: 6,
-                      backgroundColor: theme?.colors.PRIMARY,
+                      width: 20,
+                      height: 20,
+                      borderRadius: 10,
+                      borderWidth: 2,
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      borderColor: theme?.colors.PRIMARY,
+                    }}>
+                    <View
+                      style={{
+                        width: 10,
+                        height: 10,
+                        borderRadius: 6,
+                        backgroundColor: theme?.colors.PRIMARY,
+                      }}
+                    />
+                  </View>
+                ) : (
+                  <View
+                    style={{
+                      width: 20,
+                      height: 20,
+                      borderRadius: 10,
+                      borderWidth: 2,
+                      borderColor: theme?.colors.PRIMARY,
                     }}
                   />
-                </View>
-              ) : (
-                <View
-                  style={{
-                    width: 20,
-                    height: 20,
-                    borderRadius: 10,
-                    borderWidth: 2,
-                    borderColor: theme?.colors.PRIMARY,
-                  }}
-                />
-              )}
-            </Section>
+                )}
+              </Section>
+            </View>
           )}
           renderRightIcon={visible =>
             visible ? (
@@ -203,9 +237,8 @@ const s = StyleSheet.create({
     height: 20,
   },
   inputSearchStyle: {
-    height: 40,
     fontSize: 14,
     fontFamily: 'Inter-Regular',
-    color: '#111827',
+    width: WIDTH * 0.8,
   },
 });

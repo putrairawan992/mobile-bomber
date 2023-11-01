@@ -13,7 +13,7 @@ import {LogoLabel} from '../components/molecules';
 import styles from './LogIn/Styles/LogInStyle';
 import CheckBox from '@react-native-community/checkbox';
 import {PhoneInput} from '../components/atoms/Form/PhoneInput';
-import {COUNTRY_PHONE_CODE} from '../utils/data';
+import {COUNTRY_PHONE_CODE, COUNTRY_PHONE_CODE_WITH_ICON} from '../utils/data';
 import {Colors} from '../theme';
 import {bgOnboarding} from '../theme/Images';
 import {HEIGHT, WIDTH} from '../utils/config';
@@ -103,10 +103,11 @@ export const SignUp = ({navigation}: Props) => {
         />
         <Spacer l />
         <PhoneInput
-          data={COUNTRY_PHONE_CODE.map(item => {
+          data={COUNTRY_PHONE_CODE_WITH_ICON.map(item => {
             return {
-              value: item.country,
-              label: item.code,
+              value: item.name,
+              label: item.dial_code,
+              image: item.flag,
             };
           })}
           errorText={formik.errors.phone ?? ''}
