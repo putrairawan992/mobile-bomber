@@ -83,6 +83,7 @@
     "react-native-image-picker": "5.4.0",
     "react-native-keyboard-aware-scroll-view": "^0.9.5",
     "react-native-linear-gradient": "2.7.3",
+    "react-native-maps": "^1.8.0",
     "react-native-mmkv-storage": "0.8.0",
     "react-native-modal": "^13.0.1",
     "react-native-modal-datetime-picker": "^17.1.0",
