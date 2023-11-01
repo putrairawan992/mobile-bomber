@@ -9,6 +9,9 @@ import ThemeProvider from './src/theme/ThemeProvider';
 import {BottomSheetModalProvider} from '@gorhom/bottom-sheet';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
 import {AppContext} from './src/context/AppContext';
+import {enableLatestRenderer} from 'react-native-maps';
+
+enableLatestRenderer();
 
 EStyleSheet.build();
 
