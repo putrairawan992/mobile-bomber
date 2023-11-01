@@ -398,6 +398,7 @@ function BookingTableScreen({route, navigation}: Props) {
           member_invited: selectedInvitation.map(item => item.customerId),
           is_full_payment: isPayFull ? 1 : 0,
           coupon_used: coupons?.length,
+          source: 'table booking apps',
         },
       });
       if (coupons?.length) {
