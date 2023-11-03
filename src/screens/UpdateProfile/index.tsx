@@ -60,19 +60,14 @@ export default function UpdateProfile({route}: Props) {
     setIsLoading(true);
     try {
       let formData = new FormData();
-      const paramsImage = {
-        size: images?.size,
-        uri: images?.path,
-        name: images?.path?.substring(images?.path.lastIndexOf('/') + 1),
-        type: images?.mime,
-      };
-      formData.append('file', paramsImage.uri ? paramsImage : '');
+      formData.append('file', `data:${images?.mime};base64,${images?.data}`);
       const response = await ProfileService.updateProflie({
         payload: {
           customer_id: user?.id,
           username: username,
           photo_url: profileData?.photoUrl,
           bio: about,
+          is_base_64: images?.data ? true : false,
         },
         data: formData,
       });

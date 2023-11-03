@@ -2,6 +2,7 @@ import {ScrollView, StyleSheet} from 'react-native';
 import React from 'react';
 import CardBooking from '../../../components/molecules/Card/CardBooking';
 import {BookingInterface} from '../../../interfaces/BookingInterface';
+import {DefaultText} from '../../../components/atoms';
 
 interface Paid {
   status?: string;
@@ -14,8 +15,7 @@ function Paid({dataEvents, onSelect, status}: Paid) {
     <ScrollView
       showsVerticalScrollIndicator={false}
       contentContainerStyle={styles.container}>
-      {dataEvents &&
-        dataEvents?.length > 0 &&
+      {dataEvents && dataEvents?.length > 0 ? (
         dataEvents?.map((value: any, key: any) => {
           return (
             <CardBooking
@@ -26,7 +26,10 @@ function Paid({dataEvents, onSelect, status}: Paid) {
               onSelect={onSelect}
             />
           );
-        })}
+        })
+      ) : (
+        <DefaultText title="No Data" titleClassName="self-center" />
+      )}
     </ScrollView>
   );
 }

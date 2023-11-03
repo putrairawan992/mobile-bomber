@@ -25,8 +25,11 @@ export const Avatar = (props: AvatarProps) => {
       width: 300,
       height: 400,
       cropping: true,
+      includeBase64: true,
     })
       .then(image => {
+        console.log('chooseImage', image);
+
         setUri(image.path);
         props.onChange?.(image);
       })
@@ -38,9 +41,12 @@ export const Avatar = (props: AvatarProps) => {
       width: 300,
       height: 400,
       cropping: true,
+      includeBase64: true,
     })
       .then(image => {
         setUri(image.path);
+        console.log(image);
+
         props.onChange?.(image);
       })
       .finally(props.onPickImage());

@@ -242,6 +242,32 @@ export const TableOrderDetail = ({
         />
       </Section>
       <Gap height={12} />
+      <TouchableOpacity
+        activeOpacity={0.7}
+        style={{
+          padding: 12,
+          backgroundColor: theme?.colors.SECTION,
+          borderRadius: 8,
+        }}
+        onPress={() => setShowPromo(true)}>
+        <Section isRow isBetween>
+          <Section isRow>
+            <Coupon size={32} color={Colors['warning-500']} />
+            <Gap width={8} />
+            <Text
+              fontWeight="bold"
+              color={Colors['white-100']}
+              label="Apply promo to get special discount"
+            />
+          </Section>
+          <Image
+            source={IcChevronRight}
+            resizeMode="contain"
+            className="w-[7.5] h-[13.5]"
+          />
+        </Section>
+      </TouchableOpacity>
+      <Gap height={12} />
       <Section
         padding="12px 12px"
         backgroundColor={theme?.colors.SECTION}
@@ -411,26 +437,6 @@ export const TableOrderDetail = ({
             </View>
           );
         })}
-        <TouchableOpacity
-          activeOpacity={0.7}
-          onPress={() => setShowPromo(true)}>
-          <Section isRow isBetween>
-            <Section isRow>
-              <Coupon size={32} color={Colors['warning-500']} />
-              <Gap width={8} />
-              <Text
-                fontWeight="bold"
-                color={Colors['white-100']}
-                label="Apply promo to get special discount"
-              />
-            </Section>
-            <Image
-              source={IcChevronRight}
-              resizeMode="contain"
-              className="w-[7.5] h-[13.5]"
-            />
-          </Section>
-        </TouchableOpacity>
       </Section>
 
       <Gap height={20} />
