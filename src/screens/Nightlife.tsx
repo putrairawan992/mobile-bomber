@@ -53,6 +53,7 @@ import usePushNotification from '../hooks/usePostNotification';
 import { TryBeverage } from '../components/organism/Places/TryBeverage';
 import { NewestEvent } from '../components/organism/Places/NewestEvent';
 import MapView, { Marker, Region } from 'react-native-maps';
+import { YourScheduleCard } from '../components/organism/Places/YourScheduleCard';
 type Props = NativeStackScreenProps<MainStackParams, 'Nightlife', 'MyStack'>;
 
 function NightlifeScreen({ route, navigation }: Props) {
@@ -423,7 +424,16 @@ function NightlifeScreen({ route, navigation }: Props) {
           )}
         {/* </EntryAnimation> */}
         <Spacer sm />
-        <EntryAnimation index={3}>
+        <YourScheduleCard
+            userLocation={userLocation}
+            title="Your schedule"
+            data={topFiveNightClub}
+            itemWidthStyle
+            fullSliderWidth
+            onSelect={onPlaceSelect}
+          />
+        <Spacer sm />
+        {/* <EntryAnimation index={3}> */}
           <PlaceCategory
             title="Find Best Place"
             data={PLACE_CATEGORY}
@@ -431,7 +441,7 @@ function NightlifeScreen({ route, navigation }: Props) {
               navigation.navigate('PlaceByCategory', { category: data })
             }
           />
-        </EntryAnimation>
+        {/* </EntryAnimation> */}
 
 
         {/* <Spacer llxx />
