@@ -23,11 +23,13 @@ import {ScrollView} from 'react-native-gesture-handler';
 interface TableLayoutSheetProps {
   history: PlaceDetailInterface[];
   onSelectLocation: (values: PlaceDetailInterface) => void;
+  onSelectMap:()=>void;
 }
 
 export const SelectLocationSheet = ({
   history,
   onSelectLocation,
+  onSelectMap,
 }: TableLayoutSheetProps) => {
   const theme = useTheme();
   const inputRef = useRef<any>(null);
@@ -36,6 +38,7 @@ export const SelectLocationSheet = ({
   const getPlaceDetail = async (data: GooglePlaceData) => {
     try {
       setIsLoading(true);
+      
       const detailPlace = await LocationService.getPlaceDetail(data.place_id);
       const location = await LocationService.geocodeReverse({
         latitude: detailPlace.geometry.location.lat,
@@ -66,7 +69,7 @@ export const SelectLocationSheet = ({
         <Text
           variant="base"
           fontWeight="bold"
-          label={'Select Location'}
+          label={'Select Location First'}
           color={theme?.colors.WARNING}
         />
         <PillsGradient
@@ -75,6 +78,7 @@ export const SelectLocationSheet = ({
           }
           title="Select on map"
           icon={<MapsGradient size={20} />}
+          onSelectOnMap={()=>onSelectMap()}
         />
       </Section>
       <Gap height={12} />

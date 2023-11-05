@@ -53,16 +53,21 @@ export const useCheckLocation = () => {
     }
   }, [isFineLocationGranted, setCurrentLocation]);
 
+
+  
   useEffect(() => {
     if (currentLocation === null) {
       getCurrentLocation();
     }
   }, [currentLocation, getCurrentLocation]);
 
+  
+
   return {
     getCurrentLocation,
     getOneTimeLocation,
     currentLocation,
     isMockedLocation,
+    setCurrentLocation,
   };
 };

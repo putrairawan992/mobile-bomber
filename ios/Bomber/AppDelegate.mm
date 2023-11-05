@@ -14,7 +14,7 @@
 #import <React/RCTSurfacePresenter.h>
 #import <React/RCTSurfacePresenterBridgeAdapter.h>
 #import <ReactCommon/RCTTurboModuleManager.h>
-
+#import <GoogleMaps/GoogleMaps.h>
 #import <react/config/ReactNativeConfig.h>
 
 static NSString *const kRNConcurrentRoot = @"concurrentRoot";
@@ -41,7 +41,7 @@ static NSString *const kRNConcurrentRoot = @"concurrentRoot";
   NSString *mapsApiKey = [RNCConfig envFor:@"KEY_GOOGLE_API"];
   [GMSServices provideAPIKey:mapsApiKey];
   RCTBridge *bridge = [[RCTBridge alloc] initWithDelegate:self launchOptions:launchOptions];
-
+  [GMSServices provideAPIKey:@"AIzaSyA_gLBXvcWSgIX7wMfRnkKnOjBRa_9yze0"]; // add this line using the api key obtained from Google Console    
 #if RCT_NEW_ARCH_ENABLED
   _contextContainer = std::make_shared<facebook::react::ContextContainer const>();
   _reactNativeConfig = std::make_shared<facebook::react::EmptyReactNativeConfig const>();

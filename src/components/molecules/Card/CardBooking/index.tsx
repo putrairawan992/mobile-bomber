@@ -60,6 +60,7 @@ function CardBooking({type, data, onSelect, status}: CardBooking) {
     data?.ticketName === 'Hot Ticket'
       ? [bgColorTagOne, bgColorTagTwo, bgColorTagThree]
       : [bgColorTagOne, bgColorTagTwo];
+  console.log('data===>', data);
 
   return (
     <TouchableOpacity
@@ -137,7 +138,7 @@ function CardBooking({type, data, onSelect, status}: CardBooking) {
         <Gap width={10} />
         <View className="flex-1 ml-2">
           <DefaultText
-            title={`ID : ${data?.club_id}`}
+            title={`ID : ${data?.bookingNumber}`}
             titleClassName="text-xs text-neutral-400 flex-1"
           />
           <Gap height={status === 'Walk In Ticket' ? 2.5 : 10} />

@@ -25,15 +25,20 @@ interface CardTicketProps {
 
 export const CardTicket = ({data, onSelect, index}: CardTicketProps) => {
   const theme = useTheme();
+  console.log('data?.title', data);
+
   return (
     <EntryAnimation index={index}>
       <ScaleAnimation
         disabled={false}
         scaleTo={0.97}
-        onPress={() => onSelect(data.walkInTicketId)}>
+        onPress={() => onSelect(data?.walkInTicketId)}>
         <LinearGradient
           colors={
-            gradientMapping[data.title as keyof typeof gradientMapping].color
+            data?.title === null
+              ? ['#A060FA', '#C800CC']
+              : gradientMapping[data?.title as keyof typeof gradientMapping]
+                  ?.color
           }
           start={{x: 0.0, y: 1.0}}
           end={{x: 1.0, y: 1.0}}
@@ -57,8 +62,11 @@ export const CardTicket = ({data, onSelect, index}: CardTicketProps) => {
               <GradientText
                 xAxis={1}
                 colors={
-                  gradientMapping[data.title as keyof typeof gradientMapping]
-                    .color
+                  data?.title === null
+                    ? ['#A060FA', '#C800CC']
+                    : gradientMapping[
+                        data?.title as keyof typeof gradientMapping
+                      ]?.color
                 }
                 style={{
                   fontSize: 18,
@@ -71,8 +79,11 @@ export const CardTicket = ({data, onSelect, index}: CardTicketProps) => {
                 <GradientText
                   xAxis={1.0}
                   colors={
-                    gradientMapping[data.title as keyof typeof gradientMapping]
-                      .color
+                    data?.title === null
+                      ? ['#A060FA', '#C800CC']
+                      : gradientMapping[
+                          data?.title as keyof typeof gradientMapping
+                        ]?.color
                   }
                   style={{
                     fontSize: 14,

@@ -72,7 +72,7 @@ export default function EventScreen({navigation}: Props) {
     try {
       setIsLoading(true);
       await MyEventService.getEventAllBookingHistory({
-        user_id: 'FQ5OvkolZtSBZEMlG1R3gtowbQv1',
+        user_id: user.id,
         tab: statuss,
         status: activeTheme,
       })

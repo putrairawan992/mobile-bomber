@@ -59,22 +59,14 @@ export default function UpdateProfile({route}: Props) {
   const updateProfileList = async () => {
     setIsLoading(true);
     try {
-      let formData = new FormData();
-      const paramsImage = {
-        size: images?.size,
-        uri: images?.path,
-        name: images?.path?.substring(images?.path.lastIndexOf('/') + 1),
-        type: images?.mime,
-      };
-      formData.append('file', paramsImage.uri ? paramsImage : '');
       const response = await ProfileService.updateProflie({
         payload: {
           customer_id: user?.id,
           username: username,
           photo_url: profileData?.photoUrl,
           bio: about,
-        },
-        data: formData,
+          base64_image: images?.data,
+        }
       });
       openToast('success', response.message);
       navigationRef.navigate('Profile' as never);

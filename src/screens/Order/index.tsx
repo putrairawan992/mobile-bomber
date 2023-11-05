@@ -10,7 +10,7 @@ const Order = ({navigation}: Props) => {
     React.useCallback(() => {
       navigation.navigate('Nightlife', {isOrder: true});
       // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [navigation]),
+    }, []),
   );
   return '';
 };

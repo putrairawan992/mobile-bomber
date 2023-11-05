@@ -53,27 +53,10 @@ export const ProfileService = {
   },
   updateProflie: async ({
     payload,
-    data,
   }: {
     payload: any;
-    data?: any;
   }): Promise<APIResponse<unknown>> => {
-    const response = await axios.put(
-      `${Config.API_ENDPOINT}/${URL}/modify_user_profile?customer_id=${payload.customer_id}&
-      username=${payload.username}&
-      photo_url=${payload.photo_url}&
-      bio=${payload.bio}`,
-      data,
-      {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-          type: 'formData',
-        },
-        transformRequest: vData => {
-          return vData; // thats enough
-        },
-      },
-    );
+    const response = await ax.post(`${Config.API_ENDPOINT}/${URL}/modify_user_profile`, payload);
     return response.data;
-  },
+  }
 };
