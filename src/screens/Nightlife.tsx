@@ -2,12 +2,11 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import * as React from 'react';
 import { useEffect } from 'react';
-import { Image, Pressable, ScrollView, StyleSheet, Text, View, useWindowDimensions, Button } from 'react-native';
+import { Image, Pressable, ScrollView, StyleSheet, View, useWindowDimensions, Button } from 'react-native';
 import { useDispatch } from 'react-redux';
 import { Beer, DiscoLight, Karaoke, WineBottle } from '../assets/icons';
 import {
   CustomShimmer,
-  EntryAnimation,
   Gap,
   Layout,
   Section,
@@ -52,7 +51,7 @@ import OrderHomeTable from './OrderHomeTable';
 import usePushNotification from '../hooks/usePostNotification';
 import { TryBeverage } from '../components/organism/Places/TryBeverage';
 import { NewestEvent } from '../components/organism/Places/NewestEvent';
-import MapView, { Marker, Region } from 'react-native-maps';
+import MapView from 'react-native-maps';
 import { YourScheduleCard } from '../components/organism/Places/YourScheduleCard';
 type Props = NativeStackScreenProps<MainStackParams, 'Nightlife', 'MyStack'>;
 
@@ -82,7 +81,7 @@ function NightlifeScreen({ route, navigation }: Props) {
   const [lagiBukaMap, SetLagiBukaMap] = React.useState<boolean>(false);
   const [currentLocationNow, setCurrentLocationNow] = React.useState<LocationInterface | null>(null);
   const [currentLocationTemp, setCurrentLocationTemp] = React.useState<LocationInterface | null>(null);
-  const srcIcon = "..\\assets\\images\\icon-location.png"
+ // const srcIcon = "..\\assets\\images\\icon-location.png"
   const handleSheetOrderChanges = React.useCallback((index: number) => {
     setSheetOrderIndex(index);
   }, []);
