@@ -9,9 +9,10 @@ interface PillsGradientProps {
   colors: string[];
   title: string;
   icon?: JSX.Element;
+  onSelectOnMap:()=>void;
 }
 
-export const PillsGradient = ({colors, title, icon}: PillsGradientProps) => {
+export const PillsGradient = ({colors, title, icon,onSelectOnMap}: PillsGradientProps) => {
   const theme = useTheme();
   return (
     <LinearGradient
@@ -41,7 +42,7 @@ export const PillsGradient = ({colors, title, icon}: PillsGradientProps) => {
             <Gap width={6} />
           </>
         )}
-        <Text variant="small" fontWeight="medium" label={title} />
+        <Text variant="small" fontWeight="medium" label={title} onPress={(e)=>onSelectOnMap()}/>
       </View>
     </LinearGradient>
   );

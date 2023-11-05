@@ -65,6 +65,7 @@ export function PhoneInput({
           color: theme?.colors.TEXT_PRIMARY,
         }}
         onChangeText={text => {
+          console.log(text)
           onSearch(text);
         }}
       />
@@ -105,6 +106,7 @@ export function PhoneInput({
           }}
           inputSearchStyle={s.inputSearchStyle}
           renderInputSearch={onSearch => inputCustom(onSearch)}
+          searchField='value'
           iconStyle={s.iconStyle}
           itemTextStyle={{
             fontSize: 14,
@@ -114,7 +116,8 @@ export function PhoneInput({
           }}
           containerStyle={{
             borderColor: theme?.colors.BACKGROUND2,
-            marginTop: 50,
+            position:'relative',
+            marginTop: 20,
             // backgroundColor: theme?.colors.BACKGROUND2,
             width: WIDTH * 0.86,
             

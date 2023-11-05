@@ -1,10 +1,10 @@
 /* eslint-disable react-native/no-inline-styles */
-import {NativeStackScreenProps} from '@react-navigation/native-stack';
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import * as React from 'react';
-import {useContext, useEffect} from 'react';
-import {Image, Pressable, ScrollView, useWindowDimensions} from 'react-native';
-import {useDispatch} from 'react-redux';
-import {Beer, DiscoLight, Karaoke, WineBottle} from '../assets/icons';
+import { useEffect } from 'react';
+import { Image, Pressable, ScrollView, StyleSheet, Text, View, useWindowDimensions, Button } from 'react-native';
+import { useDispatch } from 'react-redux';
+import { Beer, DiscoLight, Karaoke, WineBottle } from '../assets/icons';
 import {
   CustomShimmer,
   EntryAnimation,
@@ -15,74 +15,86 @@ import {
   TextInput,
 } from '../components/atoms';
 
-import {Header, ModalToast} from '../components/molecules';
-import {PlaceCategory} from '../components/organism';
-import {TopPlaces} from '../components/organism/Places/TopPlaces';
-import {useCheckLocation} from '../hooks/useCheckLocation';
-import {usePermission} from '../hooks/usePermission';
+import { Header, ModalToast } from '../components/molecules';
+import { PlaceCategory } from '../components/organism';
+import { TopPlaces } from '../components/organism/Places/TopPlaces';
+import { useCheckLocation } from '../hooks/useCheckLocation';
+import { usePermission } from '../hooks/usePermission';
 import {
   PlaceCategoryInterface,
   PlaceInterface,
 } from '../interfaces/PlaceInterface';
 import {
+  LocationInterface,
   PlaceDetailInterface,
   UserLocationInterface,
 } from '../interfaces/UserInterface';
-import {MainStackParams} from '../navigation/MainScreenStack';
-import {LocationService} from '../service/LocationService';
-import {NightlifeService} from '../service/NightlifeService';
-import {updateUserLocation} from '../store/user/userActions';
+import{ MainStackParams } from '../navigation/MainScreenStack';
+import { LocationService } from '../service/LocationService';
+import { NightlifeService } from '../service/NightlifeService';
+import { updateUserLocation } from '../store/user/userActions';
 import useTheme from '../theme/useTheme';
-import {WIDTH} from '../utils/config';
+import { WIDTH } from '../utils/config';
 import styles from './Styles';
-import {getUserProfile} from '../service/AuthService';
-import {NotificationService} from '../service/NotificationService';
-import {useAppSelector} from '../hooks/hooks';
-import {useFocusEffect} from '@react-navigation/native';
-import {BottomSheetModal} from '@gorhom/bottom-sheet';
-import {Colors} from '../theme';
-import {SelectLocationSheet} from '../components/organism/Location/SelectLocationSheet';
-import {getStorage, setStorage} from '../service/mmkvStorage';
-import {ModalToastContext} from '../context/AppModalToastContext';
-import {COORDINATE_DATA} from '../utils/data';
-import {TouchableOpacity} from 'react-native-gesture-handler';
+import { getUserProfile } from '../service/AuthService';
+import { NotificationService } from '../service/NotificationService';
+import { useAppSelector } from '../hooks/hooks';
+import { useFocusEffect } from '@react-navigation/native';
+import { BottomSheetModal } from '@gorhom/bottom-sheet';
+import { Colors } from '../theme';
+import { SelectLocationSheet } from '../components/organism/Location/SelectLocationSheet';
+import { getStorage, setStorage } from '../service/mmkvStorage';
+import { ModalToastContext } from '../context/AppModalToastContext';
+import { COORDINATE_DATA } from '../utils/data';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 import Carousel from 'react-native-reanimated-carousel';
 import OrderHomeTable from './OrderHomeTable';
 import usePushNotification from '../hooks/usePostNotification';
-import {TryBeverage} from '../components/organism/Places/TryBeverage';
-import {NewestEvent} from '../components/organism/Places/NewestEvent';
-
+import { TryBeverage } from '../components/organism/Places/TryBeverage';
+import { NewestEvent } from '../components/organism/Places/NewestEvent';
+import MapView, { Marker, Region } from 'react-native-maps';
 type Props = NativeStackScreenProps<MainStackParams, 'Nightlife', 'MyStack'>;
 
-function NightlifeScreen({route, navigation}: Props) {
+function NightlifeScreen({ route, navigation }: Props) {
   const isOrder = route.params?.isOrder;
   const theme = useTheme();
-  const {user, userLocation, fcmToken} = useAppSelector(state => state.user);
+  const { user, userLocation, fcmToken } = useAppSelector(state => state.user);
   const [searchValue, setSearchValue] = React.useState<string>('');
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
   const [banner, setBanner] = React.useState<string>('');
   const [topFiveNightClub, setTopFiveNightClub] = React.useState<
     PlaceInterface[]
   >([]);
-  const {isFineLocationGranted} = usePermission();
-  const {currentLocation, getOneTimeLocation} = useCheckLocation();
+  const { isFineLocationGranted } = usePermission();
+  const { currentLocation, getOneTimeLocation } = useCheckLocation();
   const [historySearchPlace, setHistorySearchPlace] = React.useState<
     PlaceDetailInterface[]
   >([]);
   const dispatch = useDispatch();
-  const {width} = useWindowDimensions();
+  const { width } = useWindowDimensions();
   const [sheetOrderIndex, setSheetOrderIndex] = React.useState<number>(-1);
   const [sheetIndex, setSheetIndex] = React.useState<number>(-1);
   const homeSheetOrderRef = React.useRef<BottomSheetModal>(null);
   const homeSheetRef = React.useRef<BottomSheetModal>(null);
   const snapPoints = React.useMemo(() => ['60', '80', '90'], []);
+  const [showMap, setShowMap] = React.useState<boolean>(false);
+  const [lagiBukaMap, SetLagiBukaMap] = React.useState<boolean>(false);
+  const [currentLocationNow, setCurrentLocationNow] = React.useState<LocationInterface | null>(null);
+  const [currentLocationTemp, setCurrentLocationTemp] = React.useState<LocationInterface | null>(null);
+  const srcIcon = "..\\assets\\images\\icon-location.png"
   const handleSheetOrderChanges = React.useCallback((index: number) => {
     setSheetOrderIndex(index);
   }, []);
   const handleSheetChanges = React.useCallback((index: number) => {
+    // console.log('handleSheetChanges', index);
     setSheetIndex(index);
+    if (lagiBukaMap==false){
+      if (index == -1) {
+        setShowMap(false)
+      }
+      
+    }
   }, []);
-
   const {
     isShowToast,
     setIsShowToast,
@@ -90,8 +102,7 @@ function NightlifeScreen({route, navigation}: Props) {
     setToastMessage,
     type,
     setType,
-  } = useContext(ModalToastContext);
-
+  } = React.useContext(ModalToastContext);
   const {
     requestUserPermission,
     getFCMToken,
@@ -104,7 +115,7 @@ function NightlifeScreen({route, navigation}: Props) {
   useEffect(() => {
     const listenToNotifications = () => {
       try {
-        getFCMToken({userId: user.id, dispatch});
+        getFCMToken({ userId: user.id, dispatch });
         requestUserPermission();
         onNotificationOpenedAppFromQuit();
         listenToBackgroundNotifications();
@@ -143,13 +154,14 @@ function NightlifeScreen({route, navigation}: Props) {
 
   const actionShowPopUpOrders = () => {
     homeSheetOrderRef.current?.forceClose();
+    navigation.navigate('Nightlife');
   };
 
   const fetchNotification = async () => {
     try {
       await NotificationService.getInvitationNotification(user.id, dispatch);
       await NotificationService.getRequestFriendNotification(user.id, dispatch);
-    } catch (error: any) {}
+    } catch (error: any) { }
   };
 
   useEffect(() => {
@@ -164,7 +176,7 @@ function NightlifeScreen({route, navigation}: Props) {
     if (fcmToken) {
       sendWelcomeNotification();
     }
-  }, [fcmToken]);
+  }, [fcmToken, showMap]);
 
   useFocusEffect(
     React.useCallback(() => {
@@ -178,7 +190,7 @@ function NightlifeScreen({route, navigation}: Props) {
       setIsLoading(true);
       await Promise.all([
         NightlifeService.getTopFiveNightClub(),
-        NightlifeService.getBanner({city_id: 1}),
+        NightlifeService.getBanner({ city_id: 1 }),
       ])
         .then(response => {
           setTopFiveNightClub(
@@ -197,13 +209,15 @@ function NightlifeScreen({route, navigation}: Props) {
         .catch(error => {
           console.log(error);
         })
-        .finally(() => setIsLoading(false));
-    } catch (error: any) {}
+        .finally(() => { setIsLoading(false);});
+    } catch (error: any) {
+      console.log(error)
+    }
   };
-
   useEffect(() => {
     const fetchUserLocation = async () => {
-      if (currentLocation) {
+      // console.log(currentLocationNow)
+      if (!currentLocationNow) {
         const location: UserLocationInterface =
           await LocationService.geocodeReverse({
             latitude: currentLocation.latitude,
@@ -211,13 +225,21 @@ function NightlifeScreen({route, navigation}: Props) {
           });
         setUserLocation(location);
       }
+      else {
+        const location: UserLocationInterface =
+          await LocationService.geocodeReverse({
+            latitude: currentLocationNow.latitude,
+            longitude: currentLocationNow.longitude,
+          });
+        // console.log(location)
+        setUserLocation(location);
+      }
     };
-
     fetchUserLocation();
     fetchData();
     dispatch(getUserProfile());
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentLocation]);
+  }, [currentLocation, showMap, currentLocationNow]);
 
   const PLACE_CATEGORY: PlaceCategoryInterface[] = [
     {
@@ -275,30 +297,88 @@ function NightlifeScreen({route, navigation}: Props) {
     }
     homeSheetRef.current?.close();
     setUserLocation(data.location);
+    setCurrentLocationNow({
+      latitude: data.location.latitude,
+      longitude: data.location.longitude
+    })
+    // console.log(currentLocationNow)
+    // setCurrentLocation({ latitude: data.location.latitude, longitude: data.location.longitude },)
+    // console.log(data.location)
+    setShowMap(false)
     fetchHistorySearchLocation();
     openToast('success', 'Update location successfully');
   };
 
-  const setUserLocation = (location: UserLocationInterface) =>
-    dispatch(updateUserLocation(location));
+  const setUserLocation = (location: UserLocationInterface) => {
+    try {
+      dispatch(updateUserLocation(location));
+    }
+    catch (error) {
+      console.log("gagal")
+    }
+  }
+
+  useEffect(() => {
+    console.log(lagiBukaMap)
+  }, [lagiBukaMap])
+
+  useEffect(() => {
+    console.log(currentLocationTemp)
+  }, [currentLocationTemp])
 
   return (
     <Layout contentContainerStyle={styles.container} isDisableKeyboardAware>
-      <ScrollView>
-        <EntryAnimation index={0}>
+      {showMap ? (<View style={styless.map}>
+        <MapView
+          style={styless.map}
+          initialRegion={
+            {
+              latitudeDelta: 0.025,
+              longitudeDelta: 0.025,
+              latitude: currentLocationNow ? currentLocationNow.latitude : currentLocation.latitude,
+              longitude: currentLocationNow ? currentLocationNow.longitude : currentLocation.longitude,
+            }
+          }
+
+          onRegionChangeComplete={x => {
+            setCurrentLocationTemp({
+              latitude: x.latitude,
+              longitude: x.longitude
+            })
+          }}
+        />
+        <View style={styless.markerFixed}>
+          <Image source={require('../assets/images/icon-location.png')} style={styless.marker} />
+        </View>
+        {lagiBukaMap ? (<Button
+          onPress={() => { 
+            setCurrentLocationNow(currentLocationTemp) 
+            setShowMap(false)
+            SetLagiBukaMap(false)
+          }}
+          title="Next"
+          color="#841584"
+        />) : <></>}
+        
+      </View>
+
+      ) : (<ScrollView>
+        {/* <EntryAnimation index={0}> */}
           <Header
             transparent
             hasLocation
             hasNotification
             hasLogo
             onLocationPress={() => {
+              setShowMap(true)
               homeSheetRef.current?.present();
             }}
-            onNotificationPress={() => navigation.navigate('Notification')}
+            onNotificationPress={() => navigation.navigate('Notification')
+            }
           />
-        </EntryAnimation>
-        <EntryAnimation index={1}>
-          <Section padding="0px 16px" style={{marginBottom: 12}}>
+        {/* </EntryAnimation> */}
+        {/* <EntryAnimation index={1}> */}
+          <Section padding="0px 16px" style={{ marginBottom: 12 }}>
             <TextInput
               textInputBackgroundColor="#323232"
               value={searchValue}
@@ -308,9 +388,9 @@ function NightlifeScreen({route, navigation}: Props) {
               onFocus={() => navigation.navigate('Search')}
             />
           </Section>
-        </EntryAnimation>
+        {/* </EntryAnimation> */}
 
-        <EntryAnimation index={2}>
+        {/* <EntryAnimation index={2}> */}
           {isLoading || !banner ? (
             <CustomShimmer width={WIDTH} height={WIDTH} />
           ) : (
@@ -323,10 +403,10 @@ function NightlifeScreen({route, navigation}: Props) {
               data={[1, 2, 3, 4]}
               scrollAnimationDuration={100}
               // eslint-disable-next-line @typescript-eslint/no-unused-vars
-              renderItem={({item}: any) => (
+              renderItem={({ item }: any) => (
                 <TouchableOpacity
                   activeOpacity={0.7}
-                  style={{alignSelf: 'center'}}>
+                  style={{ alignSelf: 'center' }}>
                   <Image
                     resizeMode="cover"
                     source={{
@@ -341,17 +421,19 @@ function NightlifeScreen({route, navigation}: Props) {
               )}
             />
           )}
-        </EntryAnimation>
+        {/* </EntryAnimation> */}
         <Spacer sm />
         <EntryAnimation index={3}>
           <PlaceCategory
             title="Find Best Place"
             data={PLACE_CATEGORY}
             onSelect={data =>
-              navigation.navigate('PlaceByCategory', {category: data})
+              navigation.navigate('PlaceByCategory', { category: data })
             }
           />
         </EntryAnimation>
+
+
         {/* <Spacer llxx />
         <EntryAnimation index={4}>
           <UserAchievement data={USER_ACHIEVEMENT} />
@@ -388,17 +470,18 @@ function NightlifeScreen({route, navigation}: Props) {
           onSelect={onPlaceSelect}
         />
         <Gap height={32} />
-      </ScrollView>
+      </ScrollView>)}
+
       <BottomSheetModal
         ref={homeSheetRef}
         index={0}
         enablePanDownToClose
-        snapPoints={isOrder ? ['28%'] : snapPoints}
-        backdropComponent={({style}) =>
+        snapPoints={isOrder ? ['40%'] : ['40%', '60%', '80%', '90%']}
+        backdropComponent={({ style }) =>
           sheetIndex >= 0 ? (
             <Pressable
               onPress={() => homeSheetRef.current?.close()}
-              style={[style, {backgroundColor: 'rgba(0, 0, 0, 0.60)'}]}
+              style={[style, { backgroundColor: 'rgba(0, 0, 0, 0.60)' }]}
             />
           ) : (
             <></>
@@ -409,23 +492,27 @@ function NightlifeScreen({route, navigation}: Props) {
           borderTopRightRadius: 14,
           borderTopLeftRadius: 14,
         }}
-        handleIndicatorStyle={{backgroundColor: Colors['black-70']}}
+        handleIndicatorStyle={{ backgroundColor: Colors['black-70'] }}
         onChange={handleSheetChanges}>
         <SelectLocationSheet
           history={historySearchPlace}
           onSelectLocation={handleSelectLocation}
+          onSelectMap={() => {
+            SetLagiBukaMap(true)
+            homeSheetRef.current?.close()
+          }}
         />
       </BottomSheetModal>
       <BottomSheetModal
         ref={homeSheetOrderRef}
         index={0}
         enablePanDownToClose
-        snapPoints={isOrder ? ['28%'] : snapPoints}
-        backdropComponent={({style}) =>
+        snapPoints={isOrder ? ['40%'] : snapPoints}
+        backdropComponent={({ style }) =>
           sheetOrderIndex >= 0 ? (
             <Pressable
               onPress={() => homeSheetOrderRef.current?.close()}
-              style={[style, {backgroundColor: 'rgba(0, 0, 0, 0.60)'}]}
+              style={[style, { backgroundColor: 'rgba(0, 0, 0, 0.60)' }]}
             />
           ) : (
             <></>
@@ -436,7 +523,7 @@ function NightlifeScreen({route, navigation}: Props) {
           borderTopRightRadius: 14,
           borderTopLeftRadius: 14,
         }}
-        handleIndicatorStyle={{backgroundColor: Colors['black-70']}}
+        handleIndicatorStyle={{ backgroundColor: Colors['black-70'] }}
         onChange={handleSheetOrderChanges}>
         <OrderHomeTable
           navigation={navigation}
@@ -452,5 +539,31 @@ function NightlifeScreen({route, navigation}: Props) {
     </Layout>
   );
 }
-
+const styless = StyleSheet.create({
+  map: {
+    flex: 1
+  },
+  markerFixed: {
+    left: '50%',
+    marginLeft: -24,
+    marginTop: -48,
+    position: 'absolute',
+    top: '50%'
+  },
+  marker: {
+    height: 48,
+    width: 48
+  },
+  footer: {
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    bottom: 0,
+    position: 'absolute',
+    width: '100%'
+  },
+  region: {
+    color: '#fff',
+    lineHeight: 20,
+    margin: 20
+  }
+})
 export default NightlifeScreen;
