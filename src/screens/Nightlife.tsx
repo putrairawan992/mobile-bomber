@@ -84,7 +84,7 @@ function NightlifeScreen({route, navigation}: Props) {
   const [sheetIndex, setSheetIndex] = React.useState<number>(-1);
   const homeSheetOrderRef = React.useRef<BottomSheetModal>(null);
   const homeSheetRef = React.useRef<BottomSheetModal>(null);
-  const snapPoints = React.useMemo(() => ['60', '80', '90'], []);
+  // const snapPoints = React.useMemo(() => ['60', '80', '90'], []);
   const [showMap, setShowMap] = React.useState<boolean>(false);
   const [lagiBukaMap, SetLagiBukaMap] = React.useState<boolean>(false);
   const [currentLocationNow, setCurrentLocationNow] =
@@ -151,20 +151,26 @@ function NightlifeScreen({route, navigation}: Props) {
     setToastMessage(message);
   };
 
+  useFocusEffect(
+    React.useCallback(() => {
+      if (isOrder) {
+        homeSheetOrderRef.current?.present();
+      }
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [isOrder]),
+  );
+
   useEffect(() => {
-    if (isOrder) {
-      homeSheetOrderRef.current?.present();
-    }
     if (isFineLocationGranted) {
       getOneTimeLocation();
     }
     fetchHistorySearchLocation();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isOrder]);
+  }, []);
 
   const actionShowPopUpOrders = () => {
-    homeSheetOrderRef.current?.forceClose();
-    navigation.navigate('Nightlife');
+    homeSheetOrderRef.current?.close();
+    navigation.navigate('Nightlife', {isOrder: false});
   };
 
   const fetchNotification = async () => {
@@ -502,7 +508,7 @@ function NightlifeScreen({route, navigation}: Props) {
         ref={homeSheetRef}
         index={0}
         enablePanDownToClose
-        snapPoints={isOrder ? ['40%'] : ['40%', '60%', '80%', '90%']}
+        snapPoints={['60%']}
         backdropComponent={({style}) =>
           sheetIndex >= 0 ? (
             <Pressable
@@ -533,7 +539,7 @@ function NightlifeScreen({route, navigation}: Props) {
         ref={homeSheetOrderRef}
         index={0}
         enablePanDownToClose
-        snapPoints={isOrder ? ['40%'] : snapPoints}
+        snapPoints={['30%']}
         backdropComponent={({style}) =>
           sheetOrderIndex >= 0 ? (
             <Pressable
