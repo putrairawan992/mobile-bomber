@@ -171,8 +171,12 @@ const ThreeDots = require('../assets/images/ThreeDots.png');
 const bannerPlaceDetail = require('../assets/images/banner_place_detail.png');
 const bannerPlaceDetailv2 = require('../assets/images/banner_place_detail_v2.png');
 const placeDetailDummy = require('../assets/images/place_detail_dummy.png');
+const IcBarcodeBorder = require('../assets/images/icon_barcode_border.png');
+const IcMapBorder = require('../assets/images/icon_map_border.png');
 
 export {
+  IcMapBorder,
+  IcBarcodeBorder,
   bgOnboarding,
   OmniNight,
   IcAmericanExpress,

@@ -1,16 +1,16 @@
 /* eslint-disable react-native/no-inline-styles */
 import * as React from 'react';
 
-import { StyleSheet, TextInput, View } from 'react-native';
-import { Dropdown } from 'react-native-element-dropdown';
+import {StyleSheet, TextInput, View} from 'react-native';
+import {Dropdown} from 'react-native-element-dropdown';
 import useTheme from '../../../../theme/useTheme';
 
-import { Gap, Section, Spacer, Text } from '../..';
-import { ArrowDown2, ArrowUp2 } from 'iconsax-react-native';
-import { Colors } from '../../../../theme';
-import { LabelValueInterface } from '../../../../interfaces/Interface';
-import { WIDTH } from '../../../../utils/config';
-import { Search } from '../../../../assets/icons/Search';
+import {Gap, Section, Spacer, Text} from '../..';
+import {ArrowDown2, ArrowUp2} from 'iconsax-react-native';
+import {Colors} from '../../../../theme';
+import {LabelValueInterface} from '../../../../interfaces/Interface';
+import {WIDTH} from '../../../../utils/config';
+import {Search} from '../../../../assets/icons/Search';
 
 // type Props = NativeStackScreenProps<MainStackParams, 'Saved', 'MyStack'>;
 interface Props {
@@ -39,7 +39,7 @@ export function PhoneInput({
     borderColor = Colors['danger-400'];
   }
   console.log(value);
-  
+
   const inputCustom = (onSearch: any) => (
     <Section
       isRow
@@ -51,7 +51,7 @@ export function PhoneInput({
       }}
       padding="1px 5px"
       backgroundColor={theme?.colors.BACKGROUND2}>
-      <View style={{ marginLeft: 10 }}>
+      <View style={{marginLeft: 10}}>
         <Search size={20} color={theme?.colors.TEXT_PRIMARY} />
       </View>
       <TextInput
@@ -65,6 +65,7 @@ export function PhoneInput({
           color: theme?.colors.TEXT_PRIMARY,
         }}
         onChangeText={text => {
+          console.log(text);
           onSearch(text);
         }}
       />
@@ -105,6 +106,7 @@ export function PhoneInput({
           }}
           inputSearchStyle={s.inputSearchStyle}
           renderInputSearch={onSearch => inputCustom(onSearch)}
+          searchField="value"
           iconStyle={s.iconStyle}
           itemTextStyle={{
             fontSize: 14,
@@ -114,10 +116,11 @@ export function PhoneInput({
           }}
           containerStyle={{
             borderColor: theme?.colors.BACKGROUND2,
-            marginTop: 50,
+            position: 'relative',
+            marginTop: 20,
             // backgroundColor: theme?.colors.BACKGROUND2,
             width: WIDTH * 0.86,
-            
+
             borderBottomLeftRadius: 8,
             borderBottomRightRadius: 8,
             // borderRadius: 8,
@@ -130,29 +133,34 @@ export function PhoneInput({
           valueField="value"
           placeholder=""
           value={value}
-          renderItem={(item, selected) => (
+          renderItem={item => (
             <Section
               style={{
                 width: WIDTH * 0.86,
                 borderBottomColor: '#323232',
-                borderBottomWidth: 1
+                borderBottomWidth: 0.9,
               }}
               isRow
               isBetween
               backgroundColor={theme?.colors.BACKGROUND2}>
               <Section
                 style={{
-                  alignItems: "center",
+                  alignItems: 'center',
                   paddingLeft: 15,
                   paddingTop: 10,
                   paddingBottom: 10,
-                }} isRow>
-                <Text fontWeight="regular" style={{ width: 30 }} label={item.image} />
+                }}
+                isRow>
+                <Text
+                  fontWeight="regular"
+                  style={{width: 30}}
+                  label={item.image}
+                />
                 <Text fontWeight="regular" label={item.value} />
                 <Text
                   fontWeight="regular"
                   label={item.label}
-                  style={{ width: 50 }}
+                  style={{width: 50}}
                   textAlign="right"
                 />
               </Section>
@@ -251,6 +259,6 @@ const s = StyleSheet.create({
   },
   inputSearchStyle: {
     fontSize: 14,
-    fontFamily: 'Inter-Regular'
+    fontFamily: 'Inter-Regular',
   },
 });

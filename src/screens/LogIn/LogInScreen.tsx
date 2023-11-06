@@ -1,16 +1,16 @@
 /* eslint-disable react-native/no-inline-styles */
 import * as React from 'react';
 import * as Yup from 'yup';
-import {ImageBackground, TouchableOpacity} from 'react-native';
+import { ImageBackground, TouchableOpacity } from 'react-native';
 
-import {AuthStackParams} from '../../navigation/AuthScreenStack';
+import { AuthStackParams } from '../../navigation/AuthScreenStack';
 import {
   LoginPayloadInterface,
   UserInterface,
 } from '../../interfaces/UserInterface';
-import {NativeStackScreenProps} from '@react-navigation/native-stack';
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import styles from './Styles/LogInStyle';
-import {useFormik} from 'formik';
+import { useFormik } from 'formik';
 import useTheme from '../../theme/useTheme';
 import {
   Button,
@@ -21,30 +21,31 @@ import {
   Layout,
   Loading,
 } from '../../components/atoms';
-import {LogoLabel, ModalToast} from '../../components/molecules';
-import {useContext, useEffect, useState} from 'react';
+import { LogoLabel, ModalToast } from '../../components/molecules';
+import { useContext, useEffect, useState } from 'react';
 import auth from '@react-native-firebase/auth';
-import {AuthService} from '../../service/AuthService';
-import {ModalToastContext} from '../../context/AppModalToastContext';
-import {setStorage} from '../../service/mmkvStorage';
-import {useDispatch} from 'react-redux';
-import {loginSuccess, setUserType} from '../../store/user/userActions';
+import { AuthService } from '../../service/AuthService';
+import { ModalToastContext } from '../../context/AppModalToastContext';
+import { setStorage } from '../../service/mmkvStorage';
+import { useDispatch } from 'react-redux';
+import { loginSuccess, setUserType } from '../../store/user/userActions';
 import {
   GoogleSignin,
   statusCodes,
 } from '@react-native-google-signin/google-signin';
 import Config from 'react-native-config';
-import {PhoneInput} from '../../components/atoms/Form/PhoneInput';
+import { PhoneInput } from '../../components/atoms/Form/PhoneInput';
 import {
   COUNTRY_PHONE_CODE,
   COUNTRY_PHONE_CODE_WITH_ICON,
 } from '../../utils/data';
-import {HEIGHT, WIDTH} from '../../utils/config';
-import {bgOnboarding} from '../../theme/Images';
+import { HEIGHT, WIDTH } from '../../utils/config';
+import { bgOnboarding } from '../../theme/Images';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 type Props = NativeStackScreenProps<AuthStackParams, 'LogIn', 'MyStack'>;
 
-function LogInScreen({navigation}: Props) {
+function LogInScreen({ navigation }: Props) {
   const theme = useTheme();
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isLoadingDj, setIsLoadingDj] = useState<boolean>(false);
@@ -264,63 +265,65 @@ function LogInScreen({navigation}: Props) {
   };
 
   return (
+
     <ImageBackground
       source={bgOnboarding}
-      style={{width: WIDTH, height: HEIGHT}}
+      style={{ width: WIDTH, height: HEIGHT }}
       resizeMode="cover">
-      <Layout
-        backgroundColor="transparent"
-        contentContainerStyle={styles.container}>
-        {(isLoadingDj || isLoadingGoogle) && <Loading />}
-        <LogoLabel
-          title="Nightlife Awaits!"
-          subtitle="Access your account and get ready for an unforgettable night of fun and celebration."
-        />
-        <PhoneInput
-          data={COUNTRY_PHONE_CODE_WITH_ICON.map(item => {
-            return {
-              value: item.name,
-              label: item.dial_code,
-              image: item.flag,
-            };
-          })}
-          errorText={formik.errors.phone ?? ''}
-          value={phoneCode}
-          onChange={value => setPhoneCode(value)}
-          label="Phone number"
-          textValue={formik.values.phone}
-          onChangeText={value => {
-            formik.setFieldValue('phone', value);
-            formik.setFieldError('phone', undefined);
-          }}
-        />
-        <Spacer l />
-        <TextInput
-          value={formik.values.password}
-          label="Password"
-          errorText={formik.errors.password}
-          onChangeText={value => {
-            formik.setFieldValue('password', value);
-            formik.setFieldError('password', undefined);
-          }}
-          placeholder="password"
-          type="password"
-        />
-        <Spacer sm />
-        <TouchableOpacity
-          style={styles.forgotPasswordLink}
-          onPress={() => navigation.navigate('ForgotPassword')}>
-          <Text label="Forgot Password?" color={theme?.colors.PRIMARY} />
-        </TouchableOpacity>
-        <Spacer lxx />
-        <Button
-          type="primary"
-          onPress={() => formik.handleSubmit()}
-          title="Sign In"
-          isLoading={isLoading}
-        />
-        <Spacer sm />
-        {/* <Button
+      <KeyboardAwareScrollView>
+        <Layout
+          backgroundColor="transparent"
+          contentContainerStyle={styles.container}>
+          {(isLoadingDj || isLoadingGoogle) && <Loading />}
+          <LogoLabel
+            title="Nightlife Awaits!"
+            subtitle="Access your account and get ready for an unforgettable night of fun and celebration."
+          />
+          <PhoneInput
+            data={COUNTRY_PHONE_CODE_WITH_ICON.map(item => {
+              return {
+                value: item.name,
+                label: item.dial_code,
+                image: item.flag,
+              };
+            })}
+            errorText={formik.errors.phone ?? ''}
+            value={phoneCode}
+            onChange={value => setPhoneCode(value)}
+            label="Phone number"
+            textValue={formik.values.phone}
+            onChangeText={value => {
+              formik.setFieldValue('phone', value);
+              formik.setFieldError('phone', undefined);
+            }}
+          />
+          <Spacer l />
+          <TextInput
+            value={formik.values.password}
+            label="Password"
+            errorText={formik.errors.password}
+            onChangeText={value => {
+              formik.setFieldValue('password', value);
+              formik.setFieldError('password', undefined);
+            }}
+            placeholder="password"
+            type="password"
+          />
+          <Spacer sm />
+          <TouchableOpacity
+            style={styles.forgotPasswordLink}
+            onPress={() => navigation.navigate('ForgotPassword')}>
+            <Text label="Forgot Password?" color={theme?.colors.PRIMARY} />
+          </TouchableOpacity>
+          <Spacer lxx />
+          <Button
+            type="primary"
+            onPress={() => formik.handleSubmit()}
+            title="Sign In"
+            isLoading={isLoading}
+          />
+          <Spacer sm />
+          {/* <Button
         type="outlined"
         onPress={googleLogin}
         title="Login with Google"
@@ -333,23 +336,23 @@ function LogInScreen({navigation}: Props) {
           />
         }
       /> */}
-        <Spacer sm />
-        <Section isRow>
-          <Text
-            variant="base"
-            label="Don’t have an account yet? "
-            color={theme?.colors.TEXT_SECONDARY}
-          />
-          <TouchableOpacity onPress={() => navigation.navigate('SignUp')}>
+          <Spacer sm />
+          <Section isRow>
             <Text
               variant="base"
-              label="Register Now"
-              color={theme?.colors.PRIMARY}
+              label="Don’t have an account yet? "
+              color={theme?.colors.TEXT_SECONDARY}
             />
-          </TouchableOpacity>
-        </Section>
-        {/* <Gap height={10} /> */}
-        {/* <Section isRow>
+            <TouchableOpacity onPress={() => navigation.navigate('SignUp')}>
+              <Text
+                variant="base"
+                label="Register Now"
+                color={theme?.colors.PRIMARY}
+              />
+            </TouchableOpacity>
+          </Section>
+          {/* <Gap height={10} /> */}
+          {/* <Section isRow>
         <Text
           variant="base"
           label="Are you DJ ?"
@@ -363,13 +366,14 @@ function LogInScreen({navigation}: Props) {
           />
         </TouchableOpacity>
       </Section> */}
-        <ModalToast
-          isVisible={isShowToast}
-          onCloseModal={() => setIsShowToast(false)}
-          message={toastMessage}
-          type={type}
-        />
-      </Layout>
+          <ModalToast
+            isVisible={isShowToast}
+            onCloseModal={() => setIsShowToast(false)}
+            message={toastMessage}
+            type={type}
+          />
+        </Layout>
+      </KeyboardAwareScrollView>
     </ImageBackground>
   );
 }
