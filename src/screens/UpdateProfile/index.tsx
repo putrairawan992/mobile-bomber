@@ -66,12 +66,14 @@ export default function UpdateProfile({route}: Props) {
           photo_url: profileData?.photoUrl,
           bio: about,
           base64_image: images?.data,
-        }
+        },
       });
       openToast('success', response.message);
       navigationRef.navigate('Profile' as never);
       setIsLoading(false);
     } catch (err: any) {
+      console.log('error', err);
+
       setIsLoading(false);
       openToast('error', err.response.data.message || 'Internal Error');
     }
