@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Button,
   DefaultText,
@@ -6,7 +6,7 @@ import {
   GradientText,
   Layout,
 } from '../../components/atoms';
-import {Header, ModalToast} from '../../components/molecules';
+import { Header, ModalToast } from '../../components/molecules';
 import {
   FlatList,
   ScrollView,
@@ -17,10 +17,10 @@ import {
 } from 'react-native';
 import colors from '../../styles/colors';
 import LinearGradient from 'react-native-linear-gradient';
-import {navigationRef} from '../../navigation/RootNavigation';
-import {SongService} from '../../service/SongService';
-import {getStorage} from '../../service/mmkvStorage';
-import {NightlifeService} from '../../service/NightlifeService';
+import { navigationRef } from '../../navigation/RootNavigation';
+import { SongService } from '../../service/SongService';
+import { getStorage } from '../../service/mmkvStorage';
+import { NightlifeService } from '../../service/NightlifeService';
 import songPlaylist from '../../assets/json/songPlaylist.json';
 
 export default function RequestSong() {
@@ -33,8 +33,21 @@ export default function RequestSong() {
   const [success, setSuccess] = useState<boolean>(false);
 
   useEffect(() => {
+    getDjList()
     getRandomClub();
   }, []);
+console.log("clubId",clubId);
+
+  const getDjList = () => {
+    NightlifeService.getDjList({ club_id: clubId })
+      .then(res => {
+        if (res.data) {
+          console.log("getDjList",res.data);
+          
+        }
+      })
+      .catch(err => console.log('err get top club: ', err));
+  };
 
   const getRandomClub = () => {
     NightlifeService.getTopFiveNightClub()
@@ -105,7 +118,7 @@ export default function RequestSong() {
           showsHorizontalScrollIndicator={false}
           data={songPlaylist}
           keyExtractor={(_, key) => key.toString()}
-          renderItem={({item}) => {
+          renderItem={({ item }) => {
             return (
               <LinearGradient
                 colors={['#A060FA', '#FFFFFF']}
@@ -135,6 +148,17 @@ export default function RequestSong() {
         </GradientText>
         <Gap height={15} />
         <View className="mx-5">
+          <DefaultText title="DJ List" titleClassName="font-inter-regular mb-2" />
+          <View className="border-[0.5px] border-neutral-700 rounded-md p-4">
+            <TextInput
+              placeholder="Write your song title here"
+              placeholderTextColor="#898e9a"
+              className="m-0 p-0 font-inter-regular text-white"
+              value={title}
+              onChangeText={value => setTitle(value)}
+            />
+          </View>
+          <Gap height={15} />
           <DefaultText title="Title" titleClassName="font-inter-regular mb-2" />
           <View className="border-[0.5px] border-neutral-700 rounded-md p-4">
             <TextInput

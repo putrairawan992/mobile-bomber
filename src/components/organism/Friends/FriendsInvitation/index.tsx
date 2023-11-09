@@ -1,7 +1,7 @@
 /* eslint-disable react-native/no-inline-styles */
 import React from 'react';
 import {createRef, useState} from 'react';
-import {ScrollView, TouchableOpacity, View} from 'react-native';
+import {KeyboardAvoidingView, ScrollView, TouchableOpacity, View} from 'react-native';
 import PagerView from 'react-native-pager-view';
 import {FriendInterface} from '../../../../interfaces/UserInterface';
 import useTheme from '../../../../theme/useTheme';
@@ -113,6 +113,7 @@ export const FriendsInvitation = ({
   };
 
   return (
+    
     <Section style={{flex: 1}}>
       <Gap height={16} />
       <TextInput

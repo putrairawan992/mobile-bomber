@@ -116,4 +116,12 @@ export const MyEventService = {
     const response = await ax.get(`${URL}/get_booking_detail/${booking_id}`);
     return response.data;
   },
+  getPostTableDetail: async ({
+    club_id,
+  }: {
+    club_id: string;
+  }): Promise<APIResponse<any>> => {
+    const response = await ax.get(`post/crud/get_booking_detail/${club_id}`);
+    return response.data;
+  },
 };

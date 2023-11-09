@@ -17,6 +17,7 @@ import ModalWineryOrderDetail from '../../components/molecules/Modal/ModalWinery
 import {EventService} from '../../service/EventService';
 import {NightlifeService} from '../../service/NightlifeService';
 import {ProductBasedOnClubIdInterface} from '../../interfaces/PlaceInterface';
+import { currency } from '../../utils/function';
 export interface FriendInterface {
   customerId: string;
   fullName: string;
@@ -102,8 +103,8 @@ export default function WineryOrder() {
       );
     }
     // const newProducts = [...values] as any[];
-    // newProducts[index].quantity = newQuantity;
-    // const itemToAdd = {...newProducts[index], quantity: newQuantity};
+    // newProducts[values].quantity = newQuantity;
+    // const itemToAdd = {...newProducts[values], quantity: newQuantity};
     // const newCheckoutItems = [...checkoutItems];
     // const existingIndex = newCheckoutItems.findIndex(
     //   item =>
@@ -117,6 +118,20 @@ export default function WineryOrder() {
     // }
     // setCheckoutItems(newCheckoutItems);
   };
+
+  const calculateTotalQuantityAndPrice = (products: Product[]): { totalQuantity: number; totalPrice: number } => {
+    const result = products.reduce(
+      (accumulator, product) => {
+        accumulator.totalQuantity += product.quantity;
+        accumulator.totalPrice += product.price * product.quantity;
+        return accumulator;
+      },
+      { totalQuantity: 0, totalPrice: 0 }
+    );
+  
+    return result;
+  };
+console.log(checkoutItems,"<<<<<checkoutItems");
 
   return (
     <Layout>
@@ -193,7 +208,9 @@ export default function WineryOrder() {
           start={{x: 0, y: 0}}
           end={{x: 1, y: 0}}>
           <DefaultText
-            title="View Cart"
+            title="View Cart | "
+            subtitleClassName='text-base font-inter-bold text-center'
+            subtitle={currency(calculateTotalQuantityAndPrice(checkoutItems).totalPrice)}
             titleClassName="text-base font-inter-bold text-center"
           />
         </LinearGradient>
