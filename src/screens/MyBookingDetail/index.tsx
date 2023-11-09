@@ -141,8 +141,12 @@ export default function MyBookingDetail({route, navigation}: Props) {
         MyEventService.getGenerateQrCode({
           club_id: clubId,
         }),
+        // MyEventService.getPostTableDetail({
+        //   club_id: clubId,
+        // }),
       ])
         .then(response => {
+        
           setFriendshipData(response[0].data);
           setBooking(response[1].data.bookingDetail[0]);
           setMemberInvited(response[1].data.memberInvited);

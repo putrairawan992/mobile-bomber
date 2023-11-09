@@ -44,6 +44,14 @@ export const NightlifeService = {
     );
     return response.data;
   },
+  getDjList: async ({
+    club_id,
+  }: {
+    club_id: string;
+  }): Promise<APIResponse<any>> => {
+    const response = await ax.get(`event/get_dj_list?club_id=${club_id}`);
+    return response.data;
+  },
   getPlaceDetail: async ({
     club_id,
   }: {

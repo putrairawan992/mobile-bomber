@@ -20,6 +20,7 @@ import {
   LayoutAnimation,
   Platform,
   ScrollView,
+  StyleSheet,
   TouchableOpacity,
   UIManager,
   View,
@@ -59,6 +60,7 @@ import {ModalToastContext} from '../../../context/AppModalToastContext';
 import {Map1} from 'iconsax-react-native';
 import {ProfileService} from '../../../service/ProfileService';
 import ModalAddNewCard from '../../../components/molecules/Modal/ModalAddNewCard';
+import { useKeyboardVisible } from '../../../hooks/useKeyboardVisible';
 
 type Props = NativeStackScreenProps<MainStackParams, 'BookingTable', 'MyStack'>;
 
@@ -69,6 +71,7 @@ if (Platform.OS === 'android') {
 }
 
 function BookingTableScreen({route, navigation}: Props) {
+  const isKeyboardOpen = useKeyboardVisible();
   const {user} = useAppSelector(state => state.user);
   const placeData = route.params.placeData;
   const theme = useTheme();
@@ -424,6 +427,11 @@ function BookingTableScreen({route, navigation}: Props) {
     setToastMessage(message);
   };
 
+  useEffect(() => {
+    console.log(isKeyboardOpen)
+  }, [isKeyboardOpen])
+  
+
   return (
     // <SafeAreaView style={{flex: 1}}>
     <Layout contentContainerStyle={styles.container} isScrollable={false}>
@@ -598,9 +606,9 @@ function BookingTableScreen({route, navigation}: Props) {
           onPress={() => bookingSheetRef.current?.present()}
           title="Book Now"
           noRound
-          style={{
-            paddingVertical: 16,
-          }}
+          style={
+            isKeyboardOpen ? stylesButton.nodisplay : stylesButton.display
+          }
         />
       ) : (
         <TouchableOpacity style={styles.bookingButton}>
@@ -720,5 +728,14 @@ function BookingTableScreen({route, navigation}: Props) {
     </Layout>
   );
 }
-
+const stylesButton = StyleSheet.create({
+  nodisplay: {
+      display: 'none',
+  },
+  display: {
+      display: 'flex',
+      paddingVertical: 16,
+  },
+  
+});
 export default BookingTableScreen;
