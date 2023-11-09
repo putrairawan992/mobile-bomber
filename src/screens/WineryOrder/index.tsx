@@ -121,9 +121,9 @@ export default function WineryOrder() {
 
   const calculateTotalQuantityAndPrice = (products: Product[]): { totalQuantity: number; totalPrice: number } => {
     const result = products.reduce(
-      (accumulator, product) => {
-        accumulator.totalQuantity += product.quantity;
-        accumulator.totalPrice += product.price * product.quantity;
+      (accumulator, producta) => {
+        accumulator.totalQuantity += producta.quantity;
+        accumulator.totalPrice += producta.price * producta.quantity;
         return accumulator;
       },
       { totalQuantity: 0, totalPrice: 0 }
@@ -131,7 +131,6 @@ export default function WineryOrder() {
   
     return result;
   };
-console.log(checkoutItems,"<<<<<checkoutItems");
 
   return (
     <Layout>
@@ -219,6 +218,7 @@ console.log(checkoutItems,"<<<<<checkoutItems");
       <ModalCartWineryOrder
         show={showCart}
         selectedCart={checkoutItems}
+        totalPrices={calculateTotalQuantityAndPrice(checkoutItems).totalPrice}
         handleQuantityChange={handleQuantityChange}
         hide={() => {
           setShowCart(false);

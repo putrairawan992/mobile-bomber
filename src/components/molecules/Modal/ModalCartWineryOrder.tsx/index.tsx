@@ -27,6 +27,7 @@ interface ModalCartWineryOrder {
   onCheckout: () => void;
   handleQuantityChange: any;
   selectedCart: any;
+  totalPrices:any
 }
 
 export default function ModalCartWineryOrder({
@@ -34,6 +35,7 @@ export default function ModalCartWineryOrder({
   hide,
   onCheckout,
   selectedCart,
+  totalPrices
 }: ModalCartWineryOrder) {
   const [isCustom, setIsCustom] = useState<boolean>(false);
   const [isCustomComplete, setIsCustomComplete] = useState<boolean>(false);
@@ -46,7 +48,7 @@ export default function ModalCartWineryOrder({
   const [data, setData] = useState<any[]>(selectedCart);
   const [showTime, setShowTime] = useState<boolean>(false);
   const [time, setTime] = useState<string>('');
-  const [totalPrice, setTotalPrice] = useState<number>(0);
+  const [totalPrice, setTotalPrice] = useState<number>(totalPrices);
   const [getPriceWinny, setGetPriceWinnty] = useState<number>(0);
 
   useEffect(() => {
