@@ -1,12 +1,14 @@
-import React, { useEffect, useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   Button,
   DefaultText,
   Gap,
   GradientText,
   Layout,
+  Section,
+  Text,
 } from '../../components/atoms';
-import { Header, ModalToast } from '../../components/molecules';
+import {Header, ModalToast} from '../../components/molecules';
 import {
   FlatList,
   ScrollView,
@@ -17,11 +19,16 @@ import {
 } from 'react-native';
 import colors from '../../styles/colors';
 import LinearGradient from 'react-native-linear-gradient';
-import { navigationRef } from '../../navigation/RootNavigation';
-import { SongService } from '../../service/SongService';
-import { getStorage } from '../../service/mmkvStorage';
-import { NightlifeService } from '../../service/NightlifeService';
+import {navigationRef} from '../../navigation/RootNavigation';
+import {SongService} from '../../service/SongService';
+import {getStorage} from '../../service/mmkvStorage';
+import {NightlifeService} from '../../service/NightlifeService';
 import songPlaylist from '../../assets/json/songPlaylist.json';
+import {Dropdown} from 'react-native-element-dropdown';
+import useTheme from '../../theme/useTheme';
+import {Colors} from '../../theme';
+import {ArrowDown2, ArrowUp2} from 'iconsax-react-native';
+import {WIDTH} from '../../utils/config';
 
 export default function RequestSong() {
   const [title, setTitle] = useState<string>('');
@@ -31,22 +38,23 @@ export default function RequestSong() {
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>('');
   const [success, setSuccess] = useState<boolean>(false);
+  const [djList, setDjList] = useState<any>([]);
+  const [djListSelected, setDjListSelected] = useState<any>('');
+  const theme = useTheme();
 
   useEffect(() => {
-    getDjList()
-    getRandomClub();
+    getDjList();
+    getRandomClub(); // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-console.log("clubId",clubId);
 
   const getDjList = () => {
-    NightlifeService.getDjList({ club_id: clubId })
+    NightlifeService.getDjList({club_id: clubId})
       .then(res => {
         if (res.data) {
-          console.log("getDjList",res.data);
-          
+          setDjList(res.data);
         }
       })
-      .catch(err => console.log('err get top club: ', err));
+      .catch(err => console.log('err getDjList club: ', err));
   };
 
   const getRandomClub = () => {
@@ -118,7 +126,7 @@ console.log("clubId",clubId);
           showsHorizontalScrollIndicator={false}
           data={songPlaylist}
           keyExtractor={(_, key) => key.toString()}
-          renderItem={({ item }) => {
+          renderItem={({item}) => {
             return (
               <LinearGradient
                 colors={['#A060FA', '#FFFFFF']}
@@ -148,14 +156,72 @@ console.log("clubId",clubId);
         </GradientText>
         <Gap height={15} />
         <View className="mx-5">
-          <DefaultText title="DJ List" titleClassName="font-inter-regular mb-2" />
-          <View className="border-[0.5px] border-neutral-700 rounded-md p-4">
-            <TextInput
-              placeholder="Write your song title here"
-              placeholderTextColor="#898e9a"
-              className="m-0 p-0 font-inter-regular text-white"
-              value={title}
-              onChangeText={value => setTitle(value)}
+          <DefaultText
+            title="DJ List"
+            titleClassName="font-inter-regular mb-2"
+          />
+          <View className="border-[0.5px] border-neutral-700 rounded-md">
+            <Dropdown
+              selectedTextStyle={{
+                fontSize: 14,
+                marginLeft: 10,
+                textAlign: 'left',
+                fontFamily: 'Inter-Regular',
+                color: theme?.colors.TEXT_PRIMARY,
+              }}
+              placeholderStyle={{
+                color: theme?.colors.TEXT_PRIMARY,
+                marginLeft: 10,
+              }}
+              placeholder={'Select DJ'}
+              itemTextStyle={{
+                fontSize: 14,
+                color: Colors['white-100'],
+                fontFamily: 'Inter-Regular',
+              }}
+              containerStyle={{
+                borderColor: '#5D5C5C',
+                position: 'relative',
+                marginTop: 10,
+                backgroundColor: theme?.colors.BACKGROUND2,
+                width: WIDTH * 0.9,
+              }}
+              style={[
+                s.dropdown,
+                // {
+                //   backgroundColor: theme?.colors.SECTION,
+                // },
+              ]}
+              renderRightIcon={visible =>
+                visible ? (
+                  <ArrowUp2 color={theme?.colors.PRIMARY} size={16} />
+                ) : (
+                  <ArrowDown2 color={theme?.colors.PRIMARY} size={16} />
+                )
+              }
+              data={djList.map((item: any) => {
+                return {
+                  value: item.dj_name,
+                  label: item.dj_name,
+                };
+              })}
+              labelField="label"
+              valueField="value"
+              value={djListSelected}
+              renderItem={item => (
+                <Section backgroundColor={theme?.colors.BACKGROUND2}>
+                  <Section isRow rounded={8} padding="14px 6px">
+                    <Text
+                      variant="small"
+                      fontWeight="medium"
+                      label={item.label}
+                    />
+                  </Section>
+                </Section>
+              )}
+              onChange={item => {
+                setDjListSelected(item.value);
+              }}
             />
           </View>
           <Gap height={15} />
@@ -263,6 +329,13 @@ console.log("clubId",clubId);
     </Layout>
   );
 }
+const s = StyleSheet.create({
+  dropdown: {
+    borderRadius: 8,
+    height: 60,
+    padding: 4,
+  },
+});
 
 const styles = StyleSheet.create({
   headerTitle: {

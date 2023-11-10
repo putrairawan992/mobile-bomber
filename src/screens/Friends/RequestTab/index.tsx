@@ -42,6 +42,7 @@ export const RequestTab = ({
   const [isExpandSent, setIsExpandSent] = useState<boolean>(false);
   const [isExpandReceived, setIsExpandReceived] = useState<boolean>(false);
 
+  console.log('sendData', sendData);
   const onExpand = useCallback(
     (isShow: boolean, type: 'favorites' | 'friends') => {
       LayoutAnimation.configureNext({

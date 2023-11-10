@@ -142,6 +142,7 @@ export const TableOrderDetail = ({
                       'textPrimary' as keyof typeof gradientMapping
                     ].color
                   }
+                  onSelectOnMap={() => undefined}
                   title="Table Booking"
                 />
               </Section>
@@ -411,33 +412,35 @@ export const TableOrderDetail = ({
           );
         })}
       </Section>
-      <Gap height={20} />
-      <Section
-        padding="12px 12px"
-        backgroundColor={theme?.colors.SECTION}
-        rounded={8}>
-        {coupons?.map((promo, key) => {
-          return (
-            <View className="flex-row mb-3" key={key}>
-              <Image
-                className="w-[48] h-[50]"
-                source={images.discountPercent}
-              />
-              <View className="bg-black flex-1 justify-center px-3 rounded-tr-lg rounded-br-lg border-[0.5px] border-neutral-600 border-l-transparent flex-row items-center">
-                <DefaultText
-                  title={promo.title}
-                  titleClassName="font-inter-semibold flex-1"
+      {coupons?.length > 0 && <Gap height={20} />}
+      {coupons?.length > 0 && (
+        <Section
+          padding="12px 12px"
+          backgroundColor={theme?.colors.SECTION}
+          rounded={8}>
+          {coupons?.map((promo, key) => {
+            return (
+              <View className="flex-row mb-3" key={key}>
+                <Image
+                  className="w-[48] h-[50]"
+                  source={images.discountPercent}
                 />
-                <TouchableOpacity
-                  activeOpacity={0.7}
-                  onPress={() => onRemoveCoupon(promo)}>
-                  <Close size={22} color={colors.white} />
-                </TouchableOpacity>
+                <View className="bg-black flex-1 justify-center px-3 rounded-tr-lg rounded-br-lg border-[0.5px] border-neutral-600 border-l-transparent flex-row items-center">
+                  <DefaultText
+                    title={promo.title}
+                    titleClassName="font-inter-semibold flex-1"
+                  />
+                  <TouchableOpacity
+                    activeOpacity={0.7}
+                    onPress={() => onRemoveCoupon(promo)}>
+                    <Close size={22} color={colors.white} />
+                  </TouchableOpacity>
+                </View>
               </View>
-            </View>
-          );
-        })}
-      </Section>
+            );
+          })}
+        </Section>
+      )}
 
       <Gap height={20} />
       <Button

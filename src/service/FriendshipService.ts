@@ -57,4 +57,14 @@ export const FriendshipService = {
     );
     return response.data;
   },
+  cancelAcceptFriendRequest: async (payload: {
+    user_id: string;
+    invited_id: string;
+  }): Promise<APIResponse<unknown>> => {
+    const response = await ax.put(
+      `${URL_Notification}/cancel_friend_request`,
+      payload,
+    );
+    return response.data;
+  },
 };
