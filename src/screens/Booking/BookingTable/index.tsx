@@ -187,13 +187,7 @@ function BookingTableScreen({route, navigation}: Props) {
         date: selectedDate,
       });
       if (response.data.table_list.length) {
-        const tableMap = response.data.table_list.map((item, index) => {
-          return {
-            ...item,
-            isAvailable: index >= 2 ? false : true,
-          };
-        });
-        setTableData(tableMap);
+        setTableData(response.data.table_list);
       }
       setIsLoading(false);
     } catch (error: any) {}
@@ -230,7 +224,7 @@ function BookingTableScreen({route, navigation}: Props) {
       getDaysInMonth(monthYear.month, monthYear.year).filter(
         i =>
           ![
-            ...eventList.map(item => item.date),
+            ...eventList.filter(el => el.events.length).map(item => item.date),
             ...[selectedDate],
             ...[today],
           ].includes(i),
@@ -335,7 +329,7 @@ function BookingTableScreen({route, navigation}: Props) {
   };
 
   const onTableSelect = () => {
-    if (tableExpand?.isAvailable) {
+    if (!tableExpand?.table_status) {
       setIsWaitingList(false);
       setIsTableLayout(false);
       setSelectedTable(tableExpand);
@@ -460,8 +454,24 @@ function BookingTableScreen({route, navigation}: Props) {
             onSelectDate={onSelectDate}
             data={Object.assign(
               MarkedDate,
-              generateCalendarEvents(clubEvent, selectedDate),
-              generateCalendarOtherDay(allDay),
+              generateCalendarEvents(clubEvent, selectedDate, today),
+              generateCalendarOtherDay(
+                allDay.map(item => {
+                  const isFullyBooked = Boolean(
+                    clubEvent.find(el => el.date === item)
+                      ?.club_table_full_book,
+                  );
+                  const isOpen = Boolean(
+                    clubEvent.find(el => el.date === item)
+                      ?.club_operational_day,
+                  );
+                  return {
+                    date: item,
+                    isFullyBooked: isFullyBooked,
+                    isOpen: isOpen,
+                  };
+                }),
+              ),
             )}
             isShowEvents={isShowEvents}
             selectedEvent={selectedEvent}

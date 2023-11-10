@@ -1,4 +1,7 @@
-import {PlaceEventsInterface} from '../interfaces/PlaceInterface';
+import {
+  PlaceEventDayInterface,
+  PlaceEventsInterface,
+} from '../interfaces/PlaceInterface';
 import {Colors} from '../theme';
 import {dateFormatter} from './dateFormatter';
 
@@ -15,24 +18,35 @@ export const randomNumber = (digit: any) => {
 export const generateCalendarEvents = (
   arr: PlaceEventsInterface[],
   selectedDate: string,
+  today: string,
 ) => {
   return arr
     .map((item: PlaceEventsInterface) => {
       const isPast = new Date(item.date) < new Date();
+      const isTodayNoEvent = item.date === today && !item.events.length;
+      const selectedNotEvent = selectedDate && !item.events.length;
       return {
         date: item.date,
         style: {
           selected: selectedDate === item.date,
-          marked: true,
+          marked: isTodayNoEvent || selectedNotEvent ? false : true,
           dotColor: '#FFC107',
           customStyles: {
             container: {
               borderRadius: 8,
-              backgroundColor:
-                selectedDate === item.date ? '#1F5EFF' : '#3B414A',
+              backgroundColor: isTodayNoEvent
+                ? '#2C437B'
+                : selectedDate === item.date
+                ? '#1F5EFF'
+                : '#3B414A',
+              ...(isTodayNoEvent && {borderWidth: 2, borderColor: '#1F5EFF'}),
             },
             text: {
-              color: isPast ? Colors['gray-600'] : 'white',
+              color: isTodayNoEvent
+                ? 'white'
+                : isPast
+                ? Colors['gray-600']
+                : 'white',
               fontWeight: '400',
             },
           },
@@ -42,12 +56,12 @@ export const generateCalendarEvents = (
     .reduce((obj, cur) => ({...obj, [cur.date]: cur.style}), {});
 };
 
-export const generateCalendarOtherDay = (arr: string[]) => {
+export const generateCalendarOtherDay = (arr: PlaceEventDayInterface[]) => {
   return arr
-    .map((item: string) => {
-      const isPast = new Date(item) < new Date();
+    .map(item => {
+      const isPast = new Date(item.date) < new Date();
       return {
-        date: item,
+        date: item.date,
         style: {
           selected: true,
           selectedColor: '#3B414A',
@@ -55,9 +69,11 @@ export const generateCalendarOtherDay = (arr: string[]) => {
           customStyles: {
             container: {
               borderRadius: 8,
+              ...(item.isFullyBooked && {backgroundColor: '#F04835'}),
             },
             text: {
-              color: isPast ? Colors['gray-600'] : 'white',
+              color:
+                isPast && !item.isFullyBooked ? Colors['gray-600'] : 'white',
               fontWeight: '400',
             },
           },

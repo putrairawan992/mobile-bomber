@@ -56,7 +56,6 @@ export const PlaceCardSecond = ({
   const [distanceToSingsou, setDistanceToSingsou] = useState<number | null>(
     null,
   );
-  console.log('PlaceCardSecond', data);
 
   useEffect(() => {
     Geolocation.getCurrentPosition(
