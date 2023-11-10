@@ -38,15 +38,19 @@ const PlaceByCategory = ({route, navigation}: Props) => {
   const [placeData, setPlaceData] = useState<PlaceInterface[]>([]);
   const {userLocation} = useAppSelector(state => state.user);
   const [vValue, setvValue] = useState(category.title);
-
+  const [idParams, setIdParams] = useState<string>(category.id);
   const [isFocus, setIsFocus] = useState(false);
+
+  useEffect(() => {
+    fetchData(); // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [vValue]);
 
   const fetchData = async () => {
     try {
       setIsLoading(true);
       const response = await NightlifeService.getPlaceByCategory({
         params: {
-          category_id: category.id,
+          category_id: idParams,
           limit: 0,
         },
       });
@@ -70,7 +74,7 @@ const PlaceByCategory = ({route, navigation}: Props) => {
   useEffect(() => {
     fetchData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [category]);
 
   const onPlaceSelect = (id: string) =>
     navigation.navigate('PlaceDetailSecond', {
@@ -80,22 +84,22 @@ const PlaceByCategory = ({route, navigation}: Props) => {
 
   const PLACE_CATEGORY: any[] = [
     {
-      value: '1',
+      value: 'f34e130a-20df-465b-a119-f03889600cff',
       label: 'Nightclub',
       image: <DiscoLight size={24} color={theme?.colors.ICON} />,
     },
     {
-      value: '2',
+      value: 'ef8bd91f-9a39-41f3-8f7b-4324beceb02d',
       label: 'KTV',
       image: <Karaoke size={24} color={theme?.colors.ICON} />,
     },
     {
-      value: '3',
+      value: 'd9140fe7-7f99-439d-bf72-968351977a7b',
       label: 'Pregames',
       image: <Beer size={24} color={theme?.colors.ICON} />,
     },
     {
-      value: '4',
+      value: '79e0b4d2-c052-46b5-b8ea-4f80a761616d',
       label: 'Bar',
       image: <WineBottle size={24} color={theme?.colors.ICON} />,
     },
@@ -160,6 +164,7 @@ const PlaceByCategory = ({route, navigation}: Props) => {
           )}
           onChange={item => {
             setvValue(item.value);
+            setIdParams(item.value);
             setIsFocus(false);
           }}
         />

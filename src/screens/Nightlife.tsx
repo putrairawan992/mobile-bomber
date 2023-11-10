@@ -2,6 +2,7 @@
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import * as React from 'react';
 import {useEffect} from 'react';
+import {Circle, Path, Svg} from 'react-native-svg';
 import {
   Image,
   Pressable,
@@ -10,6 +11,8 @@ import {
   View,
   useWindowDimensions,
   Button,
+  SafeAreaView,
+  TouchableHighlight,
 } from 'react-native';
 import {useDispatch} from 'react-redux';
 import {Beer, DiscoLight, Karaoke, WineBottle} from '../assets/icons';
@@ -20,9 +23,10 @@ import {
   Section,
   Spacer,
   TextInput,
+  Loading,
 } from '../components/atoms';
 
-import {Header, ModalToast} from '../components/molecules';
+import {Header, ModalToast, PillsGradient} from '../components/molecules';
 import {PlaceCategory} from '../components/organism';
 import {TopPlaces} from '../components/organism/Places/TopPlaces';
 import {useCheckLocation} from '../hooks/useCheckLocation';
@@ -61,11 +65,22 @@ import {TryBeverage} from '../components/organism/Places/TryBeverage';
 import {NewestEvent} from '../components/organism/Places/NewestEvent';
 import MapView from 'react-native-maps';
 import {YourScheduleCard} from '../components/organism/Places/YourScheduleCard';
+
+import {MapsGradient, Position} from '../assets/icons';
+import {gradientMapping} from '../utils/config';
+import {Text as Text2} from '../components/atoms/';
 type Props = NativeStackScreenProps<MainStackParams, 'Nightlife', 'MyStack'>;
 
 function NightlifeScreen({route, navigation}: Props) {
+  const mapRef = React.useRef<MapView>(null);
   const isOrder = route.params?.isOrder;
   const theme = useTheme();
+  const [region, setRegion] = React.useState({
+    latitudeDelta: 0.025,
+    longitudeDelta: 0.025,
+    latitude: 0.0,
+    longitude: 0.0,
+  });
   const {user, userLocation, fcmToken} = useAppSelector(state => state.user);
   const [searchValue, setSearchValue] = React.useState<string>('');
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
@@ -86,24 +101,21 @@ function NightlifeScreen({route, navigation}: Props) {
   const homeSheetRef = React.useRef<BottomSheetModal>(null);
   // const snapPoints = React.useMemo(() => ['60', '80', '90'], []);
   const [showMap, setShowMap] = React.useState<boolean>(false);
-  const [lagiBukaMap, SetLagiBukaMap] = React.useState<boolean>(false);
   const [currentLocationNow, setCurrentLocationNow] =
     React.useState<LocationInterface | null>(null);
   const [currentLocationTemp, setCurrentLocationTemp] =
     React.useState<LocationInterface | null>(null);
+  const [currentLocationAwal, setCurrentLocationAwal] =
+    React.useState<LocationInterface | null>(null);
+  const [awal, setAwal] = React.useState<boolean>(false);
   // const srcIcon = "..\\assets\\images\\icon-location.png"
   const handleSheetOrderChanges = React.useCallback((index: number) => {
     setSheetOrderIndex(index);
   }, []);
 
   const handleSheetChanges = React.useCallback((index: number) => {
-    // console.log('handleSheetChanges', index);
     setSheetIndex(index);
-    if (lagiBukaMap == false) {
-      if (index == -1) {
-        setShowMap(false);
-      }
-    } // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   const {
     isShowToast,
@@ -241,7 +253,19 @@ function NightlifeScreen({route, navigation}: Props) {
             latitude: currentLocation.latitude,
             longitude: currentLocation.longitude,
           });
+        setRegion({
+          latitudeDelta: 0.025,
+          longitudeDelta: 0.025,
+          latitude: currentLocation.latitude,
+          longitude: currentLocation.longitude,
+        });
         setUserLocation(location);
+        if (!awal) {
+          setCurrentLocationAwal({
+            latitude: currentLocation.latitude,
+            longitude: currentLocation.longitude,
+          });
+        }
       } else {
         const location: UserLocationInterface =
           await LocationService.geocodeReverse({
@@ -249,7 +273,19 @@ function NightlifeScreen({route, navigation}: Props) {
             longitude: currentLocationNow.longitude,
           });
         // console.log(location)
+        setRegion({
+          latitudeDelta: 0.025,
+          longitudeDelta: 0.025,
+          latitude: currentLocationNow.latitude,
+          longitude: currentLocationNow.longitude,
+        });
         setUserLocation(location);
+        if (!awal) {
+          setCurrentLocationAwal({
+            latitude: currentLocationNow.latitude,
+            longitude: currentLocationNow.longitude,
+          });
+        }
       }
     };
     fetchUserLocation();
@@ -290,6 +326,8 @@ function NightlifeScreen({route, navigation}: Props) {
     const historyData = await getStorage('historySearchLocation');
     const parseHistoryData = JSON.parse(historyData as string);
     if (parseHistoryData.length) {
+      console.log('parseHistoryData', parseHistoryData);
+
       setHistorySearchPlace(parseHistoryData);
     }
   };
@@ -322,9 +360,35 @@ function NightlifeScreen({route, navigation}: Props) {
     // setCurrentLocation({ latitude: data.location.latitude, longitude: data.location.longitude },)
     // console.log(data.location)
     setShowMap(false);
+    setAwal(false);
     fetchHistorySearchLocation();
     openToast('success', 'Update location successfully');
   };
+
+  useEffect(() => {
+    console.log('AWAL : ' + awal);
+    console.log(
+      'Location Awal :' +
+        currentLocationAwal?.latitude +
+        ' ' +
+        currentLocationAwal?.longitude,
+    );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [awal]);
+
+  useEffect(() => {
+    console.log(
+      'Location Awal :' +
+        currentLocationAwal?.latitude +
+        ' ' +
+        currentLocationAwal?.longitude,
+    );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentLocationAwal]);
+
+  useEffect(() => {
+    console.log(region);
+  }, [region]);
 
   const setUserLocation = (location: UserLocationInterface) => {
     try {
@@ -333,57 +397,161 @@ function NightlifeScreen({route, navigation}: Props) {
       console.log('gagal');
     }
   };
-
-  useEffect(() => {
-    console.log(lagiBukaMap);
-  }, [lagiBukaMap]);
-
-  useEffect(() => {
-    console.log(currentLocationTemp);
-  }, [currentLocationTemp]);
-
   return (
     <Layout contentContainerStyle={styles.container} isDisableKeyboardAware>
       {showMap ? (
         <View style={styless.map}>
           <MapView
+            ref={mapRef}
             style={styless.map}
-            initialRegion={{
-              latitudeDelta: 0.025,
-              longitudeDelta: 0.025,
-              latitude: currentLocationNow
-                ? currentLocationNow.latitude
-                : currentLocation.latitude,
-              longitude: currentLocationNow
-                ? currentLocationNow.longitude
-                : currentLocation.longitude,
-            }}
+            initialRegion={region}
             onRegionChangeComplete={x => {
               setCurrentLocationTemp({
                 latitude: x.latitude,
                 longitude: x.longitude,
               });
+              console.log({
+                latitude: x.latitude,
+                longitude: x.longitude,
+              });
+              setCurrentLocationNow(currentLocationTemp);
             }}
           />
           <View style={styless.markerFixed}>
-            <Image
-              source={require('../assets/images/icon-location.png')}
-              style={styless.marker}
-            />
+            <Svg width={'33'} height={'33'} viewBox="0 0 33 33" fill="none">
+              <Circle cx={'16.5'} cy={'16.5'} r={'16.5'} fill={'#AB5CFA'} />
+              <Circle cx={'17'} cy={'16'} r={'3'} fill={'white'} />
+            </Svg>
           </View>
-          {lagiBukaMap ? (
-            <Button
-              onPress={() => {
-                setCurrentLocationNow(currentLocationTemp);
-                setShowMap(false);
-                SetLagiBukaMap(false);
-              }}
-              title="Next"
-              color="#841584"
-            />
-          ) : (
-            <></>
-          )}
+          <View style={styless.markerFixed2}>
+            <Svg width={'14'} height={'12'} viewBox="0 0 14 12" fill="none">
+              <Path
+                d="M6.16137 10.7088C6.55567 11.3159 7.44433 11.3159 7.83863 10.7088L13.7909 1.5447C14.223 0.879434 13.7456 0 12.9523 0H1.04771C0.254427 0 -0.22302 0.879434 0.209087 1.5447L6.16137 10.7088Z"
+                fill={'#AB5CFA'}
+              />
+            </Svg>
+          </View>
+          <TouchableHighlight
+            onPress={() => {
+              mapRef.current?.animateToRegion({
+                latitudeDelta: 0.025,
+                longitudeDelta: 0.025,
+                latitude: currentLocationAwal.latitude,
+                longitude: currentLocationAwal.longitude,
+              });
+            }}>
+            <View
+              style={{
+                position: 'absolute',
+                backgroundColor: 'black',
+                right: 10,
+                bottom: 180,
+              }}>
+              <Svg width={'30'} height={'30'} viewBox="0 0 20 20" fill="none">
+                <Path
+                  fill-rule="evenodd"
+                  clip-rule="evenodd"
+                  d="M9.99935 4.79102C7.12287 4.79102 4.79102 7.12287 4.79102 9.99935C4.79102 12.8758 7.12287 15.2077 9.99935 15.2077C12.8758 15.2077 15.2077 12.8758 15.2077 9.99935C15.2077 7.12287 12.8758 4.79102 9.99935 4.79102ZM3.54102 9.99935C3.54102 6.43251 6.43251 3.54102 9.99935 3.54102C13.5662 3.54102 16.4577 6.43251 16.4577 9.99935C16.4577 13.5662 13.5662 16.4577 9.99935 16.4577C6.43251 16.4577 3.54102 13.5662 3.54102 9.99935Z"
+                  fill={'#FCFCFC'}
+                />
+                <Path
+                  fill-rule="evenodd"
+                  clip-rule="evenodd"
+                  d="M10 15.209C10.3452 15.209 10.625 15.4888 10.625 15.834V17.5007C10.625 17.8458 10.3452 18.1257 10 18.1257C9.65482 18.1257 9.375 17.8458 9.375 17.5007V15.834C9.375 15.4888 9.65482 15.209 10 15.209Z"
+                  fill={'#FCFCFC'}
+                />
+                <Path
+                  fill-rule="evenodd"
+                  clip-rule="evenodd"
+                  d="M1.875 10C1.875 9.65482 2.15482 9.375 2.5 9.375H4.16667C4.51184 9.375 4.79167 9.65482 4.79167 10C4.79167 10.3452 4.51184 10.625 4.16667 10.625H2.5C2.15482 10.625 1.875 10.3452 1.875 10Z"
+                  fill={'#FCFCFC'}
+                />
+                <Path
+                  fill-rule="evenodd"
+                  clip-rule="evenodd"
+                  d="M10 1.875C10.3452 1.875 10.625 2.15482 10.625 2.5V4.16667C10.625 4.51184 10.3452 4.79167 10 4.79167C9.65482 4.79167 9.375 4.51184 9.375 4.16667V2.5C9.375 2.15482 9.65482 1.875 10 1.875Z"
+                  fill={'#FCFCFC'}
+                />
+                <Path
+                  fill-rule="evenodd"
+                  clip-rule="evenodd"
+                  d="M15.209 10C15.209 9.65482 15.4888 9.375 15.834 9.375H17.5007C17.8458 9.375 18.1257 9.65482 18.1257 10C18.1257 10.3452 17.8458 10.625 17.5007 10.625H15.834C15.4888 10.625 15.209 10.3452 15.209 10Z"
+                  fill={'#FCFCFC'}
+                />
+              </Svg>
+            </View>
+          </TouchableHighlight>
+
+          <SafeAreaView style={styless.footer}>
+            <Section
+              padding="0px 16px"
+              backgroundColor={theme?.colors.SHEET}
+              style={{
+                borderTopWidth: 1,
+                borderTopColor: theme?.colors.SHEET,
+              }}>
+              {isLoading && <Loading />}
+              <Gap height={15} />
+              <Section isRow isBetween>
+                <Text2
+                  variant="base"
+                  fontWeight="bold"
+                  label={'Select Location'}
+                  color={theme?.colors.WARNING}
+                />
+                <PillsGradient
+                  colors={
+                    gradientMapping[
+                      'textPrimary' as keyof typeof gradientMapping
+                    ].color
+                  }
+                  title="Edit Selection"
+                  icon={<MapsGradient size={20} />}
+                  onSelectOnMap={() => {
+                    setShowMap(false);
+                    homeSheetRef.current?.present();
+                  }}
+                />
+              </Section>
+              <Gap height={12} />
+              <Section
+                backgroundColor={theme?.colors.SHEET_CONTAINER}
+                isRow
+                padding="8px 12px"
+                rounded={8}
+                style={{marginBottom: 12}}>
+                <>
+                  <Position color={Colors['white-100']} size={20} />
+                  <Gap width={12} />
+                  <Section style={{flex: 1}}>
+                    <Text2
+                      label="Your current location"
+                      fontWeight="bold"
+                      color={Colors['white-100']}
+                    />
+                    <Gap height={4} />
+                    <Text2
+                      label={`${userLocation.city}, ${userLocation.country}`}
+                      fontWeight="bold"
+                      color={'#D8D8D8'}
+                      variant="small"
+                    />
+                  </Section>
+                </>
+              </Section>
+              <Gap height={12} />
+              <Button
+                onPress={() => {
+                  setCurrentLocationNow(currentLocationTemp);
+                  setShowMap(false);
+                  setAwal(false);
+                  openToast('success', 'Update location successfully');
+                }}
+                title="Next"
+                color="#841584"
+              />
+            </Section>
+          </SafeAreaView>
         </View>
       ) : (
         <ScrollView>
@@ -394,8 +562,9 @@ function NightlifeScreen({route, navigation}: Props) {
             hasNotification
             hasLogo
             onLocationPress={() => {
-              setShowMap(true);
               homeSheetRef.current?.present();
+
+              setAwal(true);
             }}
             onNotificationPress={() => navigation.navigate('Notification')}
           />
@@ -530,7 +699,8 @@ function NightlifeScreen({route, navigation}: Props) {
           history={historySearchPlace}
           onSelectLocation={handleSelectLocation}
           onSelectMap={() => {
-            SetLagiBukaMap(true);
+            setShowMap(true);
+            // SetLagiBukaMap(true)
             homeSheetRef.current?.close();
           }}
         />
@@ -577,10 +747,17 @@ const styless = StyleSheet.create({
   },
   markerFixed: {
     left: '50%',
-    marginLeft: -24,
-    marginTop: -48,
+    marginLeft: -20,
+    marginTop: -70,
     position: 'absolute',
     top: '50%',
+  },
+  markerFixed2: {
+    left: '50%',
+    marginLeft: -10,
+    marginTop: -173,
+    position: 'absolute',
+    top: '70%',
   },
   marker: {
     height: 48,
@@ -596,6 +773,12 @@ const styless = StyleSheet.create({
     color: '#fff',
     lineHeight: 20,
     margin: 20,
+  },
+  currentLocation: {
+    right: '10',
+    marginLeft: -10,
+    marginTop: -173,
+    position: 'absolute',
   },
 });
 export default NightlifeScreen;

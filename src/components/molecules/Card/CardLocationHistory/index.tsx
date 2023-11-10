@@ -24,6 +24,8 @@ export const CardLocationHistory = ({
   onSelect,
 }: CardLocationHistoryProps) => {
   const theme = useTheme();
+  console.log('item', item);
+
   return (
     <EntryAnimation index={index}>
       <TouchableSection

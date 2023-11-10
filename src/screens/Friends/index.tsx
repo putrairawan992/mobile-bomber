@@ -184,6 +184,27 @@ function FriendsScreen({navigation}: Props) {
     }
   };
 
+  const handleRemoveFriendRequest = async (
+    data: RequestFriendNotificationInterface,
+  ) => {
+    try {
+      setIsLoading(true);
+      const response = await FriendshipService.cancelAcceptFriendRequest({
+        user_id: user.id,
+        invited_id: data.senderId,
+      });
+      if (!response.error) {
+        await fetchNotification();
+        await fetchData();
+        setIsLoading(false);
+        openToast('success', 'You remove the friend request');
+      }
+    } catch (error: any) {
+      setIsLoading(false);
+      openToast('error', error.response.data.message);
+    }
+  };
+
   const handleApproveFriendRequest = async (
     data: RequestFriendNotificationInterface,
   ) => {
@@ -268,8 +289,8 @@ function FriendsScreen({navigation}: Props) {
               receivedData={friendRequest}
               searchValue={searchValue}
               onSelectUser={() => undefined}
+              onCancel={handleRemoveFriendRequest as any}
               onApprove={handleApproveFriendRequest}
-              onCancel={() => undefined}
             />
           </View>
         </PagerView>

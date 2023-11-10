@@ -38,7 +38,7 @@ export const YourScheduleCard = ({
       />
       <Spacer sm />
       <Carousel
-        data={data}
+        data={[1,2,3,4]}
         renderItem={renderItem}
         sliderWidth={WIDTH}
         itemWidth={WIDTH - 50}
