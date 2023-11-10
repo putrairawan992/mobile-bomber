@@ -128,12 +128,17 @@ function Main() {
             color={'#EF9533'}
             style={{
               fontSize: 14,
-              lineHeight: 18,
+              lineHeight: 25.62,
             }}
             label={item.title}
           />
         ) : (
-          <Text label={item.title} color="#FBFDFF" fontWeight="regular" />
+          <Text
+            label={item.title}
+            style={{lineHeight: 25.62, fontSize: 14}}
+            color="#FBFDFF"
+            fontWeight="regular"
+          />
         )}
       </>
     );
@@ -160,7 +165,7 @@ function Main() {
           tabBarIcon: ({focused}) => (
             <TabBarContent
               focused={focused}
-              title="Nightlife"
+              title="Home"
               icon={<HalfMoon focused={focused} size={22} />}
             />
           ),
@@ -177,8 +182,27 @@ function Main() {
           tabBarIcon: ({focused}) => (
             <TabBarContent
               focused={focused}
-              title="Event"
+              title="Party"
               icon={<Flare focused={focused} size={22} />}
+            />
+          ),
+          headerShown: false,
+          tabBarLabel() {
+            return false;
+          },
+          tabBarStyle: TabBarStyle,
+        })}
+      />
+
+      <Tab.Screen
+        name="Order"
+        component={Order}
+        options={() => ({
+          tabBarIcon: ({focused}) => (
+            <TabBarContent
+              focused={focused}
+              title="Order"
+              icon={<Barcode focused={focused} size={22} />}
             />
           ),
           headerShown: false,
@@ -215,24 +239,6 @@ function Main() {
               focused={focused}
               title="Profile"
               icon={<User focused={focused} size={22} />}
-            />
-          ),
-          headerShown: false,
-          tabBarLabel() {
-            return false;
-          },
-          tabBarStyle: TabBarStyle,
-        })}
-      />
-      <Tab.Screen
-        name="Order"
-        component={Order}
-        options={() => ({
-          tabBarIcon: ({focused}) => (
-            <TabBarContent
-              focused={focused}
-              title="Order"
-              icon={<Barcode focused={focused} size={22} />}
             />
           ),
           headerShown: false,

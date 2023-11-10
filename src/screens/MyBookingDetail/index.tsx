@@ -116,7 +116,7 @@ export default function MyBookingDetail({route, navigation}: Props) {
   const onSaveCalendar = () => {
     RNCalendarEvents.requestPermissions()
       .then(() => {
-        RNCalendarEvents.saveEvent('Booking Detail - Bomber | Event', {
+        RNCalendarEvents.saveEvent(`${booking?.clubName}-Bomber`, {
           calendarId: '1',
           location: 'Taiwan',
           startDate: new Date(booking?.bookingDate as string).toISOString(),
@@ -146,7 +146,11 @@ export default function MyBookingDetail({route, navigation}: Props) {
         // }),
       ])
         .then(response => {
-        
+          console.log(
+            'response[1].data.bookingDetail[0]',
+            response[1].data.bookingDetail[0],
+          );
+
           setFriendshipData(response[0].data);
           setBooking(response[1].data.bookingDetail[0]);
           setMemberInvited(response[1].data.memberInvited);
@@ -226,7 +230,7 @@ export default function MyBookingDetail({route, navigation}: Props) {
             <View className="bg-screen py-2 px-3 rounded-lg">
               <Image
                 source={{uri: booking?.clubLogo}}
-                className="w-[30] h-[17] self-center"
+                className="w-[30] self-center"
                 resizeMode="contain"
               />
               <Spacer height={2.5} />
