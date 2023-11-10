@@ -48,6 +48,14 @@ export interface EventInterface {
 export interface PlaceEventsInterface {
   date: string;
   events: EventInterface[];
+  club_operational_day: boolean;
+  club_table_full_book: boolean;
+}
+
+export interface PlaceEventDayInterface {
+  date: string;
+  isFullyBooked: boolean;
+  isOpen: boolean;
 }
 
 export interface ResponseGetPlaceInterface {
