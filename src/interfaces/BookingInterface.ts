@@ -7,6 +7,7 @@ export interface TableInterface {
   minOrder: number;
   price: number;
   isAvailable?: boolean;
+  table_status: null | string;
 }
 
 export interface ListItemInterface {

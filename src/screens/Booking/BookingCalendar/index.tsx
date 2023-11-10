@@ -9,6 +9,7 @@ import {CalendarEventCard} from '../../../components/molecules';
 import {EventInterface} from '../../../interfaces/PlaceInterface';
 import useTheme from '../../../theme/useTheme';
 import {dateFormatter} from '../../../utils/dateFormatter';
+import {View} from 'react-native';
 
 interface BookingCalendarProps {
   onSelectDate: (date: string) => void;
@@ -75,6 +76,32 @@ export const BookingCalendar = ({
           },
         }}
       />
+      <Gap height={8} />
+      <Section isRow padding="0px 16px">
+        <View
+          style={{
+            height: 12,
+            width: 12,
+            borderRadius: 2,
+            backgroundColor: '#2C437B',
+            borderWidth: 1,
+            borderColor: '#1F5EFF',
+          }}
+        />
+        <Gap width={8} />
+        <Text fontWeight="regular" label="Today" />
+        <Gap width={8} />
+        <View
+          style={{
+            height: 12,
+            width: 12,
+            borderRadius: 2,
+            backgroundColor: '#F04835',
+          }}
+        />
+        <Gap width={8} />
+        <Text fontWeight="regular" label="Fully booked" />
+      </Section>
       <Gap height={12} />
       {isShowEvents &&
         selectedEvent.map((item: EventInterface, idx: number) => (

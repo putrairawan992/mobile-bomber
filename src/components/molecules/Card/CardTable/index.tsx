@@ -71,7 +71,7 @@ const CardTable = ({data, index, handleExpand, isExpand, onSelect}: Props) => {
                   width: 10,
                   height: 10,
                   borderRadius: 10,
-                  backgroundColor: data.isAvailable
+                  backgroundColor: !data.table_status
                     ? Colors['success-500']
                     : Colors['danger-400'],
                 }}
@@ -80,7 +80,7 @@ const CardTable = ({data, index, handleExpand, isExpand, onSelect}: Props) => {
               <Text
                 variant="small"
                 fontWeight="medium"
-                label={data.isAvailable ? 'Available' : 'Booked'}
+                label={!data.table_status ? 'Available' : 'Booked'}
                 color={Colors['black-10']}
               />
             </Section>
@@ -92,7 +92,7 @@ const CardTable = ({data, index, handleExpand, isExpand, onSelect}: Props) => {
               <Gap height={20} />
               <Button
                 type="primary"
-                title={data.isAvailable ? 'Select' : 'Join waiting list'}
+                title={!data.table_status ? 'Select' : 'Join waiting list'}
                 onPress={onSelect}
               />
             </>
