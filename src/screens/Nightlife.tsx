@@ -390,13 +390,14 @@ function NightlifeScreen({route, navigation}: Props) {
     console.log(region);
   }, [region]);
 
-  const setUserLocation = (location: UserLocationInterface) => {
+  const setUserLocation = async (location: UserLocationInterface) => {
     try {
       dispatch(updateUserLocation(location));
     } catch (error) {
       console.log('gagal');
     }
   };
+
   return (
     <Layout contentContainerStyle={styles.container} isDisableKeyboardAware>
       {showMap ? (
@@ -532,6 +533,13 @@ function NightlifeScreen({route, navigation}: Props) {
                     <Gap height={4} />
                     <Text2
                       label={`${userLocation.city}, ${userLocation.country}`}
+                      fontWeight="bold"
+                      color={'#D8D8D8'}
+                      variant="small"
+                    />
+                    <Gap height={4} />
+                    <Text2
+                      label={`${userLocation.address}`}
                       fontWeight="bold"
                       color={'#D8D8D8'}
                       variant="small"

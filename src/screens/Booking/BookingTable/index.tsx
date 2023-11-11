@@ -60,7 +60,7 @@ import {ModalToastContext} from '../../../context/AppModalToastContext';
 import {Map1} from 'iconsax-react-native';
 import {ProfileService} from '../../../service/ProfileService';
 import ModalAddNewCard from '../../../components/molecules/Modal/ModalAddNewCard';
-import { useKeyboardVisible } from '../../../hooks/useKeyboardVisible';
+import {useKeyboardVisible} from '../../../hooks/useKeyboardVisible';
 
 type Props = NativeStackScreenProps<MainStackParams, 'BookingTable', 'MyStack'>;
 
@@ -428,9 +428,10 @@ function BookingTableScreen({route, navigation}: Props) {
   };
 
   useEffect(() => {
-    console.log(isKeyboardOpen)
-  }, [isKeyboardOpen])
-  
+    console.log(isKeyboardOpen);
+  }, [isKeyboardOpen]);
+
+  console.log('tableData', tableData);
 
   return (
     // <SafeAreaView style={{flex: 1}}>
@@ -511,7 +512,7 @@ function BookingTableScreen({route, navigation}: Props) {
               variant="base"
               label={
                 step > 1 && !!selectedTable && !isShowTable
-                  ? selectedTable.text
+                  ? selectedTable?.text
                   : 'Table'
               }
             />
@@ -536,15 +537,15 @@ function BookingTableScreen({route, navigation}: Props) {
             </TouchableSection>
             <Gap height={8} />
             <ScrollView showsVerticalScrollIndicator={false}>
-              {tableData.length &&
-                tableData.map((item, index) => (
+              {tableData && tableData?.length > 0 ? (
+                tableData?.map((item, index) => (
                   <CardTable
                     key={`table_${index}`}
                     data={item}
                     index={index}
                     handleExpand={data => {
                       setIsErrorTable(false);
-                      if (tableExpand?.tableId === data.tableId) {
+                      if (tableExpand?.tableId === data?.tableId) {
                         setTableExpand(null);
                       } else {
                         setTableExpand(data);
@@ -553,7 +554,10 @@ function BookingTableScreen({route, navigation}: Props) {
                     isExpand={tableExpand?.tableId === item.tableId}
                     onSelect={onTableSelect}
                   />
-                ))}
+                ))
+              ) : (
+                <Text variant="small" label="No Data Table" color="#9F9E9F" />
+              )}
               {tableExpand && <Gap height={100} />}
             </ScrollView>
           </Section>
@@ -606,9 +610,7 @@ function BookingTableScreen({route, navigation}: Props) {
           onPress={() => bookingSheetRef.current?.present()}
           title="Book Now"
           noRound
-          style={
-            isKeyboardOpen ? stylesButton.nodisplay : stylesButton.display
-          }
+          style={isKeyboardOpen ? stylesButton.nodisplay : stylesButton.display}
         />
       ) : (
         <TouchableOpacity style={styles.bookingButton}>
@@ -730,12 +732,11 @@ function BookingTableScreen({route, navigation}: Props) {
 }
 const stylesButton = StyleSheet.create({
   nodisplay: {
-      display: 'none',
+    display: 'none',
   },
   display: {
-      display: 'flex',
-      paddingVertical: 16,
+    display: 'flex',
+    paddingVertical: 16,
   },
-  
 });
 export default BookingTableScreen;
