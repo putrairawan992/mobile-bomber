@@ -17,7 +17,7 @@ import ModalWineryOrderDetail from '../../components/molecules/Modal/ModalWinery
 import {EventService} from '../../service/EventService';
 import {NightlifeService} from '../../service/NightlifeService';
 import {ProductBasedOnClubIdInterface} from '../../interfaces/PlaceInterface';
-import { currency } from '../../utils/function';
+import {currency} from '../../utils/function';
 export interface FriendInterface {
   customerId: string;
   fullName: string;
@@ -90,17 +90,20 @@ export default function WineryOrder() {
           item.chineseProductTitle === values.chineseProductTitle,
       ),
     );
+    console.log(findItem);
     if (!findItem) {
       setCheckoutItems([...checkoutItems, values]);
     } else {
-      setCheckoutItems(
-        checkoutItems.filter(
-          (item: any) =>
-            item.quantity !== 0 &&
-            item.englishProductTitle !== values.englishProductTitle &&
-            item.chineseProductTitle !== values.chineseProductTitle,
-        ),
-      );
+      checkoutItems.forEach(item => {
+        if (
+          item.quantity !== 0 &&
+          item.englishProductTitle === values.englishProductTitle &&
+          item.chineseProductTitle === values.chineseProductTitle
+        ) {
+          item.quantity = values.quantity;
+        }
+      });
+      setCheckoutItems([...checkoutItems]);
     }
     // const newProducts = [...values] as any[];
     // newProducts[values].quantity = newQuantity;
@@ -119,16 +122,22 @@ export default function WineryOrder() {
     // setCheckoutItems(newCheckoutItems);
   };
 
-  const calculateTotalQuantityAndPrice = (products: Product[]): { totalQuantity: number; totalPrice: number } => {
-    const result = products.reduce(
+  useEffect(() => {
+    console.log(checkoutItems);
+  }, [checkoutItems, setCheckoutItems]);
+
+  const calculateTotalQuantityAndPrice = (
+    productss: Product[],
+  ): {totalQuantity: number; totalPrice: number} => {
+    const result = productss.reduce(
       (accumulator, producta) => {
         accumulator.totalQuantity += producta.quantity;
         accumulator.totalPrice += producta.price * producta.quantity;
         return accumulator;
       },
-      { totalQuantity: 0, totalPrice: 0 }
+      {totalQuantity: 0, totalPrice: 0},
     );
-  
+
     return result;
   };
 
@@ -208,8 +217,10 @@ export default function WineryOrder() {
           end={{x: 1, y: 0}}>
           <DefaultText
             title="View Cart | "
-            subtitleClassName='text-base font-inter-bold text-center'
-            subtitle={currency(calculateTotalQuantityAndPrice(checkoutItems).totalPrice)}
+            subtitleClassName="text-base font-inter-bold text-center"
+            subtitle={currency(
+              calculateTotalQuantityAndPrice(checkoutItems).totalPrice,
+            )}
             titleClassName="text-base font-inter-bold text-center"
           />
         </LinearGradient>
