@@ -20,7 +20,6 @@ import {
   LayoutAnimation,
   Platform,
   ScrollView,
-  StyleSheet,
   TouchableOpacity,
   UIManager,
   View,
@@ -60,7 +59,6 @@ import {ModalToastContext} from '../../../context/AppModalToastContext';
 import {Map1} from 'iconsax-react-native';
 import {ProfileService} from '../../../service/ProfileService';
 import ModalAddNewCard from '../../../components/molecules/Modal/ModalAddNewCard';
-import { useKeyboardVisible } from '../../../hooks/useKeyboardVisible';
 
 type Props = NativeStackScreenProps<MainStackParams, 'BookingTable', 'MyStack'>;
 
@@ -71,7 +69,6 @@ if (Platform.OS === 'android') {
 }
 
 function BookingTableScreen({route, navigation}: Props) {
-  const isKeyboardOpen = useKeyboardVisible();
   const {user} = useAppSelector(state => state.user);
   const placeData = route.params.placeData;
   const theme = useTheme();
@@ -190,13 +187,7 @@ function BookingTableScreen({route, navigation}: Props) {
         date: selectedDate,
       });
       if (response.data.table_list.length) {
-        const tableMap = response.data.table_list.map((item, index) => {
-          return {
-            ...item,
-            isAvailable: index >= 2 ? false : true,
-          };
-        });
-        setTableData(tableMap);
+        setTableData(response.data.table_list);
       }
       setIsLoading(false);
     } catch (error: any) {}
@@ -233,7 +224,7 @@ function BookingTableScreen({route, navigation}: Props) {
       getDaysInMonth(monthYear.month, monthYear.year).filter(
         i =>
           ![
-            ...eventList.map(item => item.date),
+            ...eventList.filter(el => el.events.length).map(item => item.date),
             ...[selectedDate],
             ...[today],
           ].includes(i),
@@ -338,7 +329,7 @@ function BookingTableScreen({route, navigation}: Props) {
   };
 
   const onTableSelect = () => {
-    if (tableExpand?.isAvailable) {
+    if (!tableExpand?.table_status) {
       setIsWaitingList(false);
       setIsTableLayout(false);
       setSelectedTable(tableExpand);
@@ -427,11 +418,6 @@ function BookingTableScreen({route, navigation}: Props) {
     setToastMessage(message);
   };
 
-  useEffect(() => {
-    console.log(isKeyboardOpen)
-  }, [isKeyboardOpen])
-  
-
   return (
     // <SafeAreaView style={{flex: 1}}>
     <Layout contentContainerStyle={styles.container} isScrollable={false}>
@@ -468,8 +454,24 @@ function BookingTableScreen({route, navigation}: Props) {
             onSelectDate={onSelectDate}
             data={Object.assign(
               MarkedDate,
-              generateCalendarEvents(clubEvent, selectedDate),
-              generateCalendarOtherDay(allDay),
+              generateCalendarEvents(clubEvent, selectedDate, today),
+              generateCalendarOtherDay(
+                allDay.map(item => {
+                  const isFullyBooked = Boolean(
+                    clubEvent.find(el => el.date === item)
+                      ?.club_table_full_book,
+                  );
+                  const isOpen = Boolean(
+                    clubEvent.find(el => el.date === item)
+                      ?.club_operational_day,
+                  );
+                  return {
+                    date: item,
+                    isFullyBooked: isFullyBooked,
+                    isOpen: isOpen,
+                  };
+                }),
+              ),
             )}
             isShowEvents={isShowEvents}
             selectedEvent={selectedEvent}
@@ -606,9 +608,9 @@ function BookingTableScreen({route, navigation}: Props) {
           onPress={() => bookingSheetRef.current?.present()}
           title="Book Now"
           noRound
-          style={
-            isKeyboardOpen ? stylesButton.nodisplay : stylesButton.display
-          }
+          style={{
+            paddingVertical: 16,
+          }}
         />
       ) : (
         <TouchableOpacity style={styles.bookingButton}>
@@ -728,14 +730,5 @@ function BookingTableScreen({route, navigation}: Props) {
     </Layout>
   );
 }
-const stylesButton = StyleSheet.create({
-  nodisplay: {
-      display: 'none',
-  },
-  display: {
-      display: 'flex',
-      paddingVertical: 16,
-  },
-  
-});
+
 export default BookingTableScreen;
