@@ -103,16 +103,16 @@ export default function ModalNotTableSucces({show, hide}: ModalNotTableSucces) {
                 />
               </View>
             </View>
-            <Gap height={30} />
-            <Button
-              noRound={true}
-              type="primary"
-              style={{borderWidth: 0}}
-              title="Send to your email"
-              onPress={() => hide()}
-            />
           </View>
         </ScrollView>
+        <Gap height={30} />
+        <Button
+          noRound={true}
+          type="primary"
+          style={{borderWidth: 0}}
+          title="Send to your email"
+          onPress={() => hide()}
+        />
       </View>
     </Modal>
   );
