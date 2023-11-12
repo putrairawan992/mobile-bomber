@@ -3,10 +3,18 @@ import React, {useState, useEffect} from 'react';
 import {DefaultText, Gap} from '../../../atoms';
 import {IcDelete} from '../../../../theme/Images';
 import {currency} from '../../../../utils/function';
+type Product = {
+  chineseProductTitle: string;
+  englishProductTitle: string;
+  imageUrl: string;
+  price: number;
+  productId: string;
+  quantity: number;
+};
 
 interface CardWineryOrderCart {
   onRemove: (val: number) => void;
-  actionAkumulasi(val: number, price: number): void;
+  actionAkumulasi(plusmin: string, val: number, price: Product): void;
   data: any;
 }
 
@@ -16,10 +24,10 @@ export default function CardWineryOrderCart({
   actionAkumulasi,
 }: CardWineryOrderCart) {
   const [value, setValue] = useState<number>(data?.quantity);
-
+  const [ket, setKet] = useState<string>('');
   useEffect(() => {
-    actionAkumulasi(value, data?.price); // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [data, value]);
+    actionAkumulasi(ket, value, data); // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [data, value, ket]);
 
   const changeValueMin = (values: number) => {
     setValue(values);
@@ -67,13 +75,17 @@ export default function CardWineryOrderCart({
             activeOpacity={0.7}
             onPress={() => {
               value > 1 ? changeValueMin(value - 1) : onRemove(value - 1);
+              setKet('min');
             }}>
             <DefaultText title="-" titleClassName="text-xl text-neutral-400" />
           </TouchableOpacity>
           <DefaultText title={value} titleClassName="font-inter-bold mx-6" />
           <TouchableOpacity
             activeOpacity={0.7}
-            onPress={() => changeValueMin(value + 1)}>
+            onPress={() => {
+              changeValueMin(value + 1);
+              setKet('plus');
+            }}>
             <DefaultText title="+" titleClassName="text-xl text-neutral-400" />
           </TouchableOpacity>
         </View>

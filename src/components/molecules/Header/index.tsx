@@ -33,6 +33,7 @@ interface HeaderPropsI {
   hasLogo?: boolean;
   RightComponent?: JSX.Element;
   CenterComponent?: JSX.Element;
+  centerIsTrue: boolean;
   hasNoPrevRoute?: boolean;
 }
 
@@ -45,6 +46,7 @@ function Header({
   title,
   onBackPress,
   onLocationPress,
+  centerIsTrue = true,
   onProfilePress,
   clearText,
   onclearTextPress,
@@ -78,6 +80,7 @@ function Header({
             <TouchableOpacity
               style={styles.backBtn}
               onPress={() => {
+                onBackPress ? onBackPress() : navigation.goBack();
                 onBackPress ? onBackPress() : handleGoBack();
               }}>
               <ArrowLeft size={24} color={theme?.colors.ICON} />
@@ -128,7 +131,7 @@ function Header({
           </UserLeft>
         )} */}
 
-        {title && (
+        {title && centerIsTrue && (
           <Text
             variant="large"
             fontWeight="semi-bold"
@@ -139,6 +142,20 @@ function Header({
                 paddingHorizontal: 10,
                 marginLeft: 'auto',
                 marginRight: 'auto',
+                ...titleStyle,
+              },
+            ]}
+          />
+        )}
+        {title && !centerIsTrue && (
+          <Text
+            variant="large"
+            fontWeight="semi-bold"
+            label={title}
+            style={[
+              {
+                marginLeft: 30,
+                marginTop: -5,
                 ...titleStyle,
               },
             ]}

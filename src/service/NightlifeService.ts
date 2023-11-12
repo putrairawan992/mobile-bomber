@@ -122,6 +122,10 @@ export const NightlifeService = {
     const response = await ax.get(`${URL}/get_coupon_list`);
     return response.data;
   },
+  getInvitedOrder: async (): Promise<APIResponse<any>> => {
+    const response = await ax.get(`${URL}/get_invited_order`);
+    return response.data;
+  },
   postWaitingList: async ({
     payload,
   }: {

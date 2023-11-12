@@ -56,7 +56,10 @@ export const ProfileService = {
   }: {
     payload: any;
   }): Promise<APIResponse<unknown>> => {
-    const response = await ax.post(`${Config.API_ENDPOINT}/${URL}/modify_user_profile`, payload);
+    const response = await ax.put(
+      `${Config.API_ENDPOINT}/${URL}/modify_user_profile`,
+      payload,
+    );
     return response.data;
-  }
+  },
 };

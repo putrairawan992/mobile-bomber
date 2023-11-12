@@ -19,6 +19,8 @@ import {useAppSelector} from '../../hooks/hooks';
 import {navigationRef} from '../../navigation/RootNavigation';
 import {MainStackParams} from '../../navigation/MainScreenStack';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
+import {useDispatch} from 'react-redux';
+import {getUserProfile} from '../../service/AuthService';
 
 type Props = NativeStackScreenProps<
   MainStackParams,
@@ -37,6 +39,7 @@ export default function UpdateProfile({route}: Props) {
   const {user} = useAppSelector(state => state.user);
   const {setIsShowToast, setToastMessage, setType} =
     useContext(ModalToastContext);
+  const dispatch = useDispatch();
 
   const openToast = (toastType: 'success' | 'error', message: string) => {
     setIsShowToast(true);
@@ -65,10 +68,11 @@ export default function UpdateProfile({route}: Props) {
           username: username,
           photo_url: profileData?.photoUrl,
           bio: about,
-          base64_image: images?.data,
+          base64_image: `data:${images.mime};base64,${images?.data}`,
         },
       });
       openToast('success', response.message);
+      dispatch(getUserProfile());
       navigationRef.navigate('Profile' as never);
       setIsLoading(false);
     } catch (err: any) {

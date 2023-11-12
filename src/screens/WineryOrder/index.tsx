@@ -17,7 +17,12 @@ import ModalWineryOrderDetail from '../../components/molecules/Modal/ModalWinery
 import {EventService} from '../../service/EventService';
 import {NightlifeService} from '../../service/NightlifeService';
 import {ProductBasedOnClubIdInterface} from '../../interfaces/PlaceInterface';
-import { currency } from '../../utils/function';
+import {currency} from '../../utils/function';
+import ModalNotTableSucces from '../../components/molecules/Modal/ModalNotTableSucces';
+import {NativeStackScreenProps} from '@react-navigation/native-stack';
+import {MainStackParams} from '../../navigation/MainScreenStack';
+
+type Props = NativeStackScreenProps<MainStackParams, 'WineryOrder', 'MyStack'>;
 export interface FriendInterface {
   customerId: string;
   fullName: string;
@@ -37,7 +42,7 @@ type Product = {
   quantity: number;
 };
 
-export default function WineryOrder() {
+export default function WineryOrder({route, navigation}: Props) {
   const [menu] = useState<string[]>([
     'Champagne',
     'Gin',
@@ -45,10 +50,12 @@ export default function WineryOrder() {
     'Whiskey',
     'Beer',
   ]);
+  const isNotTable = route.params.isNotTable;
   const [initialPage, setInitialPage] = useState<number>(0);
   const [search, setSearch] = useState<string>('');
   const [showCart, setShowCart] = useState<boolean>(false);
   const [showPay, setShowPay] = useState<boolean>(false);
+  const [showNotTablePay, setShowNotTablePay] = useState<boolean>(false);
   const [showBillGenerator, setShowBillGenerator] = useState<boolean>(false);
   const [showOrderDetail, setShowOrderDetail] = useState<boolean>(false);
   const [productsLoading, setProductsLoading] = useState<boolean>(true);
@@ -90,17 +97,20 @@ export default function WineryOrder() {
           item.chineseProductTitle === values.chineseProductTitle,
       ),
     );
+    console.log(findItem);
     if (!findItem) {
       setCheckoutItems([...checkoutItems, values]);
     } else {
-      setCheckoutItems(
-        checkoutItems.filter(
-          (item: any) =>
-            item.quantity !== 0 &&
-            item.englishProductTitle !== values.englishProductTitle &&
-            item.chineseProductTitle !== values.chineseProductTitle,
-        ),
-      );
+      checkoutItems.forEach(item => {
+        if (
+          item.quantity !== 0 &&
+          item.englishProductTitle === values.englishProductTitle &&
+          item.chineseProductTitle === values.chineseProductTitle
+        ) {
+          item.quantity = values.quantity;
+        }
+      });
+      setCheckoutItems([...checkoutItems]);
     }
     // const newProducts = [...values] as any[];
     // newProducts[values].quantity = newQuantity;
@@ -119,16 +129,22 @@ export default function WineryOrder() {
     // setCheckoutItems(newCheckoutItems);
   };
 
-  const calculateTotalQuantityAndPrice = (products: Product[]): { totalQuantity: number; totalPrice: number } => {
-    const result = products.reduce(
+  useEffect(() => {
+    console.log(checkoutItems);
+  }, [checkoutItems, setCheckoutItems]);
+
+  const calculateTotalQuantityAndPrice = (
+    productss: Product[],
+  ): {totalQuantity: number; totalPrice: number} => {
+    const result = productss.reduce(
       (accumulator, producta) => {
         accumulator.totalQuantity += producta.quantity;
         accumulator.totalPrice += producta.price * producta.quantity;
         return accumulator;
       },
-      { totalQuantity: 0, totalPrice: 0 }
+      {totalQuantity: 0, totalPrice: 0},
     );
-  
+
     return result;
   };
 
@@ -200,7 +216,11 @@ export default function WineryOrder() {
         </View>
       </PagerView>
 
-      <TouchableOpacity activeOpacity={0.8} onPress={() => setShowCart(true)}>
+      <TouchableOpacity
+        activeOpacity={0.8}
+        onPress={() =>
+          isNotTable ? setShowNotTablePay(true) : setShowCart(true)
+        }>
         <LinearGradient
           className="py-4"
           colors={['#AA5AFA', '#C111D5']}
@@ -208,8 +228,10 @@ export default function WineryOrder() {
           end={{x: 1, y: 0}}>
           <DefaultText
             title="View Cart | "
-            subtitleClassName='text-base font-inter-bold text-center'
-            subtitle={currency(calculateTotalQuantityAndPrice(checkoutItems).totalPrice)}
+            subtitleClassName="text-base font-inter-bold text-center"
+            subtitle={currency(
+              calculateTotalQuantityAndPrice(checkoutItems).totalPrice,
+            )}
             titleClassName="text-base font-inter-bold text-center"
           />
         </LinearGradient>
@@ -243,6 +265,14 @@ export default function WineryOrder() {
       <ModalWineryOrderDetail
         show={showOrderDetail}
         hide={() => setShowOrderDetail(false)}
+      />
+
+      <ModalNotTableSucces
+        show={showNotTablePay}
+        hide={() => {
+          setShowNotTablePay(false);
+          navigation.navigate('Nightlife', {isOrder: false});
+        }}
       />
     </Layout>
   );
