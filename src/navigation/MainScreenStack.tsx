@@ -60,7 +60,9 @@ export type MainStackParams = {
   PlaceDetail: {
     placeData: PlaceInterface | null;
   };
-  Notification: undefined;
+  Notification: {
+    id: string | null;
+  };
   Main: undefined;
   BookingWalkIn: {
     placeData: PlaceInterface | null;

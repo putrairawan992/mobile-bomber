@@ -566,7 +566,11 @@ function NightlifeScreen({route, navigation}: Props) {
 
               setAwal(true);
             }}
-            onNotificationPress={() => navigation.navigate('Notification')}
+            onNotificationPress={() =>
+              navigation.navigate('Notification', {
+                id: null,
+              })
+            }
           />
           {/* </EntryAnimation> */}
           {/* <EntryAnimation index={1}> */}

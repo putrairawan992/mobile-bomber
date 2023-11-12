@@ -32,8 +32,26 @@ function Routes() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  const linking = {
+    // Prefixes accepted by the navigation container, should match the added schemes
+    prefixes: ['bomber://'],
+    // Route config to map uri paths to screens
+    config: {
+      // Initial route name to be added to the stack before any further navigation,
+      // should match one of the available screens
+      initialRouteName: 'Main' as const,
+      screens: {
+        // myapp://home -> HomeScreen
+        Main: 'main',
+        // myapp://details/1 -> DetailsScreen with param id: 1
+        Event: 'event',
+        Notification: 'notification',
+      },
+    },
+  };
+
   return (
-    <NavigationContainer ref={navigationRef}>
+    <NavigationContainer ref={navigationRef} linking={linking as any}>
       {isLogin && userType === 'regular' ? (
         <MainScreenStack />
       ) : isLogin && userType === 'dj' ? (

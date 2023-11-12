@@ -65,8 +65,8 @@ export default function CardNotificationInvitation({
             <View style={{width: 66}}>
               <DefaultText
                 title={
-                  data.clubName.length > 7
-                    ? data.clubName.substring(0, 7) + '...'
+                  data.clubName?.length > 7
+                    ? data.clubName?.substring(0, 7) + '...'
                     : data.clubName
                 }
                 titleClassName="text-xs"

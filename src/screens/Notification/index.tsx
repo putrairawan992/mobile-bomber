@@ -31,16 +31,21 @@ import {ModalToastContext} from '../../context/AppModalToastContext';
 import {FriendshipService} from '../../service/FriendshipService';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {MainStackParams} from '../../navigation/MainScreenStack';
+import {useFocusEffect} from '@react-navigation/native';
 
 type Props = NativeStackScreenProps<MainStackParams, 'Notification', 'MyStack'>;
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-function NotificationScreen({route}: Props) {
+function NotificationScreen({route, navigation}: Props) {
   const [menu] = useState<string[]>(['Apps', 'Invitation', 'Bill', 'Friends']);
+  const routes = navigation.getState()?.routes;
+  const prevRoute = routes[routes.length - 2];
+
   const {invitation, invitationCount, friendRequest, friendRequestCount} =
     useAppSelector(state => state.notification);
   const {user} = useAppSelector(state => state.user);
   const [initialPage, setInitialPage] = useState<number>(0);
+  console.log('route :', route.params, initialPage);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [selectedInvitation, setSelectedInvitation] =
     useState<InviteNotificationInterface | null>(null);
@@ -67,15 +72,6 @@ function NotificationScreen({route}: Props) {
     setType(toastType);
     setToastMessage(message);
   };
-
-  // React.useEffect(() => {
-  //   if (route.params?.activeTab) {
-  //     setTimeout(() => {
-  //       setInitialPage(Number(route.params.activeTab));
-  //     }, 500);
-  //   }
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [route.params]);
 
   const onOpenInvitation = async (data: InviteNotificationInterface) => {
     try {
@@ -173,9 +169,35 @@ function NotificationScreen({route}: Props) {
     }
   };
 
+  useFocusEffect(
+    React.useCallback(() => {
+      fetchNotification();
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [navigation]),
+  );
+
+  // React.useEffect(() => {
+  //   if (route.params.id) {
+  //     redirectTab(route.params.id);
+  //   }
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [route.params]);
+
+  // const redirectTab = (tab: string) => {
+  //   if (tab === 'invitation') {
+  //     setInitialPage(1);
+  //     ref.current?.setPage(1);
+  //   }
+  // };
+
   return (
     <Layout contentContainerStyle={styles.container}>
-      <Header transparent hasBackBtn title="Notification" />
+      <Header
+        transparent
+        hasBackBtn
+        title="Notification"
+        hasNoPrevRoute={!prevRoute?.name}
+      />
       {isLoading && <Loading />}
       <Gap height={24} />
       <Section isRow isCenter>
