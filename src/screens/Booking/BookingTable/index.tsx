@@ -469,8 +469,24 @@ function BookingTableScreen({route, navigation}: Props) {
             onSelectDate={onSelectDate}
             data={Object.assign(
               MarkedDate,
-              generateCalendarEvents(clubEvent, selectedDate),
-              generateCalendarOtherDay(allDay),
+              generateCalendarEvents(clubEvent, selectedDate, today),
+              generateCalendarOtherDay(
+                allDay.map(item => {
+                  const isFullyBooked = Boolean(
+                    clubEvent.find(el => el.date === item)
+                      ?.club_table_full_book,
+                  );
+                  const isOpen = Boolean(
+                    clubEvent.find(el => el.date === item)
+                      ?.club_operational_day,
+                  );
+                  return {
+                    date: item,
+                    isFullyBooked: isFullyBooked,
+                    isOpen: isOpen,
+                  };
+                }),
+              ),
             )}
             isShowEvents={isShowEvents}
             selectedEvent={selectedEvent}
@@ -512,7 +528,7 @@ function BookingTableScreen({route, navigation}: Props) {
               variant="base"
               label={
                 step > 1 && !!selectedTable && !isShowTable
-                  ? selectedTable?.text
+                  ? selectedTable.text
                   : 'Table'
               }
             />

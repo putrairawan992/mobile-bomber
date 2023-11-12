@@ -5,7 +5,7 @@ import {View, TouchableOpacity, TextStyle} from 'react-native';
 import styles from './Styles';
 import HeaderRight from './Right';
 import HeaderLeft from './Left';
-import {useNavigation} from '@react-navigation/native';
+import {useNavigation, useRoute} from '@react-navigation/native';
 import useTheme from '../../../theme/useTheme';
 import {Gap, Text} from '../../atoms';
 import {Logo, LogoText} from '../../../assets/icons';
@@ -34,6 +34,7 @@ interface HeaderPropsI {
   RightComponent?: JSX.Element;
   CenterComponent?: JSX.Element;
   centerIsTrue: boolean;
+  hasNoPrevRoute?: boolean;
 }
 
 function Header({
@@ -46,6 +47,7 @@ function Header({
   onBackPress,
   onLocationPress,
   centerIsTrue = true,
+  onProfilePress,
   clearText,
   onclearTextPress,
   filterBtn,
@@ -57,9 +59,19 @@ function Header({
   rightCustomComponent,
   onRightCustomComponentPress,
   CenterComponent,
+  hasNoPrevRoute,
 }: HeaderPropsI) {
   const theme = useTheme();
   const navigation = useNavigation();
+  const route = useRoute();
+
+  const handleGoBack = () => {
+    if (!hasNoPrevRoute) {
+      navigation.goBack();
+    } else if (route.name === 'Notification') {
+      navigation.navigate('Main' as never);
+    }
+  };
   return (
     <View>
       <View style={[styles.header, style, transparent && styles.transparent]}>
@@ -69,6 +81,7 @@ function Header({
               style={styles.backBtn}
               onPress={() => {
                 onBackPress ? onBackPress() : navigation.goBack();
+                onBackPress ? onBackPress() : handleGoBack();
               }}>
               <ArrowLeft size={24} color={theme?.colors.ICON} />
             </TouchableOpacity>
