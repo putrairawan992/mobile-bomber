@@ -46,6 +46,7 @@ function Routes() {
         // myapp://details/1 -> DetailsScreen with param id: 1
         Event: 'event',
         Notification: 'notification',
+        MyBookingDetail: 'booking/:bookingId/:clubId/:status',
       },
     },
   };
