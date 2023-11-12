@@ -50,7 +50,7 @@ export default function ScanOnTable({navigation}: Props) {
               marginLeft: 'auto',
               marginRight: 'auto',
               marginBottom: 10,
-              width: 330,
+              width: 315,
               borderWidth: 1,
               borderStyle: 'dashed',
               borderColor: '#484848',
