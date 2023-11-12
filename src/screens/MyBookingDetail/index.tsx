@@ -43,6 +43,8 @@ import {currency} from '../../utils/function';
 import {MyEventService} from '../../service/MyEventService';
 import {BookingDetailInterface} from '../../interfaces/BookingInterface';
 import {ModalToastContext} from '../../context/AppModalToastContext';
+import axios from 'axios';
+import config from '../../config';
 
 type Props = NativeStackScreenProps<
   MainStackParams,
@@ -88,6 +90,7 @@ export default function MyBookingDetail({route, navigation}: Props) {
 
   useEffect(() => {
     fethData();
+    actionSpentOrder();
   }, []);
 
   const onFriendInvited = (data: FriendInterface) => {
@@ -128,6 +131,18 @@ export default function MyBookingDetail({route, navigation}: Props) {
       .catch(err => console.log('err request permission calendar: ', err));
   };
 
+  const actionSpentOrder = async () => {
+    try {
+      const res = await axios.get(
+        `${config.apiService}pos/crud/get_list_table_order/?club_id=${clubId}&booking_id=${bookingId}`,
+      );
+      console.log('actionSpentOrder', res.data?.data);
+      return res.data;
+    } catch {
+      openToast('error', 'Failed get booking detail');
+    }
+  };
+
   const fethData = async () => {
     try {
       setIsLoading(true);
@@ -141,16 +156,8 @@ export default function MyBookingDetail({route, navigation}: Props) {
         MyEventService.getGenerateQrCode({
           club_id: clubId,
         }),
-        // MyEventService.getPostTableDetail({
-        //   club_id: clubId,
-        // }),
       ])
         .then(response => {
-          console.log(
-            'response[1].data.bookingDetail[0]',
-            response[1].data.bookingDetail[0],
-          );
-
           setFriendshipData(response[0].data);
           setBooking(response[1].data.bookingDetail[0]);
           setMemberInvited(response[1].data.memberInvited);
@@ -411,7 +418,9 @@ export default function MyBookingDetail({route, navigation}: Props) {
             <Button
               TextComponent={<DefaultText title="Add new order" />}
               type="primary"
-              onPress={() => navigationRef.navigate('WineryOrder' as never)}
+              onPress={() =>
+                navigation.navigate('WineryOrder', {isNotTable: true})
+              }
               style={styles.button}
             />
           </View>

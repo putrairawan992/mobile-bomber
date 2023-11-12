@@ -21,13 +21,22 @@ import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import dayjs from 'dayjs';
 import {currency} from '../../../../utils/function';
 
+type Product = {
+  chineseProductTitle: string;
+  englishProductTitle: string;
+  imageUrl: string;
+  price: number;
+  productId: string;
+  quantity: number;
+};
+
 interface ModalCartWineryOrder {
   show: boolean;
   hide: () => void;
   onCheckout: () => void;
   handleQuantityChange: any;
-  selectedCart: any;
-  totalPrices:any
+  selectedCart: Product[];
+  totalPrices: any;
 }
 
 export default function ModalCartWineryOrder({
@@ -35,7 +44,7 @@ export default function ModalCartWineryOrder({
   hide,
   onCheckout,
   selectedCart,
-  totalPrices
+  totalPrices,
 }: ModalCartWineryOrder) {
   const [isCustom, setIsCustom] = useState<boolean>(false);
   const [isCustomComplete, setIsCustomComplete] = useState<boolean>(false);
@@ -49,15 +58,25 @@ export default function ModalCartWineryOrder({
   const [showTime, setShowTime] = useState<boolean>(false);
   const [time, setTime] = useState<string>('');
   const [totalPrice, setTotalPrice] = useState<number>(totalPrices);
-  const [getPriceWinny, setGetPriceWinnty] = useState<number>(0);
+  const getPriceWinny = 0;
 
   useEffect(() => {
     setData(selectedCart);
+    console.log(selectedCart);
   }, [selectedCart]);
 
   useEffect(() => {
-    setTotalPrice(totalPrice - getPriceWinny);
-  }, [getPriceWinny, totalPrice]);
+    console.log(data);
+    const res = calculateTotalQuantityAndPrice(data).totalPrice;
+    setTotalPrice(res);
+  }, [data]);
+
+  useEffect(() => {
+    if (totalPrice > 0) {
+      setTotalPrice(totalPrice - getPriceWinny);
+      console.log('Total Price ' + totalPrice);
+    }
+  }, [totalPrice]);
 
   const onPickImage = async () => {
     const result = await launchImageLibrary({mediaType: 'photo'});
@@ -65,9 +84,41 @@ export default function ModalCartWineryOrder({
       setImage(result.assets[0]);
     }
   };
+  const calculateTotalQuantityAndPrice = (
+    products: Product[],
+  ): {totalQuantity: number; totalPrice: number} => {
+    const result = products.reduce(
+      (accumulator, producta) => {
+        accumulator.totalQuantity += producta.quantity;
+        accumulator.totalPrice += producta.price * producta.quantity;
+        return accumulator;
+      },
+      {totalQuantity: 0, totalPrice: 0},
+    );
 
-  const actionAkumulasi = (values: number, price: number) => {
-    setTotalPrice(price * values);
+    return result;
+  };
+  const actionAkumulasi = (ket: string, values: number, item: Product) => {
+    console.log(ket);
+    if (ket === '') {
+      const res = calculateTotalQuantityAndPrice(data).totalPrice;
+      setTotalPrice(res);
+    } else {
+      item.quantity = values;
+      // console.log(calculateTotalQuantityAndPrice(selectedCart))
+      const res = calculateTotalQuantityAndPrice(data).totalPrice;
+      setTotalPrice(res);
+    }
+
+    // if(ket=="plus"){
+    //   setTotalPrice(tempPrice+price * values);
+    // }
+    // else if (ket=="min"){
+    //   setTotalPrice(tempPrice-price * values);
+    // }
+    // else{
+    //   setTotalPrice(tempPrice+price * values);
+    // }
   };
 
   const onConfirmTime = (selectedTime: any) => {
@@ -319,7 +370,6 @@ export default function ModalCartWineryOrder({
                     setData(
                       data.filter((dt: any, index: any) => index !== key),
                     );
-                    setGetPriceWinnty(item?.price);
                   }}
                 />
               );

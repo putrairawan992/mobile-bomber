@@ -78,7 +78,7 @@ export const MyEventService = {
     club_id: string;
   }): Promise<APIResponse<ResponseGetTableInterface>> => {
     const response = await ax.get(
-      `https://s-backend.bomber.app/app/global_api/generate_qrcode_for_menu/${club_id}`,
+      `/global_api/generate_qrcode_for_menu/${club_id}`,
     );
     return response.data;
   },
@@ -114,14 +114,6 @@ export const MyEventService = {
     booking_id: string;
   }): Promise<APIResponse<ResponseBookingDetailInterface>> => {
     const response = await ax.get(`${URL}/get_booking_detail/${booking_id}`);
-    return response.data;
-  },
-  getPostTableDetail: async ({
-    club_id,
-  }: {
-    club_id: string;
-  }): Promise<APIResponse<any>> => {
-    const response = await ax.get(`post/crud/get_booking_detail/${club_id}`);
     return response.data;
   },
 };

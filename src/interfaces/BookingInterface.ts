@@ -111,9 +111,38 @@ export interface BookingDetailInterface extends BookingInterface {
   type: string;
 }
 
+export interface BookingTableData {
+  tableId: string;
+  tableName: string;
+  tablePrice: number;
+  club_id: string;
+  bookingNumber: string;
+  currentSpend: any;
+  coHost: any;
+  bookingCreatedAt: string;
+  customerId: string;
+  customerName: string;
+  customerPhone: string;
+  booking_id: string;
+  tableStatus: string;
+  orders: any;
+}
+
+export interface notBookedTableData {
+  tableId: string;
+  tableName: string;
+  tablePrice: number;
+  tableStatus: string;
+}
+
 export interface ResponseBookingDetailInterface {
   bookingDetail: BookingDetailInterface[];
   memberInvited: FriendInterface[];
+}
+
+export interface ResponseSpentTableInterface {
+  bookedTableData: BookingTableData[];
+  notBookedTableData: notBookedTableData[];
 }
 
 export interface PayloadBookingInvitationInterface {

@@ -182,7 +182,7 @@ function NightlifeScreen({route, navigation}: Props) {
 
   const actionShowPopUpOrders = () => {
     homeSheetOrderRef.current?.close();
-    navigation.navigate('Nightlife', {isOrder: false});
+    // navigation.navigate('Nightlife', {isOrder: false});
   };
 
   const fetchNotification = async () => {

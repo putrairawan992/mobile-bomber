@@ -33,6 +33,7 @@ interface HeaderPropsI {
   hasLogo?: boolean;
   RightComponent?: JSX.Element;
   CenterComponent?: JSX.Element;
+  centerIsTrue: boolean;
 }
 
 function Header({
@@ -44,7 +45,7 @@ function Header({
   title,
   onBackPress,
   onLocationPress,
-  onProfilePress,
+  centerIsTrue = true,
   clearText,
   onclearTextPress,
   filterBtn,
@@ -117,7 +118,7 @@ function Header({
           </UserLeft>
         )} */}
 
-        {title && (
+        {title && centerIsTrue && (
           <Text
             variant="large"
             fontWeight="semi-bold"
@@ -128,6 +129,20 @@ function Header({
                 paddingHorizontal: 10,
                 marginLeft: 'auto',
                 marginRight: 'auto',
+                ...titleStyle,
+              },
+            ]}
+          />
+        )}
+        {title && !centerIsTrue && (
+          <Text
+            variant="large"
+            fontWeight="semi-bold"
+            label={title}
+            style={[
+              {
+                marginLeft: 30,
+                marginTop: -5,
                 ...titleStyle,
               },
             ]}

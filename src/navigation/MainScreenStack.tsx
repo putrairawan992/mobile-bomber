@@ -45,10 +45,12 @@ import GalleryDetail from '../screens/Gallery/GalleryDetail';
 import SearchScreen from '../screens/Search';
 import Settings from '../screens/Profile/Settings';
 import SearchFriends from '../screens/Friends/Search';
+import ScanOnTable from '../screens/ScanOnTable';
 
 export type MainStackParams = {
   ComingSoon: undefined;
   Nightlife?: {isOrder?: boolean};
+  ScanOnTable: undefined;
   Event: undefined;
   Friends: undefined;
   Profile: undefined;
@@ -78,7 +80,7 @@ export type MainStackParams = {
     placeData: PlaceInterface | null;
   };
   Privacy: undefined;
-  WineryOrder: undefined;
+  WineryOrder: {isNotTable?: boolean};
   SongPlaylist: undefined;
   RequestSong: undefined;
   HistoryRequestSong: undefined;
@@ -261,6 +263,7 @@ const MainScreenStack = () => {
         animation: 'slide_from_right',
       }}>
       <Stack.Screen name="OrderQrCode" component={OrderQrCode} />
+      <Stack.Screen name="ScanOnTable" component={ScanOnTable} />
       <Stack.Screen name="PlaceDetailSecond" component={PlaceDetailSecond} />
       <Stack.Screen name="ComingSoon" component={ComingSoon} />
       <Stack.Screen name="Main" component={Main} />
