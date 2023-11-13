@@ -33,7 +33,7 @@ interface HeaderPropsI {
   hasLogo?: boolean;
   RightComponent?: JSX.Element;
   CenterComponent?: JSX.Element;
-  centerIsTrue: boolean;
+  centerIsTrue?: boolean;
   hasNoPrevRoute?: boolean;
 }
 

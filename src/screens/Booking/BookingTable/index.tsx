@@ -61,6 +61,7 @@ import {Map1} from 'iconsax-react-native';
 import {ProfileService} from '../../../service/ProfileService';
 import ModalAddNewCard from '../../../components/molecules/Modal/ModalAddNewCard';
 import {useKeyboardVisible} from '../../../hooks/useKeyboardVisible';
+import {weekday} from '../../../utils/config';
 
 type Props = NativeStackScreenProps<MainStackParams, 'BookingTable', 'MyStack'>;
 
@@ -74,6 +75,10 @@ function BookingTableScreen({route, navigation}: Props) {
   const isKeyboardOpen = useKeyboardVisible();
   const {user} = useAppSelector(state => state.user);
   const placeData = route.params.placeData;
+  const dayOpen = placeData?.operation
+    .filter(el => !el.isClose)
+    .map(item => item.day);
+
   const theme = useTheme();
   const [selectedDate, setSelectedDate] = useState<string>('');
   const [step, setStep] = useState<number>(0);
@@ -316,6 +321,12 @@ function BookingTableScreen({route, navigation}: Props) {
   }, []);
 
   const onSelectDate = (day: string) => {
+    if (!dayOpen?.find(el => el === weekday[new Date(day).getDay()])) {
+      return openToast(
+        'error',
+        'Club is closed on that date, choose another date',
+      );
+    }
     setIsErrorCalendar(false);
     setSelectedDate(day);
     const events =
@@ -338,7 +349,7 @@ function BookingTableScreen({route, navigation}: Props) {
   };
 
   const onTableSelect = () => {
-    if (tableExpand?.isAvailable) {
+    if (!tableExpand?.table_status) {
       setIsWaitingList(false);
       setIsTableLayout(false);
       setSelectedTable(tableExpand);
@@ -431,8 +442,6 @@ function BookingTableScreen({route, navigation}: Props) {
     console.log(isKeyboardOpen);
   }, [isKeyboardOpen]);
 
-  console.log('tableData', tableData);
-
   return (
     // <SafeAreaView style={{flex: 1}}>
     <Layout contentContainerStyle={styles.container} isScrollable={false}>
@@ -469,7 +478,12 @@ function BookingTableScreen({route, navigation}: Props) {
             onSelectDate={onSelectDate}
             data={Object.assign(
               MarkedDate,
-              generateCalendarEvents(clubEvent, selectedDate, today),
+              generateCalendarEvents(
+                clubEvent,
+                selectedDate,
+                today,
+                dayOpen ?? [],
+              ),
               generateCalendarOtherDay(
                 allDay.map(item => {
                   const isFullyBooked = Boolean(
