@@ -3,6 +3,7 @@ import {
   PlaceEventsInterface,
 } from '../interfaces/PlaceInterface';
 import {Colors} from '../theme';
+import {weekday} from './config';
 import {dateFormatter} from './dateFormatter';
 
 export const randomNumber = (digit: any) => {
@@ -19,17 +20,20 @@ export const generateCalendarEvents = (
   arr: PlaceEventsInterface[],
   selectedDate: string,
   today: string,
+  dayOpen: string[],
 ) => {
   return arr
     .map((item: PlaceEventsInterface) => {
       const isPast = new Date(item.date) < new Date();
       const isTodayNoEvent = item.date === today && !item.events.length;
       const selectedNotEvent = selectedDate && !item.events.length;
+      const noEvent = !item.events.length;
+
       return {
         date: item.date,
         style: {
           selected: selectedDate === item.date,
-          marked: isTodayNoEvent || selectedNotEvent ? false : true,
+          marked: isTodayNoEvent || selectedNotEvent || noEvent ? false : true,
           dotColor: '#FFC107',
           customStyles: {
             container: {
@@ -44,7 +48,10 @@ export const generateCalendarEvents = (
             text: {
               color: isTodayNoEvent
                 ? 'white'
-                : isPast
+                : isPast ||
+                  !dayOpen.find(
+                    el => el === weekday[new Date(item.date).getDay()],
+                  )
                 ? Colors['gray-600']
                 : 'white',
               fontWeight: '400',

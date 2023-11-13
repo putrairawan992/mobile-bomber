@@ -42,9 +42,7 @@ function Routes() {
       initialRouteName: 'Main' as const,
       screens: {
         // myapp://home -> HomeScreen
-        Main: 'main',
-        // myapp://details/1 -> DetailsScreen with param id: 1
-        Event: 'event',
+        Redirect: 'redirect/:screen',
         Notification: 'notification',
         MyBookingDetail: 'booking/:bookingId/:clubId/:status',
       },
