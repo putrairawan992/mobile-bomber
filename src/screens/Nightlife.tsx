@@ -79,8 +79,8 @@ function NightlifeScreen({route, navigation}: Props) {
 
   const theme = useTheme();
   const [region, setRegion] = React.useState({
-    latitudeDelta: 0.02,
-    longitudeDelta: 0.02,
+    latitudeDelta: 0.025,
+    longitudeDelta: 0.025,
     latitude: 0.0,
     longitude: 0.0,
   });
@@ -207,7 +207,7 @@ function NightlifeScreen({route, navigation}: Props) {
     if (fcmToken) {
       sendWelcomeNotification();
     }
-  }, [fcmToken, showMap]);
+  }, [fcmToken]);
 
   useFocusEffect(
     React.useCallback(() => {
@@ -257,8 +257,8 @@ function NightlifeScreen({route, navigation}: Props) {
             longitude: currentLocation.longitude,
           });
         setRegion({
-          latitudeDelta: 0.02,
-          longitudeDelta: 0.02,
+          latitudeDelta: 0.025,
+          longitudeDelta: 0.025,
           latitude: currentLocation.latitude,
           longitude: currentLocation.longitude,
         });
@@ -277,13 +277,13 @@ function NightlifeScreen({route, navigation}: Props) {
           });
         // console.log(location)
         setRegion({
-          latitudeDelta: 0.02,
-          longitudeDelta: 0.02,
+          latitudeDelta: 0.025,
+          longitudeDelta: 0.025,
           latitude: currentLocationNow.latitude,
           longitude: currentLocationNow.longitude,
         });
         setUserLocation(location);
-        console.log(location);
+        // console.log(location);
         if (!awal) {
           setCurrentLocationAwal({
             latitude: currentLocationNow.latitude,
@@ -296,7 +296,7 @@ function NightlifeScreen({route, navigation}: Props) {
     fetchData();
     dispatch(getUserProfile());
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentLocation, showMap, currentLocationNow]);
+  }, [currentLocation, currentLocationNow]);
 
   const PLACE_CATEGORY: PlaceCategoryInterface[] = [
     {
@@ -455,8 +455,8 @@ function NightlifeScreen({route, navigation}: Props) {
           <TouchableHighlight
             onPress={() => {
               mapRef.current?.animateToRegion({
-                latitudeDelta: 0.02,
-                longitudeDelta: 0.02,
+                latitudeDelta: 0.025,
+                longitudeDelta: 0.025,
                 latitude: currentLocationAwal.latitude,
                 longitude: currentLocationAwal.longitude,
               });
@@ -573,7 +573,8 @@ function NightlifeScreen({route, navigation}: Props) {
                   setCurrentLocationNow(currentLocationTemp);
                   setShowMap(false);
                   setAwal(false);
-                  openToast('success', 'Update location successfully');
+                  // openToast('success', 'Update location successfully');
+                  homeSheetRef.current?.present();
                 }}
                 title="Next"
                 color="#841584"
