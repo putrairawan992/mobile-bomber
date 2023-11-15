@@ -69,15 +69,18 @@ import {YourScheduleCard} from '../components/organism/Places/YourScheduleCard';
 import {MapsGradient, Position} from '../assets/icons';
 import {gradientMapping} from '../utils/config';
 import {Text as Text2} from '../components/atoms/';
+import {useKeyboardVisible} from '../hooks/useKeyboardVisible';
 type Props = NativeStackScreenProps<MainStackParams, 'Nightlife', 'MyStack'>;
 
 function NightlifeScreen({route, navigation}: Props) {
+  const isKeyboardOpen = useKeyboardVisible();
   const mapRef = React.useRef<MapView>(null);
   const isOrder = route.params?.isOrder;
+
   const theme = useTheme();
   const [region, setRegion] = React.useState({
-    latitudeDelta: 0.025,
-    longitudeDelta: 0.025,
+    latitudeDelta: 0.02,
+    longitudeDelta: 0.02,
     latitude: 0.0,
     longitude: 0.0,
   });
@@ -254,8 +257,8 @@ function NightlifeScreen({route, navigation}: Props) {
             longitude: currentLocation.longitude,
           });
         setRegion({
-          latitudeDelta: 0.025,
-          longitudeDelta: 0.025,
+          latitudeDelta: 0.02,
+          longitudeDelta: 0.02,
           latitude: currentLocation.latitude,
           longitude: currentLocation.longitude,
         });
@@ -274,12 +277,13 @@ function NightlifeScreen({route, navigation}: Props) {
           });
         // console.log(location)
         setRegion({
-          latitudeDelta: 0.025,
-          longitudeDelta: 0.025,
+          latitudeDelta: 0.02,
+          longitudeDelta: 0.02,
           latitude: currentLocationNow.latitude,
           longitude: currentLocationNow.longitude,
         });
         setUserLocation(location);
+        console.log(location);
         if (!awal) {
           setCurrentLocationAwal({
             latitude: currentLocationNow.latitude,
@@ -398,6 +402,22 @@ function NightlifeScreen({route, navigation}: Props) {
     }
   };
 
+  useEffect(() => {
+    if (showMap) {
+      navigation.setOptions({tabBarStyle: {display: 'none'}});
+    } else {
+      navigation.setOptions({
+        tabBarStyle: {
+          height: 80,
+          backgroundColor: theme?.colors.BACKGROUND2,
+          borderTopColor: 'transparent',
+        },
+      });
+    }
+    console.log(showMap);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [route, showMap]);
+
   return (
     <Layout contentContainerStyle={styles.container} isDisableKeyboardAware>
       {showMap ? (
@@ -435,8 +455,8 @@ function NightlifeScreen({route, navigation}: Props) {
           <TouchableHighlight
             onPress={() => {
               mapRef.current?.animateToRegion({
-                latitudeDelta: 0.025,
-                longitudeDelta: 0.025,
+                latitudeDelta: 0.02,
+                longitudeDelta: 0.02,
                 latitude: currentLocationAwal.latitude,
                 longitude: currentLocationAwal.longitude,
               });
@@ -446,7 +466,7 @@ function NightlifeScreen({route, navigation}: Props) {
                 position: 'absolute',
                 backgroundColor: 'black',
                 right: 10,
-                bottom: 180,
+                bottom: 250,
               }}>
               <Svg width={'30'} height={'30'} viewBox="0 0 20 20" fill="none">
                 <Path
@@ -485,7 +505,7 @@ function NightlifeScreen({route, navigation}: Props) {
 
           <SafeAreaView style={styless.footer}>
             <Section
-              padding="0px 16px"
+              padding="15px 16px"
               backgroundColor={theme?.colors.SHEET}
               style={{
                 borderTopWidth: 1,
@@ -685,7 +705,7 @@ function NightlifeScreen({route, navigation}: Props) {
         ref={homeSheetRef}
         index={0}
         enablePanDownToClose
-        snapPoints={['60%']}
+        snapPoints={isKeyboardOpen ? ['90%'] : ['50', '70', '90']}
         backdropComponent={({style}) =>
           sheetIndex >= 0 ? (
             <Pressable
@@ -709,6 +729,7 @@ function NightlifeScreen({route, navigation}: Props) {
           onSelectMap={() => {
             setShowMap(true);
             // SetLagiBukaMap(true)
+
             homeSheetRef.current?.close();
           }}
         />
@@ -763,7 +784,7 @@ const styless = StyleSheet.create({
   markerFixed2: {
     left: '50%',
     marginLeft: -10,
-    marginTop: -173,
+    marginTop: -190,
     position: 'absolute',
     top: '70%',
   },
