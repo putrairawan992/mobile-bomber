@@ -485,11 +485,11 @@ PODS:
   - react-native-mmkv-storage (0.8.0):
     - MMKV (= 1.2.13)
     - React-Core
-  - react-native-pager-view (6.2.1):
+  - react-native-pager-view (6.2.2):
     - React-Core
-  - react-native-safe-area-context (4.7.2):
+  - react-native-safe-area-context (4.7.4):
     - React-Core
-  - react-native-webview (13.6.0):
+  - react-native-webview (13.6.2):
     - React-Core
   - React-perflogger (0.70.6)
   - React-RCTActionSheet (0.70.6):
@@ -559,7 +559,7 @@ PODS:
     - React-perflogger (= 0.70.6)
   - RNCalendarEvents (2.2.0):
     - React
-  - RNCAsyncStorage (1.19.3):
+  - RNCAsyncStorage (1.19.4):
     - React-Core
   - RNCCheckbox (0.5.12):
     - React-Core
@@ -567,7 +567,7 @@ PODS:
     - React-Core
   - RNCMaskedView (0.2.9):
     - React-Core
-  - RNDateTimePicker (7.6.0):
+  - RNDateTimePicker (7.6.1):
     - React-Core
   - RNFBAnalytics (16.5.0):
     - Firebase/Analytics (= 10.3.0)
@@ -587,15 +587,15 @@ PODS:
     - RNFBApp
   - RNGestureHandler (2.9.0):
     - React-Core
-  - RNGoogleSignin (10.0.1):
+  - RNGoogleSignin (10.1.0):
     - GoogleSignIn (~> 7.0)
     - React-Core
-  - RNImageCropPicker (0.40.0):
+  - RNImageCropPicker (0.40.1):
     - React-Core
     - React-RCTImage
-    - RNImageCropPicker/QBImagePickerController (= 0.40.0)
+    - RNImageCropPicker/QBImagePickerController (= 0.40.1)
     - TOCropViewController
-  - RNImageCropPicker/QBImagePickerController (0.40.0):
+  - RNImageCropPicker/QBImagePickerController (0.40.1):
     - React-Core
     - React-RCTImage
     - TOCropViewController
@@ -606,6 +606,9 @@ PODS:
     - React-Core
   - RNPermissions (3.6.1):
     - React-Core
+  - RNQrGenerator (1.3.1):
+    - React
+    - ZXingObjC
   - RNReanimated (2.17.0):
     - DoubleConversion
     - FBLazyVector
@@ -642,11 +645,14 @@ PODS:
   - vision-camera-code-scanner (0.2.0):
     - GoogleMLKit/BarcodeScanning
     - React-Core
-  - VisionCamera (2.16.2):
+  - VisionCamera (2.16.5):
     - React
     - React-callinvoker
     - React-Core
   - Yoga (1.14.0)
+  - ZXingObjC (3.6.9):
+    - ZXingObjC/All (= 3.6.9)
+  - ZXingObjC/All (3.6.9)
 
 DEPENDENCIES:
   - boost (from `../node_modules/react-native/third-party-podspecs/boost.podspec`)
@@ -724,6 +730,7 @@ DEPENDENCIES:
   - RNImageCropPicker (from `../node_modules/react-native-image-crop-picker`)
   - "RNNotifee (from `../node_modules/@notifee/react-native`)"
   - RNPermissions (from `../node_modules/react-native-permissions`)
+  - RNQrGenerator (from `../node_modules/rn-qr-generator`)
   - RNReanimated (from `../node_modules/react-native-reanimated`)
   - RNScreens (from `../node_modules/react-native-screens`)
   - RNSVG (from `../node_modules/react-native-svg`)
@@ -763,6 +770,7 @@ SPEC REPOS:
     - nanopb
     - PromisesObjC
     - TOCropViewController
+    - ZXingObjC
 
 EXTERNAL SOURCES:
   boost:
@@ -900,6 +908,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/@notifee/react-native"
   RNPermissions:
     :path: "../node_modules/react-native-permissions"
+  RNQrGenerator:
+    :path: "../node_modules/rn-qr-generator"
   RNReanimated:
     :path: "../node_modules/react-native-reanimated"
   RNScreens:
@@ -985,9 +995,9 @@ SPEC CHECKSUMS:
   react-native-image-picker: 709d04e7df67bd3a90f376c3eedb2e8b8334dd04
   react-native-maps: f699e0753c22c4d5c3a44d03895b193a4dbca6c2
   react-native-mmkv-storage: 8ba3c0216a6df283ece11205b442a3e435aec4e5
-  react-native-pager-view: d211379f61895b6349bd7e571b44a26d005c2975
-  react-native-safe-area-context: 7aa8e6d9d0f3100a820efb1a98af68aa747f9284
-  react-native-webview: 669ae162965f629a8d6a4bdd3b99a304d36ef1f2
+  react-native-pager-view: 02a5c4962530f7efc10dd51ee9cdabeff5e6c631
+  react-native-safe-area-context: 2cd91d532de12acdb0a9cbc8d43ac72a8e4c897c
+  react-native-webview: 8fc09f66a1a5b16bbe37c3878fda27d5982bb776
   React-perflogger: 8c79399b0500a30ee8152d0f9f11beae7fc36595
   React-RCTActionSheet: 7316773acabb374642b926c19aef1c115df5c466
   React-RCTAnimation: 5341e288375451297057391227f691d9b2326c3d
@@ -1001,27 +1011,29 @@ SPEC CHECKSUMS:
   React-runtimeexecutor: 15437b576139df27635400de0599d9844f1ab817
   ReactCommon: 349be31adeecffc7986a0de875d7fb0dcf4e251c
   RNCalendarEvents: 7e65eb4a94f53c1744d1e275f7fafcfaa619f7a3
-  RNCAsyncStorage: c913ede1fa163a71cea118ed4670bbaaa4b511bb
+  RNCAsyncStorage: 3a8f7145d17cdd9f88e7b77666c94a09e4f759c8
   RNCCheckbox: ed1b4ca295475b41e7251ebae046360a703b6eb5
   RNCClipboard: d77213bfa269013bf4b857b7a9ca37ee062d8ef1
   RNCMaskedView: 949696f25ec596bfc697fc88e6f95cf0c79669b6
-  RNDateTimePicker: ccd988deb223cbb2e669e157ec576c2c6217128c
+  RNDateTimePicker: 8fb39263b721223e095248acaf6f406d5b7f6713
   RNFBAnalytics: ecfc88d832496f624d1bc9c84bc8d23b194994f2
   RNFBApp: 2b3e57f4eecd9cfe8a5dd2ea8ed27a87fbc6eada
   RNFBAuth: 0d480b9223fd9832e8a7ed314fa8c223b7ec8dfd
   RNFBMessaging: 04ecf12bae7543cd8df145f1b26d89d867594be7
   RNGestureHandler: 071d7a9ad81e8b83fe7663b303d132406a7d8f39
-  RNGoogleSignin: ccaa4a81582cf713eea562c5dd9dc1961a715fd0
-  RNImageCropPicker: 486e2f7e2b0461ce24321f751410dce1b3b49e6d
+  RNGoogleSignin: a6a612cce56a45ab701c5c5c6e36f5390522d100
+  RNImageCropPicker: 521d8ef2dcf0549f141dbf82d086c75e3a9fbe65
   RNNotifee: f3c01b391dd8e98e67f539f9a35a9cbcd3bae744
   RNPermissions: dcdb7b99796bbeda6975a6e79ad519c41b251b1c
+  RNQrGenerator: 90461ba3ca88c1d38ef73da50fade35d9648215d
   RNReanimated: bec7736122a268883bdede07f1bf9cf4b40158db
   RNScreens: 218801c16a2782546d30bd2026bb625c0302d70f
   RNSVG: d00c8f91c3cbf6d476451313a18f04d220d4f396
   TOCropViewController: edfd4f25713d56905ad1e0b9f5be3fbe0f59c863
   vision-camera-code-scanner: dda884a7f3ec8243a2a6d6489b91860648371bca
-  VisionCamera: e665d4459abe1f243e95707f651cd1d10346b382
+  VisionCamera: 8b51630ac950b0ddf14cca408ced47e8490894e5
   Yoga: 99caf8d5ab45e9d637ee6e0174ec16fbbb01bcfc
+  ZXingObjC: 8898711ab495761b2dbbdec76d90164a6d7e14c5
 
 PODFILE CHECKSUM: ce976ba90ab5cf0e9403f6229142ca2844ddf5c1
 

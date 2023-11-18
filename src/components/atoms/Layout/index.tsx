@@ -52,6 +52,7 @@ export const Layout = ({
         <View
           style={{
             flex: 1,
+            ...(backgroundColor && {backgroundColor}),
             ...style,
           }}>
           {children as JSX.Element}
