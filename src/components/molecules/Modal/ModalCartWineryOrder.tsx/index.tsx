@@ -60,6 +60,7 @@ export default function ModalCartWineryOrder({
   const [totalPrice, setTotalPrice] = useState<number>(totalPrices);
   const getPriceWinny = 0;
 
+
   useEffect(() => {
     setData(selectedCart);
     console.log(selectedCart);

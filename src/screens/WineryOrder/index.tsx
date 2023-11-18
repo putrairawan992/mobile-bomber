@@ -23,6 +23,7 @@ import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {MainStackParams} from '../../navigation/MainScreenStack';
 
 type Props = NativeStackScreenProps<MainStackParams, 'WineryOrder', 'MyStack'>;
+
 export interface FriendInterface {
   customerId: string;
   fullName: string;
@@ -42,7 +43,9 @@ type Product = {
   quantity: number;
 };
 
+
 export default function WineryOrder({route, navigation}: Props) {
+
   const [menu] = useState<string[]>([
     'Champagne',
     'Gin',
@@ -56,6 +59,7 @@ export default function WineryOrder({route, navigation}: Props) {
   const [showCart, setShowCart] = useState<boolean>(false);
   const [showPay, setShowPay] = useState<boolean>(false);
   const [showNotTablePay, setShowNotTablePay] = useState<boolean>(false);
+
   const [showBillGenerator, setShowBillGenerator] = useState<boolean>(false);
   const [showOrderDetail, setShowOrderDetail] = useState<boolean>(false);
   const [productsLoading, setProductsLoading] = useState<boolean>(true);
@@ -221,6 +225,7 @@ export default function WineryOrder({route, navigation}: Props) {
         onPress={() =>
           isNotTable ? setShowNotTablePay(true) : setShowCart(true)
         }>
+
         <LinearGradient
           className="py-4"
           colors={['#AA5AFA', '#C111D5']}
@@ -267,6 +272,7 @@ export default function WineryOrder({route, navigation}: Props) {
         hide={() => setShowOrderDetail(false)}
       />
 
+
       <ModalNotTableSucces
         show={showNotTablePay}
         hide={() => {
@@ -274,6 +280,7 @@ export default function WineryOrder({route, navigation}: Props) {
           navigation.navigate('Nightlife', {isOrder: false});
         }}
       />
+
     </Layout>
   );
 }
