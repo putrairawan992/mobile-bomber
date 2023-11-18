@@ -46,6 +46,7 @@ import SearchScreen from '../screens/Search';
 import Settings from '../screens/Profile/Settings';
 import SearchFriends from '../screens/Friends/Search';
 import ScanOnTable from '../screens/ScanOnTable';
+import {Redirect} from '../screens/Redirect';
 
 export type MainStackParams = {
   ComingSoon: undefined;
@@ -110,6 +111,9 @@ export type MainStackParams = {
   Search: undefined;
   Settings: undefined;
   SearchFriends: undefined;
+  Redirect: {
+    screen: string;
+  };
 };
 
 interface TabBarContentProps {
@@ -286,7 +290,7 @@ const MainScreenStack = () => {
       <Stack.Screen name="PaymentPage" component={PaymentPage} />
       <Stack.Screen name="Offers" component={Offers} />
       <Stack.Screen name="Privacy" component={PrivacyPage} />
-
+      <Stack.Screen name="Redirect" component={Redirect} />
       <Stack.Screen
         name="Gallery"
         component={GalleryScreen}

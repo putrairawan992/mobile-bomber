@@ -218,7 +218,7 @@ export default function EventScreen({navigation}: Props) {
   });
 
   return (
-    <Layout contentContainerStyle={styles.container}>
+    <Layout contentContainerStyle={styles.container} backgroundColor="#313131">
       <Header
         transparent
         title="My Booking"

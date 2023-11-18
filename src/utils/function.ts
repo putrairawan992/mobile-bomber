@@ -3,7 +3,9 @@ import {
   PlaceEventsInterface,
 } from '../interfaces/PlaceInterface';
 import {Colors} from '../theme';
+import {weekday} from './config';
 import {dateFormatter} from './dateFormatter';
+import RNQRGenerator from 'rn-qr-generator';
 
 export const randomNumber = (digit: any) => {
   if (digit === 1) {
@@ -19,22 +21,29 @@ export const generateCalendarEvents = (
   arr: PlaceEventsInterface[],
   selectedDate: string,
   today: string,
+  dayOpen: string[],
 ) => {
   return arr
     .map((item: PlaceEventsInterface) => {
       const isPast = new Date(item.date) < new Date();
+      const isFullBook =
+        item.club_table_full_book && item.club_operational_day && !isPast;
       const isTodayNoEvent = item.date === today && !item.events.length;
       const selectedNotEvent = selectedDate && !item.events.length;
+      const noEvent = !item.events.length;
+
       return {
         date: item.date,
         style: {
           selected: selectedDate === item.date,
-          marked: isTodayNoEvent || selectedNotEvent ? false : true,
+          marked: isTodayNoEvent || selectedNotEvent || noEvent ? false : true,
           dotColor: '#FFC107',
           customStyles: {
             container: {
               borderRadius: 8,
-              backgroundColor: isTodayNoEvent
+              backgroundColor: isFullBook
+                ? Colors['danger-400']
+                : isTodayNoEvent
                 ? '#2C437B'
                 : selectedDate === item.date
                 ? '#1F5EFF'
@@ -44,7 +53,10 @@ export const generateCalendarEvents = (
             text: {
               color: isTodayNoEvent
                 ? 'white'
-                : isPast
+                : isPast ||
+                  !dayOpen.find(
+                    el => el === weekday[new Date(item.date).getDay()],
+                  )
                 ? Colors['gray-600']
                 : 'white',
               fontWeight: '400',
@@ -127,4 +139,20 @@ export function detectCreditCardType(valNumber: string): string {
     }
   }
   return 'MasterCard';
+}
+
+export async function generateQr(value: string) {
+  return new Promise(resolved => {
+    RNQRGenerator.generate({
+      value: value,
+      height: 300,
+      width: 300,
+      correctionLevel: 'M',
+    })
+      .then(response => {
+        const {uri} = response;
+        resolved(uri);
+      })
+      .catch(error => console.log('Cannot create QR code', error));
+  });
 }

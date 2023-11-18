@@ -68,3 +68,13 @@ export const gradientMapping = {
     color: ['#4E6AFF', '#77BAAD'],
   },
 };
+
+export const weekday = [
+  'Sunday',
+  'Monday',
+  'Tuesday',
+  'Wednesday',
+  'Thursday',
+  'Friday',
+  'Saturday',
+];
