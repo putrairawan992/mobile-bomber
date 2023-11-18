@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-inline-styles */
 import {Image, TouchableOpacity, View, Text} from 'react-native';
 import React from 'react';
 import DefaultText from '../../../atoms/Text/DefaultText';
@@ -60,12 +61,16 @@ function CardBooking({type, data, onSelect, status}: CardBooking) {
     data?.ticketName === 'Hot Ticket'
       ? [bgColorTagOne, bgColorTagTwo, bgColorTagThree]
       : [bgColorTagOne, bgColorTagTwo];
-  console.log('data===>', data);
+
+  const tableName = `Table ${data?.tableName?.replace(
+    `${data.clubName} - `,
+    '',
+  )}`;
 
   return (
     <TouchableOpacity
       activeOpacity={0.7}
-      className="mx-3 p-4 bg-neutral-800 rounded-xl mb-3"
+      className="mx-3 p-3 bg-[#262626] rounded-xl mb-3"
       onPress={() => (data ? onSelect(data) : undefined)}>
       <View className="flex-row justify-between">
         <View className="flex-row">
@@ -141,7 +146,7 @@ function CardBooking({type, data, onSelect, status}: CardBooking) {
             title={`ID : ${data?.bookingNumber}`}
             titleClassName="text-xs text-neutral-400 flex-1"
           />
-          <Gap height={status === 'Walk In Ticket' ? 2.5 : 10} />
+          <Gap height={status === 'Walk In Ticket' ? 2.5 : 4} />
           <DefaultText
             title={`${data?.clubName}`}
             titleClassName="text-base font-inter-semibold"
@@ -160,13 +165,17 @@ function CardBooking({type, data, onSelect, status}: CardBooking) {
             </View>
           ) : (
             status === 'Booking Table' && (
-              <View className="flex-row items-center">
-                <TouchableOpacity className="mt-1 mr-1.5">
-                  <Sofa color={Colors['white-70']} size={20} />
+              <View className="flex-row items-center justify-between mt-1 ">
+                <TouchableOpacity className="mr-1">
+                  <Sofa color={Colors['white-100']} size={20} />
                 </TouchableOpacity>
                 <DefaultText
-                  title={`Table ${data?.tableName.replace('Table', '')}`}
-                  titleClassName="text-xs font-inter-semibold"
+                  title={
+                    tableName.length > 11
+                      ? tableName.substring(0, 10) + '...'
+                      : tableName
+                  }
+                  titleClassName="text-xs font-inter-medium"
                 />
                 <TouchableOpacity
                   className={status === 'Booking Table' ? 'ml-2.5' : 'ml-0'}>
@@ -176,7 +185,7 @@ function CardBooking({type, data, onSelect, status}: CardBooking) {
                   title={`${moment(data?.bookingDate).format(
                     'ddd, DD MMM hh:mm',
                   )}`}
-                  titleClassName="text-xs font-inter-semibold ml-1.5"
+                  titleClassName="text-xs font-inter-medium ml-1"
                 />
               </View>
             )

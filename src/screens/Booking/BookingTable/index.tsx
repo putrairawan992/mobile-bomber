@@ -634,7 +634,7 @@ function BookingTableScreen({route, navigation}: Props) {
       {step === 2 &&
       !!selectedDate &&
       !!selectedTable &&
-      tableExpand?.isAvailable ? (
+      !tableExpand?.table_status ? (
         <Button
           type="primary"
           onPress={() => bookingSheetRef.current?.present()}

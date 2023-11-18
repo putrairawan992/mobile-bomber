@@ -28,7 +28,6 @@ import {
   IcPeopleThree,
   MusicDjImg,
 } from '../../theme/Images';
-import QRCode from 'react-native-qrcode-svg';
 import LinearGradient from 'react-native-linear-gradient';
 import ModalDetailTicket from '../../components/molecules/Modal/ModalDetailTicket';
 import ModalInviteFriends from '../../components/molecules/Modal/ModalInviteFriends';
@@ -39,7 +38,7 @@ import {useAppSelector} from '../../hooks/hooks';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {MainStackParams} from '../../navigation/MainScreenStack';
 import {dateFormatter} from '../../utils/dateFormatter';
-import {currency} from '../../utils/function';
+import {currency, generateQr} from '../../utils/function';
 import {MyEventService} from '../../service/MyEventService';
 import {BookingDetailInterface} from '../../interfaces/BookingInterface';
 import {ModalToastContext} from '../../context/AppModalToastContext';
@@ -62,7 +61,9 @@ export default function MyBookingDetail({route, navigation}: Props) {
   const bookingId = route.params.bookingId;
   const clubId = route.params.club_id;
   const [initialPage, setInitialPage] = useState<number>(0);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [base64Qr, setBase64Qr] = useState<any>();
+  const [uriQr, setUriQr] = useState<null | string>(null);
   const [showDetailTicket, setShowDetailTicket] = useState<boolean>(false);
   const [showInviteFriends, setShowInviteFriends] = useState<boolean>(false);
   const [content2, setContent2] = useState<number>();
@@ -88,10 +89,21 @@ export default function MyBookingDetail({route, navigation}: Props) {
   const {user} = useAppSelector(state => state.user);
   const ref = useRef<ScrollView>(null);
 
+  const onGenerateQr = async () => {
+    const response = await generateQr(`${bookingId},${user.id}`);
+    setUriQr(response as string);
+  };
+
   useEffect(() => {
     fethData();
     actionSpentOrder();
   }, []);
+
+  useEffect(() => {
+    if (booking) {
+      onGenerateQr();
+    }
+  }, [booking]);
 
   const onFriendInvited = (data: FriendInterface) => {
     setShowInviteFriends(false);
@@ -134,7 +146,7 @@ export default function MyBookingDetail({route, navigation}: Props) {
   const actionSpentOrder = async () => {
     try {
       const res = await axios.get(
-        `${config.apiService}pos/crud/get_list_table_order/?club_id=${clubId}&booking_id=${bookingId}`,
+        `${config.apiService}/pos/crud/get_list_table_order/?club_id=${clubId}&booking_id=${bookingId}`,
       );
       console.log('actionSpentOrder', res.data?.data);
       return res.data;
@@ -288,7 +300,10 @@ export default function MyBookingDetail({route, navigation}: Props) {
           </View>
           <Spacer height={10} />
           <View className="items-center bg-black rounded-lg p-2 w-full">
-            <QRCode logo={{uri: base64Qr}} size={300} />
+            {uriQr ? (
+              // eslint-disable-next-line react-native/no-inline-styles
+              <Image source={{uri: uriQr}} style={{width: 300, height: 300}} />
+            ) : null}
           </View>
           <Spacer height={15} />
           <View className="w-[200] h-[5] bg-white rounded-full self-center">

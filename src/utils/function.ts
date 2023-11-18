@@ -5,6 +5,7 @@ import {
 import {Colors} from '../theme';
 import {weekday} from './config';
 import {dateFormatter} from './dateFormatter';
+import RNQRGenerator from 'rn-qr-generator';
 
 export const randomNumber = (digit: any) => {
   if (digit === 1) {
@@ -25,6 +26,8 @@ export const generateCalendarEvents = (
   return arr
     .map((item: PlaceEventsInterface) => {
       const isPast = new Date(item.date) < new Date();
+      const isFullBook =
+        item.club_table_full_book && item.club_operational_day && !isPast;
       const isTodayNoEvent = item.date === today && !item.events.length;
       const selectedNotEvent = selectedDate && !item.events.length;
       const noEvent = !item.events.length;
@@ -38,7 +41,9 @@ export const generateCalendarEvents = (
           customStyles: {
             container: {
               borderRadius: 8,
-              backgroundColor: isTodayNoEvent
+              backgroundColor: isFullBook
+                ? Colors['danger-400']
+                : isTodayNoEvent
                 ? '#2C437B'
                 : selectedDate === item.date
                 ? '#1F5EFF'
@@ -134,4 +139,20 @@ export function detectCreditCardType(valNumber: string): string {
     }
   }
   return 'MasterCard';
+}
+
+export async function generateQr(value: string) {
+  return new Promise(resolved => {
+    RNQRGenerator.generate({
+      value: value,
+      height: 300,
+      width: 300,
+      correctionLevel: 'M',
+    })
+      .then(response => {
+        const {uri} = response;
+        resolved(uri);
+      })
+      .catch(error => console.log('Cannot create QR code', error));
+  });
 }
