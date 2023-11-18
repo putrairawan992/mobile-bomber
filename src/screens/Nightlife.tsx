@@ -6,10 +6,8 @@ import {Circle, Path, Svg} from 'react-native-svg';
 import {
   Image,
   Pressable,
-  ScrollView,
   StyleSheet,
   View,
-  useWindowDimensions,
   Button,
   SafeAreaView,
   TouchableHighlight,
@@ -21,7 +19,6 @@ import {
   Gap,
   Layout,
   Section,
-  Spacer,
   TextInput,
   Loading,
 } from '../components/atoms';
@@ -57,8 +54,9 @@ import {SelectLocationSheet} from '../components/organism/Location/SelectLocatio
 import {getStorage, setStorage} from '../service/mmkvStorage';
 import {ModalToastContext} from '../context/AppModalToastContext';
 import {COORDINATE_DATA} from '../utils/data';
-import {TouchableOpacity} from 'react-native-gesture-handler';
-import Carousel from 'react-native-reanimated-carousel';
+import {ScrollView} from 'react-native-gesture-handler';
+
+import SwiperFlatList from 'react-native-swiper-flatlist';
 import OrderHomeTable from './OrderHomeTable';
 import usePushNotification from '../hooks/usePostNotification';
 import {TryBeverage} from '../components/organism/Places/TryBeverage';
@@ -69,11 +67,14 @@ import {YourScheduleCard} from '../components/organism/Places/YourScheduleCard';
 import {MapsGradient, Position} from '../assets/icons';
 import {gradientMapping} from '../utils/config';
 import {Text as Text2} from '../components/atoms/';
+import {useKeyboardVisible} from '../hooks/useKeyboardVisible';
 type Props = NativeStackScreenProps<MainStackParams, 'Nightlife', 'MyStack'>;
 
 function NightlifeScreen({route, navigation}: Props) {
+  const isKeyboardOpen = useKeyboardVisible();
   const mapRef = React.useRef<MapView>(null);
   const isOrder = route.params?.isOrder;
+
   const theme = useTheme();
   const [region, setRegion] = React.useState({
     latitudeDelta: 0.025,
@@ -84,7 +85,7 @@ function NightlifeScreen({route, navigation}: Props) {
   const {user, userLocation, fcmToken} = useAppSelector(state => state.user);
   const [searchValue, setSearchValue] = React.useState<string>('');
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
-  const [banner, setBanner] = React.useState<string>('');
+  const [banner, setBanner] = React.useState<any>([]);
   const [topFiveNightClub, setTopFiveNightClub] = React.useState<
     PlaceInterface[]
   >([]);
@@ -94,7 +95,6 @@ function NightlifeScreen({route, navigation}: Props) {
     PlaceDetailInterface[]
   >([]);
   const dispatch = useDispatch();
-  const {width} = useWindowDimensions();
   const [sheetOrderIndex, setSheetOrderIndex] = React.useState<number>(-1);
   const [sheetIndex, setSheetIndex] = React.useState<number>(-1);
   const homeSheetOrderRef = React.useRef<BottomSheetModal>(null);
@@ -182,7 +182,7 @@ function NightlifeScreen({route, navigation}: Props) {
 
   const actionShowPopUpOrders = () => {
     homeSheetOrderRef.current?.close();
-    // navigation.navigate('Nightlife', {isOrder: false});
+    navigation.navigate('Nightlife', {isOrder: false});
   };
 
   const fetchNotification = async () => {
@@ -204,7 +204,7 @@ function NightlifeScreen({route, navigation}: Props) {
     if (fcmToken) {
       sendWelcomeNotification();
     }
-  }, [fcmToken, showMap]);
+  }, [fcmToken]);
 
   useFocusEffect(
     React.useCallback(() => {
@@ -219,8 +219,12 @@ function NightlifeScreen({route, navigation}: Props) {
       await Promise.all([
         NightlifeService.getTopFiveNightClub(),
         NightlifeService.getBanner({city_id: 1}),
+        NightlifeService.getBookingReminder({id: user.id}),
+        NightlifeService.getInvitedOrder({id: user.id}),
       ])
         .then(response => {
+          console.log('response[2]', response[2]);
+          console.log('response[3]', response[3]);
           setTopFiveNightClub(
             response[0].data.map((item, idx) => {
               const latitude = COORDINATE_DATA[idx].latitude;
@@ -232,7 +236,9 @@ function NightlifeScreen({route, navigation}: Props) {
               };
             }),
           );
-          setBanner(response[1].data[0].imageUrl);
+          console.log('response[1].data', response[1].data);
+
+          setBanner(response[1].data);
         })
         .catch(error => {
           console.log(error);
@@ -244,6 +250,9 @@ function NightlifeScreen({route, navigation}: Props) {
       console.log(error);
     }
   };
+
+  console.log('banner', banner);
+
   useEffect(() => {
     const fetchUserLocation = async () => {
       // console.log(currentLocationNow)
@@ -280,6 +289,7 @@ function NightlifeScreen({route, navigation}: Props) {
           longitude: currentLocationNow.longitude,
         });
         setUserLocation(location);
+        // console.log(location);
         if (!awal) {
           setCurrentLocationAwal({
             latitude: currentLocationNow.latitude,
@@ -292,7 +302,7 @@ function NightlifeScreen({route, navigation}: Props) {
     fetchData();
     dispatch(getUserProfile());
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentLocation, showMap, currentLocationNow]);
+  }, [currentLocation, currentLocationNow]);
 
   const PLACE_CATEGORY: PlaceCategoryInterface[] = [
     {
@@ -398,6 +408,22 @@ function NightlifeScreen({route, navigation}: Props) {
     }
   };
 
+  useEffect(() => {
+    if (showMap) {
+      navigation.setOptions({tabBarStyle: {display: 'none'}});
+    } else {
+      navigation.setOptions({
+        tabBarStyle: {
+          height: 80,
+          backgroundColor: theme?.colors.BACKGROUND2,
+          borderTopColor: 'transparent',
+        },
+      });
+    }
+    console.log(showMap);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [route, showMap]);
+
   return (
     <Layout contentContainerStyle={styles.container} isDisableKeyboardAware>
       {showMap ? (
@@ -446,7 +472,7 @@ function NightlifeScreen({route, navigation}: Props) {
                 position: 'absolute',
                 backgroundColor: 'black',
                 right: 10,
-                bottom: 180,
+                bottom: 250,
               }}>
               <Svg width={'30'} height={'30'} viewBox="0 0 20 20" fill="none">
                 <Path
@@ -485,7 +511,7 @@ function NightlifeScreen({route, navigation}: Props) {
 
           <SafeAreaView style={styless.footer}>
             <Section
-              padding="0px 16px"
+              padding="15px 16px"
               backgroundColor={theme?.colors.SHEET}
               style={{
                 borderTopWidth: 1,
@@ -526,20 +552,13 @@ function NightlifeScreen({route, navigation}: Props) {
                   <Gap width={12} />
                   <Section style={{flex: 1}}>
                     <Text2
-                      label="Your current location"
+                      label={userLocation.address}
                       fontWeight="bold"
                       color={Colors['white-100']}
                     />
                     <Gap height={4} />
                     <Text2
                       label={`${userLocation.city}, ${userLocation.country}`}
-                      fontWeight="bold"
-                      color={'#D8D8D8'}
-                      variant="small"
-                    />
-                    <Gap height={4} />
-                    <Text2
-                      label={`${userLocation.address}`}
                       fontWeight="bold"
                       color={'#D8D8D8'}
                       variant="small"
@@ -553,7 +572,8 @@ function NightlifeScreen({route, navigation}: Props) {
                   setCurrentLocationNow(currentLocationTemp);
                   setShowMap(false);
                   setAwal(false);
-                  openToast('success', 'Update location successfully');
+                  // openToast('success', 'Update location successfully');
+                  homeSheetRef.current?.present();
                 }}
                 title="Next"
                 color="#841584"
@@ -574,11 +594,7 @@ function NightlifeScreen({route, navigation}: Props) {
 
               setAwal(true);
             }}
-            onNotificationPress={() =>
-              navigation.navigate('Notification', {
-                id: null,
-              })
-            }
+            onNotificationPress={() => navigation.navigate('Notification')}
           />
           {/* </EntryAnimation> */}
           {/* <EntryAnimation index={1}> */}
@@ -595,38 +611,32 @@ function NightlifeScreen({route, navigation}: Props) {
           {/* </EntryAnimation> */}
 
           {/* <EntryAnimation index={2}> */}
-          {isLoading || !banner ? (
-            <CustomShimmer width={WIDTH} height={WIDTH} />
+          {isLoading ? (
+            <CustomShimmer width={WIDTH} height={250} />
           ) : (
-            <Carousel
-              loop={false}
-              width={width}
-              height={width}
-              autoPlay={true}
-              autoPlayInterval={5000}
-              data={[1, 2, 3, 4]}
-              scrollAnimationDuration={100}
-              // eslint-disable-next-line @typescript-eslint/no-unused-vars
-              renderItem={({item}: any) => (
-                <TouchableOpacity
-                  activeOpacity={0.7}
-                  style={{alignSelf: 'center'}}>
-                  <Image
-                    resizeMode="cover"
-                    source={{
-                      uri: banner,
-                    }}
-                    style={{
-                      width: WIDTH,
-                      height: WIDTH,
-                    }}
-                  />
-                </TouchableOpacity>
+            <SwiperFlatList
+              autoplay
+              autoplayDelay={5}
+              style={{width: WIDTH, height: 222}}
+              autoplayLoop
+              showPagination
+              data={banner}
+              renderItem={({item}) => (
+                <Image
+                  resizeMode="stretch"
+                  source={{
+                    uri: item.imageUrl,
+                  }}
+                  style={{
+                    width: WIDTH,
+                    height: '100%',
+                  }}
+                />
               )}
             />
           )}
           {/* </EntryAnimation> */}
-          <Spacer sm />
+          <Gap height={22} />
           <YourScheduleCard
             userLocation={userLocation}
             title="Your schedule"
@@ -635,10 +645,10 @@ function NightlifeScreen({route, navigation}: Props) {
             fullSliderWidth
             onSelect={onPlaceSelect}
           />
-          <Spacer sm />
+          <Gap height={22} />
           {/* <EntryAnimation index={3}> */}
           <PlaceCategory
-            title="Find Best Place"
+            title="Explore nightclub in Taiwan"
             data={PLACE_CATEGORY}
             onSelect={data =>
               navigation.navigate('PlaceByCategory', {category: data})
@@ -650,7 +660,7 @@ function NightlifeScreen({route, navigation}: Props) {
         <EntryAnimation index={4}>
           <UserAchievement data={USER_ACHIEVEMENT} />
         </EntryAnimation> */}
-          <Gap height={32} />
+          <Gap height={22} />
           {topFiveNightClub?.length ? (
             <TopPlaces
               userLocation={userLocation}
@@ -663,7 +673,7 @@ function NightlifeScreen({route, navigation}: Props) {
           ) : (
             <></>
           )}
-          <Gap height={32} />
+          <Gap height={22} />
           <TryBeverage
             userLocation={userLocation}
             title="Must try beverage"
@@ -672,7 +682,7 @@ function NightlifeScreen({route, navigation}: Props) {
             fullSliderWidth
             onSelect={onPlaceSelect}
           />
-          <Gap height={32} />
+          <Gap height={22} />
           <NewestEvent
             userLocation={userLocation}
             title="Newst event"
@@ -681,7 +691,7 @@ function NightlifeScreen({route, navigation}: Props) {
             fullSliderWidth
             onSelect={onPlaceSelect}
           />
-          <Gap height={32} />
+          <Gap height={22} />
         </ScrollView>
       )}
 
@@ -689,7 +699,7 @@ function NightlifeScreen({route, navigation}: Props) {
         ref={homeSheetRef}
         index={0}
         enablePanDownToClose
-        snapPoints={['60%']}
+        snapPoints={isKeyboardOpen ? ['90%'] : ['50', '70', '90']}
         backdropComponent={({style}) =>
           sheetIndex >= 0 ? (
             <Pressable
@@ -713,6 +723,7 @@ function NightlifeScreen({route, navigation}: Props) {
           onSelectMap={() => {
             setShowMap(true);
             // SetLagiBukaMap(true)
+
             homeSheetRef.current?.close();
           }}
         />
@@ -767,7 +778,7 @@ const styless = StyleSheet.create({
   markerFixed2: {
     left: '50%',
     marginLeft: -10,
-    marginTop: -173,
+    marginTop: -190,
     position: 'absolute',
     top: '70%',
   },

@@ -1,7 +1,8 @@
-import {useCallback, useEffect, useState} from 'react';
+import {useCallback, useState} from 'react';
 import Geolocation from 'react-native-geolocation-service';
 import {LocationInterface} from '../interfaces/UserInterface';
 import {usePermission} from './usePermission';
+import {useFocusEffect} from '@react-navigation/native';
 
 export const useCheckLocation = () => {
   const [currentLocation, setCurrentLocation] =
@@ -53,15 +54,13 @@ export const useCheckLocation = () => {
     }
   }, [isFineLocationGranted, setCurrentLocation]);
 
-
-  
-  useEffect(() => {
-    if (currentLocation === null) {
-      getCurrentLocation();
-    }
-  }, [currentLocation, getCurrentLocation]);
-
-  
+  useFocusEffect(
+    useCallback(() => {
+      if (currentLocation === null) {
+        getCurrentLocation();
+      }
+    }, [currentLocation, getCurrentLocation]),
+  );
 
   return {
     getCurrentLocation,

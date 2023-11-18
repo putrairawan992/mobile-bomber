@@ -38,7 +38,6 @@ export function PhoneInput({
   if (errorText) {
     borderColor = Colors['danger-400'];
   }
-  console.log(value);
 
   const inputCustom = (onSearch: any) => (
     <Section
@@ -65,7 +64,6 @@ export function PhoneInput({
           color: theme?.colors.TEXT_PRIMARY,
         }}
         onChangeText={text => {
-          console.log(text);
           onSearch(text);
         }}
       />

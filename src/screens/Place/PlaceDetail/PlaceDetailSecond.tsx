@@ -12,7 +12,7 @@ import {
   Section,
   Text,
 } from '../../../components/atoms';
-import {Image, Pressable, ScrollView, View} from 'react-native';
+import {FlatList, Image, Pressable, ScrollView, View} from 'react-native';
 import {
   PlaceInterface,
   PlaceOverviewFeaturesInterface,
@@ -90,7 +90,10 @@ export const PlaceDetailSecond = ({route, navigation}: Props) => {
               key={1}
               rounded={8}>
               <Section padding="12px 12px">
-                <DefaultText title="Our Facilities" />
+                <DefaultText
+                  title="Our Facilities"
+                  titleClassName="font-inter-bold text-sm"
+                />
                 <Gap height={12} />
                 {!data?.features?.length && (
                   <Text
@@ -128,12 +131,67 @@ export const PlaceDetailSecond = ({route, navigation}: Props) => {
                     );
                   },
                 )}
+                <Section>
+                  <View className="flex-row items-center">
+                    <DefaultText
+                      title="Available offers"
+                      titleClassName="font-inter-bold text-sm text-white-400 flex-1"
+                    />
+                    <DefaultText
+                      title="See all offers"
+                      titleClassName="font-inter-medium text-xs text-whie-400"
+                    />
+                  </View>
+                  <Gap height={12} />
+                  <FlatList
+                    data={[1, 2, 3, 4]}
+                    windowSize={WIDTH}
+                    keyExtractor={(_, key) => key.toString()}
+                    horizontal={true}
+                    showsHorizontalScrollIndicator={false}
+                    renderItem={({}) => (
+                      <Image
+                        resizeMode="contain"
+                        source={placeDetailDummy}
+                        style={{
+                          width: WIDTH / 1.1,
+                          height: 150,
+                          marginLeft: -7,
+                        }}
+                      />
+                    )}
+                    contentContainerStyle={styles.orderContainer}
+                  />
+                  <Gap height={15} />
+                  <DefaultText
+                    title="This month DJ"
+                    titleClassName="font-inter-bold text-sm text-white-400"
+                  />
+                  <Gap height={12} />
+                  <FlatList
+                    data={[1, 2, 3, 4, 5, 6, 7]}
+                    keyExtractor={(_, key) => key.toString()}
+                    horizontal={true}
+                    showsHorizontalScrollIndicator={false}
+                    renderItem={({}) => (
+                      <View className="p-2 flex">
+                        <Image
+                          source={{
+                            uri: 'https://images.unsplash.com/photo-1547425260-76bcadfb4f2c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=870&q=80',
+                          }}
+                          resizeMode="cover"
+                          className="w-[56] h-[56] self-center rounded-full mb-1"
+                        />
+                        <DefaultText
+                          title="DJ Wahyu"
+                          titleClassName="font-inter-medium self-center text-sm text-white-400"
+                        />
+                      </View>
+                    )}
+                    contentContainerStyle={styles.orderContainer}
+                  />
+                </Section>
               </Section>
-
-              <Image
-                source={placeDetailDummy}
-                style={{width: '100%', height: 150}}
-              />
             </Section>
           </EntryAnimation>
         )}
@@ -173,6 +231,7 @@ export const PlaceDetailSecond = ({route, navigation}: Props) => {
         <Gap height={16} />
         {PlaceOverview()}
       </ScrollView>
+
       <Section>
         <View className="flex-row">
           {menu.map((item, index) => {

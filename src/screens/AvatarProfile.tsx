@@ -45,8 +45,6 @@ export const Avatar = (props: AvatarProps) => {
     })
       .then(image => {
         setUri(image.path);
-        console.log(image);
-
         props.onChange?.(image);
       })
       .finally(props.onPickImage());

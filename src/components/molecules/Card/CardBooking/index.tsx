@@ -62,6 +62,7 @@ function CardBooking({type, data, onSelect, status}: CardBooking) {
       ? [bgColorTagOne, bgColorTagTwo, bgColorTagThree]
       : [bgColorTagOne, bgColorTagTwo];
 
+
   const tableName = `Table ${data?.tableName?.replace(
     `${data.clubName} - `,
     '',

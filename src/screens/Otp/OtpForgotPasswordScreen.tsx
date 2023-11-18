@@ -12,6 +12,9 @@ import LoadingDots from '@apolloeagle/loading-dots';
 import useThemedStyles from '../../theme/useThemedStyles';
 import {ThemeInterface} from '../../theme/ThemeProvider';
 import {LogoLabel, ModalToast} from '../../components/molecules';
+import {HEIGHT, WIDTH} from '../../utils/config';
+import {bgOnboarding} from '../../theme/Images';
+import {ImageBackground} from 'react-native';
 
 type Props = NativeStackScreenProps<AuthStackParams, 'OtpForgot', 'MyStack'>;
 
@@ -35,68 +38,75 @@ function OtpForgotPasswordScreen({route, navigation}: Props) {
     }, 1000);
   }, []);
   return (
-    <Layout contentContainerStyle={styles.container}>
-      <View style={styles.signupLoginInputGroup}>
-        <LogoLabel
-          title="Confirm Your Number"
-          subtitle={`Enter the code we sent over SMS to  ${route.params.phone}:`}
-        />
-        {otpInputFill ? (
-          <OtpInputs
-            handleChange={code => {
-              if (optConfirm === code) {
-                setOtpInputFill(false);
-                setTimeout(() => {
-                  setOtpInputFill(true);
-                  navigation.navigate('ResetPassword');
-                }, 3000);
-              } else if (code.length === 6 && optConfirm !== code) {
-                setOtpInputFill(false);
-                setTimeout(() => {
-                  setIsShowToast(true);
-                  setType('error');
-                  setToastMessage('Wrong otp number');
-                  setOtpInputFill(true);
-                  navigation.navigate('OtpForgot', {
-                    phone: route.params.phone,
-                  });
-                }, 3000);
-              }
-            }}
-            numberOfInputs={6}
-            ref={otpRef}
-            style={styles.otpInputContainer}
-            inputStyles={s.otpStyle}
-            autofillFromClipboard={false}
+    <ImageBackground
+      source={bgOnboarding}
+      style={{width: WIDTH, height: HEIGHT}}
+      resizeMode="cover">
+      <Layout
+        contentContainerStyle={styles.container}
+        backgroundColor="transparent">
+        <View style={styles.signupLoginInputGroup}>
+          <LogoLabel
+            title="Confirm Your Number"
+            subtitle={`Enter the code we sent over SMS to  ${route.params.phone}:`}
           />
-        ) : (
-          <View style={styles.loaderContent}>
-            <LoadingDots
-              animation="pulse"
-              dots={4}
-              color={theme?.colors.PRIMARY}
-              size={15}
+          {otpInputFill ? (
+            <OtpInputs
+              handleChange={code => {
+                if (optConfirm === code) {
+                  setOtpInputFill(false);
+                  setTimeout(() => {
+                    setOtpInputFill(true);
+                    navigation.navigate('ResetPassword');
+                  }, 3000);
+                } else if (code.length === 6 && optConfirm !== code) {
+                  setOtpInputFill(false);
+                  setTimeout(() => {
+                    setIsShowToast(true);
+                    setType('error');
+                    setToastMessage('Wrong otp number');
+                    setOtpInputFill(true);
+                    navigation.navigate('OtpForgot', {
+                      phone: route.params.phone,
+                    });
+                  }, 3000);
+                }
+              }}
+              numberOfInputs={6}
+              ref={otpRef}
+              style={styles.otpInputContainer}
+              inputStyles={s.otpStyle}
+              autofillFromClipboard={false}
             />
-          </View>
-        )}
-        <Section isRow>
-          <Text
-            variant="base"
-            label="Didn’t get a code? "
-            color={theme?.colors.TEXT_SECONDARY}
+          ) : (
+            <View style={styles.loaderContent}>
+              <LoadingDots
+                animation="pulse"
+                dots={4}
+                color={theme?.colors.PRIMARY}
+                size={15}
+              />
+            </View>
+          )}
+          <Section isRow>
+            <Text
+              variant="base"
+              label="Didn’t get a code? "
+              color={theme?.colors.TEXT_SECONDARY}
+            />
+            <Text variant="base" label="Resent" color={theme?.colors.PRIMARY} />
+          </Section>
+        </View>
+        <View style={styles.bottomContinueBtn}>
+          <ModalToast
+            isVisible={isShowToast}
+            onCloseModal={() => setIsShowToast(false)}
+            message={toastMessage}
+            type={type}
           />
-          <Text variant="base" label="Resent" color={theme?.colors.PRIMARY} />
-        </Section>
-      </View>
-      <View style={styles.bottomContinueBtn}>
-        <ModalToast
-          isVisible={isShowToast}
-          onCloseModal={() => setIsShowToast(false)}
-          message={toastMessage}
-          type={type}
-        />
-      </View>
-    </Layout>
+        </View>
+      </Layout>
+    </ImageBackground>
   );
 }
 
