@@ -19,7 +19,7 @@ export const LogoLabel = ({title, subtitle, colors}: LogoLabelPropsI) => {
     <Section>
       <Logo size={64} color={theme?.colors.PRIMARY} />
       <Spacer sm />
-      {!colors ? (
+      {colors ? (
         <GradientText colors={['#A060FF', '#C800DD']} style={s.headerText}>
           {title}
         </GradientText>

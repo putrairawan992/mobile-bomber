@@ -60,7 +60,6 @@ function CardBooking({type, data, onSelect, status}: CardBooking) {
     data?.ticketName === 'Hot Ticket'
       ? [bgColorTagOne, bgColorTagTwo, bgColorTagThree]
       : [bgColorTagOne, bgColorTagTwo];
-  console.log('data===>', data);
 
   return (
     <TouchableOpacity

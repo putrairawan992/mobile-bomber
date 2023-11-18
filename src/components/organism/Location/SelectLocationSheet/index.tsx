@@ -54,7 +54,6 @@ export const SelectLocationSheet = ({
       setIsLoading(false);
     }
   };
-  console.log('history', history);
 
   return (
     <Section
@@ -147,7 +146,7 @@ export const SelectLocationSheet = ({
           <Gap width={12} />
           <Section style={{flex: 1}}>
             <Text
-              label="Your current location"
+              label={userLocation.address}
               fontWeight="bold"
               color={Colors['white-100']}
             />

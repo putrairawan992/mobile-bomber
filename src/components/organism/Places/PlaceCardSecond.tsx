@@ -1,6 +1,6 @@
 /* eslint-disable react-native/no-inline-styles */
-import { ArrowDown2, ArrowLeft, Star1 } from 'iconsax-react-native';
-import React, { useEffect, useState } from 'react';
+import {ArrowDown2, ArrowLeft, Star1} from 'iconsax-react-native';
+import React, {useEffect, useState} from 'react';
 import {
   Image,
   Linking,
@@ -9,23 +9,23 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import { useImageAspectRatio } from '../../../hooks/useImageAspectRatio';
+import {useImageAspectRatio} from '../../../hooks/useImageAspectRatio';
 import {
   PlaceInterface,
   PlaceOperationalTimeInterface,
 } from '../../../interfaces/PlaceInterface';
 import useTheme from '../../../theme/useTheme';
-import { Gap, GradientText, Layout, Section, Text } from '../../atoms';
+import {Gap, GradientText, Layout, Section, Text} from '../../atoms';
 import styles from './Style';
-import { Colors } from '../../../theme';
-import { WIDTH } from '../../../utils/config';
+import {Colors} from '../../../theme';
+import {WIDTH} from '../../../utils/config';
 import Carousel from 'react-native-reanimated-carousel';
-import { IcLegal } from '../../../theme/Images';
+import {IcLegal} from '../../../theme/Images';
 import Geolocation from 'react-native-geolocation-service';
-import { currency } from '../../../utils/function';
+import {currency} from '../../../utils/function';
 import HeaderLeft from '../../molecules/Header/Left';
-import { useNavigation } from '@react-navigation/native';
-import { getDayNight } from '../../../utils/dateFormatter';
+import {useNavigation} from '@react-navigation/native';
+import {getDayNight} from '../../../utils/dateFormatter';
 
 const SingsouLocation = {
   latitude: 25.0391667,
@@ -56,7 +56,6 @@ export const PlaceCardSecond = ({
   const [distanceToSingsou, setDistanceToSingsou] = useState<number | null>(
     null,
   );
-  console.log('PlaceCardSecond', data);
 
   useEffect(() => {
     Geolocation.getCurrentPosition(
@@ -72,7 +71,7 @@ export const PlaceCardSecond = ({
       error => {
         console.error(error);
       },
-      { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 },
+      {enableHighAccuracy: true, timeout: 20000, maximumAge: 1000},
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -89,9 +88,9 @@ export const PlaceCardSecond = ({
     const a =
       Math.sin(dLat / 2) * Math.sin(dLat / 2) +
       Math.cos(deg2rad(lat1)) *
-      Math.cos(deg2rad(lat2)) *
-      Math.sin(dLon / 2) *
-      Math.sin(dLon / 2);
+        Math.cos(deg2rad(lat2)) *
+        Math.sin(dLon / 2) *
+        Math.sin(dLon / 2);
     const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
     const distance = R * c;
     return distance;
@@ -142,13 +141,13 @@ export const PlaceCardSecond = ({
     );
   };
 
-  const itemTag: any = [{ name: 'LGBT' }, { name: 'EDM' }, { name: 'Rooftop' }];
+  const itemTag: any = [{name: 'LGBT'}, {name: 'EDM'}, {name: 'Rooftop'}];
   const navigation = useNavigation();
   return (
     <Layout>
       <HeaderLeft>
         <TouchableOpacity
-          style={{ marginTop: 15 }}
+          style={{marginTop: 15}}
           onPress={() => {
             navigation.goBack();
           }}>
@@ -156,7 +155,7 @@ export const PlaceCardSecond = ({
         </TouchableOpacity>
       </HeaderLeft>
       <View className="flex-row items-center">
-        <View style={{ position: 'absolute', bottom: 10, left: 10, zIndex: 10 }}>
+        <View style={{position: 'absolute', bottom: 10, left: 10, zIndex: 10}}>
           <ScrollView horizontal>
             {itemTag.map((cat: any, idx: number) => {
               return (
@@ -175,14 +174,14 @@ export const PlaceCardSecond = ({
           data={data?.photos}
           autoPlayInterval={5000}
           scrollAnimationDuration={100}
-          renderItem={({ item, index }: any) => (
+          renderItem={({item, index}: any) => (
             <TouchableOpacity
               activeOpacity={0.7}
-              style={{ alignSelf: 'center' }}
+              style={{alignSelf: 'center'}}
               onPress={onOpenGallery}>
               <Image
                 resizeMode="cover"
-                source={{ uri: item.url }}
+                source={{uri: item.url}}
                 style={{
                   width: WIDTH,
                   height: WIDTH / 1.5,
@@ -190,7 +189,7 @@ export const PlaceCardSecond = ({
               />
               <Section
                 padding="16px 16px"
-                style={{ position: 'absolute', bottom: -5, right: 0 }}>
+                style={{position: 'absolute', bottom: -5, right: 0}}>
                 <ScrollView horizontal>
                   <View style={styles.piils}>
                     <Text
@@ -208,19 +207,20 @@ export const PlaceCardSecond = ({
       <View className="flex-row">
         {data?.logo && <Gap width={10} />}
         {data?.logo && (
-          <View style={{
-            width: 100,
-            height: 100, 
-            padding: 12,
-            borderColor: '#525252',
-            borderWidth: 1,
-            borderRadius: 4,
-          }}>
+          <View
+            style={{
+              width: 100,
+              height: 100,
+              padding: 12,
+              borderColor: '#525252',
+              borderWidth: 1,
+              borderRadius: 4,
+            }}>
             <Image
-              source={{ uri: data?.logo }}
+              source={{uri: data?.logo}}
               style={{
-                width: "100%",
-                height:"100%"
+                width: '100%',
+                height: '100%',
               }}
               resizeMode="contain"
             />
@@ -228,12 +228,13 @@ export const PlaceCardSecond = ({
         )}
         <Gap width={data?.logo ? 20 : 10} />
         <View className="flex-1">
-          <Section style={{ marginLeft: -1 }} isRow isBetween>
+          <Section style={{marginLeft: -1}} isRow isBetween>
             <TouchableOpacity
               activeOpacity={0.7}
               className="flex-row items-center mb-1.5">
               <GradientText
-                colors={['#C800CC', '#A060FA']}
+                xAxis={1.2}
+                colors={['#A060FA', '#C800CC']}
                 style={{
                   fontSize: 23,
                   fontFamily: 'Inter-SemiBold',
@@ -247,7 +248,7 @@ export const PlaceCardSecond = ({
                 className="w-[20] h-[20]"
               />
             </TouchableOpacity>
-            <Section style={{ marginRight: 20, marginTop: -10 }} isRow>
+            <Section style={{marginRight: 20, marginTop: -10}} isRow>
               {[1].map((star: number) => (
                 <View key={`star_${star}`}>
                   <Star1 size={16} color="#EF9533" variant="Bold" />
@@ -260,7 +261,7 @@ export const PlaceCardSecond = ({
           <Gap height={20} />
           {isPlaceDetail ? (
             <Section isRow>
-              <View style={{ width: data?.logo ? 150 : '50%' }}>
+              <View style={{width: data?.logo ? 150 : '50%'}}>
                 <TouchableOpacity
                   onPress={() => openMapDirection()}
                   activeOpacity={0.7}>
@@ -282,7 +283,7 @@ export const PlaceCardSecond = ({
                 source={{
                   uri: data?.logo ?? 'https://bomber.app/club-logo/wave.png',
                 }}
-                style={{ height: 56, aspectRatio, marginBottom: 50 }}
+                style={{height: 56, aspectRatio, marginBottom: 50}}
               />
 
               <Text label="Featured Today" />

@@ -23,7 +23,6 @@ export const OperationalHoursSheet = ({data}: OperationalHoursSheetProps) => {
       <Section isCenter>
         <Gap height={15} />
         <GradientText
-          xAxis={0.5}
           colors={
             gradientMapping['textPrimary' as keyof typeof gradientMapping].color
           }

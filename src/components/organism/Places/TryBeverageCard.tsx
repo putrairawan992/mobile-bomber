@@ -33,23 +33,23 @@ export const TryBeverageCard = ({
       disabled={isPlaceDetail ? true : false}
       scaleTo={0.97}
       style={{
+        padding: 22,
         backgroundColor: '#262626',
         borderRadius: 8,
         marginLeft: isPlaceDetail || isVertical ? 0 : 20,
         ...(isVertical && {marginBottom: 20}),
       }}>
       <>
-        <Section padding="13px 13px">
+        <Section>
           <Image
             source={{
               uri: item?.coverImage,
             }}
-            style={{height: 222}}
+            style={{height: 222, borderRadius: 8}}
           />
         </Section>
         {!isPlaceDetail && (
           <Section
-            padding="13px 16px"
             style={{
               backgroundColor: theme?.colors.SECTION,
               ...(!isPlaceDetail && {

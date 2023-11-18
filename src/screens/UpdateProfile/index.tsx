@@ -68,7 +68,9 @@ export default function UpdateProfile({route}: Props) {
           username: username,
           photo_url: profileData?.photoUrl,
           bio: about,
-          base64_image: `data:${images.mime};base64,${images?.data}`,
+          base64_image: images?.data
+            ? `data:${images?.mime};base64,${images?.data}`
+            : undefined,
         },
       });
       openToast('success', response.message);

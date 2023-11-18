@@ -93,6 +93,7 @@ export const FriendBottomSheet = ({
           style={{marginLeft: 18}}
         />
       </Section>
+      <Gap height={15} />
       <Section
         style={{
           position: 'absolute',

@@ -157,16 +157,22 @@ function FriendsScreen({navigation}: Props) {
     }, 100);
   };
 
+  console.log(user.id);
+
   const handleAddFriend = async () => {
+    setIsLoading(true);
     try {
       friendSheetRef.current?.close();
-      setIsLoading(true);
       const response = await FriendshipService.postAddFriend({
         payload: {
           customer_id: user.id,
           new_friend_id: selectedUser?.customerId as string,
         },
       });
+
+      fetchData();
+      openToast('success', response.message);
+      setIsLoading(false);
       const fcmTarget = await AuthService.getFcmToken({
         user_id: selectedUser?.customerId as string,
       });
@@ -175,9 +181,6 @@ function FriendsScreen({navigation}: Props) {
         title: 'New Friend Request',
         body: `${user.username} want to add you as friend 🙌🏻🥂`,
       });
-      await fetchData();
-      setIsLoading(false);
-      openToast('success', response.message);
     } catch (error: any) {
       openToast('error', error.response.data?.message);
       setIsLoading(false);
@@ -185,21 +188,27 @@ function FriendsScreen({navigation}: Props) {
   };
 
   const handleRemoveFriendRequest = async (
-    data: RequestFriendNotificationInterface,
+    data: RequestFriendHistoryInterface,
   ) => {
     try {
+      console.log('user_id: user.id', data.invitedId, user.id);
+
       setIsLoading(true);
       const response = await FriendshipService.cancelAcceptFriendRequest({
         user_id: user.id,
-        invited_id: data.senderId,
+        invited_id: data.invitedId,
       });
+      console.log('responsecancel', response);
+
       if (!response.error) {
-        await fetchNotification();
-        await fetchData();
+        fetchNotification();
+        fetchData();
         setIsLoading(false);
         openToast('success', 'You remove the friend request');
       }
     } catch (error: any) {
+      console.log('error.response.data', error.response.data);
+
       setIsLoading(false);
       openToast('error', error.response.data.message);
     }

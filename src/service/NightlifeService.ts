@@ -52,6 +52,14 @@ export const NightlifeService = {
     const response = await ax.get(`event/get_dj_list?club_id=${club_id}`);
     return response.data;
   },
+  getBookingReminder: async ({id}: {id: string}): Promise<APIResponse<any>> => {
+    const response = await ax.get(`${URL}/booking_reminder?customer_id=${id}`);
+    return response.data;
+  },
+  getInvitedOrder: async ({id}: {id: string}): Promise<APIResponse<any>> => {
+    const response = await ax.get(`${URL}/get_invited_order?invited_id=${id}`);
+    return response.data;
+  },
   getPlaceDetail: async ({
     club_id,
   }: {
@@ -120,10 +128,6 @@ export const NightlifeService = {
   },
   getCouponList: async (): Promise<APIResponse<CouponInterface[]>> => {
     const response = await ax.get(`${URL}/get_coupon_list`);
-    return response.data;
-  },
-  getInvitedOrder: async (): Promise<APIResponse<any>> => {
-    const response = await ax.get(`${URL}/get_invited_order`);
     return response.data;
   },
   postWaitingList: async ({

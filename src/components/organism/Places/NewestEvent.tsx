@@ -40,7 +40,7 @@ export const NewestEvent = ({
         color={theme?.colors.PRIMARY}
         label={title}
         fontWeight="bold"
-        style={{marginLeft: 16}}
+        style={{marginLeft: 18}}
       />
       <Spacer sm />
       <Carousel

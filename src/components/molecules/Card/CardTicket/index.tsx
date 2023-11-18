@@ -25,7 +25,6 @@ interface CardTicketProps {
 
 export const CardTicket = ({data, onSelect, index}: CardTicketProps) => {
   const theme = useTheme();
-  console.log('data?.title', data);
 
   return (
     <EntryAnimation index={index}>

@@ -27,6 +27,9 @@ import {setStorage} from '../../service/mmkvStorage';
 import {Colors} from '../../theme';
 import {Edit2} from 'iconsax-react-native';
 import moment from 'moment';
+import {ImageBackground} from 'react-native';
+import {bgOnboarding} from '../../theme/Images';
+import {HEIGHT, WIDTH} from '../../utils/config';
 
 type Props = NativeStackScreenProps<AuthStackParams, 'OtpSignIn', 'MyStack'>;
 
@@ -126,121 +129,129 @@ function OtpSignInNumberScreen({route, navigation}: Props) {
   };
 
   return (
-    <Layout contentContainerStyle={styles.container} isDisableKeyboardAware>
-      <View style={styles.signupLoginInputGroup}>
-        <LogoLabel
-          title="One more steps"
-          subtitle={'Just finish the OTP and you ready to shake the stage'}
-        />
-        <View
-          style={{
-            height: 100,
-          }}>
+    <ImageBackground
+      source={bgOnboarding}
+      style={{width: WIDTH, height: HEIGHT}}
+      resizeMode="cover">
+      <Layout
+        contentContainerStyle={styles.container}
+        backgroundColor="transparent"
+        isDisableKeyboardAware>
+        <View style={styles.signupLoginInputGroup}>
+          <LogoLabel
+            title="One more steps"
+            subtitle={'Just finish the OTP and you ready to shake the stage'}
+          />
+          <View
+            style={{
+              height: 100,
+            }}>
+            <Section isRow>
+              <Text
+                fontWeight="semi-bold"
+                label={'we’ve sent this OTP to '}
+                color={Colors['white-100']}
+              />
+              <Text
+                fontWeight="semi-bold"
+                label={userData.phone}
+                color={Colors['warning-500']}
+              />
+              <Gap width={2} />
+              <TouchableOpacity onPress={() => navigation.goBack()}>
+                <Edit2 size={16} color={Colors['warning-500']} />
+              </TouchableOpacity>
+            </Section>
+            <Gap height={12} />
+            {otpInputFill ? (
+              <OtpInputs
+                handleChange={code => {
+                  if (code.length === 6) {
+                    setIsEnable(true);
+                  } else {
+                    setIsEnable(false);
+                  }
+                  setCodeInput(code);
+                }}
+                numberOfInputs={6}
+                ref={otpRef}
+                style={styles.otpInputContainer}
+                inputStyles={s.otpStyle}
+                inputContainerStyles={{
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                }}
+                autofillFromClipboard={false}
+              />
+            ) : (
+              <View style={styles.loaderContent}>
+                <LoadingDots
+                  animation="pulse"
+                  dots={4}
+                  color={theme?.colors.PRIMARY}
+                  size={15}
+                />
+              </View>
+            )}
+          </View>
+
           <Section isRow>
             <Text
-              fontWeight="semi-bold"
-              label={'we’ve sent this OTP to '}
-              color={Colors['white-100']}
+              variant="base"
+              label="Don’t receive OTP ? "
+              color={theme?.colors.TEXT_SECONDARY}
+              fontWeight="medium"
             />
-            <Text
-              fontWeight="semi-bold"
-              label={userData.phone}
-              color={Colors['warning-500']}
-            />
-            <Gap width={2} />
-            <TouchableOpacity onPress={() => navigation.goBack()}>
-              <Edit2 size={16} color={Colors['warning-500']} />
-            </TouchableOpacity>
-          </Section>
-          <Gap height={12} />
-          {otpInputFill ? (
-            <OtpInputs
-              handleChange={code => {
-                if (code.length === 6) {
-                  setIsEnable(true);
-                } else {
-                  setIsEnable(false);
-                }
-                setCodeInput(code);
-              }}
-              numberOfInputs={6}
-              ref={otpRef}
-              style={styles.otpInputContainer}
-              inputStyles={s.otpStyle}
-              inputContainerStyles={{
-                alignItems: 'center',
-                justifyContent: 'center',
-              }}
-              autofillFromClipboard={false}
-            />
-          ) : (
-            <View style={styles.loaderContent}>
-              <LoadingDots
-                animation="pulse"
-                dots={4}
-                color={theme?.colors.PRIMARY}
-                size={15}
-              />
-            </View>
-          )}
-        </View>
-
-        <Section isRow>
-          <Text
-            variant="base"
-            label="Don’t receive OTP ? "
-            color={theme?.colors.TEXT_SECONDARY}
-            fontWeight="medium"
-          />
-          {waitingTime === 0 ? (
-            <TouchableOpacity onPress={signInWithMobileNumber}>
+            {waitingTime === 0 ? (
+              <TouchableOpacity onPress={signInWithMobileNumber}>
+                <Text
+                  variant="base"
+                  label="Resent"
+                  color={theme?.colors.PRIMARY}
+                />
+              </TouchableOpacity>
+            ) : (
               <Text
                 variant="base"
-                label="Resent"
+                label={moment.utc(waitingTime * 1000).format('mm:ss')}
                 color={theme?.colors.PRIMARY}
               />
-            </TouchableOpacity>
+            )}
+          </Section>
+          <Gap height={56} />
+          {isEnable ? (
+            <Button
+              type="primary"
+              title="Submit"
+              onPress={() => {
+                setOtpInputFill(false);
+                setTimeout(() => {
+                  handleConfirmCode(codeInput);
+                }, 2000);
+              }}
+            />
           ) : (
-            <Text
-              variant="base"
-              label={moment.utc(waitingTime * 1000).format('mm:ss')}
-              color={theme?.colors.PRIMARY}
-            />
+            <TouchableSection
+              padding="12px 20px"
+              backgroundColor="#333"
+              rounded={8}
+              onPress={() => undefined}>
+              <Text
+                label="Submit"
+                color={Colors['black-20']}
+                textAlign="center"
+              />
+            </TouchableSection>
           )}
-        </Section>
-        <Gap height={56} />
-        {isEnable ? (
-          <Button
-            type="primary"
-            title="Submit"
-            onPress={() => {
-              setOtpInputFill(false);
-              setTimeout(() => {
-                handleConfirmCode(codeInput);
-              }, 2000);
-            }}
-          />
-        ) : (
-          <TouchableSection
-            padding="12px 20px"
-            backgroundColor="#333"
-            rounded={8}
-            onPress={() => undefined}>
-            <Text
-              label="Submit"
-              color={Colors['black-20']}
-              textAlign="center"
-            />
-          </TouchableSection>
-        )}
-      </View>
-      <ModalToast
-        isVisible={isShowToast}
-        onCloseModal={() => setIsShowToast(false)}
-        message={toastMessage}
-        type={type}
-      />
-    </Layout>
+        </View>
+        <ModalToast
+          isVisible={isShowToast}
+          onCloseModal={() => setIsShowToast(false)}
+          message={toastMessage}
+          type={type}
+        />
+      </Layout>
+    </ImageBackground>
   );
 }
 

@@ -28,8 +28,8 @@ function HeaderRight({
   const {invitationCount, friendRequestCount} = useAppSelector(
     state => state.notification,
   );
-  const userPosition = userLocation.city
-    ? userLocation.city + ', ' + userLocation.country
+  const userPosition = userLocation?.city
+    ? userLocation.city + ', ' + userLocation?.country
     : 'unknown';
 
   const totalNotif = invitationCount + friendRequestCount;
