@@ -48,6 +48,7 @@ type Props = NativeStackScreenProps<
 
 export const BookingWalkInScreen = ({route, navigation}: Props) => {
   const theme = useTheme();
+  const placeData = route.params.placeData;
   const [selectedDate, setSelectedDate] = useState<string>('');
   const [selectedEvent, setSelectedEvent] = useState<EventInterface[]>([]);
   const [isShowCalendar, setIsShowCalendar] = useState<boolean>(false);
@@ -60,6 +61,9 @@ export const BookingWalkInScreen = ({route, navigation}: Props) => {
   const [clubEvent, setClubEvent] = useState<PlaceEventsInterface[]>([]);
   const [allDay, setAllDay] = useState<string[]>([]);
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
+  const dayOpen = placeData?.operation
+    .filter(el => !el.isClose)
+    .map(item => item.day);
 
   const fetchData = async () => {
     try {
@@ -224,8 +228,30 @@ export const BookingWalkInScreen = ({route, navigation}: Props) => {
             onSelectDate={onSelectDate}
             data={Object.assign(
               MarkedDate,
-              generateCalendarEvents(clubEvent, selectedDate),
-              generateCalendarOtherDay(allDay),
+              generateCalendarEvents(
+                clubEvent,
+                selectedDate,
+                today,
+                dayOpen ?? [],
+                false,
+              ),
+              generateCalendarOtherDay(
+                allDay.map(item => {
+                  const isFullyBooked = Boolean(
+                    clubEvent.find(el => el.date === item)
+                      ?.club_table_full_book,
+                  );
+                  const isOpen = Boolean(
+                    clubEvent.find(el => el.date === item)
+                      ?.club_operational_day,
+                  );
+                  return {
+                    date: item,
+                    isFullyBooked: isFullyBooked,
+                    isOpen: isOpen,
+                  };
+                }),
+              ),
             )}
             isShowEvents={isShowEvents}
             selectedEvent={selectedEvent}

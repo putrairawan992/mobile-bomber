@@ -52,7 +52,9 @@ export type MainStackParams = {
   ComingSoon: undefined;
   Nightlife?: {isOrder?: boolean};
   ScanOnTable: undefined;
-  Event: undefined;
+  Event: {
+    isRefetch?: boolean;
+  };
   Friends: undefined;
   Profile: undefined;
   Order: undefined;

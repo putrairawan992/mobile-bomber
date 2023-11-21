@@ -62,7 +62,6 @@ function CardBooking({type, data, onSelect, status}: CardBooking) {
       ? [bgColorTagOne, bgColorTagTwo, bgColorTagThree]
       : [bgColorTagOne, bgColorTagTwo];
 
-
   const tableName = `Table ${data?.tableName?.replace(
     `${data.clubName} - `,
     '',
@@ -92,12 +91,15 @@ function CardBooking({type, data, onSelect, status}: CardBooking) {
                 <View
                   className="mt-1 p-1"
                   style={{
-                    backgroundColor: bgColorTagOne,
+                    backgroundColor:
+                      data?.flag === 'is_invited'
+                        ? Colors['danger-400']
+                        : bgColorTagOne,
                     borderRadius: 4,
                     width: tagTwo?.length > 0 ? undefined : 100,
                   }}>
                   <Text className="text-xs font-inter-semibold text-white text-center">
-                    {tagOne}
+                    {data?.flag === 'is_invited' ? 'Invitation' : tagOne}
                   </Text>
                 </View>
                 {tagTwo?.length > 0 && (

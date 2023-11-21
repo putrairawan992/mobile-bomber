@@ -22,12 +22,16 @@ export const generateCalendarEvents = (
   selectedDate: string,
   today: string,
   dayOpen: string[],
+  isTable: boolean,
 ) => {
   return arr
     .map((item: PlaceEventsInterface) => {
       const isPast = new Date(item.date) < new Date();
       const isFullBook =
-        item.club_table_full_book && item.club_operational_day && !isPast;
+        isTable &&
+        item.club_table_full_book &&
+        item.club_operational_day &&
+        !isPast;
       const isTodayNoEvent = item.date === today && !item.events.length;
       const selectedNotEvent = selectedDate && !item.events.length;
       const noEvent = !item.events.length;

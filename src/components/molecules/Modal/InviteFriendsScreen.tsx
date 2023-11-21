@@ -44,6 +44,8 @@ interface InviteFriendsScreenProps {
   setSelectedInvitation?: any;
   isLoading: boolean;
   memberInvited: FriendInterface[];
+  onRefetch: () => void;
+  isHost: boolean;
 }
 
 export default function InviteFriendsScreen({
@@ -57,6 +59,8 @@ export default function InviteFriendsScreen({
   setSelectedInvitation,
   isLoading,
   memberInvited,
+  onRefetch,
+  isHost,
 }: InviteFriendsScreenProps) {
   const theme = useTheme();
   const [showInvitation, setShowInvitation] = useState<boolean>(false);
@@ -143,6 +147,7 @@ export default function InviteFriendsScreen({
               setIsShowSendInvitation(true);
             }}
             onHide={hide}
+            isHost={isHost}
           />
         </>
       </Section>
@@ -161,7 +166,7 @@ export default function InviteFriendsScreen({
         memberInvited={selectedFriend}
         onConfirm={() => {
           setIsShowSendInvitation(false);
-          hide();
+          onRefetch();
         }}
       />
     </Modal>

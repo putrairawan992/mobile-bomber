@@ -45,6 +45,8 @@ import {Add} from 'iconsax-react-native';
 import {Colors} from '../../theme';
 import InviteFriendsScreen from '../../components/molecules/Modal/InviteFriendsScreen';
 import {UserGroup} from '../../assets/icons';
+import {NotificationService} from '../../service/NotificationService';
+import {useDispatch} from 'react-redux';
 
 type Props = NativeStackScreenProps<
   MainStackParams,
@@ -61,6 +63,7 @@ export default function MyBookingDetail({route, navigation}: Props) {
   ]);
   const bookingId = route.params.bookingId;
   const clubId = route.params.club_id;
+  const dispatch = useDispatch();
   const [initialPage, setInitialPage] = useState<number>(0);
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [base64Qr, setBase64Qr] = useState<any>();
@@ -90,6 +93,12 @@ export default function MyBookingDetail({route, navigation}: Props) {
   } = useContext(ModalToastContext);
 
   const {user} = useAppSelector(state => state.user);
+  const {invitation} = useAppSelector(state => state.notification);
+  const memberStatus =
+    booking?.hostId === user.id
+      ? undefined
+      : memberInvited.find(el => el.customerId === user.id)?.status;
+
   const ref = useRef<ScrollView>(null);
 
   const onGenerateQr = async () => {
@@ -214,6 +223,38 @@ export default function MyBookingDetail({route, navigation}: Props) {
     setType(toastType);
     setToastMessage(message);
   };
+
+  const handleActionInvitation = async (action: string) => {
+    try {
+      setIsLoading(true);
+      const response = await NotificationService.putActionInvitation(
+        {
+          id:
+            invitation.find(item => item.bookingId === booking?.bookingId)
+              ?.id ?? '',
+          new_status: action,
+        },
+        dispatch,
+      );
+      setIsLoading(false);
+      if (!response.error) {
+        setTimeout(() => {
+          openToast('success', `You ${action} this invitation`);
+        }, 100);
+        return navigation.navigate('Event', {
+          isRefetch: true,
+        });
+      } else {
+        setTimeout(() => {
+          openToast('error', response.message);
+        }, 100);
+      }
+    } catch (error: any) {
+      setIsLoading(false);
+      openToast('error', error.response.data.message);
+    }
+  };
+
   return (
     <Layout contentContainerStyle={styles.parent}>
       <Header transparent title="Booking Detail" hasBackBtn />
@@ -276,11 +317,18 @@ export default function MyBookingDetail({route, navigation}: Props) {
                 />
               </View>
               <Gap width={8} />
-              <Text
-                variant="base"
-                fontWeight="semi-bold"
-                label={booking?.clubName}
-              />
+              <Section>
+                <Text
+                  variant="base"
+                  fontWeight="semi-bold"
+                  label={booking?.clubName}
+                />
+                <Text
+                  variant="small"
+                  fontWeight="semi-bold"
+                  label={'St. Gong Chan 52 Block C3'}
+                />
+              </Section>
             </Section>
             <Spacer className="flex-1" />
             <Section padding="4px 8px" rounded={4} backgroundColor="#06B971">
@@ -434,55 +482,71 @@ export default function MyBookingDetail({route, navigation}: Props) {
           </View>
         </View>
 
-        <View className="bg-neutral-800 p-4 rounded-lg">
-          <DefaultText
-            title="Friends"
-            titleClassName="text-base font-inter-semibold"
-          />
-          <Spacer height={10} />
-          {memberInvited.length > 0 ? (
-            <TouchableOpacity
-              activeOpacity={0.7}
-              className="flex-row items-center my-1">
-              {memberInvited.map((el, idx) => (
-                <EntryAnimation index={idx} key={`invited_${idx}`}>
-                  <Image
-                    source={{
-                      uri: el.photoUrl,
-                    }}
-                    resizeMode="cover"
-                    className={`w-[40] h-[40] rounded-full ${
-                      idx > 0 ? 'right-5' : ''
-                    }`}
-                  />
-                </EntryAnimation>
-              ))}
-              <Gap width={10} />
-              <Text
-                label={`${memberInvited[0].fullName} and ${
-                  memberInvited.length - 1
-                } other`}
-                style={{right: 16}}
-              />
-            </TouchableOpacity>
-          ) : (
+        {memberStatus === 'approved' ? null : booking?.hostId === user.id ? (
+          <View className="bg-neutral-800 p-4 rounded-lg">
             <DefaultText
-              title="Oops you will go alone, invite them and shake the party"
-              titleClassName="text-center font-inter-medium text-neutral-400"
+              title="Friends"
+              titleClassName="text-base font-inter-semibold"
             />
-          )}
-          <Spacer height={15} />
-          <Button
-            TextComponent={
+            <Spacer height={10} />
+            {memberInvited.length > 0 ? (
+              <TouchableOpacity
+                activeOpacity={0.7}
+                className="flex-row items-center my-1">
+                {memberInvited.map((el, idx) => (
+                  <EntryAnimation index={idx} key={`invited_${idx}`}>
+                    <Image
+                      source={{
+                        uri: el.photoUrl,
+                      }}
+                      resizeMode="cover"
+                      className={`w-[40] h-[40] rounded-full ${
+                        idx > 0 ? 'right-5' : ''
+                      }`}
+                    />
+                  </EntryAnimation>
+                ))}
+                <Gap width={10} />
+                <Text
+                  label={`${memberInvited[0].fullName} and ${
+                    memberInvited.length - 1
+                  } other`}
+                  style={{right: 16}}
+                />
+              </TouchableOpacity>
+            ) : (
               <DefaultText
-                title={'Invite Friend'}
-                titleClassName="font-inter-bold"
+                title="Oops you will go alone, invite them and shake the party"
+                titleClassName="text-center font-inter-medium text-neutral-400"
               />
-            }
-            type="primary"
-            onPress={() => setShowInviteFriends(true)}
-          />
-        </View>
+            )}
+            <Spacer height={15} />
+            <Button
+              TextComponent={
+                <DefaultText
+                  title={'Invite Friend'}
+                  titleClassName="font-inter-bold"
+                />
+              }
+              type="primary"
+              onPress={() => setShowInviteFriends(true)}
+            />
+          </View>
+        ) : (
+          <Section padding="16px 0px">
+            <Button
+              type="primary"
+              onPress={() => handleActionInvitation('approved')}
+              title="Accept this invitation"
+            />
+            <Gap height={8} />
+            <Button
+              type="textButton"
+              onPress={() => handleActionInvitation('rejected')}
+              title="Reject"
+            />
+          </Section>
+        )}
 
         <ModalDetailTicket
           booking={booking}
@@ -502,6 +566,11 @@ export default function MyBookingDetail({route, navigation}: Props) {
           hide={() => setShowInviteFriends(false)}
           onFriendInvited={data => (data ? onFriendInvited(data) : undefined)}
           memberInvited={memberInvited}
+          onRefetch={() => {
+            setShowInviteFriends(false);
+            fethData();
+          }}
+          isHost={booking?.hostId === user.id}
         />
 
         <ModalToast
