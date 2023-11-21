@@ -484,6 +484,7 @@ function BookingTableScreen({route, navigation}: Props) {
                 selectedDate,
                 today,
                 dayOpen ?? [],
+                true,
               ),
               generateCalendarOtherDay(
                 allDay.map(item => {

@@ -223,8 +223,6 @@ function NightlifeScreen({route, navigation}: Props) {
         NightlifeService.getInvitedOrder({id: user.id}),
       ])
         .then(response => {
-          console.log('response[2]', response[2]);
-          console.log('response[3]', response[3]);
           setTopFiveNightClub(
             response[0].data.map((item, idx) => {
               const latitude = COORDINATE_DATA[idx].latitude;
@@ -236,7 +234,6 @@ function NightlifeScreen({route, navigation}: Props) {
               };
             }),
           );
-          console.log('response[1].data', response[1].data);
 
           setBanner(response[1].data);
         })
@@ -250,8 +247,6 @@ function NightlifeScreen({route, navigation}: Props) {
       console.log(error);
     }
   };
-
-  console.log('banner', banner);
 
   useEffect(() => {
     const fetchUserLocation = async () => {
@@ -336,8 +331,6 @@ function NightlifeScreen({route, navigation}: Props) {
     const historyData = await getStorage('historySearchLocation');
     const parseHistoryData = JSON.parse(historyData as string);
     if (parseHistoryData.length) {
-      console.log('parseHistoryData', parseHistoryData);
-
       setHistorySearchPlace(parseHistoryData);
     }
   };
@@ -366,9 +359,6 @@ function NightlifeScreen({route, navigation}: Props) {
       latitude: data.location.latitude,
       longitude: data.location.longitude,
     });
-    // console.log(currentLocationNow)
-    // setCurrentLocation({ latitude: data.location.latitude, longitude: data.location.longitude },)
-    // console.log(data.location)
     setShowMap(false);
     setAwal(false);
     fetchHistorySearchLocation();

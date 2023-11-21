@@ -12,7 +12,9 @@ export const Redirect = ({route, navigation}: Props) => {
   useFocusEffect(
     React.useCallback(() => {
       if (route.params.screen === 'booking') {
-        navigation.navigate('Event');
+        navigation.navigate('Event', {
+          isRefetch: false,
+        });
       }
     }, [navigation, route.params]),
   );

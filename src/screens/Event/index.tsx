@@ -23,10 +23,11 @@ import {useAppSelector} from '../../hooks/hooks';
 import {useFocusEffect} from '@react-navigation/native';
 import {TabView, SceneMap} from 'react-native-tab-view';
 import {WINDOW_WIDTH} from '@gorhom/bottom-sheet';
+import Request from './Request';
 
 type Props = NativeStackScreenProps<MainStackParams, 'Event', 'MyStack'>;
 
-export default function EventScreen({navigation}: Props) {
+export default function EventScreen({route, navigation}: Props) {
   const {user} = useAppSelector(state => state.user);
   const [menu] = useState<string[]>([
     'Booking Table',
@@ -38,6 +39,7 @@ export default function EventScreen({navigation}: Props) {
     'Unpaid',
     'Finished',
     'Canceled',
+    'Request',
     // 'Group Walk in',
     // 'Auction',
   ]);
@@ -62,9 +64,9 @@ export default function EventScreen({navigation}: Props) {
       if (index === 2) {
         statuss = 'DirectOrder';
       }
-      !!user && fetchData(statuss);
+      (!!user || route.params.isRefetch) && fetchData(statuss);
       // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [navigation, activeTheme, index]),
+    }, [navigation, activeTheme, index, route.params]),
   );
 
   const fetchData = async (statuss: string) => {
@@ -162,6 +164,15 @@ export default function EventScreen({navigation}: Props) {
           {activeTheme === 'Finished' && (
             <Finished
               activeTheme={activeTheme}
+              dataEvents={dataEvents}
+              onSelect={handleBookingSelect}
+            />
+          )}
+        </View>
+        <View key="5">
+          {activeTheme === 'Request' && (
+            <Request
+              status={status}
               dataEvents={dataEvents}
               onSelect={handleBookingSelect}
             />

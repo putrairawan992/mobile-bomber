@@ -38,7 +38,7 @@ export interface PartyInterface {
 }
 
 export interface PayloadGetWalkInTicketInterface {
-  club_id: number;
+  club_id: string;
   date: string;
 }
 
@@ -70,6 +70,7 @@ export interface PayloadPostBookingWalkInInterface {
   payment_method: string;
   member_invited: string[];
   ticket_id: string;
+  card_number?: string | null;
 }
 
 export interface PayloadWaitingListInterface {
@@ -98,6 +99,7 @@ export interface BookingInterface {
   clubImg: string;
   couponUsed: number;
   clubLogo: string;
+  flag: string;
 }
 
 export interface MemberInvitedInterface {

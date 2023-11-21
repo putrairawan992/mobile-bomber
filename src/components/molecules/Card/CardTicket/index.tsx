@@ -6,7 +6,7 @@ import {King} from '../../../../assets/icons';
 import {TicketInterface} from '../../../../interfaces/BookingInterface';
 import {Colors} from '../../../../theme';
 import useTheme from '../../../../theme/useTheme';
-import {gradientMapping, WIDTH} from '../../../../utils/config';
+import {gradientColor, WIDTH} from '../../../../utils/config';
 import {
   EntryAnimation,
   Gap,
@@ -33,12 +33,7 @@ export const CardTicket = ({data, onSelect, index}: CardTicketProps) => {
         scaleTo={0.97}
         onPress={() => onSelect(data?.walkInTicketId)}>
         <LinearGradient
-          colors={
-            data?.title === null
-              ? ['#A060FA', '#C800CC']
-              : gradientMapping[data?.title as keyof typeof gradientMapping]
-                  ?.color
-          }
+          colors={gradientColor[index]}
           start={{x: 0.0, y: 1.0}}
           end={{x: 1.0, y: 1.0}}
           style={{
@@ -60,13 +55,7 @@ export const CardTicket = ({data, onSelect, index}: CardTicketProps) => {
             <Section isRow isBetween>
               <GradientText
                 xAxis={1}
-                colors={
-                  data?.title === null
-                    ? ['#A060FA', '#C800CC']
-                    : gradientMapping[
-                        data?.title as keyof typeof gradientMapping
-                      ]?.color
-                }
+                colors={gradientColor[index]}
                 style={{
                   fontSize: 18,
                   fontFamily: 'Inter-Bold',
@@ -77,13 +66,7 @@ export const CardTicket = ({data, onSelect, index}: CardTicketProps) => {
               <Section padding="4px 8px" backgroundColor="#292929" rounded={4}>
                 <GradientText
                   xAxis={1.0}
-                  colors={
-                    data?.title === null
-                      ? ['#A060FA', '#C800CC']
-                      : gradientMapping[
-                          data?.title as keyof typeof gradientMapping
-                        ]?.color
-                  }
+                  colors={gradientColor[index]}
                   style={{
                     fontSize: 14,
                     fontFamily: 'Inter-Bold',

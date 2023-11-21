@@ -101,6 +101,7 @@ export const PlaceDetailSecond = ({route, navigation}: Props) => {
                     label="There are no facilities"
                   />
                 )}
+                <Gap height={12} />
                 {data?.features.map(
                   (item: PlaceOverviewFeaturesInterface, idx: number) => {
                     return (
