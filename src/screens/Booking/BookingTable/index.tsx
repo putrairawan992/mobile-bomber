@@ -413,6 +413,7 @@ function BookingTableScreen({route, navigation}: Props) {
           is_full_payment: isPayFull ? 1 : 0,
           coupon_used: coupons?.length,
           source: 'table booking apps',
+          card_number: selectedPayment?.cardNumber ?? null,
         },
       });
       if (coupons?.length) {
