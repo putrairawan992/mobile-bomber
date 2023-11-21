@@ -71,6 +71,7 @@ export interface PayloadPostBookingWalkInInterface {
   member_invited: string[];
   ticket_id: string;
   card_number?: string | null;
+  source: string;
 }
 
 export interface PayloadWaitingListInterface {

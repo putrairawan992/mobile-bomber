@@ -208,6 +208,7 @@ export const WalkInTicketScreen = ({route, navigation}: Props) => {
           bought_date: dateFormatter(new Date(), 'yyyy-MM-dd'),
           ticket_id: selectedTicket?.walkInTicketId as string,
           card_number: selectedPayment?.cardNumber,
+          source: 'walkin booking apps',
         },
       });
 
