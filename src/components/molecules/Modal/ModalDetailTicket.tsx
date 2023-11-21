@@ -4,13 +4,21 @@ import Modal from 'react-native-modal';
 import DefaultText from '../../atoms/Text/DefaultText';
 import {GradientText, Spacer} from '../../atoms';
 import {currency} from '../../../utils/function';
+import {BookingDetailInterface} from '../../../interfaces/BookingInterface';
 
 interface ModalDetailTicket {
+  booking: BookingDetailInterface | null;
+  memberLength: number;
   show: boolean;
   hide: () => void;
 }
 
-export default function ModalDetailTicket({show, hide}: ModalDetailTicket) {
+export default function ModalDetailTicket({
+  show,
+  hide,
+  booking,
+  memberLength,
+}: ModalDetailTicket) {
   return (
     <Modal
       className="m-0 p-0"
@@ -34,7 +42,10 @@ export default function ModalDetailTicket({show, hide}: ModalDetailTicket) {
             <View className="flex-1">
               <DefaultText title="Table" titleClassName="font-inter-medium" />
               <DefaultText
-                title="Table code: X3"
+                title={`Table code: ${booking?.tableName?.replace(
+                  booking?.clubName + ' - ',
+                  '',
+                )}`}
                 titleClassName="text-xs font-inter-medium text-neutral-400"
               />
             </View>
@@ -45,7 +56,7 @@ export default function ModalDetailTicket({show, hide}: ModalDetailTicket) {
             <View className="flex-1">
               <DefaultText title="Guest" titleClassName="font-inter-medium" />
               <DefaultText
-                title="10"
+                title={memberLength.toString()}
                 titleClassName="text-xs font-inter-medium text-neutral-400"
               />
             </View>
@@ -81,7 +92,7 @@ export default function ModalDetailTicket({show, hide}: ModalDetailTicket) {
               <DefaultText title="TOTAL" titleClassName="font-inter-bold" />
             </View>
             <DefaultText
-              title={currency(81500)}
+              title={currency(booking?.paidTotal)}
               titleClassName="font-inter-bold"
             />
           </View>

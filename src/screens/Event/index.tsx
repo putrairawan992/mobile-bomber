@@ -1,7 +1,6 @@
 /* eslint-disable react-native/no-inline-styles */
 import React, {useState} from 'react';
-import {Layout, Spacer} from '../../components/atoms';
-import {Header} from '../../components/molecules';
+import {Gap, Layout, Spacer, Text} from '../../components/atoms';
 import styles from '../Styles';
 import {
   ActivityIndicator,
@@ -219,10 +218,12 @@ export default function EventScreen({navigation}: Props) {
 
   return (
     <Layout contentContainerStyle={styles.container} backgroundColor="#313131">
-      <Header
-        transparent
-        title="My Booking"
-        titleStyle={styles.eventHeaderTitle}
+      <Gap height={16} />
+      <Text
+        variant="base"
+        fontWeight="bold"
+        label="My Booking"
+        textAlign="center"
       />
       <Spacer height={10} />
       <TabView

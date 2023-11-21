@@ -1,5 +1,4 @@
 import React from 'react';
-import {FriendInterface} from './UserInterface';
 
 export interface TableInterface {
   tableId: string;
@@ -57,6 +56,7 @@ export interface PayloadPostBookingTableInterface {
   is_full_payment: number;
   coupon_used: number;
   source: string;
+  card_number?: string | null;
 }
 
 export interface PayloadPostBookingWalkInInterface {
@@ -85,7 +85,7 @@ export interface BookingInterface {
   bookingId: string;
   ticketName: string;
   bookingNumber: string;
-  isChecked: number;
+  isChecked: number | null;
   tableId: string;
   bookingDate: string;
   isFullPayment: number;
@@ -107,8 +107,35 @@ export interface MemberInvitedInterface {
 }
 
 export interface BookingDetailInterface extends BookingInterface {
-  currentSpend: string;
   type: string;
+  cardNumber: string;
+  checkedAt: null | string;
+  checkedId: string;
+  currentSpend: null | number;
+  customerName: string | null;
+  customerPhone: null | string;
+  hostId: string;
+  memberAge: number | null;
+  memberEmail: string | null;
+  memberName: string | null;
+  memberPhone: string | null;
+  photoUrl: string;
+}
+
+export interface MemberBookingInterface {
+  checkedAt: null | string;
+  checkedId: string;
+  currentSpend: null | number;
+  customerId: string | null;
+  customerName: string | null;
+  customerPhone: null | string;
+  memberAge: number | null;
+  memberEmail: string | null;
+  memberName: string | null;
+  memberPhone: string | null;
+  photoUrl: string;
+  isChecked: number;
+  status: string;
 }
 
 export interface BookingTableData {
@@ -137,7 +164,23 @@ export interface notBookedTableData {
 
 export interface ResponseBookingDetailInterface {
   bookingDetail: BookingDetailInterface[];
-  memberInvited: FriendInterface[];
+  memberInvited: MemberBookingInterface[];
+}
+
+export interface MemberBookingInterface {
+  checkedAt: null | string;
+  checkedId: string;
+  currentSpend: null | number;
+  customerId: string | null;
+  customerName: string | null;
+  customerPhone: null | string;
+  memberAge: number | null;
+  memberEmail: string | null;
+  memberName: string | null;
+  memberPhone: string | null;
+  photoUrl: string;
+  isChecked: number;
+  status: string;
 }
 
 export interface ResponseSpentTableInterface {
