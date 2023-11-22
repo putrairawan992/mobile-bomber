@@ -101,6 +101,7 @@ export interface BookingInterface {
   couponUsed: number;
   clubLogo: string;
   flag: string;
+  visitDate?: string;
 }
 
 export interface MemberInvitedInterface {

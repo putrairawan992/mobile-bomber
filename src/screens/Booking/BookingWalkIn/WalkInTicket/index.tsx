@@ -222,7 +222,7 @@ export const WalkInTicketScreen = ({route, navigation}: Props) => {
       }, 200);
     } catch (error: any) {
       setIsLoadingPayment(false);
-      openToast('error', error.response.data.message);
+      openToast('error', JSON.stringify(error.response.data.detail));
     }
   };
 
