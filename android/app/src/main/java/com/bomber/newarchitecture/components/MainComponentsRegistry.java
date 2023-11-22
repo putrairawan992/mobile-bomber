@@ -1,4 +1,4 @@
-package com.bomber.newarchitecture.components;
+package com.bomber.bomberapp.newarchitecture.components;
 
 import com.facebook.jni.HybridData;
 import com.facebook.proguard.annotations.DoNotStrip;

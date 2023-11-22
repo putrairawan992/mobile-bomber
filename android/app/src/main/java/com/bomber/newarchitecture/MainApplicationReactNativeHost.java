@@ -1,4 +1,4 @@
-package com.bomber.newarchitecture;
+package com.bomberapp.newarchitecture;
 
 import android.app.Application;
 import androidx.annotation.NonNull;
@@ -19,9 +19,9 @@ import com.facebook.react.fabric.CoreComponentsRegistry;
 import com.facebook.react.fabric.FabricJSIModuleProvider;
 import com.facebook.react.fabric.ReactNativeConfig;
 import com.facebook.react.uimanager.ViewManagerRegistry;
-import com.bomber.BuildConfig;
-import com.bomber.newarchitecture.components.MainComponentsRegistry;
-import com.bomber.newarchitecture.modules.MainApplicationTurboModuleManagerDelegate;
+import com.bomber.bomberapp.BuildConfig;
+import com.bomber.bomberapp.newarchitecture.components.MainComponentsRegistry;
+import com.bomber.bomberapp.newarchitecture.modules.MainApplicationTurboModuleManagerDelegate;
 import java.util.ArrayList;
 import java.util.List;
 
