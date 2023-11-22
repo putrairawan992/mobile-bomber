@@ -42,14 +42,6 @@ export const FriendsInvitationV2 = ({
   const ref = createRef<PagerView>();
   const theme = useTheme();
 
-  console.log(
-    data.filter(
-      o1 =>
-        selectedInvitation.map(o2 => o2.customerId).indexOf(o1.customerId) ===
-        -1,
-    ),
-  );
-
   const handleInvite = (value: FriendInterface) => {
     let findItem: any = Boolean(
       selected.find(
@@ -232,7 +224,7 @@ export const FriendsInvitationV2 = ({
             />
             <Gap height={4} />
             <Button type="textButton" onPress={onHide} title="Cancel" />
-          </Section>{' '}
+          </Section>
         </>
       ) : (
         <ScrollView

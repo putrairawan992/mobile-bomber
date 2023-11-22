@@ -107,7 +107,7 @@ export default function InviteFriendsScreen({
         }
         hide();
       }}>
-      {loading || (isLoading && <Loading />)}
+      {(loading || isLoading) && <Loading />}
       <Section
         rounded={16}
         style={{
