@@ -25,6 +25,7 @@ function CardBooking({type, data, onSelect, status}: CardBooking) {
   let bgColorTagOne = '#EF9533';
   let bgColorTagTwo = '#0CA35F';
   let bgColorTagThree;
+  const isWalkIn = status === 'Walk In Ticket';
 
   if (data?.isFullPayment === 1) {
     tagOne = 'Full Paid';
@@ -57,6 +58,7 @@ function CardBooking({type, data, onSelect, status}: CardBooking) {
       break;
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const colorRadient: any =
     data?.ticketName === 'Hot Ticket'
       ? [bgColorTagOne, bgColorTagTwo, bgColorTagThree]
@@ -79,7 +81,7 @@ function CardBooking({type, data, onSelect, status}: CardBooking) {
               style={{borderRadius: 4, width: 100}}
               start={{x: 0.8, y: 0}}
               end={{x: 0, y: 1}}
-              colors={colorRadient}
+              colors={['#4E6AFF', '#77BAAD']}
               className="mt-1 p-1">
               <Text className="text-xs font-inter-semibold text-white text-center">
                 {tagOne?.length > 12 ? tagOne?.slice(0, 11) + '...' : tagOne}
@@ -132,7 +134,9 @@ function CardBooking({type, data, onSelect, status}: CardBooking) {
           )}
         </View>
         <DefaultText
-          title={`${moment(data?.bookingDate).format('ddd, DD MMM hh:mm')}`}
+          title={`${moment(
+            isWalkIn ? data?.visitDate : data?.bookingDate,
+          ).format('ddd, DD MMM hh:mm')}`}
           titleClassName="text-xs mt-2 text-neutral-400"
         />
       </View>
@@ -145,10 +149,12 @@ function CardBooking({type, data, onSelect, status}: CardBooking) {
         />
         <Gap width={10} />
         <View className="flex-1 ml-2">
-          <DefaultText
-            title={`ID : ${data?.bookingNumber}`}
-            titleClassName="text-xs text-neutral-400 flex-1"
-          />
+          {!isWalkIn && (
+            <DefaultText
+              title={`ID : ${data?.bookingNumber}`}
+              titleClassName="text-xs text-neutral-400 flex-1"
+            />
+          )}
           <Gap height={status === 'Walk In Ticket' ? 2.5 : 4} />
           <DefaultText
             title={`${data?.clubName}`}

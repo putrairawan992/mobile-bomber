@@ -41,7 +41,7 @@ import {ModalToastContext} from '../../context/AppModalToastContext';
 import axios from 'axios';
 import config from '../../config';
 import {useImageAspectRatio} from '../../hooks/useImageAspectRatio';
-import {Add} from 'iconsax-react-native';
+import {Add, ScanBarcode} from 'iconsax-react-native';
 import {Colors} from '../../theme';
 import InviteFriendsScreen from '../../components/molecules/Modal/InviteFriendsScreen';
 import {UserGroup} from '../../assets/icons';
@@ -63,6 +63,8 @@ export default function MyBookingDetail({route, navigation}: Props) {
   ]);
   const bookingId = route.params.bookingId;
   const clubId = route.params.club_id;
+  const status = route.params.status;
+  const isTableBooking = status === 'Booking Table';
   const dispatch = useDispatch();
   const [initialPage, setInitialPage] = useState<number>(0);
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -107,7 +109,10 @@ export default function MyBookingDetail({route, navigation}: Props) {
   };
 
   useEffect(() => {
-    fethData();
+    if (isTableBooking) {
+      fethData();
+    }
+
     actionSpentOrder();
   }, []);
 
@@ -337,10 +342,30 @@ export default function MyBookingDetail({route, navigation}: Props) {
           </View>
           <Spacer height={16} />
           <View className="items-center bg-black rounded-lg p-2 w-full">
-            {uriQr ? (
-              // eslint-disable-next-line react-native/no-inline-styles
-              <Image source={{uri: uriQr}} style={{width: 300, height: 300}} />
-            ) : null}
+            {memberStatus === 'waiting_for_response' ? (
+              <Section
+                style={{width: 300, height: 300, justifyContent: 'center'}}
+                isCenter>
+                <ScanBarcode size={60} color={Colors['black-20']} />
+                <Gap height={8} />
+                <Text
+                  variant="x-large"
+                  label={'QR Code not available'}
+                  fontWeight="bold"
+                  color={Colors['black-20']}
+                />
+              </Section>
+            ) : (
+              <>
+                {uriQr ? (
+                  // eslint-disable-next-line react-native/no-inline-styles
+                  <Image
+                    source={{uri: uriQr}}
+                    style={{width: 300, height: 300}}
+                  />
+                ) : null}
+              </>
+            )}
           </View>
           <Gap height={30} />
           <Section isRow isBetween>
