@@ -96,8 +96,11 @@ export interface BookingInterface {
   joinedTotal: number;
   type: null | string;
   tableName: string;
+  tablePrice: number;
   clubName: string;
   clubImg: string;
+  clubAddress: string;
+  createdAt: string;
   couponUsed: number;
   clubLogo: string;
   flag: string;
@@ -208,4 +211,26 @@ export interface CardPaymentInterface {
   cardNumber: string;
   customerId: string;
   isDefault: number;
+}
+
+export interface WalkInDetailInterface {
+  bookingId: string;
+  bookingNumber: string;
+  boughtDate: string;
+  visitDate: string;
+  paidTotal: string;
+  clubId: string;
+  joinedTotal: number;
+  paymentMethid: string;
+  paymentStatus: string;
+  clubName: string;
+  clubAddress: string;
+  clubImg: string;
+  ticketName: string;
+  createdAt: string;
+  cardNumber: string;
+  currentSpend: null | number;
+  checkedId: string;
+  isChecked: number;
+  checkedAt: string | null;
 }

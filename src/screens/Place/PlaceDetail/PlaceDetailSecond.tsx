@@ -216,7 +216,7 @@ export const PlaceDetailSecond = ({route, navigation}: Props) => {
               onSelect={() => undefined}
               isPlaceDetail
               onOpenSchedule={() => placeDetailSheetRef.current?.present()}
-              operation={data.operation.find(
+              operation={data.operation?.find(
                 (item: {day: string}) =>
                   item.day === dateFormatter(new Date(), 'eeee'),
               )}

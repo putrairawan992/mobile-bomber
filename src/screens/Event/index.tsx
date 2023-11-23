@@ -34,6 +34,7 @@ export default function EventScreen({route, navigation}: Props) {
     'Walk In Ticket',
     'Direct Order',
   ]);
+  const [status, setStatus] = useState<any>('Booking Table');
   const [theme] = useState<string[]>([
     'Paid',
     'Unpaid',
@@ -44,7 +45,7 @@ export default function EventScreen({route, navigation}: Props) {
     // 'Auction',
   ]);
   const [activeTheme, setActiveTheme] = useState<string>('Paid');
-  const [status, setStatus] = useState<any>('Booking Table');
+
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [dataEvents, setDataEvents] = useState<BookingInterface[]>([]);
   const themes = useTheme();
