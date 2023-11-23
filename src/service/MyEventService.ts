@@ -6,6 +6,7 @@ import {
   PayloadPostBookingWalkInInterface,
   ResponseBookingDetailInterface,
   TicketInterface,
+  WalkInDetailInterface,
 } from '../interfaces/BookingInterface';
 import {
   BannerInterface,
@@ -114,6 +115,14 @@ export const MyEventService = {
     booking_id: string;
   }): Promise<APIResponse<ResponseBookingDetailInterface>> => {
     const response = await ax.get(`${URL}/get_booking_detail/${booking_id}`);
+    return response.data;
+  },
+  getWalkInDetail: async ({
+    booking_id,
+  }: {
+    booking_id: string;
+  }): Promise<APIResponse<WalkInDetailInterface[]>> => {
+    const response = await ax.get(`${URL}/get_walkin_detail/${booking_id}`);
     return response.data;
   },
 };

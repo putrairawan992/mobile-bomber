@@ -36,7 +36,10 @@ import {MainStackParams} from '../../navigation/MainScreenStack';
 import {dateFormatter} from '../../utils/dateFormatter';
 import {currency, generateQr} from '../../utils/function';
 import {MyEventService} from '../../service/MyEventService';
-import {BookingDetailInterface} from '../../interfaces/BookingInterface';
+import {
+  BookingDetailInterface,
+  WalkInDetailInterface,
+} from '../../interfaces/BookingInterface';
 import {ModalToastContext} from '../../context/AppModalToastContext';
 import axios from 'axios';
 import config from '../../config';
@@ -55,16 +58,15 @@ type Props = NativeStackScreenProps<
 >;
 
 export default function MyBookingDetail({route, navigation}: Props) {
-  const [menu] = useState<string[]>([
-    'Ticket',
-    'F&B Order',
-    'Friends',
-    'Request',
-  ]);
   const bookingId = route.params.bookingId;
   const clubId = route.params.club_id;
   const status = route.params.status;
   const isTableBooking = status === 'Booking Table';
+  const [menu] = useState<string[]>(
+    isTableBooking
+      ? ['Ticket', 'F&B Order', 'Friends', 'Request']
+      : ['Ticket', 'F&B Order', 'Request'],
+  );
   const dispatch = useDispatch();
   const [initialPage, setInitialPage] = useState<number>(0);
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -78,6 +80,7 @@ export default function MyBookingDetail({route, navigation}: Props) {
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
   const [friendshipData, setFriendshipData] = useState<FriendInterface[]>([]);
   const [booking, setBooking] = useState<BookingDetailInterface | null>(null);
+  const [walkIn, setWalkIn] = useState<WalkInDetailInterface | null>(null);
   const [memberInvited, setMemberInvited] = useState<FriendInterface[]>([]);
   const [selectedInvitation, setSelectedInvitation] = useState<
     FriendInterface[]
@@ -104,23 +107,40 @@ export default function MyBookingDetail({route, navigation}: Props) {
   const ref = useRef<ScrollView>(null);
 
   const onGenerateQr = async () => {
-    const response = await generateQr(`${bookingId},${user.id}`);
+    const response = await generateQr(
+      `${bookingId},${user.id},${isTableBooking ? 't' : 'w'}`,
+    );
     setUriQr(response as string);
+  };
+
+  const fetchWalkInData = async () => {
+    try {
+      setIsLoading(true);
+      const response = await MyEventService.getWalkInDetail({
+        booking_id: bookingId,
+      });
+      setWalkIn(response.data[0]);
+      setIsLoading(false);
+    } catch (error: any) {
+      setIsLoading(false);
+    }
   };
 
   useEffect(() => {
     if (isTableBooking) {
       fethData();
+    } else {
+      fetchWalkInData();
     }
 
     actionSpentOrder();
   }, []);
 
   useEffect(() => {
-    if (booking) {
+    if (booking || walkIn) {
       onGenerateQr();
     }
-  }, [booking]);
+  }, [booking, walkIn]);
 
   const onFriendInvited = (data: FriendInterface) => {
     setShowInviteFriends(false);
@@ -311,13 +331,15 @@ export default function MyBookingDetail({route, navigation}: Props) {
                 <Image
                   style={{width: 34, aspectRatio, alignSelf: 'center'}}
                   source={{
-                    uri: booking?.clubLogo as string,
+                    uri: isTableBooking
+                      ? (booking?.clubLogo as string)
+                      : walkIn?.clubImg,
                   }}
                   resizeMode="contain"
                 />
                 <Spacer height={2.5} />
                 <DefaultText
-                  title={booking?.clubName}
+                  title={isTableBooking ? booking?.clubName : walkIn?.clubName}
                   titleClassName="font-inter-medium text-xs text-center"
                 />
               </View>
@@ -326,18 +348,29 @@ export default function MyBookingDetail({route, navigation}: Props) {
                 <Text
                   variant="base"
                   fontWeight="semi-bold"
-                  label={booking?.clubName}
+                  label={isTableBooking ? booking?.clubName : walkIn?.clubName}
                 />
                 <Text
                   variant="small"
                   fontWeight="semi-bold"
-                  label={'St. Gong Chan 52 Block C3'}
+                  label={
+                    isTableBooking
+                      ? booking?.clubAddress && booking?.clubAddress.length > 28
+                        ? booking?.clubAddress.substring(0, 27) + '...'
+                        : booking?.clubAddress
+                      : walkIn?.clubAddress && walkIn?.clubAddress.length > 28
+                      ? walkIn?.clubAddress.substring(0, 27) + '...'
+                      : walkIn?.clubAddress
+                  }
                 />
               </Section>
             </Section>
             <Spacer className="flex-1" />
             <Section padding="4px 8px" rounded={4} backgroundColor="#06B971">
-              <Text fontWeight="bold" label={booking?.type} />
+              <Text
+                fontWeight="bold"
+                label={isTableBooking ? booking?.type : walkIn?.paymentStatus}
+              />
             </Section>
           </View>
           <Spacer height={16} />
@@ -373,14 +406,21 @@ export default function MyBookingDetail({route, navigation}: Props) {
               <Text
                 variant="large"
                 fontWeight="bold"
-                label={booking?.tableName}
+                label={isTableBooking ? booking?.tableName : walkIn?.ticketName}
               />
               <Section isRow>
                 <Text
                   label={
-                    booking?.bookingDate
+                    isTableBooking
+                      ? booking?.bookingDate
+                        ? dateFormatter(
+                            new Date(booking.bookingDate),
+                            'EEEE, dd MMMM yyy',
+                          )
+                        : ''
+                      : walkIn?.visitDate
                       ? dateFormatter(
-                          new Date(booking.bookingDate),
+                          new Date(walkIn.visitDate),
                           'EEEE, dd MMMM yyy',
                         )
                       : ''
@@ -396,16 +436,18 @@ export default function MyBookingDetail({route, navigation}: Props) {
                 </TouchableOpacity>
               </Section>
             </Section>
-            <TouchableSection
-              onPress={() => setShowInviteFriends(true)}
-              isRow
-              padding="16px 8px"
-              backgroundColor="#262626"
-              rounded={8}>
-              <UserGroup size={16} color={Colors['black-20']} />
-              <Gap width={4} />
-              <Text label={memberInvited.length.toString()} />
-            </TouchableSection>
+            {isTableBooking && (
+              <TouchableSection
+                onPress={() => setShowInviteFriends(true)}
+                isRow
+                padding="16px 8px"
+                backgroundColor="#262626"
+                rounded={8}>
+                <UserGroup size={16} color={Colors['black-20']} />
+                <Gap width={4} />
+                <Text label={memberInvited.length.toString()} />
+              </TouchableSection>
+            )}
           </Section>
           <Spacer height={12} />
           <View
@@ -416,28 +458,32 @@ export default function MyBookingDetail({route, navigation}: Props) {
             }}
           />
           <Spacer height={12} />
-          <Section isRow isBetween>
-            <View className="w-[185] h-[5] bg-white rounded-full self-center">
-              {spendPercetage > 0 && (
-                <View
-                  className={`w-[${spendPercetage}%] h-[5] bg-yellow-600 rounded-full"`}
+          {isTableBooking && (
+            <>
+              <Section isRow isBetween>
+                <View className="w-[185] h-[5] bg-white rounded-full self-center">
+                  {spendPercetage > 0 && (
+                    <View
+                      className={`w-[${spendPercetage}%] h-[5] bg-yellow-600 rounded-full"`}
+                    />
+                  )}
+                </View>
+                <DefaultText
+                  title={
+                    booking?.paidTotal
+                      ? `${
+                          booking?.currentSpend === null
+                            ? 0
+                            : currency(booking?.paidTotal)
+                        } / ${currency(booking?.paidTotal)}`
+                      : ''
+                  }
+                  titleClassName="text-center font-inter-medium text-neutral-400"
                 />
-              )}
-            </View>
-            <DefaultText
-              title={
-                booking?.paidTotal
-                  ? `${
-                      booking?.currentSpend === null
-                        ? 0
-                        : currency(booking?.paidTotal)
-                    } / ${currency(booking?.paidTotal)}`
-                  : ''
-              }
-              titleClassName="text-center font-inter-medium text-neutral-400"
-            />
-          </Section>
-          <Gap height={30} />
+              </Section>
+              <Gap height={30} />
+            </>
+          )}
           <Button
             type="primary"
             onPress={() => setShowDetailTicket(true)}
@@ -464,7 +510,10 @@ export default function MyBookingDetail({route, navigation}: Props) {
           />
           <View className="px-4">
             <Spacer height={15} />
-            <Section
+            <TouchableSection
+              onPress={() =>
+                navigation.navigate('WineryOrder', {isNotTable: true})
+              }
               padding="8px 36px"
               rounded={4}
               style={{borderWidth: 1, borderColor: '#EEE'}}
@@ -473,7 +522,7 @@ export default function MyBookingDetail({route, navigation}: Props) {
               <Text fontWeight="regular" label="Add new order" />
               <Gap width={8} />
               <Add size={16} color={Colors['white-100']} />
-            </Section>
+            </TouchableSection>
           </View>
         </View>
 
@@ -507,7 +556,8 @@ export default function MyBookingDetail({route, navigation}: Props) {
           </View>
         </View>
 
-        {memberStatus === 'approved' ? null : booking?.hostId === user.id ? (
+        {memberStatus === 'approved' ||
+        !isTableBooking ? null : booking?.hostId === user.id ? (
           <View className="bg-neutral-800 p-4 rounded-lg">
             <DefaultText
               title="Friends"
@@ -536,7 +586,7 @@ export default function MyBookingDetail({route, navigation}: Props) {
                   label={`${memberInvited[0].fullName} and ${
                     memberInvited.length - 1
                   } other`}
-                  style={{right: 16}}
+                  style={{right: memberInvited.length > 1 ? 16 : 0}}
                 />
               </TouchableOpacity>
             ) : (

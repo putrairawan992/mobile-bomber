@@ -1,9 +1,10 @@
 {
-  "name": "BomberApp",
+  "name": "Bomber",
   "version": "0.0.1",
   "private": true,
   "scripts": {
     "android": "react-native run-android",
+    "android-release": "react-native run-android --variant release",
     "ios": "react-native run-ios",
     "ios-11": "npx react-native run-ios --udid 3725D52A-CF78-4D08-B3C1-B41A05368C96",
     "ios-14": "npx react-native run-ios --udid AFF756C0-8566-4333-B944-341041C1E6A9",

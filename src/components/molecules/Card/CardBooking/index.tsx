@@ -149,12 +149,10 @@ function CardBooking({type, data, onSelect, status}: CardBooking) {
         />
         <Gap width={10} />
         <View className="flex-1 ml-2">
-          {!isWalkIn && (
-            <DefaultText
-              title={`ID : ${data?.bookingNumber}`}
-              titleClassName="text-xs text-neutral-400 flex-1"
-            />
-          )}
+          <DefaultText
+            title={`ID : ${data?.bookingNumber}`}
+            titleClassName="text-xs text-neutral-400 flex-1"
+          />
           <Gap height={status === 'Walk In Ticket' ? 2.5 : 4} />
           <DefaultText
             title={`${data?.clubName}`}
