@@ -14,7 +14,31 @@
       },
       "oauth_client": [
         {
-          "client_id": "578578395924-bin1duqvr9s096upmng7vofapd0q3g1t.apps.googleusercontent.com",
+          "client_id": "578578395924-1rpm3n0kooip5cjdssbfkrli91qrbkaa.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.bomber",
+            "certificate_hash": "0ba776308c307d81a0478a0b0c84f150189219c2"
+          }
+        },
+        {
+          "client_id": "578578395924-avbc7spglq1mq0atsr38iq8323n5eo43.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.bomber",
+            "certificate_hash": "3b7b47a98d7d5e8f094e5e554cbe8edbe90e2d54"
+          }
+        },
+        {
+          "client_id": "578578395924-sbm27os43u9m3753a4fh97kph1v14i5b.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.bomber",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
+          "client_id": "578578395924-l0p8clduffn00buak88gi3hfe731f1md.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
@@ -29,6 +53,49 @@
             {
               "client_id": "578578395924-bin1duqvr9s096upmng7vofapd0q3g1t.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "578578395924-aj1ff9nclhivuv6qrhp53q25chlmo1ot.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.bomber"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:578578395924:android:85fd78b5f2fecc7a0f4801",
+        "android_client_info": {
+          "package_name": "com.bomber.bomberapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "578578395924-l0p8clduffn00buak88gi3hfe731f1md.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDhcNoyAE9gAqABi_WzTt-pXdWx9QG1dig"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "578578395924-bin1duqvr9s096upmng7vofapd0q3g1t.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "578578395924-aj1ff9nclhivuv6qrhp53q25chlmo1ot.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.bomber"
+              }
             }
           ]
         }
