@@ -97,6 +97,7 @@ export const FriendBottomSheet = ({
       <Section
         style={{
           position: 'absolute',
+          marginTop: 10,
           bottom: 24,
           width: '100%',
           alignSelf: 'center',

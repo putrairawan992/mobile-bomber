@@ -51,9 +51,11 @@ const PlaceByCategory = ({route, navigation}: Props) => {
       const response = await NightlifeService.getPlaceByCategory({
         params: {
           category_id: idParams,
-          limit: 0,
+          keyword: searchValue,
         },
       });
+      console.log('response', response);
+
       setPlaceData(
         response.data.map((item, idx) => {
           const latitude = COORDINATE_DATA[idx].latitude;
@@ -120,7 +122,6 @@ const PlaceByCategory = ({route, navigation}: Props) => {
           }}
           placeholderStyle={{color: theme?.colors.TEXT_PRIMARY, marginLeft: 10}}
           placeholder={!isFocus ? `${category.title}` : '...'}
-          inputSearchStyle={s.inputSearchStyle}
           iconStyle={s.iconStyle}
           itemTextStyle={{
             fontSize: 14,
@@ -128,11 +129,13 @@ const PlaceByCategory = ({route, navigation}: Props) => {
             fontFamily: 'Inter-Regular',
           }}
           containerStyle={{
-            borderBottomLeftRadius: 20,
-            borderBottomRightRadius: 20,
+            marginTop: 8,
+            backgroundColor: theme?.colors.BACKGROUND2,
+            borderRadius: 16,
             borderWidth: 0,
             width: '100%',
           }}
+          maxHeight={300}
           style={[
             s.dropdown,
             {
@@ -147,33 +150,53 @@ const PlaceByCategory = ({route, navigation}: Props) => {
             )
           }
           data={PLACE_CATEGORY}
+          activeColor={theme?.colors.BACKGROUND2}
+          iconColor={theme?.colors.PRIMARY}
           labelField="label"
           onFocus={() => setIsFocus(true)}
           onBlur={() => setIsFocus(false)}
           valueField="value"
           value={vValue}
           renderLeftIcon={() => category.icon as any}
-          renderItem={item => (
-            <Section backgroundColor={theme?.colors.BACKGROUND2}>
-              <Section isRow rounded={8} padding="14px 6px">
-                {item.image}
-                <Gap width={6} />
-                <Text variant="small" fontWeight="medium" label={item.label} />
+          renderItem={(item, index) => {
+            let imageGet = item.image;
+            console.log(item.image);
+            if (item.label === 'Nightclub' && index === true) {
+              imageGet = <DiscoLight size={24} color={theme?.colors.PRIMARY} />;
+            }
+            if (item.label === 'KTV' && index === true) {
+              imageGet = <Karaoke size={24} color={theme?.colors.PRIMARY} />;
+            }
+            if (item.label === 'Pregames' && index === true) {
+              imageGet = <Beer size={24} color={theme?.colors.PRIMARY} />;
+            }
+            if (item.label === 'Bar' && index === true) {
+              imageGet = <WineBottle size={24} color={theme?.colors.PRIMARY} />;
+            }
+            return (
+              <Section
+                style={{
+                  borderTopColor: theme?.colors.SECTION,
+                  borderTopWidth: 0.9,
+                }}>
+                <Section isRow rounded={8} padding="14px 6px">
+                  {imageGet}
+                  <Gap width={6} />
+                  <Text
+                    variant="small"
+                    color={index && theme?.colors.PRIMARY}
+                    fontWeight="medium"
+                    label={item.label}
+                  />
+                </Section>
               </Section>
-            </Section>
-          )}
+            );
+          }}
           onChange={item => {
             setvValue(item.value);
             setIdParams(item.value);
             setIsFocus(false);
           }}
-        />
-        <TextInput
-          value={searchValue}
-          onChangeText={(value: string) => setSearchValue(value)}
-          placeholder="Search party"
-          type="search"
-          textInputBackgroundColor={theme?.colors.SECTION}
         />
       </Section>
       <Gap height={32} />
@@ -190,14 +213,25 @@ const PlaceByCategory = ({route, navigation}: Props) => {
         ) : (
           <></>
         )}
-        <Gap height={32} />
+        <Gap height={10} />
+        <Section padding="8px 16px">
+          <TextInput
+            value={searchValue}
+            style={{height: 45}}
+            onChangeText={(value: string) => setSearchValue(value)}
+            placeholder="Search in night club"
+            type="search"
+            textInputBackgroundColor={theme?.colors.SECTION}
+          />
+        </Section>
+        <Gap height={10} />
         <Section padding="0px 16px">
           <Text
             color={theme?.colors.PRIMARY}
             label="Discover All Place"
             fontWeight="bold"
           />
-          <Gap height={32} />
+          <Gap height={10} />
           {placeData?.length ? (
             placeData.map(item => (
               <PlaceCard

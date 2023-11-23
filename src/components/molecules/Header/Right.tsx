@@ -6,7 +6,7 @@ import {Pin} from '../../../assets/icons';
 import {useAppSelector} from '../../../hooks/hooks';
 import {Colors, Images} from '../../../theme';
 import useTheme from '../../../theme/useTheme';
-import {Section, Text} from '../../atoms';
+import {Gap, Section, Text} from '../../atoms';
 import styles from './Styles';
 
 function HeaderRight({
@@ -59,12 +59,15 @@ function HeaderRight({
           }}>
           <Pin color={theme?.colors.ICON} size={16} style={{marginRight: 4}} />
           <Text
+            variant="small"
+            style={{fontWeight: '500'}}
             label={
               userPosition.length > 26
                 ? userPosition.substring(0, 26) + '...'
                 : userPosition
             }
           />
+          <Gap width={10} />
           {hasNotification && (
             <TouchableOpacity
               onPress={() => {
@@ -72,7 +75,13 @@ function HeaderRight({
                   onNotificationPress();
                 }
               }}
-              style={{right: 8, bottom: 4}}>
+              style={{
+                right: 8,
+                bottom: 4,
+                backgroundColor: '#262626',
+                padding: 8,
+                borderRadius: 4,
+              }}>
               <Section
                 isCenter
                 style={{
@@ -80,8 +89,8 @@ function HeaderRight({
                   width: 16,
                   height: 16,
                   zIndex: 999,
-                  left: 20,
-                  bottom: 4,
+                  right: -5,
+                  top: -10,
                 }}
                 rounded={20}
                 backgroundColor={
@@ -96,11 +105,7 @@ function HeaderRight({
                   }
                 />
               </Section>
-              <Notification
-                size={16}
-                color={theme?.colors.ICON}
-                style={{marginLeft: 12, top: 2}}
-              />
+              <Notification size={16} color={theme?.colors.ICON} />
             </TouchableOpacity>
           )}
         </TouchableOpacity>

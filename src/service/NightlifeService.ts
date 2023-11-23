@@ -52,8 +52,16 @@ export const NightlifeService = {
     const response = await ax.get(`event/get_dj_list?club_id=${club_id}`);
     return response.data;
   },
-  getBookingReminder: async ({id}: {id: string}): Promise<APIResponse<any>> => {
-    const response = await ax.get(`${URL}/booking_reminder?customer_id=${id}`);
+  getBookingReminder: async ({
+    customer_id,
+  }: {
+    customer_id: string;
+  }): Promise<APIResponse<any>> => {
+    const response = await ax.get(
+      `${URL}/booking_reminder?customer_id=${customer_id}`,
+    );
+    console.log('getBookingReminder', response);
+
     return response.data;
   },
   getInvitedOrder: async ({id}: {id: string}): Promise<APIResponse<any>> => {
@@ -122,7 +130,7 @@ export const NightlifeService = {
     params: ParamsGetPlaceByCategoryInterface;
   }): Promise<APIResponse<PlaceInterface[]>> => {
     const response = await ax.get(
-      `${URL}/get_category_page/${params.category_id}?limit=${params.limit}`,
+      `${URL}/get_category_page/${params.category_id}?keywords=${params.keyword}`,
     );
     return response.data;
   },

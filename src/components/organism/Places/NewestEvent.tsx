@@ -1,6 +1,6 @@
 /* eslint-disable react-native/no-inline-styles */
 import React from 'react';
-import Carousel, {Pagination} from 'react-native-snap-carousel';
+import Carousel from 'react-native-snap-carousel';
 import {PlaceInterface} from '../../../interfaces/PlaceInterface';
 import useTheme from '../../../theme/useTheme';
 import {HEIGHT, WIDTH} from '../../../utils/config';
@@ -27,6 +27,8 @@ export const NewestEvent = ({
 }: PlaceCategoryProps) => {
   const theme = useTheme();
   const [index, setIndex] = React.useState<number>(0);
+  console.log(index);
+
   let renderItem = ({item}: any) => (
     <NewstEventCard
       item={item}
@@ -39,6 +41,7 @@ export const NewestEvent = ({
       <Text
         color={theme?.colors.PRIMARY}
         label={title}
+        variant="medium"
         fontWeight="bold"
         style={{marginLeft: 18}}
       />
@@ -55,7 +58,7 @@ export const NewestEvent = ({
         onSnapToItem={i => setIndex(i)}
       />
       <Gap height={8} />
-      <Pagination
+      {/* <Pagination
         dotsLength={data.length}
         activeDotIndex={index}
         containerStyle={{
@@ -81,7 +84,7 @@ export const NewestEvent = ({
         animatedFriction={4}
         animatedTension={50}
         delayPressInDot={0}
-      />
+      /> */}
     </Section>
   );
 };

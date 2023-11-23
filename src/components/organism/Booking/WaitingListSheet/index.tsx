@@ -176,7 +176,7 @@ export const WaitingListSheet = ({
           color={Colors['black-10']}
         />
       )}
-
+      <Gap height={15} />
       {!isKeyboardVisible && (
         <View
           style={{

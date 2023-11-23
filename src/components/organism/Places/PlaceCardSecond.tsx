@@ -144,7 +144,7 @@ export const PlaceCardSecond = ({
   const itemTag: any = [{name: 'LGBT'}, {name: 'EDM'}, {name: 'Rooftop'}];
   const navigation = useNavigation();
   return (
-    <Layout>
+    <Layout backgroundColor="#262626">
       <HeaderLeft>
         <TouchableOpacity
           style={{marginTop: 15}}
@@ -209,12 +209,13 @@ export const PlaceCardSecond = ({
         {data?.logo && (
           <View
             style={{
-              width: 100,
-              height: 100,
+              width: 80,
+              height: 80,
               padding: 12,
               borderColor: '#525252',
               borderWidth: 1,
               borderRadius: 4,
+              marginTop: 6,
             }}>
             <Image
               source={{uri: data?.logo}}
@@ -258,7 +259,7 @@ export const PlaceCardSecond = ({
             </Section>
           </Section>
           {renderSchedule()}
-          <Gap height={20} />
+          <Gap height={15} />
           {isPlaceDetail ? (
             <Section isRow>
               <View style={{width: data?.logo ? 150 : '50%'}}>
@@ -309,7 +310,8 @@ export const PlaceCardSecond = ({
           )}
         </View>
       </View>
-      <Gap height={15} />
+      <Gap height={20} />
+      {/* <View style={{ borderBottomColor: "#202020", borderBottomWidth: 1 }} /> */}
     </Layout>
   );
 };

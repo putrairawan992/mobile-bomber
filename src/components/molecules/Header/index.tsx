@@ -100,6 +100,7 @@ function Header({
               style={{
                 flexDirection: 'row',
                 alignItems: 'center',
+                marginTop: 5,
               }}>
               <Logo size={23} style={{marginRight: 4}} />
               <LogoText />

@@ -218,9 +218,9 @@ export default function WineryOrder({route, navigation}: Props) {
 
       <TouchableOpacity
         activeOpacity={0.8}
-        onPress={() =>
-          isNotTable ? setShowNotTablePay(true) : setShowCart(true)
-        }>
+        onPress={() => {
+          isNotTable ? setShowNotTablePay(true) : setShowCart(true);
+        }}>
         <LinearGradient
           className="py-4"
           colors={['#AA5AFA', '#C111D5']}
@@ -263,6 +263,7 @@ export default function WineryOrder({route, navigation}: Props) {
       />
 
       <ModalWineryOrderDetail
+        checkoutItems={checkoutItems}
         show={showOrderDetail}
         hide={() => setShowOrderDetail(false)}
       />

@@ -17,7 +17,7 @@ export const LogoLabel = ({title, subtitle, colors}: LogoLabelPropsI) => {
   const s = useThemedStyles(Styles);
   return (
     <Section>
-      <Logo size={64} color={theme?.colors.PRIMARY} />
+      <Logo size={55} color={theme?.colors.PRIMARY} />
       <Spacer sm />
       {colors ? (
         <GradientText colors={['#A060FF', '#C800DD']} style={s.headerText}>

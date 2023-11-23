@@ -201,7 +201,12 @@ export default function MyBookingDetail({route, navigation}: Props) {
   };
   return (
     <Layout contentContainerStyle={styles.parent}>
-      <Header transparent title="Booking Detail" hasBackBtn />
+      <Header
+        transparent
+        title="Booking Detail"
+        hasBackBtn
+        onBackPress={() => navigation.navigate('Event')}
+      />
       {isLoading && <Loading />}
       <Spacer height={10} />
       <View className="flex-row">
@@ -434,7 +439,7 @@ export default function MyBookingDetail({route, navigation}: Props) {
               TextComponent={<DefaultText title="Add new order" />}
               type="primary"
               onPress={() =>
-                navigation.navigate('WineryOrder', {isNotTable: true})
+                navigation.navigate('WineryOrder', {isNotTable: false})
               }
               style={styles.button}
             />

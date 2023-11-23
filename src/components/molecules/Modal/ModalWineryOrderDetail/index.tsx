@@ -1,4 +1,4 @@
-import {Image, ScrollView, TouchableOpacity, View} from 'react-native';
+import {ScrollView, View} from 'react-native';
 import React from 'react';
 import Modal from 'react-native-modal';
 import DefaultText from '../../../atoms/Text/DefaultText';
@@ -9,12 +9,22 @@ import {currency} from '../../../../utils/function';
 interface ModalWineryOrderDetail {
   show: boolean;
   hide: () => void;
+  checkoutItems: any;
 }
 
 export default function ModalWineryOrderDetail({
   show,
   hide,
+  checkoutItems,
 }: ModalWineryOrderDetail) {
+  const calculateTotal = () => {
+    let total = 0;
+    for (const item of checkoutItems) {
+      total += item.price * item.quantity;
+    }
+    return total;
+  };
+
   return (
     <Modal
       className="m-0 p-0"
@@ -37,32 +47,23 @@ export default function ModalWineryOrderDetail({
                 titleClassName="text-base font-inter-semibold"
               />
               <Gap height={10} />
-              <View className="flex-row items-center mb-[10]">
-                <View className="flex-1">
-                  <DefaultText
-                    title="Veuve Clicquot Brut Set x 6"
-                    titleClassName="font-inter-medium"
-                  />
-                  <DefaultText
-                    title="Table code: X3"
-                    titleClassName="text-xs font-inter-medium text-neutral-400"
-                  />
-                </View>
-                <DefaultText title={currency(1500)} />
-              </View>
-              <View className="flex-row items-center mb-[10]">
-                <View className="flex-1">
-                  <DefaultText
-                    title="Veuve Clicquot Brut Set x 6"
-                    titleClassName="font-inter-medium"
-                  />
-                  <DefaultText
-                    title="Table code: X3"
-                    titleClassName="text-xs font-inter-medium text-neutral-400"
-                  />
-                </View>
-                <DefaultText title={currency(1500)} />
-              </View>
+              {checkoutItems.map((item: any) => {
+                return (
+                  <View className="flex-row items-center mb-[10]">
+                    <View className="flex-1">
+                      <DefaultText
+                        title={`${item.englishProductTitle} x ${item.quantity}`}
+                        titleClassName="font-inter-medium"
+                      />
+                      <DefaultText
+                        title={`Table code: ${item.quantity}`}
+                        titleClassName="text-xs font-inter-medium text-neutral-400"
+                      />
+                    </View>
+                    <DefaultText title={currency(item.price * item.quantity)} />
+                  </View>
+                );
+              })}
               <Gap height={10} />
               <View className="flex-row items-center">
                 <View className="flex-1">
@@ -83,7 +84,7 @@ export default function ModalWineryOrderDetail({
                   <DefaultText title="TOTAL" titleClassName="font-inter-bold" />
                 </View>
                 <DefaultText
-                  title={currency(66000)}
+                  title={`${currency(calculateTotal() + 1000)}`}
                   titleClassName="font-inter-bold"
                 />
               </View>
@@ -106,17 +107,6 @@ export default function ModalWineryOrderDetail({
               <QRCode value="http://awesome.link.qr" size={200} />
             </View>
 
-            <Gap height={15} />
-            <View className="bg-[#2D2D2D] p-4 rounded-xl">
-              <DefaultText
-                title="Split Bill - Equally"
-                titleClassName="text-base font-inter-semibold"
-              />
-              <Gap height={10} />
-              <SplitBillItem />
-              <SplitBillItem />
-              <SplitBillItem />
-            </View>
             <Gap height={30} />
           </View>
         </ScrollView>
@@ -124,39 +114,3 @@ export default function ModalWineryOrderDetail({
     </Modal>
   );
 }
-
-const SplitBillItem = () => {
-  return (
-    <View className="flex-row items-center border-b-[0.5px] border-b-neutral-600 py-1 mb-2">
-      <Image
-        source={{
-          uri: 'https://images.unsplash.com/photo-1506748686214-e9df14d4d9d0?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OXx8cGVyc29ufGVufDB8fDB8fHww&auto=format&fit=crop&w=400&q=60',
-        }}
-        resizeMode="cover"
-        className="w-[33] h-[33] rounded-full bg-neutral-500"
-      />
-      <Gap width={8} />
-      <View className="flex-1">
-        <DefaultText
-          title={'Not yet pay'}
-          titleClassName="font-inter-regular text-xs text-red-600"
-        />
-        <Gap height={5} />
-        <DefaultText
-          title={'Jennifer'}
-          titleClassName="font-inter-semibold text-base"
-        />
-        <DefaultText
-          title={currency(10500)}
-          titleClassName="font-inter-regular text-neutral-400 text-xs"
-        />
-      </View>
-      <TouchableOpacity
-        activeOpacity={0.7}
-        className="bg-primary px-3 py-2 rounded-md"
-        onPress={() => {}}>
-        <DefaultText title="Send QR" />
-      </TouchableOpacity>
-    </View>
-  );
-};

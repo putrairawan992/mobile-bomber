@@ -12,6 +12,7 @@ import * as Yup from 'yup';
 
 import {
   Button,
+  DefaultText,
   Layout,
   Section,
   Spacer,
@@ -60,30 +61,35 @@ function ForgotPasswordScreen({navigation}: Props) {
         backgroundColor="transparent"
         contentContainerStyle={styles.container}>
         <LogoLabel
-          colors={theme?.colors.PRIMARY}
           title="Forgot Your Password?"
           subtitle="No worries! We'll help you get back into the groove. Enter your email to reset your password."
         />
         <TextInput
+          textInputHeight={40}
           value={formik.values.phone}
           label="Phone Number"
           errorText={formik.errors.phone}
           onChangeText={formik.handleChange('phone')}
-          placeholder="Phone Number"
+          placeholder="Input your phone number"
           isNumeric
         />
         <Spacer xl />
         <Button
           type="primary"
+          TextComponent={
+            <DefaultText
+              title="Submit"
+              titleClassName="font-inter-medium text-base"
+            />
+          }
           onPress={() => formik.handleSubmit()}
-          title="Submit"
           isLoading={false}
         />
 
         <Section style={{marginTop: 28}} isRow>
           <Text
             variant="base"
-            label="Remember the password? "
+            label="Already remember? "
             color={theme?.colors.TEXT_SECONDARY}
           />
           <TouchableOpacity onPress={() => navigation.navigate('LogIn')}>

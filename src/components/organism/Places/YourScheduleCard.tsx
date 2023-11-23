@@ -6,7 +6,7 @@ import useTheme from '../../../theme/useTheme';
 import {HEIGHT, WIDTH} from '../../../utils/config';
 import {Section, Spacer, Text} from '../../atoms';
 import {UserLocationInterface} from '../../../interfaces/UserInterface';
-import { YourCardSchdule } from './YourCardSchdule';
+import {YourCardSchdule} from './YourCardSchdule';
 
 interface PlaceCategoryProps {
   title: string;
@@ -25,8 +25,15 @@ export const YourScheduleCard = ({
 }: PlaceCategoryProps) => {
   const theme = useTheme();
   const [index, setIndex] = React.useState<number>(0);
+  console.log(index);
+
   let renderItem = ({item}: any) => (
-    <YourCardSchdule item={item} onSelect={onSelect} userLocation={userLocation} />
+    <YourCardSchdule
+      item={item}
+      data={data}
+      onSelect={onSelect}
+      userLocation={userLocation}
+    />
   );
   return (
     <Section style={{backgroundColor: 'transparent'}}>
@@ -38,7 +45,7 @@ export const YourScheduleCard = ({
       />
       <Spacer sm />
       <Carousel
-        data={[1,2,3,4]}
+        data={data}
         renderItem={renderItem}
         sliderWidth={WIDTH}
         itemWidth={WIDTH - 50}

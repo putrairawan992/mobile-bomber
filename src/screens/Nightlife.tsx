@@ -89,6 +89,7 @@ function NightlifeScreen({route, navigation}: Props) {
   const [topFiveNightClub, setTopFiveNightClub] = React.useState<
     PlaceInterface[]
   >([]);
+  const [bookingReminder, setBookingReminder] = React.useState<any>([]);
   const {isFineLocationGranted} = usePermission();
   const {currentLocation, getOneTimeLocation} = useCheckLocation();
   const [historySearchPlace, setHistorySearchPlace] = React.useState<
@@ -219,11 +220,14 @@ function NightlifeScreen({route, navigation}: Props) {
       await Promise.all([
         NightlifeService.getTopFiveNightClub(),
         NightlifeService.getBanner({city_id: 1}),
-        NightlifeService.getBookingReminder({id: user.id}),
+        NightlifeService.getBookingReminder({
+          customer_id: 'FQ5OvkolZtSBZEMlG1R3gtowbQv1',
+        }),
         NightlifeService.getInvitedOrder({id: user.id}),
       ])
         .then(response => {
-          console.log('response[2]', response[2]);
+          setBookingReminder(response[2]?.data);
+          console.log('response[2]', response[2]?.data?.booking, user.token);
           console.log('response[3]', response[3]);
           setTopFiveNightClub(
             response[0].data.map((item, idx) => {
@@ -236,8 +240,6 @@ function NightlifeScreen({route, navigation}: Props) {
               };
             }),
           );
-          console.log('response[1].data', response[1].data);
-
           setBanner(response[1].data);
         })
         .catch(error => {
@@ -250,8 +252,6 @@ function NightlifeScreen({route, navigation}: Props) {
       console.log(error);
     }
   };
-
-  console.log('banner', banner);
 
   useEffect(() => {
     const fetchUserLocation = async () => {
@@ -336,8 +336,6 @@ function NightlifeScreen({route, navigation}: Props) {
     const historyData = await getStorage('historySearchLocation');
     const parseHistoryData = JSON.parse(historyData as string);
     if (parseHistoryData.length) {
-      console.log('parseHistoryData', parseHistoryData);
-
       setHistorySearchPlace(parseHistoryData);
     }
   };
@@ -420,7 +418,6 @@ function NightlifeScreen({route, navigation}: Props) {
         },
       });
     }
-    console.log(showMap);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [route, showMap]);
 
@@ -612,14 +609,13 @@ function NightlifeScreen({route, navigation}: Props) {
 
           {/* <EntryAnimation index={2}> */}
           {isLoading ? (
-            <CustomShimmer width={WIDTH} height={250} />
+            <CustomShimmer width={WIDTH} height={300} />
           ) : (
             <SwiperFlatList
               autoplay
               autoplayDelay={5}
-              style={{width: WIDTH, height: 222}}
+              style={{width: WIDTH, height: 300}}
               autoplayLoop
-              showPagination
               data={banner}
               renderItem={({item}) => (
                 <Image
@@ -636,15 +632,17 @@ function NightlifeScreen({route, navigation}: Props) {
             />
           )}
           {/* </EntryAnimation> */}
-          <Gap height={22} />
-          <YourScheduleCard
-            userLocation={userLocation}
-            title="Your schedule"
-            data={topFiveNightClub}
-            itemWidthStyle
-            fullSliderWidth
-            onSelect={onPlaceSelect}
-          />
+          {bookingReminder?.booking?.length > 0 && <Gap height={22} />}
+          {bookingReminder?.booking?.length > 0 && (
+            <YourScheduleCard
+              userLocation={userLocation}
+              title="Your schedule"
+              data={bookingReminder?.booking}
+              itemWidthStyle
+              fullSliderWidth
+              onSelect={onPlaceSelect}
+            />
+          )}
           <Gap height={22} />
           {/* <EntryAnimation index={3}> */}
           <PlaceCategory

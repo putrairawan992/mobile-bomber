@@ -55,6 +55,10 @@ export const SelectLocationSheet = ({
     }
   };
 
+  React.useEffect(() => {
+    console.log(userLocation);
+  }, [userLocation]);
+
   return (
     <Section
       padding="0px 16px"

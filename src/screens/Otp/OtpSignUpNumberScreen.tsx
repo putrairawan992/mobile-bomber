@@ -6,6 +6,7 @@ import {
   Layout,
   Gap,
   TouchableSection,
+  Button,
 } from '../../components/atoms';
 import {useContext, useEffect, useState} from 'react';
 import {StyleSheet, TouchableOpacity, View} from 'react-native';
@@ -218,25 +219,30 @@ function OtpSignUpNumberScreen({route, navigation}: Props) {
             )}
           </Section>
           <Gap height={56} />
-          <TouchableSection
-            padding="12px 20px"
-            backgroundColor="#333"
-            rounded={8}
-            onPress={() => {
-              if (codeInput.length === 6) {
+          {codeInput?.length === 6 ? (
+            <Button
+              type="primary"
+              title="Submit"
+              onPress={() => {
                 setOtpInputFill(false);
                 setTimeout(() => {
                   handleConfirmCode(codeInput);
                 }, 2000);
-              }
-            }}>
-            <Text
-              variant="large"
-              label="Submit"
-              color={Colors['black-20']}
-              textAlign="center"
+              }}
             />
-          </TouchableSection>
+          ) : (
+            <TouchableSection
+              padding="12px 20px"
+              backgroundColor="#333"
+              rounded={8}
+              onPress={() => undefined}>
+              <Text
+                label="Submit"
+                color={Colors['black-20']}
+                textAlign="center"
+              />
+            </TouchableSection>
+          )}
         </View>
         <ModalToast
           isVisible={isShowToast}

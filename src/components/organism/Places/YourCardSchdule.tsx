@@ -1,31 +1,17 @@
 /* eslint-disable react-native/no-inline-styles */
-import { ArrowDown2, Gallery } from 'iconsax-react-native';
 import React from 'react';
-import { Image, ImageBackground, TouchableOpacity, View } from 'react-native';
-import { useImageAspectRatio } from '../../../hooks/useImageAspectRatio';
-import {
-  PlaceInterface,
-  PlaceOperationalTimeInterface,
-} from '../../../interfaces/PlaceInterface';
-import useTheme from '../../../theme/useTheme';
-import {
-  Gap,
-  ScaleAnimation,
-  Section,
-  Text,
-  TouchableSection,
-} from '../../atoms';
-import styles from './Style';
-import { Colors } from '../../../theme';
-import { UserLocationInterface } from '../../../interfaces/UserInterface';
-import { calculateDistance } from '../../../utils/calculateDistance';
-import { Star } from '../../../assets/icons';
-import { ScrollView } from 'react-native';
+import {Image, View} from 'react-native';
+import {PlaceOperationalTimeInterface} from '../../../interfaces/PlaceInterface';
+import {Gap, ScaleAnimation, Section, Text} from '../../atoms';
+import {UserLocationInterface} from '../../../interfaces/UserInterface';
 import LinearGradient from 'react-native-linear-gradient';
-import { IcBarcodeBorder, IcLegal, IcMapBorder, ImgOmniClub, OmniNight } from '../../../theme/Images';
-
+import moment from 'moment';
+import {WIDTH} from '../../../utils/config';
+import {BarcodeBorder} from '../../../assets/icons/BarcodeBorder';
+import {MapBorder} from '../../../assets/icons/MapBorder';
 interface PlaceCardProps {
-  item: PlaceInterface;
+  item: any;
+  data: any;
   onSelect: (id: string) => void;
   isPlaceDetail?: boolean;
   onOpenSchedule?: () => void;
@@ -37,122 +23,78 @@ interface PlaceCardProps {
 
 export const YourCardSchdule = ({
   item,
-  onSelect,
+  data,
   isPlaceDetail = false,
-  onOpenSchedule,
-  operation,
-  onOpenGallery,
-  isVertical,
-  userLocation,
 }: PlaceCardProps) => {
-  const theme = useTheme();
-  const aspectRatio = useImageAspectRatio(
-    item?.logo ?? 'https://bomber.app/club-logo/wave.png',
-  );
-
-  const renderSchedule = () => {
-    return (
-      <View style={styles.scheduleContainer}>
-        <Section isRow>
-          <Text
-            label={operation?.isClose ? 'Closed' : 'Open Now'}
-            color={
-              operation?.isClose ? Colors['danger-400'] : theme?.colors.SUCCESS
-            }
-          />
-          <Text
-            label={` | ${operation?.open} - ${operation?.close}`}
-            color={theme?.colors.TEXT_PRIMARY}
-          />
-          <Gap width={4} />
-          <TouchableOpacity
-            onPress={onOpenSchedule}
-            style={{
-              padding: 2,
-              borderRadius: 8,
-              borderColor: theme?.colors.ICON,
-              borderWidth: 1,
-            }}>
-            <ArrowDown2 size={14} color={theme?.colors.ICON} variant="Bold" />
-          </TouchableOpacity>
-        </Section>
-      </View>
-    );
-  };
-
-  const itemTag: any = [
-    { name: 'LGBT' },
-    { name: 'EDM' },
-    { name: 'Rooftop' },
-    { name: 'Freeflow' },
-  ];
-
   return (
     <ScaleAnimation
-      onPress={() => onSelect(item.clubId.toString())}
+      onPress={() => undefined}
       disabled={isPlaceDetail ? true : false}
       scaleTo={0.97}
       style={{
         backgroundColor: '#262626',
         borderRadius: 8,
-        marginLeft: 20
+        marginLeft: 20,
+        width: data?.length > 0 ? WIDTH * 0.9 : WIDTH / 1.1,
       }}>
       <>
         <LinearGradient
           colors={['#A060FA', '#C800CC']}
-          start={{ x: 0, y: 0 }}
-          end={{ x: 1, y: 0 }}
+          start={{x: 0, y: 0}}
+          end={{x: 1, y: 0}}
           style={{
             paddingVertical: 16,
-            borderColor: "red",
+            borderColor: 'red',
             borderRadius: 8,
-            padding:10
+            padding: 10,
           }}>
           <View className="flex-row">
-            <Image
-              source={OmniNight}
-              className="w-[74] h-[74]"
+            <View
               style={{
                 borderColor: '#525252',
                 borderWidth: 1,
                 borderRadius: 4,
-              }}
-              resizeMode="cover"
-            />
+                padding: 10,
+              }}>
+              <Image
+                source={{uri: item?.club_logo}}
+                className="w-[74] h-[74]"
+                resizeMode="cover"
+              />
+            </View>
             <Gap width={10} />
             <View className="flex-1">
-
               <Text
-                className="flex-1"
-                label="2 days more"
+                fontWeight="regular"
+                variant="small"
+                label={item?.days_remain}
               />
               <Gap height={1} />
               <Section isRow isBetween>
                 <Text
-                  variant='large'
-                  className="font-inter-semibold"
-                  label="OMNI TAIPEI"
+                  variant="base"
+                  fontWeight="medium"
+                  label={
+                    item?.club_name?.length > 15
+                      ? item?.club_name.slice(0, 15) + '...'
+                      : item?.club_name
+                  }
                 />
                 <Section isRow isBetween>
-                  <Image
-                    source={IcBarcodeBorder}
-                    resizeMode="contain"
-                    className="w-[30] h-[30]"
-                  />
-                  <Gap width={10}/>
-                  <Image
-                    source={IcMapBorder}
-                    resizeMode="contain"
-                    className="w-[30] h-[30]"
-                  />
+                  <BarcodeBorder size={37} />
+                  <Gap width={10} />
+                  <MapBorder size={37} />
                 </Section>
               </Section>
               <Gap height={10} />
               <Section isRow>
-              <Text
-                className="flex-1"
-                label="Sunday 14, June 2023"
-              />
+                <Text
+                  variant="small"
+                  fontWeight="regular"
+                  label={moment(item?.booking_date).format(
+                    'dddd, DD MMMM YYYY',
+                  )}
+                />
               </Section>
             </View>
           </View>

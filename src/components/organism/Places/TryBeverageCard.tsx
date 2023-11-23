@@ -57,6 +57,7 @@ export const TryBeverageCard = ({
                 borderBottomRightRadius: 12,
               }),
             }}>
+            <Gap height={10} />
             <Text
               variant="base"
               fontWeight="poppins-semi-bold"

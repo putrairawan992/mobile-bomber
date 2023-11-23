@@ -1,8 +1,7 @@
 /* eslint-disable react-native/no-inline-styles */
 import {ArrowDown2, Gallery} from 'iconsax-react-native';
 import React from 'react';
-import {Image, ImageBackground, TouchableOpacity, View} from 'react-native';
-import {useImageAspectRatio} from '../../../hooks/useImageAspectRatio';
+import {ImageBackground, TouchableOpacity, View} from 'react-native';
 import {
   PlaceInterface,
   PlaceOperationalTimeInterface,
@@ -21,6 +20,7 @@ import {UserLocationInterface} from '../../../interfaces/UserInterface';
 import {calculateDistance} from '../../../utils/calculateDistance';
 import {Star} from '../../../assets/icons';
 import {ScrollView} from 'react-native';
+import {WIDTH} from '../../../utils/config';
 
 interface PlaceCardProps {
   item: PlaceInterface;
@@ -44,9 +44,6 @@ export const PlaceCard = ({
   userLocation,
 }: PlaceCardProps) => {
   const theme = useTheme();
-  const aspectRatio = useImageAspectRatio(
-    item?.logo ?? 'https://bomber.app/club-logo/wave.png',
-  );
 
   const renderSchedule = () => {
     return (
@@ -95,6 +92,7 @@ export const PlaceCard = ({
         ...(!isPlaceDetail && {
           borderRadius: 8,
         }),
+        height: WIDTH / 1.08,
         marginLeft: isPlaceDetail || isVertical ? 0 : 20,
         ...(isVertical && {marginBottom: 20}),
       }}>
@@ -146,36 +144,36 @@ export const PlaceCard = ({
                 </TouchableSection>
               </Section>
             )}
-            <Gap height={isPlaceDetail ? 16 : 35} />
+            <Gap height={150} />
             {isPlaceDetail ? (
               <>
                 <Text label="Songsou, Taipei City" />
               </>
             ) : (
               <>
-                <Image
+                {/* <Image
                   source={{
                     uri: item?.logo ?? 'https://bomber.app/club-logo/wave.png',
                   }}
                   style={{height: 56, aspectRatio, marginBottom: 50}}
-                />
+                /> */}
 
-                <Text label="Featured Today" />
+                <Text variant="small" label="Featured Today" />
                 <Gap height={8} />
                 <Section isRow>
                   {Array.isArray(item.featuredToday) &&
                     item.featuredToday.map((feat: string, idx: number) => {
                       return (
-                        <View
+                        <Section
+                          padding="4px 8px"
                           key={`category_${idx}`}
                           style={{
-                            padding: 8,
                             backgroundColor: theme?.colors.PRIMARY,
                             borderRadius: 4,
                             marginRight: 12,
                           }}>
-                          <Text label={feat} />
-                        </View>
+                          <Text variant="small" label={feat} />
+                        </Section>
                       );
                     })}
                 </Section>
@@ -200,8 +198,12 @@ export const PlaceCard = ({
             />
 
             <Gap height={10} />
-            <Text variant="small" label={item.address.slice(0, 80) + '...'} />
-            <Gap height={6} />
+            <Text
+              variant="small"
+              style={{lineHeight: 20}}
+              label={item.address.slice(0, 80) + '...'}
+            />
+            <Gap height={15} />
             <Section isRow isBetween>
               <Section isRow>
                 {[1].map((star: number) => (

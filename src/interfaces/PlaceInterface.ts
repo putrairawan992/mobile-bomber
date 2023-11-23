@@ -120,7 +120,8 @@ export interface ParamsGetClubEventInterface {
 
 export interface ParamsGetPlaceByCategoryInterface {
   category_id: string;
-  limit: number;
+  limit?: number;
+  keyword: any;
 }
 
 export interface CouponInterface {

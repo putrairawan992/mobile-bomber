@@ -25,7 +25,7 @@ import {useImageAspectRatio} from '../../../hooks/useImageAspectRatio';
 import useTheme from '../../../theme/useTheme';
 import {BottomSheetModal} from '@gorhom/bottom-sheet';
 import {NightlifeService} from '../../../service/NightlifeService';
-import {WIDTH} from '../../../utils/config';
+import {HEIGHT, WIDTH} from '../../../utils/config';
 import {dateFormatter} from '../../../utils/dateFormatter';
 
 import {PlaceCardSecond} from '../../../components/organism/Places/PlaceCardSecond';
@@ -34,6 +34,7 @@ import {placeDetailDummy} from '../../../theme/Images';
 import {TabMenuSecond} from '../../../components/molecules/Menu/HorizontalMenuSecond';
 import {Colors} from '../../../theme';
 import {OperationalHoursSheet} from '../../../components/organism';
+import Carousel from 'react-native-snap-carousel';
 
 type Props = NativeStackScreenProps<
   MainStackParams,
@@ -85,16 +86,15 @@ export const PlaceDetailSecond = ({route, navigation}: Props) => {
           </Section>
         ) : (
           <EntryAnimation index={1}>
-            <Section
-              style={{borderTopColor: '#2E2E2E', borderTopWidth: 1}}
-              key={1}
-              rounded={8}>
-              <Section padding="12px 12px">
-                <DefaultText
-                  title="Our Facilities"
-                  titleClassName="font-inter-bold text-sm"
-                />
-                <Gap height={12} />
+            <Section key={1} backgroundColor="#171717">
+              <View
+                style={{
+                  padding: 16,
+                  backgroundColor: '#262626',
+                  borderBottomLeftRadius: 12,
+                  borderBottomRightRadius: 12,
+                }}>
+                <Text label="Our Facilities" variant="medium" />
                 {!data?.features?.length && (
                   <Text
                     color={Colors['gray-400']}
@@ -105,25 +105,29 @@ export const PlaceDetailSecond = ({route, navigation}: Props) => {
                   (item: PlaceOverviewFeaturesInterface, idx: number) => {
                     return (
                       <Section
+                        style={{marginLeft: 20}}
                         key={`facilities_${idx}`}
                         isRow
-                        style={{marginBottom: 12}}>
+                        isCenter>
                         {item.icon === 'rated' && (
-                          <Speaker size={30} color={theme?.colors.ICON} />
+                          <Speaker size={26} color={theme?.colors.ICON} />
                         )}
                         {item.icon === 'clothing' && (
-                          <WristClock size={30} color={theme?.colors.ICON} />
+                          <WristClock size={26} color={theme?.colors.ICON} />
                         )}
                         {item.icon === 'live' && (
-                          <Video size={30} color={theme?.colors.ICON} />
+                          <Video size={26} color={theme?.colors.ICON} />
                         )}
-                        <Gap width={12} />
-                        <Section padding="12px 12px">
-                          <Text label={item.title} />
+                        <Section padding="12px 16px">
+                          <Text
+                            variant="medium"
+                            style={{lineHeight: 28}}
+                            label={item.title}
+                          />
                           <Text
                             label={item.subtitle}
                             style={{width: 333}}
-                            variant="extra-small"
+                            variant="small"
                             color={theme?.colors.TEXT_SECONDARY}
                           />
                         </Section>
@@ -131,67 +135,93 @@ export const PlaceDetailSecond = ({route, navigation}: Props) => {
                     );
                   },
                 )}
-                <Section>
-                  <View className="flex-row items-center">
-                    <DefaultText
-                      title="Available offers"
-                      titleClassName="font-inter-bold text-sm text-white-400 flex-1"
-                    />
-                    <DefaultText
-                      title="See all offers"
-                      titleClassName="font-inter-medium text-xs text-whie-400"
-                    />
-                  </View>
-                  <Gap height={12} />
-                  <FlatList
-                    data={[1, 2, 3, 4]}
-                    windowSize={WIDTH}
-                    keyExtractor={(_, key) => key.toString()}
-                    horizontal={true}
-                    showsHorizontalScrollIndicator={false}
-                    renderItem={({}) => (
-                      <Image
-                        resizeMode="contain"
-                        source={placeDetailDummy}
-                        style={{
-                          width: WIDTH / 1.1,
-                          height: 150,
-                          marginLeft: -7,
-                        }}
-                      />
-                    )}
-                    contentContainerStyle={styles.orderContainer}
-                  />
-                  <Gap height={15} />
+              </View>
+              <Gap height={10} />
+              <View style={{padding: 16, backgroundColor: '#171717'}}>
+                <View className="flex-row items-center">
                   <DefaultText
-                    title="This month DJ"
-                    titleClassName="font-inter-bold text-sm text-white-400"
+                    title="Available offers"
+                    titleClassName="font-inter-medium text-sm text-white-400 flex-1"
                   />
-                  <Gap height={12} />
-                  <FlatList
-                    data={[1, 2, 3, 4, 5, 6, 7]}
-                    keyExtractor={(_, key) => key.toString()}
-                    horizontal={true}
-                    showsHorizontalScrollIndicator={false}
-                    renderItem={({}) => (
-                      <View className="p-2 flex">
-                        <Image
-                          source={{
-                            uri: 'https://images.unsplash.com/photo-1547425260-76bcadfb4f2c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=870&q=80',
-                          }}
-                          resizeMode="cover"
-                          className="w-[56] h-[56] self-center rounded-full mb-1"
-                        />
-                        <DefaultText
-                          title="DJ Wahyu"
-                          titleClassName="font-inter-medium self-center text-sm text-white-400"
-                        />
-                      </View>
-                    )}
-                    contentContainerStyle={styles.orderContainer}
+                  <DefaultText
+                    title="See all offers"
+                    titleClassName="font-inter-medium text-xs text-whie-400"
                   />
-                </Section>
-              </Section>
+                </View>
+                <Gap height={15} />
+                <FlatList
+                  data={[1, 2, 3, 4]}
+                  windowSize={WIDTH}
+                  keyExtractor={(_, key) => key.toString()}
+                  horizontal={true}
+                  showsHorizontalScrollIndicator={false}
+                  renderItem={({}) => (
+                    <Image
+                      resizeMode="contain"
+                      source={placeDetailDummy}
+                      style={{
+                        width: WIDTH / 1.1,
+                        height: 150,
+                        marginLeft: -7,
+                      }}
+                    />
+                  )}
+                  contentContainerStyle={styles.orderContainer}
+                />
+                <Gap height={24} />
+                <DefaultText
+                  title="This month DJ"
+                  titleClassName="font-inter-medium text-sm text-white-400"
+                />
+                <Gap height={12} />
+                <Carousel
+                  data={[1, 2, 3, 4, 5, 6, 7]}
+                  renderItem={({}) => (
+                    <View className="flex">
+                      <Image
+                        source={{
+                          uri: 'https://images.unsplash.com/photo-1547425260-76bcadfb4f2c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=870&q=80',
+                        }}
+                        resizeMode="cover"
+                        className="w-[56] h-[56] self-center rounded-full mb-1"
+                      />
+                      <DefaultText
+                        title="DJ Wahyu"
+                        titleClassName="self-center text-xs text-white-400"
+                      />
+                    </View>
+                  )}
+                  sliderWidth={WIDTH}
+                  itemWidth={WIDTH / 5.6}
+                  inactiveSlideOpacity={1}
+                  inactiveSlideScale={1}
+                  sliderHeight={HEIGHT}
+                  activeSlideAlignment={'start'}
+                  // onSnapToItem={i => setIndex(i)}
+                />
+                {/* <FlatList
+                  data={[1, 2, 3, 4, 5, 6, 7]}
+                  keyExtractor={(_, key) => key.toString()}
+                  horizontal={true}
+                  showsHorizontalScrollIndicator={false}
+                  renderItem={({ }) => (
+                    <View className="p-2 flex">
+                      <Image
+                        source={{
+                          uri: 'https://images.unsplash.com/photo-1547425260-76bcadfb4f2c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=870&q=80',
+                        }}
+                        resizeMode="cover"
+                        className="w-[56] h-[56] self-center rounded-full mb-1"
+                      />
+                      <DefaultText
+                        title="DJ Wahyu"
+                        titleClassName="font-inter-medium self-center text-xs text-white-400"
+                      />
+                    </View>
+                  )}
+                  contentContainerStyle={styles.orderContainer}
+                /> */}
+              </View>
             </Section>
           </EntryAnimation>
         )}
@@ -228,7 +258,6 @@ export const PlaceDetailSecond = ({route, navigation}: Props) => {
             />
           </EntryAnimation>
         )}
-        <Gap height={16} />
         {PlaceOverview()}
       </ScrollView>
 
