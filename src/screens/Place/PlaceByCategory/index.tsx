@@ -43,7 +43,7 @@ const PlaceByCategory = ({route, navigation}: Props) => {
 
   useEffect(() => {
     fetchData(); // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [vValue]);
+  }, [vValue, searchValue]);
 
   const fetchData = async () => {
     try {

@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "578578395924",
+    "project_id": "bomber-app-project-394211",
+    "storage_bucket": "bomber-app-project-394211.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:578578395924:android:89d12faf9f253e090f4801",
+        "android_client_info": {
+          "package_name": "com.bomber"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "578578395924-bin1duqvr9s096upmng7vofapd0q3g1t.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDhcNoyAE9gAqABi_WzTt-pXdWx9QG1dig"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "578578395924-bin1duqvr9s096upmng7vofapd0q3g1t.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

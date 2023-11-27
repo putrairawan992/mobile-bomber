@@ -79,14 +79,14 @@ function FriendsScreen({navigation}: Props) {
   const snapPoints = React.useMemo(
     () =>
       sheetAction === 'profileSecurity'
-        ? ['30']
+        ? ['40']
         : sheetAction === 'friendOption'
         ? ['48']
         : sheetAction === 'inviteParty'
         ? ['40']
         : sheetAction === 'inviteConfirmation'
         ? ['80']
-        : ['60'],
+        : ['70'],
     [sheetAction],
   );
 
@@ -235,6 +235,7 @@ function FriendsScreen({navigation}: Props) {
       openToast('error', error.response.data.message);
     }
   };
+  console.log('friendshipData', friendshipData);
 
   return (
     <Layout contentContainerStyle={styles.container} isDisableKeyboardAware>

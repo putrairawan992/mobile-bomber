@@ -3,7 +3,7 @@ import React from 'react';
 import Carousel from 'react-native-snap-carousel';
 import {PlaceInterface} from '../../../interfaces/PlaceInterface';
 import useTheme from '../../../theme/useTheme';
-import {HEIGHT, WIDTH} from '../../../utils/config';
+import {WIDTH} from '../../../utils/config';
 import {Section, Spacer, Text} from '../../atoms';
 import {UserLocationInterface} from '../../../interfaces/UserInterface';
 import {YourCardSchdule} from './YourCardSchdule';
@@ -48,10 +48,10 @@ export const YourScheduleCard = ({
         data={data}
         renderItem={renderItem}
         sliderWidth={WIDTH}
-        itemWidth={WIDTH - 50}
+        itemWidth={WIDTH - 30}
         inactiveSlideOpacity={1}
         inactiveSlideScale={1}
-        sliderHeight={HEIGHT}
+        sliderHeight={50}
         activeSlideAlignment={'start'}
         onSnapToItem={i => setIndex(i)}
       />

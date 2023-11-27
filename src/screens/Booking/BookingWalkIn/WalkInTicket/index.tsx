@@ -108,7 +108,7 @@ export const WalkInTicketScreen = ({route, navigation}: Props) => {
       setIsLoading(true);
       await Promise.all([
         NightlifeService.getWalkInTicket({
-          club_id: Number(route.params.placeData?.clubId),
+          club_id: route.params.placeData?.clubId as string,
           date: route.params.date,
         }),
         FriendshipService.getFriendship({
@@ -207,6 +207,8 @@ export const WalkInTicketScreen = ({route, navigation}: Props) => {
           member_invited: selectedInvitation.map(item => item.customerId),
           bought_date: dateFormatter(new Date(), 'yyyy-MM-dd'),
           ticket_id: selectedTicket?.walkInTicketId as string,
+          card_number: selectedPayment?.cardNumber,
+          source: 'walkin booking apps',
         },
       });
 
@@ -220,7 +222,7 @@ export const WalkInTicketScreen = ({route, navigation}: Props) => {
       }, 200);
     } catch (error: any) {
       setIsLoadingPayment(false);
-      openToast('error', error.response.data.message);
+      openToast('error', JSON.stringify(error.response.data.detail));
     }
   };
 
@@ -329,6 +331,7 @@ export const WalkInTicketScreen = ({route, navigation}: Props) => {
                   ? Number(selectedTicket?.price) * selectedInvitation.length
                   : selectedTicket?.price,
               ),
+              table_status: '',
             }}
             isFullPayment={isPayFull}
             isSplitBill={isSplitBill}

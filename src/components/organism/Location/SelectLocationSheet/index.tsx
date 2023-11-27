@@ -157,7 +157,7 @@ export const SelectLocationSheet = ({
             <Gap height={4} />
             <Text
               label={`${userLocation.city}, ${userLocation.country}`}
-              fontWeight="bold"
+              fontWeight="medium"
               color={'#D8D8D8'}
               variant="small"
             />

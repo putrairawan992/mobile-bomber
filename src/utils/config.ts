@@ -69,6 +69,26 @@ export const gradientMapping = {
   },
 };
 
+// eslint-disable-next-line no-sparse-arrays
+export const gradientColor: Array<string[]> = [
+  ['#F6D056', '#ED984E', '#FC3F31'],
+  ['#4E6AFF', '#77BAAD'],
+  ['#4E6AFF', '#B778D4'],
+  ['#A060FA', '#C800CC'],
+  ['#F6D056', '#ED984E', '#FC3F31'],
+  ['#4E6AFF', '#77BAAD'],
+  ['#4E6AFF', '#B778D4'],
+  ['#A060FA', '#C800CC'],
+  ['#F6D056', '#ED984E', '#FC3F31'],
+  ['#4E6AFF', '#77BAAD'],
+  ['#4E6AFF', '#B778D4'],
+  ['#A060FA', '#C800CC'],
+  ['#F6D056', '#ED984E', '#FC3F31'],
+  ['#4E6AFF', '#77BAAD'],
+  ['#4E6AFF', '#B778D4'],
+  ['#A060FA', '#C800CC'],
+];
+
 export const weekday = [
   'Sunday',
   'Monday',

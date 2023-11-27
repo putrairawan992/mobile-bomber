@@ -29,14 +29,14 @@ export const NewstEventCard = ({
     <ScaleAnimation
       onPress={() => onSelect(item.clubId.toString())}
       disabled={isPlaceDetail ? true : false}
-      style={{marginLeft: 20}}
+      style={{marginLeft: 20, height: 240, width: WIDTH}}
       scaleTo={0.97}>
       <Image
         source={{
           uri: item?.coverImage,
         }}
         resizeMode="cover"
-        style={{height: 340, width: WIDTH / 1.4}}
+        style={{height: '100%', width: WIDTH / 1.4}}
       />
     </ScaleAnimation>
   );

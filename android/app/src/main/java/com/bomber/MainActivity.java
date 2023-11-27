@@ -1,4 +1,4 @@
-package com.bomber;
+package com.bomber.bomberapp;
 
 import com.facebook.react.ReactActivity;
 import com.facebook.react.ReactActivityDelegate;

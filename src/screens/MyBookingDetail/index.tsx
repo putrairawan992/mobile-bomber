@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-inline-styles */
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, {useContext, useEffect, useRef, useState} from 'react';
 import {
@@ -7,7 +8,10 @@ import {
   GradientText,
   Layout,
   Loading,
+  Section,
   Spacer,
+  Text,
+  TouchableSection,
 } from '../../components/atoms';
 import {Header, ModalToast} from '../../components/molecules';
 import {
@@ -21,16 +25,8 @@ import DefaultText from '../../components/atoms/Text/DefaultText';
 import CardBookingOrder from '../../components/molecules/Card/CardBookingOrder';
 import {navigationRef} from '../../navigation/RootNavigation';
 import {Image} from 'react-native';
-import {
-  IcCalendarPlus,
-  IcChevronRight,
-  IcDetailBooking,
-  IcPeopleThree,
-  MusicDjImg,
-} from '../../theme/Images';
-import LinearGradient from 'react-native-linear-gradient';
+import {IcCalendarPlus, MusicDjImg} from '../../theme/Images';
 import ModalDetailTicket from '../../components/molecules/Modal/ModalDetailTicket';
-import ModalInviteFriends from '../../components/molecules/Modal/ModalInviteFriends';
 import RNCalendarEvents from 'react-native-calendar-events';
 import {FriendshipService} from '../../service/FriendshipService';
 import {FriendInterface} from '../../interfaces/UserInterface';
@@ -40,10 +36,20 @@ import {MainStackParams} from '../../navigation/MainScreenStack';
 import {dateFormatter} from '../../utils/dateFormatter';
 import {currency, generateQr} from '../../utils/function';
 import {MyEventService} from '../../service/MyEventService';
-import {BookingDetailInterface} from '../../interfaces/BookingInterface';
+import {
+  BookingDetailInterface,
+  WalkInDetailInterface,
+} from '../../interfaces/BookingInterface';
 import {ModalToastContext} from '../../context/AppModalToastContext';
 import axios from 'axios';
 import config from '../../config';
+import {useImageAspectRatio} from '../../hooks/useImageAspectRatio';
+import {Add, ScanBarcode} from 'iconsax-react-native';
+import {Colors} from '../../theme';
+import InviteFriendsScreen from '../../components/molecules/Modal/InviteFriendsScreen';
+import {UserGroup} from '../../assets/icons';
+import {NotificationService} from '../../service/NotificationService';
+import {useDispatch} from 'react-redux';
 
 type Props = NativeStackScreenProps<
   MainStackParams,
@@ -52,14 +58,16 @@ type Props = NativeStackScreenProps<
 >;
 
 export default function MyBookingDetail({route, navigation}: Props) {
-  const [menu] = useState<string[]>([
-    'Ticket',
-    'F&B Order',
-    'Friends',
-    'Request',
-  ]);
   const bookingId = route.params.bookingId;
   const clubId = route.params.club_id;
+  const status = route.params.status;
+  const isTableBooking = status === 'Booking Table';
+  const [menu] = useState<string[]>(
+    isTableBooking
+      ? ['Ticket', 'F&B Order', 'Friends', 'Request']
+      : ['Ticket', 'F&B Order', 'Request'],
+  );
+  const dispatch = useDispatch();
   const [initialPage, setInitialPage] = useState<number>(0);
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [base64Qr, setBase64Qr] = useState<any>();
@@ -72,10 +80,13 @@ export default function MyBookingDetail({route, navigation}: Props) {
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
   const [friendshipData, setFriendshipData] = useState<FriendInterface[]>([]);
   const [booking, setBooking] = useState<BookingDetailInterface | null>(null);
+  const [walkIn, setWalkIn] = useState<WalkInDetailInterface | null>(null);
   const [memberInvited, setMemberInvited] = useState<FriendInterface[]>([]);
   const [selectedInvitation, setSelectedInvitation] = useState<
     FriendInterface[]
   >([]);
+
+  const aspectRatio = useImageAspectRatio(booking?.clubLogo as string);
 
   const {
     isShowToast,
@@ -87,23 +98,49 @@ export default function MyBookingDetail({route, navigation}: Props) {
   } = useContext(ModalToastContext);
 
   const {user} = useAppSelector(state => state.user);
+  const {invitation} = useAppSelector(state => state.notification);
+  const memberStatus =
+    booking?.hostId === user.id
+      ? undefined
+      : memberInvited.find(el => el.customerId === user.id)?.status;
+
   const ref = useRef<ScrollView>(null);
 
   const onGenerateQr = async () => {
-    const response = await generateQr(`${bookingId},${user.id}`);
+    const response = await generateQr(
+      `${bookingId},${user.id},${isTableBooking ? 't' : 'w'}`,
+    );
     setUriQr(response as string);
   };
 
+  const fetchWalkInData = async () => {
+    try {
+      setIsLoading(true);
+      const response = await MyEventService.getWalkInDetail({
+        booking_id: bookingId,
+      });
+      setWalkIn(response.data[0]);
+      setIsLoading(false);
+    } catch (error: any) {
+      setIsLoading(false);
+    }
+  };
+
   useEffect(() => {
-    fethData();
+    if (isTableBooking) {
+      fethData();
+    } else {
+      fetchWalkInData();
+    }
+
     actionSpentOrder();
   }, []);
 
   useEffect(() => {
-    if (booking) {
+    if (booking || walkIn) {
       onGenerateQr();
     }
-  }, [booking]);
+  }, [booking, walkIn]);
 
   const onFriendInvited = (data: FriendInterface) => {
     setShowInviteFriends(false);
@@ -168,11 +205,26 @@ export default function MyBookingDetail({route, navigation}: Props) {
         MyEventService.getGenerateQrCode({
           club_id: clubId,
         }),
+        // NightlifeService.getProductClubId({
+        //   clubId: clubId,
+        // })
       ])
         .then(response => {
           setFriendshipData(response[0].data);
           setBooking(response[1].data.bookingDetail[0]);
-          setMemberInvited(response[1].data.memberInvited);
+          setMemberInvited(
+            response[1].data.memberInvited.map(item => {
+              return {
+                customerId: item.customerId as string,
+                fullName: item.memberName ?? item.customerName ?? '',
+                userName: item.memberName ?? item.customerName ?? '',
+                photoUrl: item.photoUrl,
+                age: item?.memberAge ? Number(item.memberAge) : 0,
+                bio: '',
+                status: item.status,
+              };
+            }),
+          );
           setBase64Qr(response[2]?.data);
         })
         .catch(() => {
@@ -199,6 +251,38 @@ export default function MyBookingDetail({route, navigation}: Props) {
     setType(toastType);
     setToastMessage(message);
   };
+
+  const handleActionInvitation = async (action: string) => {
+    try {
+      setIsLoading(true);
+      const response = await NotificationService.putActionInvitation(
+        {
+          id:
+            invitation.find(item => item.bookingId === booking?.bookingId)
+              ?.id ?? '',
+          new_status: action,
+        },
+        dispatch,
+      );
+      setIsLoading(false);
+      if (!response.error) {
+        setTimeout(() => {
+          openToast('success', `You ${action} this invitation`);
+        }, 100);
+        return navigation.navigate('Event', {
+          isRefetch: true,
+        });
+      } else {
+        setTimeout(() => {
+          openToast('error', response.message);
+        }, 100);
+      }
+    } catch (error: any) {
+      setIsLoading(false);
+      openToast('error', error.response.data.message);
+    }
+  };
+
   return (
     <Layout contentContainerStyle={styles.parent}>
       <Header
@@ -208,7 +292,6 @@ export default function MyBookingDetail({route, navigation}: Props) {
         onBackPress={() => navigation.navigate('Event')}
       />
       {isLoading && <Loading />}
-      <Spacer height={10} />
       <View className="flex-row">
         {menu.map((item, index) => {
           return (
@@ -229,12 +312,12 @@ export default function MyBookingDetail({route, navigation}: Props) {
               activeOpacity={0.7}
               key={item}
               className={`flex-1 py-3 border-b-[2px] ${
-                index === initialPage ? 'border-b-secondary' : 'border-b-white'
+                index === initialPage ? 'border-b-primary' : 'border-b-white'
               }`}>
               <DefaultText
                 title={item}
                 titleClassName={`text-center font-inter-medium ${
-                  index === initialPage ? 'text-secondary' : 'text-white'
+                  index === initialPage ? 'text-primary' : 'text-white'
                 }`}
               />
             </TouchableOpacity>
@@ -247,174 +330,174 @@ export default function MyBookingDetail({route, navigation}: Props) {
         showsVerticalScrollIndicator={false}
         contentContainerStyle={styles.container}>
         <View
-          className="bg-neutral-800 p-4 rounded-lg mb-[20px]"
+          className="bg-[#323232] p-4 rounded-lg mb-[20px]"
           onLayout={e => setContent2(e.nativeEvent.layout.height)}>
           <View className="w-[50] h-[50] bg-screen rounded-full absolute self-center -top-[26]" />
           <View className="flex-row items-center">
-            <View className="bg-screen py-2 px-3 rounded-lg">
-              <Image
-                source={{uri: booking?.clubLogo}}
-                className="w-[30] self-center"
-                resizeMode="contain"
-              />
-              <Spacer height={2.5} />
-              <DefaultText
-                title={booking?.clubName}
-                titleClassName="font-inter-medium text-xs text-center"
-              />
-            </View>
-            <Spacer className="flex-1" />
-            <View className="items-end">
-              <DefaultText
-                title={route.params.status}
-                titleClassName="font-inter-bold text-base text-green-700"
-              />
-              <TouchableOpacity
-                activeOpacity={0.7}
-                onPress={() => setShowDetailTicket(true)}>
-                <DefaultText
-                  title="Detail click here"
-                  titleClassName="text-xs text-neutral-500"
+            <Section isRow>
+              <View className="bg-screen py-2 px-2 rounded-lg">
+                <Image
+                  style={{width: 34, aspectRatio, alignSelf: 'center'}}
+                  source={{
+                    uri: isTableBooking
+                      ? (booking?.clubLogo as string)
+                      : walkIn?.clubImg,
+                  }}
+                  resizeMode="contain"
                 />
-              </TouchableOpacity>
-            </View>
-          </View>
-          <Spacer height={10} />
-          <DefaultText
-            title="Hosted by you"
-            titleClassName="text-center text-neutral-400"
-          />
-          <Spacer height={2.5} />
-          <View className="flex-row items-center justify-center">
-            <DefaultText
-              title={
-                booking?.bookingDate
-                  ? dateFormatter(
-                      new Date(booking.bookingDate),
-                      'EEEE, dd MMMM yyy',
-                    )
-                  : ''
-              }
-              titleClassName="text-base font-inter-medium mr-3"
-            />
-            <Image
-              source={IcCalendarPlus}
-              resizeMode="contain"
-              className="w-[20] h-[20]"
-            />
-          </View>
-          <Spacer height={10} />
-          <View className="items-center bg-black rounded-lg p-2 w-full">
-            {uriQr ? (
-              // eslint-disable-next-line react-native/no-inline-styles
-              <Image source={{uri: uriQr}} style={{width: 300, height: 300}} />
-            ) : null}
-          </View>
-          <Spacer height={15} />
-          <View className="w-[200] h-[5] bg-white rounded-full self-center">
-            {spendPercetage > 0 && (
-              <View
-                className={`w-[${spendPercetage}%] h-[5] bg-yellow-600 rounded-full"`}
-              />
-            )}
-          </View>
-          <Spacer height={10} />
-          <DefaultText
-            title={
-              booking?.paidTotal
-                ? `Spent ${
-                    booking?.currentSpend === null
-                      ? 0
-                      : currency(booking?.paidTotal)
-                  } / ${currency(booking?.paidTotal)}`
-                : ''
-            }
-            titleClassName="text-center font-inter-medium text-neutral-400"
-          />
-          <View className="w-full h-[0.5] bg-neutral-700 my-4" />
-          <View className="flex-row items-center">
-            {memberInvited.length > 0 ? (
-              <View className="flex-row items-center flex-1">
-                {memberInvited.map((el, idx) => (
-                  <EntryAnimation index={idx} key={`invited_${idx}`}>
-                    <Image
-                      source={{
-                        uri: el.photoUrl,
-                      }}
-                      resizeMode="cover"
-                      className="w-[27] h-[27] rounded-full bg-neutral-700 border-[1px] border-white"
-                    />
-                  </EntryAnimation>
-                ))}
-
-                <Gap width={10} />
+                <Spacer height={2.5} />
                 <DefaultText
-                  title={`${memberInvited.length} Invited ${
-                    memberInvited.filter(el => el.status === 'approved').length
-                  } Accepted`}
-                  titleClassName="font-inter-medium text-neutral-300"
+                  title={isTableBooking ? booking?.clubName : walkIn?.clubName}
+                  titleClassName="font-inter-medium text-xs text-center"
                 />
               </View>
+              <Gap width={8} />
+              <Section>
+                <Text
+                  variant="base"
+                  fontWeight="semi-bold"
+                  label={isTableBooking ? booking?.clubName : walkIn?.clubName}
+                />
+                <Text
+                  variant="small"
+                  fontWeight="semi-bold"
+                  label={
+                    isTableBooking
+                      ? booking?.clubAddress && booking?.clubAddress.length > 28
+                        ? booking?.clubAddress.substring(0, 27) + '...'
+                        : booking?.clubAddress
+                      : walkIn?.clubAddress && walkIn?.clubAddress.length > 28
+                      ? walkIn?.clubAddress.substring(0, 27) + '...'
+                      : walkIn?.clubAddress
+                  }
+                />
+              </Section>
+            </Section>
+            <Spacer className="flex-1" />
+            <Section padding="4px 8px" rounded={4} backgroundColor="#06B971">
+              <Text
+                fontWeight="bold"
+                label={isTableBooking ? booking?.type : walkIn?.paymentStatus}
+              />
+            </Section>
+          </View>
+          <Spacer height={16} />
+          <View className="items-center bg-black rounded-lg p-2 w-full">
+            {memberStatus === 'waiting_for_response' ? (
+              <Section
+                style={{width: 300, height: 300, justifyContent: 'center'}}
+                isCenter>
+                <ScanBarcode size={60} color={Colors['black-20']} />
+                <Gap height={8} />
+                <Text
+                  variant="x-large"
+                  label={'QR Code not available'}
+                  fontWeight="bold"
+                  color={Colors['black-20']}
+                />
+              </Section>
             ) : (
               <>
-                <Image
-                  source={IcPeopleThree}
-                  resizeMode="contain"
-                  className="w-[20] h-[20]"
-                />
-                <DefaultText
-                  title={
-                    booking?.joinedTotal === 0
-                      ? 'No one invited'
-                      : booking?.joinedTotal + ' members invited'
-                  }
-                  titleClassName="flex-1 font-inter-medium text-neutral-400 mx-1"
-                />
+                {uriQr ? (
+                  // eslint-disable-next-line react-native/no-inline-styles
+                  <Image
+                    source={{uri: uriQr}}
+                    style={{width: 300, height: 300}}
+                  />
+                ) : null}
               </>
             )}
-            <TouchableOpacity
-              activeOpacity={0.7}
-              onPress={() => setShowInviteFriends(true)}>
-              <LinearGradient
-                className="p-[1] rounded-sm"
-                colors={['#AA5AFA', '#C111D5']}
-                start={{x: 0, y: 0}}
-                end={{x: 1, y: 0}}>
-                <View className="px-3 py-[5] bg-neutral-800 rounded-sm">
-                  <DefaultText
-                    title={
-                      memberInvited.length > 0 ? 'Check' : 'Invite friends'
-                    }
-                  />
-                </View>
-              </LinearGradient>
-            </TouchableOpacity>
           </View>
-          <View className="w-full h-[0.5] bg-neutral-700 my-4" />
-          <Button
-            TextComponent={<DefaultText title="Save to calendar" />}
-            type="primary"
-            onPress={onSaveCalendar}
-            LeftComponent={
-              <Image
-                source={IcCalendarPlus}
-                resizeMode="contain"
-                className="w-[16] h-[16] mr-1"
+          <Gap height={30} />
+          <Section isRow isBetween>
+            <Section>
+              <Text
+                variant="large"
+                fontWeight="bold"
+                label={isTableBooking ? booking?.tableName : walkIn?.ticketName}
               />
-            }
+              <Section isRow>
+                <Text
+                  label={
+                    isTableBooking
+                      ? booking?.bookingDate
+                        ? dateFormatter(
+                            new Date(booking.bookingDate),
+                            'EEEE, dd MMMM yyy',
+                          )
+                        : ''
+                      : walkIn?.visitDate
+                      ? dateFormatter(
+                          new Date(walkIn.visitDate),
+                          'EEEE, dd MMMM yyy',
+                        )
+                      : ''
+                  }
+                />
+                <Gap width={8} />
+                <TouchableOpacity onPress={onSaveCalendar}>
+                  <Image
+                    source={IcCalendarPlus}
+                    resizeMode="contain"
+                    className="w-[16] h-[16]"
+                  />
+                </TouchableOpacity>
+              </Section>
+            </Section>
+            {isTableBooking && (
+              <TouchableSection
+                onPress={() => setShowInviteFriends(true)}
+                isRow
+                padding="16px 8px"
+                backgroundColor="#262626"
+                rounded={8}>
+                <UserGroup size={16} color={Colors['black-20']} />
+                <Gap width={4} />
+                <Text label={memberInvited.length.toString()} />
+              </TouchableSection>
+            )}
+          </Section>
+          <Spacer height={12} />
+          <View
+            style={{
+              borderBottomWidth: 1,
+              borderBottomColor: '#4D4D4D',
+              marginHorizontal: 16,
+            }}
+          />
+          <Spacer height={12} />
+          {isTableBooking && (
+            <>
+              <Section isRow isBetween>
+                <View className="w-[185] h-[5] bg-white rounded-full self-center">
+                  {spendPercetage > 0 && (
+                    <View
+                      className={`w-[${spendPercetage}%] h-[5] bg-yellow-600 rounded-full"`}
+                    />
+                  )}
+                </View>
+                <DefaultText
+                  title={
+                    booking?.paidTotal
+                      ? `${
+                          booking?.currentSpend === null
+                            ? 0
+                            : currency(booking?.paidTotal)
+                        } / ${currency(booking?.paidTotal)}`
+                      : ''
+                  }
+                  titleClassName="text-center font-inter-medium text-neutral-400"
+                />
+              </Section>
+              <Gap height={30} />
+            </>
+          )}
+          <Button
+            type="primary"
+            onPress={() => setShowDetailTicket(true)}
+            title="Detail Booking"
           />
           <Spacer height={10} />
-          <TouchableOpacity
-            activeOpacity={0.7}
-            className="border-[1px] border-white px-3 py-[10px] rounded-md flex-row justify-center items-center"
-            onPress={() => {}}>
-            <Image
-              source={IcDetailBooking}
-              resizeMode="contain"
-              className="w-[16] h-[16] mr-1"
-            />
-            <DefaultText title="Detail Booking" titleClassName="text-center" />
-          </TouchableOpacity>
         </View>
 
         <View
@@ -435,14 +518,19 @@ export default function MyBookingDetail({route, navigation}: Props) {
           />
           <View className="px-4">
             <Spacer height={15} />
-            <Button
-              TextComponent={<DefaultText title="Add new order" />}
-              type="primary"
+            <TouchableSection
               onPress={() =>
-                navigation.navigate('WineryOrder', {isNotTable: false})
+                navigation.navigate('WineryOrder', {isNotTable: false, clubId})
               }
-              style={styles.button}
-            />
+              padding="8px 36px"
+              rounded={4}
+              style={{borderWidth: 1, borderColor: '#EEE'}}
+              isRow
+              isCenter>
+              <Text fontWeight="regular" label="Add new order" />
+              <Gap width={8} />
+              <Add size={16} color={Colors['white-100']} />
+            </TouchableSection>
           </View>
         </View>
 
@@ -476,67 +564,82 @@ export default function MyBookingDetail({route, navigation}: Props) {
           </View>
         </View>
 
-        <View className="bg-neutral-800 p-4 rounded-lg">
-          <DefaultText
-            title="Friends"
-            titleClassName="text-base font-inter-semibold"
-          />
-          <Spacer height={10} />
-          {memberInvited.length > 0 ? (
-            <TouchableOpacity
-              activeOpacity={0.7}
-              className="flex-row items-center my-1">
-              {memberInvited.map((el, idx) => (
-                <EntryAnimation index={idx} key={`invited_${idx}`}>
-                  <Image
-                    source={{
-                      uri: el.photoUrl,
-                    }}
-                    resizeMode="cover"
-                    className="w-[27] h-[27] rounded-full bg-neutral-700 border-[1px] border-white"
-                  />
-                </EntryAnimation>
-              ))}
-              <Gap width={10} />
-              <DefaultText
-                title={`${memberInvited.length} Invited ${
-                  memberInvited.filter(el => el.status === 'approved').length
-                } Accepted`}
-                titleClassName="font-inter-medium text-neutral-300"
-              />
-              <Image
-                source={IcChevronRight}
-                resizeMode="contain"
-                className="w-[5] h-[9]"
-              />
-            </TouchableOpacity>
-          ) : (
+        {memberStatus === 'approved' ||
+        !isTableBooking ? null : booking?.hostId === user.id ? (
+          <View className="bg-neutral-800 p-4 rounded-lg">
             <DefaultText
-              title="Oops you will go alone, invite them and shake the party"
-              titleClassName="text-center font-inter-medium text-neutral-400"
+              title="Friends"
+              titleClassName="text-base font-inter-semibold"
             />
-          )}
-          <Spacer height={15} />
-          <Button
-            TextComponent={
+            <Spacer height={10} />
+            {memberInvited.length > 0 ? (
+              <TouchableOpacity
+                activeOpacity={0.7}
+                className="flex-row items-center my-1">
+                {memberInvited.map((el, idx) => (
+                  <EntryAnimation index={idx} key={`invited_${idx}`}>
+                    <Image
+                      source={{
+                        uri: el.photoUrl,
+                      }}
+                      resizeMode="cover"
+                      className={`w-[40] h-[40] rounded-full ${
+                        idx > 0 ? 'right-5' : ''
+                      }`}
+                    />
+                  </EntryAnimation>
+                ))}
+                <Gap width={10} />
+                <Text
+                  label={`${memberInvited[0].fullName} and ${
+                    memberInvited.length - 1
+                  } other`}
+                  style={{right: memberInvited.length > 1 ? 16 : 0}}
+                />
+              </TouchableOpacity>
+            ) : (
               <DefaultText
-                title={
-                  memberInvited.length > 0 ? 'Check them out' : 'Invite Friend'
-                }
-                titleClassName="font-inter-bold"
+                title="Oops you will go alone, invite them and shake the party"
+                titleClassName="text-center font-inter-medium text-neutral-400"
               />
-            }
-            type="primary"
-            onPress={() => setShowInviteFriends(true)}
-          />
-        </View>
+            )}
+            <Spacer height={15} />
+            <Button
+              TextComponent={
+                <DefaultText
+                  title={'Invite Friend'}
+                  titleClassName="font-inter-bold"
+                />
+              }
+              type="primary"
+              onPress={() => setShowInviteFriends(true)}
+            />
+          </View>
+        ) : (
+          <Section padding="16px 0px">
+            <Button
+              type="primary"
+              onPress={() => handleActionInvitation('approved')}
+              title="Accept this invitation"
+            />
+            <Gap height={8} />
+            <Button
+              type="textButton"
+              onPress={() => handleActionInvitation('rejected')}
+              title="Reject"
+            />
+          </Section>
+        )}
 
         <ModalDetailTicket
+          booking={booking}
+          memberLength={memberInvited.length + 1}
           show={showDetailTicket}
           hide={() => setShowDetailTicket(false)}
         />
 
-        <ModalInviteFriends
+        <InviteFriendsScreen
+          booking={booking}
           bookingId={bookingId}
           show={showInviteFriends}
           selectedInvitation={selectedInvitation}
@@ -546,6 +649,11 @@ export default function MyBookingDetail({route, navigation}: Props) {
           hide={() => setShowInviteFriends(false)}
           onFriendInvited={data => (data ? onFriendInvited(data) : undefined)}
           memberInvited={memberInvited}
+          onRefetch={() => {
+            setShowInviteFriends(false);
+            fethData();
+          }}
+          isHost={booking?.hostId === user.id}
         />
 
         <ModalToast

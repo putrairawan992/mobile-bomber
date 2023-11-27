@@ -75,9 +75,9 @@ function BookingTableScreen({route, navigation}: Props) {
   const isKeyboardOpen = useKeyboardVisible();
   const {user} = useAppSelector(state => state.user);
   const placeData = route.params.placeData;
-  const dayOpen = placeData?.operation
-    .filter(el => !el.isClose)
-    .map(item => item.day);
+  const dayOpen =
+    placeData?.operation &&
+    placeData?.operation.filter(el => !el?.isClose).map(item => item?.day);
 
   const theme = useTheme();
   const [selectedDate, setSelectedDate] = useState<string>('');
@@ -413,6 +413,7 @@ function BookingTableScreen({route, navigation}: Props) {
           is_full_payment: isPayFull ? 1 : 0,
           coupon_used: coupons?.length,
           source: 'table booking apps',
+          card_number: selectedPayment?.cardNumber ?? null,
         },
       });
       if (coupons?.length) {
@@ -483,6 +484,7 @@ function BookingTableScreen({route, navigation}: Props) {
                 selectedDate,
                 today,
                 dayOpen ?? [],
+                true,
               ),
               generateCalendarOtherDay(
                 allDay.map(item => {

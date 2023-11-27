@@ -1,5 +1,4 @@
 import React from 'react';
-import {FriendInterface} from './UserInterface';
 
 export interface TableInterface {
   tableId: string;
@@ -39,7 +38,7 @@ export interface PartyInterface {
 }
 
 export interface PayloadGetWalkInTicketInterface {
-  club_id: number;
+  club_id: string;
   date: string;
 }
 
@@ -57,6 +56,7 @@ export interface PayloadPostBookingTableInterface {
   is_full_payment: number;
   coupon_used: number;
   source: string;
+  card_number?: string | null;
 }
 
 export interface PayloadPostBookingWalkInInterface {
@@ -70,6 +70,8 @@ export interface PayloadPostBookingWalkInInterface {
   payment_method: string;
   member_invited: string[];
   ticket_id: string;
+  card_number?: string | null;
+  source: string;
 }
 
 export interface PayloadWaitingListInterface {
@@ -85,7 +87,7 @@ export interface BookingInterface {
   bookingId: string;
   ticketName: string;
   bookingNumber: string;
-  isChecked: number;
+  isChecked: number | null;
   tableId: string;
   bookingDate: string;
   isFullPayment: number;
@@ -94,10 +96,15 @@ export interface BookingInterface {
   joinedTotal: number;
   type: null | string;
   tableName: string;
+  tablePrice: number;
   clubName: string;
   clubImg: string;
+  clubAddress: string;
+  createdAt: string;
   couponUsed: number;
   clubLogo: string;
+  flag: string;
+  visitDate?: string;
 }
 
 export interface MemberInvitedInterface {
@@ -107,8 +114,35 @@ export interface MemberInvitedInterface {
 }
 
 export interface BookingDetailInterface extends BookingInterface {
-  currentSpend: string;
   type: string;
+  cardNumber: string;
+  checkedAt: null | string;
+  checkedId: string;
+  currentSpend: null | number;
+  customerName: string | null;
+  customerPhone: null | string;
+  hostId: string;
+  memberAge: number | null;
+  memberEmail: string | null;
+  memberName: string | null;
+  memberPhone: string | null;
+  photoUrl: string;
+}
+
+export interface MemberBookingInterface {
+  checkedAt: null | string;
+  checkedId: string;
+  currentSpend: null | number;
+  customerId: string | null;
+  customerName: string | null;
+  customerPhone: null | string;
+  memberAge: number | null;
+  memberEmail: string | null;
+  memberName: string | null;
+  memberPhone: string | null;
+  photoUrl: string;
+  isChecked: number;
+  status: string;
 }
 
 export interface BookingTableData {
@@ -137,7 +171,23 @@ export interface notBookedTableData {
 
 export interface ResponseBookingDetailInterface {
   bookingDetail: BookingDetailInterface[];
-  memberInvited: FriendInterface[];
+  memberInvited: MemberBookingInterface[];
+}
+
+export interface MemberBookingInterface {
+  checkedAt: null | string;
+  checkedId: string;
+  currentSpend: null | number;
+  customerId: string | null;
+  customerName: string | null;
+  customerPhone: null | string;
+  memberAge: number | null;
+  memberEmail: string | null;
+  memberName: string | null;
+  memberPhone: string | null;
+  photoUrl: string;
+  isChecked: number;
+  status: string;
 }
 
 export interface ResponseSpentTableInterface {
@@ -161,4 +211,26 @@ export interface CardPaymentInterface {
   cardNumber: string;
   customerId: string;
   isDefault: number;
+}
+
+export interface WalkInDetailInterface {
+  bookingId: string;
+  bookingNumber: string;
+  boughtDate: string;
+  visitDate: string;
+  paidTotal: string;
+  clubId: string;
+  joinedTotal: number;
+  paymentMethid: string;
+  paymentStatus: string;
+  clubName: string;
+  clubAddress: string;
+  clubImg: string;
+  ticketName: string;
+  createdAt: string;
+  cardNumber: string;
+  currentSpend: null | number;
+  checkedId: string;
+  isChecked: number;
+  checkedAt: string | null;
 }

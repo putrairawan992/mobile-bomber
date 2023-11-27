@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "android": "react-native run-android",
+    "android-release": "react-native run-android --variant release",
     "ios": "react-native run-ios",
     "ios-11": "npx react-native run-ios --udid 3725D52A-CF78-4D08-B3C1-B41A05368C96",
     "ios-14": "npx react-native run-ios --udid AFF756C0-8566-4333-B944-341041C1E6A9",
@@ -85,6 +86,7 @@
     "react-native-keyboard-aware-scroll-view": "^0.9.5",
     "react-native-keyboard-spacer": "^0.4.1",
     "react-native-linear-gradient": "2.7.3",
+    "react-native-localize": "^3.0.4",
     "react-native-maps": "^1.8.0",
     "react-native-mmkv-storage": "0.8.0",
     "react-native-modal": "^13.0.1",

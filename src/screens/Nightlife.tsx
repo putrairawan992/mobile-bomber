@@ -8,12 +8,12 @@ import {
   Pressable,
   StyleSheet,
   View,
-  Button,
+  // Button,
   SafeAreaView,
   TouchableHighlight,
 } from 'react-native';
 import {useDispatch} from 'react-redux';
-import {Beer, DiscoLight, Karaoke, WineBottle} from '../assets/icons';
+import {Beer, Clock, DiscoLight, Karaoke, WineBottle} from '../assets/icons';
 import {
   CustomShimmer,
   Gap,
@@ -21,6 +21,11 @@ import {
   Section,
   TextInput,
   Loading,
+  Text,
+  TouchableSection,
+  EntryAnimation,
+  Button,
+  DefaultText,
 } from '../components/atoms';
 
 import {Header, ModalToast, PillsGradient} from '../components/molecules';
@@ -63,8 +68,6 @@ import {TryBeverage} from '../components/organism/Places/TryBeverage';
 import {NewestEvent} from '../components/organism/Places/NewestEvent';
 import MapView from 'react-native-maps';
 import {YourScheduleCard} from '../components/organism/Places/YourScheduleCard';
-
-import {MapsGradient, Position} from '../assets/icons';
 import {gradientMapping} from '../utils/config';
 import {Text as Text2} from '../components/atoms/';
 import {useKeyboardVisible} from '../hooks/useKeyboardVisible';
@@ -95,6 +98,7 @@ function NightlifeScreen({route, navigation}: Props) {
   const [historySearchPlace, setHistorySearchPlace] = React.useState<
     PlaceDetailInterface[]
   >([]);
+  const [historySelectPlace, setHistorySelectPlace] = React.useState<any[]>([]);
   const dispatch = useDispatch();
   const [sheetOrderIndex, setSheetOrderIndex] = React.useState<number>(-1);
   const [sheetIndex, setSheetIndex] = React.useState<number>(-1);
@@ -268,6 +272,10 @@ function NightlifeScreen({route, navigation}: Props) {
           latitude: currentLocation.latitude,
           longitude: currentLocation.longitude,
         });
+        await setStorage(
+          'historySelectLocation',
+          JSON.stringify([...historySelectPlace, location]),
+        );
         setUserLocation(location);
         if (!awal) {
           setCurrentLocationAwal({
@@ -281,7 +289,11 @@ function NightlifeScreen({route, navigation}: Props) {
             latitude: currentLocationNow.latitude,
             longitude: currentLocationNow.longitude,
           });
-        // console.log(location)
+        console.log('ELSEcurrentLocationNow', location);
+        await setStorage(
+          'historySelectLocation',
+          JSON.stringify([...historySelectPlace, location]),
+        );
         setRegion({
           latitudeDelta: 0.025,
           longitudeDelta: 0.025,
@@ -340,6 +352,14 @@ function NightlifeScreen({route, navigation}: Props) {
     }
   };
 
+  const fetchHistorySelectLocation = async () => {
+    const historyData = await getStorage('historySelectLocation');
+    const parseHistoryData = JSON.parse(historyData as string);
+    if (parseHistoryData.length) {
+      setHistorySelectPlace(parseHistoryData);
+    }
+  };
+
   const handleSelectLocation = async (data: PlaceDetailInterface) => {
     const isExisting = Boolean(
       historySearchPlace.find(item => item.place_id === data.place_id),
@@ -364,12 +384,44 @@ function NightlifeScreen({route, navigation}: Props) {
       latitude: data.location.latitude,
       longitude: data.location.longitude,
     });
-    // console.log(currentLocationNow)
-    // setCurrentLocation({ latitude: data.location.latitude, longitude: data.location.longitude },)
-    // console.log(data.location)
     setShowMap(false);
     setAwal(false);
     fetchHistorySearchLocation();
+    openToast('success', 'Update location successfully');
+  };
+
+  const handleSelectMapLocation = async (data: any) => {
+    const isExisting = Boolean(
+      historySelectPlace.find(
+        item =>
+          item?.latitude === data.latitude &&
+          item?.longitude === data.longitude,
+      ),
+    );
+    if (isExisting) {
+      const delDuplicate: any = historySelectPlace.filter(
+        (el: any) =>
+          el?.latitude !== data?.latitude && el?.longitude !== data.longitude,
+      );
+      await setStorage(
+        'historySelectLocation',
+        JSON.stringify([...delDuplicate, data]),
+      );
+    } else {
+      await setStorage(
+        'historySelectLocation',
+        JSON.stringify([...historySearchPlace, data]),
+      );
+    }
+    homeSheetRef.current?.close();
+    setUserLocation(data.location);
+    setCurrentLocationNow({
+      latitude: data.location.latitude,
+      longitude: data.location.longitude,
+    });
+    setShowMap(false);
+    setAwal(false);
+    fetchHistorySelectLocation();
     openToast('success', 'Update location successfully');
   };
 
@@ -405,6 +457,7 @@ function NightlifeScreen({route, navigation}: Props) {
       console.log('gagal');
     }
   };
+  console.log('historySelect', historySelectPlace);
 
   useEffect(() => {
     if (showMap) {
@@ -434,10 +487,14 @@ function NightlifeScreen({route, navigation}: Props) {
                 latitude: x.latitude,
                 longitude: x.longitude,
               });
-              console.log({
-                latitude: x.latitude,
-                longitude: x.longitude,
-              });
+              console.log(
+                'onRegionChangeComplete',
+                {
+                  latitude: x.latitude,
+                  longitude: x.longitude,
+                },
+                x,
+              );
               setCurrentLocationNow(currentLocationTemp);
             }}
           />
@@ -520,7 +577,7 @@ function NightlifeScreen({route, navigation}: Props) {
                 <Text2
                   variant="base"
                   fontWeight="bold"
-                  label={'Select Location'}
+                  label={'Select delivery location'}
                   color={theme?.colors.WARNING}
                 />
                 <PillsGradient
@@ -530,14 +587,19 @@ function NightlifeScreen({route, navigation}: Props) {
                     ].color
                   }
                   title="Edit Selection"
-                  icon={<MapsGradient size={20} />}
+                  // icon={<MapsGradient size={20} />}
                   onSelectOnMap={() => {
                     setShowMap(false);
                     homeSheetRef.current?.present();
                   }}
                 />
               </Section>
-              <Gap height={12} />
+              <Gap height={30} />
+              <Text
+                label={'You current location'}
+                color={Colors['warning-500']}
+              />
+              <Gap height={16} />
               <Section
                 backgroundColor={theme?.colors.SHEET_CONTAINER}
                 isRow
@@ -545,17 +607,30 @@ function NightlifeScreen({route, navigation}: Props) {
                 rounded={8}
                 style={{marginBottom: 12}}>
                 <>
-                  <Position color={Colors['white-100']} size={20} />
+                  <Svg width="33" height="33" viewBox="0 0 33 33" fill="none">
+                    <Circle cx="16.5" cy="16.5" r="16.5" fill="#AB5CFA" />
+                    <View
+                      style={{
+                        backgroundColor: '#FFF',
+                        height: 6,
+                        width: 6,
+                        position: 'absolute',
+                        left: 13,
+                        top: 13,
+                        borderRadius: 6,
+                      }}
+                    />
+                  </Svg>
                   <Gap width={12} />
                   <Section style={{flex: 1}}>
                     <Text2
-                      label={userLocation.address}
+                      label={userLocation?.address}
                       fontWeight="bold"
                       color={Colors['white-100']}
                     />
                     <Gap height={4} />
                     <Text2
-                      label={`${userLocation.city}, ${userLocation.country}`}
+                      label={`${userLocation?.city}, ${userLocation?.country}`}
                       fontWeight="bold"
                       color={'#D8D8D8'}
                       variant="small"
@@ -564,16 +639,54 @@ function NightlifeScreen({route, navigation}: Props) {
                 </>
               </Section>
               <Gap height={12} />
+              <Text label={'Recent location'} color={Colors['warning-500']} />
+              <Gap height={16} />
+              <ScrollView style={{maxHeight: 240, marginLeft: -12}} horizontal>
+                {historySelectPlace?.map((item, idx) => (
+                  <EntryAnimation index={idx}>
+                    <TouchableSection
+                      onPress={() => handleSelectMapLocation(item)}
+                      backgroundColor={theme?.colors.SHEET_CONTAINER}
+                      isRow
+                      padding="8px 12px"
+                      rounded={8}
+                      style={{marginLeft: 12}}>
+                      <>
+                        <Clock color={Colors['white-100']} size={20} />
+                        <Gap width={12} />
+                        <Section style={{flex: 1}}>
+                          <Text
+                            label={item.city}
+                            fontWeight="bold"
+                            color={Colors['white-100']}
+                          />
+                          <Gap height={4} />
+                          <Text
+                            label={item.address}
+                            fontWeight="bold"
+                            color={'#D8D8D8'}
+                            variant="small"
+                          />
+                        </Section>
+                      </>
+                    </TouchableSection>
+                  </EntryAnimation>
+                ))}
+              </ScrollView>
+              <Gap height={12} />
               <Button
                 onPress={() => {
                   setCurrentLocationNow(currentLocationTemp);
+                  fetchHistorySelectLocation();
                   setShowMap(false);
                   setAwal(false);
                   // openToast('success', 'Update location successfully');
                   homeSheetRef.current?.present();
                 }}
-                title="Next"
-                color="#841584"
+                TextComponent={
+                  <DefaultText title="Select" titleClassName="text-base" />
+                }
+                type="primary"
               />
             </Section>
           </SafeAreaView>

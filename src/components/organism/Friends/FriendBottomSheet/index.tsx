@@ -4,7 +4,6 @@ import {View} from 'react-native';
 import {FriendInterface} from '../../../../interfaces/UserInterface';
 import {Colors} from '../../../../theme';
 import useTheme from '../../../../theme/useTheme';
-import {gradientMapping} from '../../../../utils/config';
 import {Avatar, Button, Gap, GradientText, Section, Text} from '../../../atoms';
 
 interface FriendBottomSheetProps {
@@ -27,10 +26,8 @@ export const FriendBottomSheet = ({
       <Section isCenter>
         <Gap height={15} />
         <GradientText
-          xAxis={0.5}
-          colors={
-            gradientMapping['textPrimary' as keyof typeof gradientMapping].color
-          }
+          xAxis={1.4}
+          colors={['#A060FA', '#C800CC']}
           style={{
             fontSize: 16,
             fontFamily: 'Inter-Bold',
@@ -97,8 +94,7 @@ export const FriendBottomSheet = ({
       <Section
         style={{
           position: 'absolute',
-          marginTop: 10,
-          bottom: 24,
+          bottom: 20,
           width: '100%',
           alignSelf: 'center',
         }}>

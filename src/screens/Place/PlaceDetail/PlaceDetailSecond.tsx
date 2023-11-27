@@ -62,15 +62,17 @@ export const PlaceDetailSecond = ({route, navigation}: Props) => {
       const response = await NightlifeService.getPlaceDetail({
         club_id: placeData?.clubId as string,
       });
-      !!placeData && setData({...placeData, ...response.data});
+      setData({...placeData, ...response.data});
       setIsLoading(false);
     } catch (error: any) {}
   };
 
+  console.log('placeData?.clubId', data);
+
   useEffect(() => {
     getPlaceData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [placeData?.clubId]);
 
   const PlaceOverview = () => {
     return (
@@ -101,6 +103,7 @@ export const PlaceDetailSecond = ({route, navigation}: Props) => {
                     label="There are no facilities"
                   />
                 )}
+                <Gap height={12} />
                 {data?.features.map(
                   (item: PlaceOverviewFeaturesInterface, idx: number) => {
                     return (
@@ -232,6 +235,12 @@ export const PlaceDetailSecond = ({route, navigation}: Props) => {
   const handleSheetChanges = React.useCallback((index: number) => {
     setSheetIndex(index);
   }, []);
+  console.log(
+    'data.operation===>',
+    data?.operation,
+    'data.formatter===>',
+    dateFormatter(new Date(), 'eeee'),
+  );
 
   return (
     <Layout contentContainerStyle={styles.container} isScrollable={false}>
@@ -245,7 +254,7 @@ export const PlaceDetailSecond = ({route, navigation}: Props) => {
               onSelect={() => undefined}
               isPlaceDetail
               onOpenSchedule={() => placeDetailSheetRef.current?.present()}
-              operation={data.operation.find(
+              operation={data.operation?.find(
                 (item: {day: string}) =>
                   item.day === dateFormatter(new Date(), 'eeee'),
               )}

@@ -25,6 +25,7 @@ function CardBooking({type, data, onSelect, status}: CardBooking) {
   let bgColorTagOne = '#EF9533';
   let bgColorTagTwo = '#0CA35F';
   let bgColorTagThree;
+  const isWalkIn = status === 'Walk In Ticket';
 
   if (data?.isFullPayment === 1) {
     tagOne = 'Full Paid';
@@ -47,6 +48,8 @@ function CardBooking({type, data, onSelect, status}: CardBooking) {
     bgColorTagThree = '#F27611';
   }
 
+  console.log('data===>', data);
+
   switch (status) {
     case 'Walk In Ticket':
       tagOne = data?.ticketName;
@@ -57,11 +60,11 @@ function CardBooking({type, data, onSelect, status}: CardBooking) {
       break;
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const colorRadient: any =
     data?.ticketName === 'Hot Ticket'
       ? [bgColorTagOne, bgColorTagTwo, bgColorTagThree]
       : [bgColorTagOne, bgColorTagTwo];
-
 
   const tableName = `Table ${data?.tableName?.replace(
     `${data.clubName} - `,
@@ -77,10 +80,16 @@ function CardBooking({type, data, onSelect, status}: CardBooking) {
         <View className="flex-row">
           {status === 'Walk In Ticket' ? (
             <LinearGradient
-              style={{borderRadius: 4, width: 100}}
+              style={{
+                borderRadius: 4,
+                paddingTop: 2,
+                paddingBottom: 2,
+                paddingLeft: 8,
+                paddingRight: 8,
+              }}
               start={{x: 0.8, y: 0}}
               end={{x: 0, y: 1}}
-              colors={colorRadient}
+              colors={['#4E6AFF', '#77BAAD']}
               className="mt-1 p-1">
               <Text className="text-xs font-inter-semibold text-white text-center">
                 {tagOne?.length > 12 ? tagOne?.slice(0, 11) + '...' : tagOne}
@@ -90,14 +99,20 @@ function CardBooking({type, data, onSelect, status}: CardBooking) {
             status === 'Booking Table' && (
               <>
                 <View
-                  className="mt-1 p-1"
+                  className="mt-1"
                   style={{
-                    backgroundColor: bgColorTagOne,
+                    backgroundColor:
+                      data?.flag === 'is_invited'
+                        ? Colors['danger-400']
+                        : bgColorTagOne,
                     borderRadius: 4,
-                    width: tagTwo?.length > 0 ? undefined : 100,
+                    paddingTop: 2,
+                    paddingBottom: 2,
+                    paddingLeft: 8,
+                    paddingRight: 8,
                   }}>
                   <Text className="text-xs font-inter-semibold text-white text-center">
-                    {tagOne}
+                    {data?.flag === 'is_invited' ? 'Invitation' : tagOne}
                   </Text>
                 </View>
                 {tagTwo?.length > 0 && (
@@ -106,6 +121,10 @@ function CardBooking({type, data, onSelect, status}: CardBooking) {
                     style={{
                       backgroundColor: bgColorTagTwo,
                       borderRadius: 4,
+                      paddingTop: 2,
+                      paddingBottom: 2,
+                      paddingLeft: 8,
+                      paddingRight: 8,
                     }}>
                     <Text className="text-xs font-inter-semibold text-white text-center">
                       {tagTwo}
@@ -121,7 +140,10 @@ function CardBooking({type, data, onSelect, status}: CardBooking) {
               style={{
                 backgroundColor: bgColorTagTwo,
                 borderRadius: 4,
-                width: 100,
+                paddingTop: 2,
+                paddingBottom: 2,
+                paddingLeft: 8,
+                paddingRight: 8,
               }}>
               <Text className="text-xs font-inter-semibold text-white text-center">
                 {tagOne}
@@ -130,7 +152,9 @@ function CardBooking({type, data, onSelect, status}: CardBooking) {
           )}
         </View>
         <DefaultText
-          title={`${moment(data?.bookingDate).format('ddd, DD MMM hh:mm')}`}
+          title={`${moment(
+            isWalkIn ? data?.visitDate : data?.bookingDate,
+          ).format('ddd, DD MMM hh:mm')}`}
           titleClassName="text-xs mt-2 text-neutral-400"
         />
       </View>
@@ -138,7 +162,7 @@ function CardBooking({type, data, onSelect, status}: CardBooking) {
       <View className="flex-row">
         <Image
           source={{uri: data?.clubImg}}
-          className="w-[100] h-[100] rounded-lg"
+          className="w-[80] h-[80] rounded-lg"
           resizeMode="cover"
         />
         <Gap width={10} />
@@ -166,20 +190,17 @@ function CardBooking({type, data, onSelect, status}: CardBooking) {
             </View>
           ) : (
             status === 'Booking Table' && (
-              <View className="flex-row items-center justify-between mt-1 ">
-                <TouchableOpacity className="mr-1">
-                  <Sofa color={Colors['white-100']} size={20} />
-                </TouchableOpacity>
+              <View className="flex-row items-center mt-1 ">
+                <Sofa color={Colors['white-100']} size={20} />
                 <DefaultText
                   title={
                     tableName.length > 11
                       ? tableName.substring(0, 10) + '...'
                       : tableName
                   }
-                  titleClassName="text-xs font-inter-medium"
+                  titleClassName="text-xs ml-1 font-inter-medium"
                 />
-                <TouchableOpacity
-                  className={status === 'Booking Table' ? 'ml-2.5' : 'ml-0'}>
+                <TouchableOpacity className={'ml-5'}>
                   <CalendarSecond color={Colors['white-70']} size={20} />
                 </TouchableOpacity>
                 <DefaultText

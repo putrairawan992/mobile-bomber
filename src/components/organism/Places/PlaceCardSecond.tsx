@@ -56,6 +56,7 @@ export const PlaceCardSecond = ({
   const [distanceToSingsou, setDistanceToSingsou] = useState<number | null>(
     null,
   );
+  console.log('operationsecond', operation);
 
   useEffect(() => {
     Geolocation.getCurrentPosition(
@@ -117,6 +118,8 @@ export const PlaceCardSecond = ({
   const renderSchedule = () => {
     const currentTime = new Date().getHours() + '.' + new Date().getMinutes();
     const isOpen = Number(currentTime) > Number(operation?.open);
+    console.log('operation?.open', operation?.open, operation);
+
     return (
       <View>
         <Section isRow>

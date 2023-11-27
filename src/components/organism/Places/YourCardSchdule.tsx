@@ -43,8 +43,7 @@ export const YourCardSchdule = ({
           start={{x: 0, y: 0}}
           end={{x: 1, y: 0}}
           style={{
-            paddingVertical: 16,
-            borderColor: 'red',
+            paddingVertical: 10,
             borderRadius: 8,
             padding: 10,
           }}>
@@ -58,19 +57,19 @@ export const YourCardSchdule = ({
               }}>
               <Image
                 source={{uri: item?.club_logo}}
-                className="w-[74] h-[74]"
+                className="w-[64] h-[64]"
                 resizeMode="cover"
               />
             </View>
             <Gap width={10} />
             <View className="flex-1">
               <Text
-                fontWeight="regular"
+                fontWeight="bold"
+                style={{padding: 0, margin: 0}}
                 variant="small"
                 label={item?.days_remain}
               />
-              <Gap height={1} />
-              <Section isRow isBetween>
+              <Section isRow isBetween style={{marginTop: -5}}>
                 <Text
                   variant="base"
                   fontWeight="medium"
@@ -80,13 +79,13 @@ export const YourCardSchdule = ({
                       : item?.club_name
                   }
                 />
-                <Section isRow isBetween>
+                <Section isRow isBetween style={{marginTop: 7.1}}>
                   <BarcodeBorder size={37} />
                   <Gap width={10} />
                   <MapBorder size={37} />
                 </Section>
               </Section>
-              <Gap height={10} />
+              <Gap height={15} />
               <Section isRow>
                 <Text
                   variant="small"

@@ -1,7 +1,6 @@
 /* eslint-disable react-native/no-inline-styles */
 import React, {useState} from 'react';
-import {Layout, Spacer} from '../../components/atoms';
-import {Header} from '../../components/molecules';
+import {Gap, Layout, Spacer, Text} from '../../components/atoms';
 import styles from '../Styles';
 import {
   ActivityIndicator,
@@ -24,26 +23,30 @@ import {useAppSelector} from '../../hooks/hooks';
 import {useFocusEffect} from '@react-navigation/native';
 import {TabView, SceneMap} from 'react-native-tab-view';
 import {WINDOW_WIDTH} from '@gorhom/bottom-sheet';
+import Request from './Request';
+import {NightlifeService} from '../../service/NightlifeService';
 
 type Props = NativeStackScreenProps<MainStackParams, 'Event', 'MyStack'>;
 
-export default function EventScreen({navigation}: Props) {
+export default function EventScreen({route, navigation}: Props) {
   const {user} = useAppSelector(state => state.user);
   const [menu] = useState<string[]>([
     'Booking Table',
     'Walk In Ticket',
     'Direct Order',
   ]);
+  const [status, setStatus] = useState<any>('Booking Table');
   const [theme] = useState<string[]>([
     'Paid',
     'Unpaid',
     'Finished',
     'Canceled',
+    'Request',
     // 'Group Walk in',
     // 'Auction',
   ]);
   const [activeTheme, setActiveTheme] = useState<string>('Paid');
-  const [status, setStatus] = useState<any>('Booking Table');
+
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [dataEvents, setDataEvents] = useState<BookingInterface[]>([]);
   const themes = useTheme();
@@ -63,21 +66,27 @@ export default function EventScreen({navigation}: Props) {
       if (index === 2) {
         statuss = 'DirectOrder';
       }
-      !!user && fetchData(statuss);
+      (!!user || route.params.isRefetch) && fetchData(statuss);
       // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [navigation, activeTheme, index]),
+    }, [navigation, activeTheme, index, route.params]),
   );
 
   const fetchData = async (statuss: string) => {
     try {
       setIsLoading(true);
-      await MyEventService.getEventAllBookingHistory({
-        user_id: user.id,
-        tab: statuss,
-        status: activeTheme,
-      })
+      await Promise.all([
+        MyEventService.getEventAllBookingHistory({
+          user_id: user.id,
+          tab: statuss,
+          status: activeTheme,
+        }),
+        NightlifeService.getProductClubId({
+          clubId: 'clubId',
+        }),
+      ])
+
         .then(response => {
-          setDataEvents(response?.data);
+          setDataEvents(response[0]?.data);
         })
         .catch(error => {
           console.log(error.response.data.message);
@@ -105,7 +114,7 @@ export default function EventScreen({navigation}: Props) {
                 onPress={() => setActiveTheme(item)}>
                 {item === activeTheme ? (
                   <LinearGradient
-                    className="rounded-xl px-[10px] py-2 mx-2"
+                    className="rounded-xl px-[8px] py-2 mx-2"
                     colors={['#AA5AFA', '#C111D5']}
                     start={{x: 0, y: 0}}
                     end={{x: 1, y: 0}}>
@@ -168,6 +177,15 @@ export default function EventScreen({navigation}: Props) {
             />
           )}
         </View>
+        <View key="5">
+          {activeTheme === 'Request' && (
+            <Request
+              status={status}
+              dataEvents={dataEvents}
+              onSelect={handleBookingSelect}
+            />
+          )}
+        </View>
       </View>
     </>
   );
@@ -219,10 +237,12 @@ export default function EventScreen({navigation}: Props) {
 
   return (
     <Layout contentContainerStyle={styles.container} backgroundColor="#313131">
-      <Header
-        transparent
-        title="My Booking"
-        titleStyle={styles.eventHeaderTitle}
+      <Gap height={16} />
+      <Text
+        variant="base"
+        fontWeight="bold"
+        label="My Booking"
+        textAlign="center"
       />
       <Spacer height={10} />
       <TabView

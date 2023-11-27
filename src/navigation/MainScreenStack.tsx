@@ -52,7 +52,9 @@ export type MainStackParams = {
   ComingSoon: undefined;
   Nightlife?: {isOrder?: boolean};
   ScanOnTable: undefined;
-  Event: undefined;
+  Event: {
+    isRefetch?: boolean;
+  };
   Friends: undefined;
   Profile: undefined;
   Order: undefined;
@@ -83,7 +85,11 @@ export type MainStackParams = {
     placeData: PlaceInterface | null;
   };
   Privacy: undefined;
-  WineryOrder: {isNotTable?: boolean};
+  WineryOrder: {
+    isNotTable?: boolean;
+    clubId?: string;
+    clubName?: undefined;
+  };
   SongPlaylist: undefined;
   RequestSong: undefined;
   HistoryRequestSong: undefined;

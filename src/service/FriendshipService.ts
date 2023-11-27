@@ -19,6 +19,18 @@ export const FriendshipService = {
     const response = await ax.get(`${URL_Global}/get_friendship/${userId}`);
     return response.data;
   },
+  getFriendSearchShip: async ({
+    userId,
+    search,
+  }: {
+    userId: string;
+    search: string;
+  }): Promise<APIResponse<FriendInterface[]>> => {
+    const response = await ax.get(
+      `${URL_Global}/search_friend/${userId}?keyword=${search}`,
+    );
+    return response.data;
+  },
   getAllUsers: async ({
     userId,
   }: {

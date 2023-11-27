@@ -92,7 +92,7 @@ export const PlaceCard = ({
         ...(!isPlaceDetail && {
           borderRadius: 8,
         }),
-        height: WIDTH / 1.08,
+        height: WIDTH / 1.05,
         marginLeft: isPlaceDetail || isVertical ? 0 : 20,
         ...(isVertical && {marginBottom: 20}),
       }}>
@@ -200,7 +200,7 @@ export const PlaceCard = ({
             <Gap height={10} />
             <Text
               variant="small"
-              style={{lineHeight: 20}}
+              style={{lineHeight: 20, height: 50}}
               label={item.address.slice(0, 80) + '...'}
             />
             <Gap height={15} />

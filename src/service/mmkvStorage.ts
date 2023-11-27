@@ -9,7 +9,8 @@ export type storageName =
   | 'tokenExpiry'
   | 'userAuth'
   | 'userType'
-  | 'historySearchLocation';
+  | 'historySearchLocation'
+  | 'historySelectLocation';
 
 export const getStorage = async (name: storageName) => {
   return await MMKV.getStringAsync(name);

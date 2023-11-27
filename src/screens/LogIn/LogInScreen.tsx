@@ -1,16 +1,16 @@
 /* eslint-disable react-native/no-inline-styles */
 import * as React from 'react';
 import * as Yup from 'yup';
-import { ImageBackground, TouchableOpacity } from 'react-native';
+import {ImageBackground, TouchableOpacity} from 'react-native';
 
-import { AuthStackParams } from '../../navigation/AuthScreenStack';
+import {AuthStackParams} from '../../navigation/AuthScreenStack';
 import {
   LoginPayloadInterface,
   UserInterface,
 } from '../../interfaces/UserInterface';
-import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import styles from './Styles/LogInStyle';
-import { useFormik } from 'formik';
+import {useFormik} from 'formik';
 import useTheme from '../../theme/useTheme';
 import {
   Button,
@@ -21,31 +21,31 @@ import {
   Layout,
   Loading,
 } from '../../components/atoms';
-import { LogoLabel, ModalToast } from '../../components/molecules';
-import { useContext, useEffect, useState } from 'react';
+import {LogoLabel, ModalToast} from '../../components/molecules';
+import {useContext, useEffect, useState} from 'react';
 import auth from '@react-native-firebase/auth';
-import { AuthService } from '../../service/AuthService';
-import { ModalToastContext } from '../../context/AppModalToastContext';
-import { setStorage } from '../../service/mmkvStorage';
-import { useDispatch } from 'react-redux';
-import { loginSuccess, setUserType } from '../../store/user/userActions';
+import {AuthService} from '../../service/AuthService';
+import {ModalToastContext} from '../../context/AppModalToastContext';
+import {setStorage} from '../../service/mmkvStorage';
+import {useDispatch} from 'react-redux';
+import {loginSuccess, setUserType} from '../../store/user/userActions';
 import {
   GoogleSignin,
   statusCodes,
 } from '@react-native-google-signin/google-signin';
 import Config from 'react-native-config';
-import { PhoneInput } from '../../components/atoms/Form/PhoneInput';
+import {PhoneInput} from '../../components/atoms/Form/PhoneInput';
 import {
   COUNTRY_PHONE_CODE,
   COUNTRY_PHONE_CODE_WITH_ICON,
 } from '../../utils/data';
-import { HEIGHT, WIDTH } from '../../utils/config';
-import { bgOnboarding } from '../../theme/Images';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import {HEIGHT, WIDTH} from '../../utils/config';
+import {bgOnboarding} from '../../theme/Images';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 
 type Props = NativeStackScreenProps<AuthStackParams, 'LogIn', 'MyStack'>;
 
-function LogInScreen({ navigation }: Props) {
+function LogInScreen({navigation}: Props) {
   const theme = useTheme();
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isLoadingDj, setIsLoadingDj] = useState<boolean>(false);
@@ -54,6 +54,7 @@ function LogInScreen({ navigation }: Props) {
   );
   const [isLoadingGoogle, setIsLoadingGoogle] = useState<boolean>(false);
   const dispatch = useDispatch();
+
   const {
     isShowToast,
     setIsShowToast,
@@ -121,6 +122,7 @@ function LogInScreen({ navigation }: Props) {
         phone,
         password,
       });
+      console.log('handleSignIn', login);
       if (login.error) {
         openToast('error', login.message);
         setIsLoading(false);
@@ -141,6 +143,7 @@ function LogInScreen({ navigation }: Props) {
         setIsLoading(false);
       }
     } catch (error: any) {
+      console.log('error', error.response.data);
       openToast('error', error.response.data.message);
       setIsLoading(false);
     }
@@ -265,10 +268,9 @@ function LogInScreen({ navigation }: Props) {
   };
 
   return (
-
     <ImageBackground
       source={bgOnboarding}
-      style={{ width: WIDTH, height: HEIGHT }}
+      style={{width: WIDTH, height: HEIGHT}}
       resizeMode="cover">
       <KeyboardAwareScrollView>
         <Layout
@@ -324,18 +326,18 @@ function LogInScreen({ navigation }: Props) {
           />
           <Spacer sm />
           {/* <Button
-        type="outlined"
-        onPress={googleLogin}
-        title="Login with Google"
-        isLoading={isLoadingGoogle}
-        LeftComponent={
-          <Google
-            size={16}
-            color={theme?.colors.PRIMARY}
-            style={{marginRight: 8}}
-          />
-        }
-      /> */}
+            type="outlined"
+            onPress={googleLogin}
+            title="Login with Google"
+            isLoading={isLoadingGoogle}
+            LeftComponent={
+              <Google
+                size={16}
+                color={theme?.colors.PRIMARY}
+                style={{marginRight: 8}}
+              />
+            }
+          /> */}
           <Spacer sm />
           <Section isRow>
             <Text
