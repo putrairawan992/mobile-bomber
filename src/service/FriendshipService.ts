@@ -13,10 +13,14 @@ const URL_Notification = 'notification';
 export const FriendshipService = {
   getFriendship: async ({
     userId,
+    keywords,
   }: {
     userId: string;
+    keywords?: string;
   }): Promise<APIResponse<FriendInterface[]>> => {
-    const response = await ax.get(`${URL_Global}/get_friendship/${userId}`);
+    const response = await ax.get(
+      `${URL_Global}/get_friendship/${userId}?keywords=${keywords}`,
+    );
     return response.data;
   },
   getFriendSearchShip: async ({

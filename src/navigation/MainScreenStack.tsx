@@ -88,6 +88,7 @@ export type MainStackParams = {
   WineryOrder: {
     isNotTable?: boolean;
     clubId?: string;
+    userId?: string;
     clubName?: undefined;
   };
   SongPlaylist: undefined;

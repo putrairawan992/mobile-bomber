@@ -50,6 +50,7 @@ import InviteFriendsScreen from '../../components/molecules/Modal/InviteFriendsS
 import {UserGroup} from '../../assets/icons';
 import {NotificationService} from '../../service/NotificationService';
 import {useDispatch} from 'react-redux';
+import {NightlifeService} from '../../service/NightlifeService';
 
 type Props = NativeStackScreenProps<
   MainStackParams,
@@ -85,6 +86,7 @@ export default function MyBookingDetail({route, navigation}: Props) {
   const [selectedInvitation, setSelectedInvitation] = useState<
     FriendInterface[]
   >([]);
+  const [foodOrderList, setFoodOrderList] = useState<any[]>([]);
 
   const aspectRatio = useImageAspectRatio(booking?.clubLogo as string);
 
@@ -112,6 +114,14 @@ export default function MyBookingDetail({route, navigation}: Props) {
     );
     setUriQr(response as string);
   };
+  console.log(
+    'user.id',
+    user.id,
+    'bookingId',
+    bookingId,
+    'foodOrderList',
+    foodOrderList,
+  );
 
   const fetchWalkInData = async () => {
     try {
@@ -205,9 +215,10 @@ export default function MyBookingDetail({route, navigation}: Props) {
         MyEventService.getGenerateQrCode({
           club_id: clubId,
         }),
-        // NightlifeService.getProductClubId({
-        //   clubId: clubId,
-        // })
+        NightlifeService.getProductFoodOrder({
+          clubId: clubId,
+          userId: user?.id,
+        }),
       ])
         .then(response => {
           setFriendshipData(response[0].data);
@@ -226,6 +237,8 @@ export default function MyBookingDetail({route, navigation}: Props) {
             }),
           );
           setBase64Qr(response[2]?.data);
+          setFoodOrderList(response[3]?.data);
+          console.log('[3]====>', response[3]?.data);
         })
         .catch(() => {
           openToast('error', 'Failed get booking detail');
@@ -289,7 +302,7 @@ export default function MyBookingDetail({route, navigation}: Props) {
         transparent
         title="Booking Detail"
         hasBackBtn
-        onBackPress={() => navigation.navigate('Event')}
+        onBackPress={() => navigation.navigate('Event' as any)}
       />
       {isLoading && <Loading />}
       <View className="flex-row">
@@ -520,7 +533,11 @@ export default function MyBookingDetail({route, navigation}: Props) {
             <Spacer height={15} />
             <TouchableSection
               onPress={() =>
-                navigation.navigate('WineryOrder', {isNotTable: false, clubId})
+                navigation.navigate('WineryOrder', {
+                  isNotTable: false,
+                  clubId,
+                  userId: user?.id,
+                })
               }
               padding="8px 36px"
               rounded={4}

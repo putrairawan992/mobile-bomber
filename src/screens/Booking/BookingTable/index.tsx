@@ -78,7 +78,6 @@ function BookingTableScreen({route, navigation}: Props) {
   const dayOpen =
     placeData?.operation &&
     placeData?.operation.filter(el => !el?.isClose).map(item => item?.day);
-
   const theme = useTheme();
   const [selectedDate, setSelectedDate] = useState<string>('');
   const [step, setStep] = useState<number>(0);

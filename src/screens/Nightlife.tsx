@@ -198,6 +198,11 @@ function NightlifeScreen({route, navigation}: Props) {
   };
 
   useEffect(() => {
+    fetchData();
+    dispatch(getUserProfile()); // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
     async function sendWelcomeNotification() {
       await NotificationService.pushNotification({
         target: fcmToken as string,
@@ -225,7 +230,7 @@ function NightlifeScreen({route, navigation}: Props) {
         NightlifeService.getTopFiveNightClub(),
         NightlifeService.getBanner({city_id: 1}),
         NightlifeService.getBookingReminder({
-          customer_id: 'FQ5OvkolZtSBZEMlG1R3gtowbQv1',
+          customer_id: user.id,
         }),
         NightlifeService.getInvitedOrder({id: user.id}),
       ])
@@ -259,7 +264,6 @@ function NightlifeScreen({route, navigation}: Props) {
 
   useEffect(() => {
     const fetchUserLocation = async () => {
-      // console.log(currentLocationNow)
       if (!currentLocationNow) {
         const location: UserLocationInterface =
           await LocationService.geocodeReverse({
@@ -289,7 +293,6 @@ function NightlifeScreen({route, navigation}: Props) {
             latitude: currentLocationNow.latitude,
             longitude: currentLocationNow.longitude,
           });
-        console.log('ELSEcurrentLocationNow', location);
         await setStorage(
           'historySelectLocation',
           JSON.stringify([...historySelectPlace, location]),
@@ -311,8 +314,6 @@ function NightlifeScreen({route, navigation}: Props) {
       }
     };
     fetchUserLocation();
-    fetchData();
-    dispatch(getUserProfile());
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentLocation, currentLocationNow]);
 
@@ -457,7 +458,6 @@ function NightlifeScreen({route, navigation}: Props) {
       console.log('gagal');
     }
   };
-  console.log('historySelect', historySelectPlace);
 
   useEffect(() => {
     if (showMap) {
@@ -732,7 +732,7 @@ function NightlifeScreen({route, navigation}: Props) {
               data={banner}
               renderItem={({item}) => (
                 <Image
-                  resizeMode="stretch"
+                  resizeMode="contain"
                   source={{
                     uri: item.imageUrl,
                   }}

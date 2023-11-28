@@ -26,6 +26,8 @@ export const YourCardSchdule = ({
   data,
   isPlaceDetail = false,
 }: PlaceCardProps) => {
+  console.log(item, 'card');
+
   return (
     <ScaleAnimation
       onPress={() => undefined}
@@ -48,19 +50,21 @@ export const YourCardSchdule = ({
             padding: 10,
           }}>
           <View className="flex-row">
-            <View
-              style={{
-                borderColor: '#525252',
-                borderWidth: 1,
-                borderRadius: 4,
-                padding: 10,
-              }}>
-              <Image
-                source={{uri: item?.club_logo}}
-                className="w-[64] h-[64]"
-                resizeMode="cover"
-              />
-            </View>
+            {item?.club_logo && (
+              <View
+                style={{
+                  borderColor: '#525252',
+                  borderWidth: 1,
+                  borderRadius: 4,
+                  padding: 10,
+                }}>
+                <Image
+                  source={{uri: item?.club_logo}}
+                  className="w-[64] h-[64]"
+                  resizeMode="cover"
+                />
+              </View>
+            )}
             <Gap width={10} />
             <View className="flex-1">
               <Text

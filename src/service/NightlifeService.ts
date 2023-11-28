@@ -32,6 +32,18 @@ export const NightlifeService = {
     const response = await ax.get(`${URL}/get_product/${clubId}`);
     return response.data;
   },
+  getProductFoodOrder: async ({
+    clubId,
+    userId,
+  }: {
+    clubId: string;
+    userId: string;
+  }): Promise<APIResponse<BannerInterface[]>> => {
+    const response = await ax.get(
+      `${URL}/get_food_order?club_id=${clubId}&user_id=${userId}`,
+    );
+    return response.data;
+  },
   getTopFiveNightClub: async (): Promise<APIResponse<PlaceInterface[]>> => {
     const response = await ax.get(`${URL}/get_top5_nightclub/`);
     return response.data;

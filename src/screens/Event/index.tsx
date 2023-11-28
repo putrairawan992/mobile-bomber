@@ -24,7 +24,6 @@ import {useFocusEffect} from '@react-navigation/native';
 import {TabView, SceneMap} from 'react-native-tab-view';
 import {WINDOW_WIDTH} from '@gorhom/bottom-sheet';
 import Request from './Request';
-import {NightlifeService} from '../../service/NightlifeService';
 
 type Props = NativeStackScreenProps<MainStackParams, 'Event', 'MyStack'>;
 
@@ -74,22 +73,18 @@ export default function EventScreen({route, navigation}: Props) {
   const fetchData = async (statuss: string) => {
     try {
       setIsLoading(true);
-      await Promise.all([
-        MyEventService.getEventAllBookingHistory({
-          user_id: user.id,
-          tab: statuss,
-          status: activeTheme,
-        }),
-        NightlifeService.getProductClubId({
-          clubId: 'clubId',
-        }),
-      ])
-
+      MyEventService.getEventAllBookingHistory({
+        user_id: user.id,
+        tab: statuss,
+        status: activeTheme,
+      })
         .then(response => {
-          setDataEvents(response[0]?.data);
+          console.log('response[0]?.data', response?.data);
+
+          setDataEvents(response?.data);
         })
         .catch(error => {
-          console.log(error.response.data.message);
+          console.log('error', error.response);
         })
         .finally(() => setIsLoading(false));
     } catch (error: any) {}

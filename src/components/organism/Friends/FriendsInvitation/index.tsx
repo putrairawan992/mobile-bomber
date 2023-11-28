@@ -1,5 +1,5 @@
 /* eslint-disable react-native/no-inline-styles */
-import React from 'react';
+import React, {useEffect} from 'react';
 import {createRef, useState} from 'react';
 import {ScrollView, TouchableOpacity, View} from 'react-native';
 import PagerView from 'react-native-pager-view';
@@ -10,12 +10,15 @@ import {
   Avatar,
   EntryAnimation,
   Gap,
+  Loading,
   Section,
   Text,
   TextInput,
 } from '../../../atoms';
 import {TabMenu} from '../../../molecules';
 import styles from '../Styles';
+import {FriendshipService} from '../../../../service/FriendshipService';
+import {useAppSelector} from '../../../../hooks/hooks';
 
 interface BookingInvitationInterface {
   data: FriendInterface[];
@@ -31,13 +34,45 @@ export const FriendsInvitation = ({
   const [menu] = useState<string[]>(['Friends', 'Squad', 'Invitation']);
   const [initialPage, setInitialPage] = useState<number>(0);
   const [searchValue, setSearchValue] = useState<string>('');
+
+  const {user} = useAppSelector(state => state.user);
+  const [friendshipData, setFriendshipData] = useState<FriendInterface[]>(data);
+  const [isLoading, setIsLoading] = React.useState<boolean>(false);
   const ref = createRef<PagerView>();
   const theme = useTheme();
+
+  useEffect(() => {
+    setFriendshipData(data);
+  }, [data]);
+
+  const fetchFriends = async () => {
+    try {
+      setIsLoading(true);
+      await Promise.all([
+        FriendshipService.getFriendship({
+          userId: user.id,
+          keywords: searchValue,
+        }),
+      ])
+        .then(response => {
+          setFriendshipData(response[0].data);
+        })
+        .catch(error => {
+          console.log(error);
+        })
+        .finally(() => setIsLoading(false));
+    } catch (error: any) {}
+  };
+
+  useEffect(() => {
+    fetchFriends();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [searchValue]);
 
   const FriendsTab = () => {
     return (
       <ScrollView showsVerticalScrollIndicator={false}>
-        {data
+        {friendshipData
           .filter(
             (item: FriendInterface) =>
               item.fullName &&
@@ -144,7 +179,7 @@ export const FriendsInvitation = ({
           initialPage={initialPage}
           ref={ref}
           onPageSelected={e => setInitialPage(e.nativeEvent.position)}>
-          <View key="1">{FriendsTab()}</View>
+          <View key="1">{isLoading ? <Loading /> : FriendsTab()}</View>
           <View key="2" />
           <View key="3">{InvitationTab()}</View>
         </PagerView>

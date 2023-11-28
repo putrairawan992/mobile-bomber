@@ -24,8 +24,6 @@ export const YourScheduleCard = ({
   userLocation,
 }: PlaceCategoryProps) => {
   const theme = useTheme();
-  const [index, setIndex] = React.useState<number>(0);
-  console.log(index);
 
   let renderItem = ({item}: any) => (
     <YourCardSchdule
@@ -53,7 +51,6 @@ export const YourScheduleCard = ({
         inactiveSlideScale={1}
         sliderHeight={50}
         activeSlideAlignment={'start'}
-        onSnapToItem={i => setIndex(i)}
       />
     </Section>
   );

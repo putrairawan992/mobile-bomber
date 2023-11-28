@@ -57,8 +57,8 @@ export const PlaceDetailSecond = ({route, navigation}: Props) => {
   const [sheetIndex, setSheetIndex] = React.useState<number>(-1);
 
   const getPlaceData = async () => {
+    setIsLoading(true);
     try {
-      setIsLoading(true);
       const response = await NightlifeService.getPlaceDetail({
         club_id: placeData?.clubId as string,
       });
@@ -72,7 +72,7 @@ export const PlaceDetailSecond = ({route, navigation}: Props) => {
   useEffect(() => {
     getPlaceData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [placeData?.clubId]);
+  }, [placeData]);
 
   const PlaceOverview = () => {
     return (
@@ -236,6 +236,9 @@ export const PlaceDetailSecond = ({route, navigation}: Props) => {
     setSheetIndex(index);
   }, []);
   console.log(
+    data?.operation?.find(
+      (item: {day: string}) => item.day === dateFormatter(new Date(), 'eeee'),
+    ),
     'data.operation===>',
     data?.operation,
     'data.formatter===>',
@@ -255,8 +258,7 @@ export const PlaceDetailSecond = ({route, navigation}: Props) => {
               isPlaceDetail
               onOpenSchedule={() => placeDetailSheetRef.current?.present()}
               operation={data.operation?.find(
-                (item: {day: string}) =>
-                  item.day === dateFormatter(new Date(), 'eeee'),
+                (item: {day: string}) => item.day,
               )}
               onOpenGallery={() =>
                 navigation.navigate('Gallery', {

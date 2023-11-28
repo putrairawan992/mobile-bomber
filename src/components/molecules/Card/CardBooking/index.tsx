@@ -48,8 +48,6 @@ function CardBooking({type, data, onSelect, status}: CardBooking) {
     bgColorTagThree = '#F27611';
   }
 
-  console.log('data===>', data);
-
   switch (status) {
     case 'Walk In Ticket':
       tagOne = data?.ticketName;

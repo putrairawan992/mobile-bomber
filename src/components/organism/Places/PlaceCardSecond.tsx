@@ -56,7 +56,6 @@ export const PlaceCardSecond = ({
   const [distanceToSingsou, setDistanceToSingsou] = useState<number | null>(
     null,
   );
-  console.log('operationsecond', operation);
 
   useEffect(() => {
     Geolocation.getCurrentPosition(
@@ -74,8 +73,9 @@ export const PlaceCardSecond = ({
       },
       {enableHighAccuracy: true, timeout: 20000, maximumAge: 1000},
     );
+    console.log('operationsecond', operation);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [operation]);
 
   const calculateDistance = (
     lat1: number,
@@ -129,7 +129,7 @@ export const PlaceCardSecond = ({
           />
           <TouchableOpacity onPress={onOpenSchedule}>
             <Text
-              label={` | ${getDayNight(operation?.open ?? '')} - ${getDayNight(
+              label={` |  ${getDayNight(operation?.open ?? '')} - ${getDayNight(
                 operation?.close ?? '',
               )}`}
               color={theme?.colors.TEXT_PRIMARY}
