@@ -152,7 +152,7 @@ function CardBooking({type, data, onSelect, status}: CardBooking) {
         <DefaultText
           title={`${moment(
             isWalkIn ? data?.visitDate : data?.bookingDate,
-          ).format('ddd, DD MMM hh:mm')}`}
+          ).format('ddd, DD MMM')}`}
           titleClassName="text-xs mt-2 text-neutral-400"
         />
       </View>
@@ -202,9 +202,7 @@ function CardBooking({type, data, onSelect, status}: CardBooking) {
                   <CalendarSecond color={Colors['white-70']} size={20} />
                 </TouchableOpacity>
                 <DefaultText
-                  title={`${moment(data?.bookingDate).format(
-                    'ddd, DD MMM hh:mm',
-                  )}`}
+                  title={`${moment(data?.bookingDate).format('ddd, DD MMM')}`}
                   titleClassName="text-xs font-inter-medium ml-1"
                 />
               </View>

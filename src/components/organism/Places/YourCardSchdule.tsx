@@ -54,6 +54,7 @@ export const YourCardSchdule = ({
               <View
                 style={{
                   borderColor: '#525252',
+                  backgroundColor: '#1E1E1E',
                   borderWidth: 1,
                   borderRadius: 4,
                   padding: 10,

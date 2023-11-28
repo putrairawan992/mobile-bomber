@@ -67,8 +67,6 @@ export const PlaceDetailSecond = ({route, navigation}: Props) => {
     } catch (error: any) {}
   };
 
-  console.log('placeData?.clubId', data);
-
   useEffect(() => {
     getPlaceData();
     // eslint-disable-next-line react-hooks/exhaustive-deps

@@ -35,9 +35,11 @@ interface HeaderPropsI {
   CenterComponent?: JSX.Element;
   centerIsTrue?: boolean;
   hasNoPrevRoute?: boolean;
+  colorText?: any;
 }
 
 function Header({
+  colorText,
   style,
   children,
   transparent,
@@ -61,9 +63,9 @@ function Header({
   CenterComponent,
   hasNoPrevRoute,
 }: HeaderPropsI) {
-  const theme = useTheme();
   const navigation = useNavigation();
   const route = useRoute();
+  const theme = useTheme();
 
   const handleGoBack = () => {
     if (!hasNoPrevRoute) {
@@ -80,7 +82,7 @@ function Header({
             <TouchableOpacity
               style={styles.backBtn}
               onPress={() => {
-                onBackPress ? onBackPress() : navigation.goBack();
+                // onBackPress ? onBackPress() : navigation.goBack();
                 onBackPress ? onBackPress() : handleGoBack();
               }}>
               <ArrowLeft size={24} color={theme?.colors.ICON} />
@@ -137,7 +139,7 @@ function Header({
             variant="large"
             fontWeight="semi-bold"
             label={title}
-            color={theme?.colors.WARNING}
+            color={colorText ? colorText : theme?.colors.warning}
             style={[
               {
                 paddingHorizontal: 10,

@@ -136,7 +136,20 @@ export default function MyBookingDetail({route, navigation}: Props) {
     }
   };
 
+  const fetchGetFoorOrder = async () => {
+    try {
+      const response = await NightlifeService.getProductFoodOrder({
+        bookingId: bookingId,
+        userId: user?.id,
+      });
+      setFoodOrderList(response.data);
+    } catch (error: any) {
+      console.log('errorfetchGetFoorOrder', error);
+    }
+  };
+
   useEffect(() => {
+    fetchGetFoorOrder();
     if (isTableBooking) {
       fethData();
     } else {
@@ -195,7 +208,6 @@ export default function MyBookingDetail({route, navigation}: Props) {
       const res = await axios.get(
         `${config.apiService}/pos/crud/get_list_table_order/?club_id=${clubId}&booking_id=${bookingId}`,
       );
-      console.log('actionSpentOrder', res.data?.data);
       return res.data;
     } catch {
       openToast('error', 'Failed get booking detail');
@@ -215,10 +227,6 @@ export default function MyBookingDetail({route, navigation}: Props) {
         MyEventService.getGenerateQrCode({
           club_id: clubId,
         }),
-        NightlifeService.getProductFoodOrder({
-          clubId: clubId,
-          userId: user?.id,
-        }),
       ])
         .then(response => {
           setFriendshipData(response[0].data);
@@ -237,14 +245,12 @@ export default function MyBookingDetail({route, navigation}: Props) {
             }),
           );
           setBase64Qr(response[2]?.data);
-          setFoodOrderList(response[3]?.data);
-          console.log('[3]====>', response[3]?.data);
         })
         .catch(() => {
           openToast('error', 'Failed get booking detail');
-          setTimeout(() => {
-            navigation.goBack();
-          }, 1000);
+          // setTimeout(() => {
+          //   navigation.goBack();
+          // }, 1000);
         })
         .finally(() => setIsLoading(false));
     } catch (error: any) {

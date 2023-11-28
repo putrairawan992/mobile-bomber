@@ -73,7 +73,6 @@ export const PlaceCardSecond = ({
       },
       {enableHighAccuracy: true, timeout: 20000, maximumAge: 1000},
     );
-    console.log('operationsecond', operation);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [operation]);
 
@@ -116,9 +115,8 @@ export const PlaceCardSecond = ({
   };
 
   const renderSchedule = () => {
-    const currentTime = new Date().getHours() + '.' + new Date().getMinutes();
-    const isOpen = Number(currentTime) > Number(operation?.open);
-    console.log('operation?.open', operation?.open, operation);
+    const currentTime = new Date().getHours() + ':' + new Date().getMinutes();
+    const isOpen = (currentTime >= operation?.open) as any;
 
     return (
       <View>
@@ -264,8 +262,8 @@ export const PlaceCardSecond = ({
           {renderSchedule()}
           <Gap height={15} />
           {isPlaceDetail ? (
-            <Section isRow>
-              <View style={{width: data?.logo ? 150 : '50%'}}>
+            <Section style={{alignItems: 'center'}} isRow>
+              <View style={{width: data?.logo ? 150 : '50%', height: 30}}>
                 <TouchableOpacity
                   onPress={() => openMapDirection()}
                   activeOpacity={0.7}>
@@ -277,6 +275,7 @@ export const PlaceCardSecond = ({
               </View>
               {distanceToSingsou !== null && (
                 <Text
+                  style={{height: 30}}
                   label={`${currency(distanceToSingsou.toFixed(2), true)} km`}
                 />
               )}

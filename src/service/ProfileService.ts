@@ -56,8 +56,6 @@ export const ProfileService = {
   }: {
     payload: any;
   }): Promise<APIResponse<unknown>> => {
-    console.log(`${Config.API_ENDPOINT}/${URL}/modify_user_profile`);
-
     const response = await ax.put(
       `${Config.API_ENDPOINT}/${URL}/modify_user_profile`,
       payload,

@@ -23,6 +23,7 @@ import {Dropdown} from 'react-native-element-dropdown';
 import {Colors} from '../../../theme';
 import {ArrowDown2, ArrowUp2} from 'iconsax-react-native';
 import {Beer, DiscoLight, Karaoke, WineBottle} from '../../../assets/icons';
+import {Header} from '../../../components/molecules';
 
 type Props = NativeStackScreenProps<
   MainStackParams,
@@ -36,14 +37,29 @@ const PlaceByCategory = ({route, navigation}: Props) => {
   const [searchValue, setSearchValue] = useState<string>('');
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [placeData, setPlaceData] = useState<PlaceInterface[]>([]);
+  const [discoverData, setDiscoverData] = useState<PlaceInterface[]>([]);
   const {userLocation} = useAppSelector(state => state.user);
   const [vValue, setvValue] = useState(category.title);
   const [idParams, setIdParams] = useState<string>(category.id);
   const [isFocus, setIsFocus] = useState(false);
+  const [isHidden, setIsHidden] = useState(true);
+  const [offset, setOffset] = useState(0);
+
+  const handleScroll = (event: any) => {
+    const currentOffset = event.nativeEvent.contentOffset.y;
+    const direction = currentOffset > offset ? 'down' : 'up';
+    setIsHidden(direction === 'down');
+    setIsHidden(direction === 'up');
+    setOffset(currentOffset);
+  };
+
+  useEffect(() => {
+    fetchDiscoverData(); // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [searchValue]);
 
   useEffect(() => {
     fetchData(); // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [vValue, searchValue]);
+  }, [vValue]);
 
   const fetchData = async () => {
     try {
@@ -51,11 +67,9 @@ const PlaceByCategory = ({route, navigation}: Props) => {
       const response = await NightlifeService.getPlaceByCategory({
         params: {
           category_id: idParams,
-          keyword: searchValue,
+          keyword: '',
         },
       });
-      console.log('response', response);
-
       setPlaceData(
         response.data.map((item, idx) => {
           const latitude = COORDINATE_DATA[idx].latitude;
@@ -67,6 +81,22 @@ const PlaceByCategory = ({route, navigation}: Props) => {
           };
         }),
       );
+      setIsLoading(false);
+    } catch (error: any) {
+      setIsLoading(false);
+    }
+  };
+
+  const fetchDiscoverData = async () => {
+    try {
+      setIsLoading(true);
+      const response = await NightlifeService.getDiscoverPlaceByCategory({
+        params: {
+          category_id: idParams,
+          keyword: searchValue,
+        },
+      });
+      setDiscoverData(response?.data);
       setIsLoading(false);
     } catch (error: any) {
       setIsLoading(false);
@@ -109,6 +139,15 @@ const PlaceByCategory = ({route, navigation}: Props) => {
 
   return (
     <Layout contentContainerStyle={styles.container} isDisableKeyboardAware>
+      {isHidden && (
+        <Header
+          transparent
+          hasBackBtn
+          colorText={Colors['white-100']}
+          titleStyle={{fontSize: 16, color: Colors['white-100']}}
+          title="Category Page"
+        />
+      )}
       {isLoading && <Loading />}
       <Gap height={5} />
       <Section padding="8px 16px">
@@ -160,7 +199,6 @@ const PlaceByCategory = ({route, navigation}: Props) => {
           renderLeftIcon={() => category.icon as any}
           renderItem={(item, index) => {
             let imageGet = item.image;
-            console.log(item.image);
             if (item.label === 'Nightclub' && index === true) {
               imageGet = <DiscoLight size={24} color={theme?.colors.PRIMARY} />;
             }
@@ -195,12 +233,13 @@ const PlaceByCategory = ({route, navigation}: Props) => {
           onChange={item => {
             setvValue(item.value);
             setIdParams(item.value);
+            setSearchValue('');
             setIsFocus(false);
           }}
         />
       </Section>
       <Gap height={32} />
-      <ScrollView showsVerticalScrollIndicator={false}>
+      <ScrollView onScroll={handleScroll} showsVerticalScrollIndicator={false}>
         {placeData?.length ? (
           <TopPlaces
             title={`Top 5 ${category.title} this Week`}
@@ -232,8 +271,8 @@ const PlaceByCategory = ({route, navigation}: Props) => {
             fontWeight="bold"
           />
           <Gap height={10} />
-          {placeData?.length ? (
-            placeData.map(item => (
+          {discoverData?.length ? (
+            discoverData.map(item => (
               <PlaceCard
                 item={item}
                 onSelect={onPlaceSelect}

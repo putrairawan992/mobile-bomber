@@ -732,7 +732,7 @@ function NightlifeScreen({route, navigation}: Props) {
               data={banner}
               renderItem={({item}) => (
                 <Image
-                  resizeMode="contain"
+                  resizeMode="cover"
                   source={{
                     uri: item.imageUrl,
                   }}

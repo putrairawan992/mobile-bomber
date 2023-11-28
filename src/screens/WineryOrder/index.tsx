@@ -15,7 +15,6 @@ import ModalWineryOrderPay from '../../components/molecules/Modal/ModalWineryOrd
 import ModalWineryOrderBillGenerator from '../../components/molecules/Modal/ModalWineryOrderBillGenerator';
 import ModalWineryOrderDetail from '../../components/molecules/Modal/ModalWineryOrderDetail';
 import {EventService} from '../../service/EventService';
-import {NightlifeService} from '../../service/NightlifeService';
 import {ProductBasedOnClubIdInterface} from '../../interfaces/PlaceInterface';
 import {currency} from '../../utils/function';
 import ModalNotTableSucces from '../../components/molecules/Modal/ModalNotTableSucces';
@@ -51,6 +50,7 @@ export default function WineryOrder({route, navigation}: Props) {
     'Beer',
   ]);
   const isNotTable = route.params.isNotTable;
+  const clubIdParams = route.params.clubId;
   const [initialPage, setInitialPage] = useState<number>(0);
   const [search, setSearch] = useState<string>('');
   const [showCart, setShowCart] = useState<boolean>(false);
@@ -64,25 +64,13 @@ export default function WineryOrder({route, navigation}: Props) {
   const ref = createRef<PagerView>();
 
   useEffect(() => {
-    getRandomClub();
+    // getRandomClub();
+    getProducts();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const getRandomClub = () => {
-    NightlifeService.getTopFiveNightClub()
-      .then(res => {
-        if (res.data) {
-          const date = new Date().valueOf().toString();
-          const randomId = Number(date.charAt(date.length - 1));
-          const data = res.data[randomId > 4 ? 4 : randomId];
-          getProducts(data.clubId);
-        }
-      })
-      .catch(err => console.log('err get top club: ', err.response));
-  };
-
-  const getProducts = (clubId: string) => {
-    EventService.getProductBasedOnClubId(clubId)
+  const getProducts = () => {
+    EventService.getProductBasedOnClubId(clubIdParams as string)
       .then(res => setProducts(res.data))
       .catch(err => console.log('err get product: ', err.response))
       .finally(() => setProductsLoading(false));
@@ -97,7 +85,6 @@ export default function WineryOrder({route, navigation}: Props) {
           item.chineseProductTitle === values.chineseProductTitle,
       ),
     );
-    console.log(findItem);
     if (!findItem) {
       setCheckoutItems([...checkoutItems, values]);
     } else {

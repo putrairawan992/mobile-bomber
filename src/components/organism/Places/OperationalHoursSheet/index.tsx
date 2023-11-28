@@ -37,7 +37,7 @@ export const OperationalHoursSheet = ({data}: OperationalHoursSheetProps) => {
       <EntryAnimation index={0}>
         <ScrollView>
           <Section backgroundColor="#333" padding="4px 16px" rounded={12}>
-            {data.map((item, idx) => {
+            {data?.map((item, idx) => {
               const currentTime =
                 new Date().getHours() + '.' + new Date().getMinutes();
               const isOpen = Number(currentTime) > Number(item.open);

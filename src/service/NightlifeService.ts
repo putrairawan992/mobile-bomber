@@ -33,15 +33,17 @@ export const NightlifeService = {
     return response.data;
   },
   getProductFoodOrder: async ({
-    clubId,
+    bookingId,
     userId,
   }: {
-    clubId: string;
+    bookingId: string;
     userId: string;
   }): Promise<APIResponse<BannerInterface[]>> => {
     const response = await ax.get(
-      `${URL}/get_food_order?club_id=${clubId}&user_id=${userId}`,
+      `${URL}/get_food_order?booking_id=${bookingId}&user_id=${userId}`,
     );
+    console.log('getProductFoodOrder', response);
+
     return response.data;
   },
   getTopFiveNightClub: async (): Promise<APIResponse<PlaceInterface[]>> => {
@@ -151,6 +153,16 @@ export const NightlifeService = {
   }): Promise<APIResponse<PlaceInterface[]>> => {
     const response = await ax.get(
       `${URL}/get_category_page/${params.category_id}?keywords=${params.keyword}`,
+    );
+    return response.data;
+  },
+  getDiscoverPlaceByCategory: async ({
+    params,
+  }: {
+    params: ParamsGetPlaceByCategoryInterface;
+  }): Promise<APIResponse<PlaceInterface[]>> => {
+    const response = await ax.get(
+      `${URL}/get_discover_page/${params.category_id}?keywords=${params.keyword}`,
     );
     return response.data;
   },
