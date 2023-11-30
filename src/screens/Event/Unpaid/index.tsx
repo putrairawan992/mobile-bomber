@@ -7,10 +7,16 @@ import {BookingInterface} from '../../../interfaces/BookingInterface';
 interface Unpaid {
   activeTheme: string;
   dataEvents: any;
+  status?: string;
   onSelect: (data: BookingInterface) => void;
 }
 
-export default function Unpaid({activeTheme, dataEvents, onSelect}: Unpaid) {
+export default function Unpaid({
+  activeTheme,
+  dataEvents,
+  onSelect,
+  status,
+}: Unpaid) {
   return (
     <ScrollView
       showsVerticalScrollIndicator={false}
@@ -22,6 +28,7 @@ export default function Unpaid({activeTheme, dataEvents, onSelect}: Unpaid) {
             <CardAuction key={key} />
           ) : (
             <CardBooking
+              status={status}
               key={key}
               data={value}
               type="Unpaid"

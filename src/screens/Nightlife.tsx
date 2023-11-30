@@ -71,6 +71,7 @@ import {YourScheduleCard} from '../components/organism/Places/YourScheduleCard';
 import {gradientMapping} from '../utils/config';
 import {Text as Text2} from '../components/atoms/';
 import {useKeyboardVisible} from '../hooks/useKeyboardVisible';
+import {OurPlatformPromo} from '../components/organism/Places/OurPlatformPromo';
 type Props = NativeStackScreenProps<MainStackParams, 'Nightlife', 'MyStack'>;
 
 function NightlifeScreen({route, navigation}: Props) {
@@ -631,7 +632,7 @@ function NightlifeScreen({route, navigation}: Props) {
                     <Gap height={4} />
                     <Text2
                       label={`${userLocation?.city}, ${userLocation?.country}`}
-                      fontWeight="bold"
+                      fontWeight="medium"
                       color={'#D8D8D8'}
                       variant="small"
                     />
@@ -663,7 +664,7 @@ function NightlifeScreen({route, navigation}: Props) {
                           <Gap height={4} />
                           <Text
                             label={item.address}
-                            fontWeight="bold"
+                            fontWeight="medium"
                             color={'#D8D8D8'}
                             variant="small"
                           />
@@ -776,6 +777,20 @@ function NightlifeScreen({route, navigation}: Props) {
             <TopPlaces
               userLocation={userLocation}
               title="Top 5 Night Club this Week"
+              data={topFiveNightClub}
+              itemWidthStyle
+              fullSliderWidth
+              onSelect={onPlaceSelect}
+            />
+          ) : (
+            <></>
+          )}
+          <Gap height={22} />
+          {topFiveNightClub?.length ? (
+            <OurPlatformPromo
+              navigation={navigation}
+              userLocation={userLocation}
+              title="Our platform promo"
               data={topFiveNightClub}
               itemWidthStyle
               fullSliderWidth

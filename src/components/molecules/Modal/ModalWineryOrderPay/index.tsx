@@ -47,7 +47,7 @@ export default function ModalWineryOrderPay({
         <View className="w-[50] h-[4] rounded-full bg-neutral-600 self-center" />
         <Gap height={15} />
         <DefaultText
-          title="Order Detail"
+          title="Order Details"
           titleClassName="font-inter-bold text-base text-center"
         />
         <Gap height={15} />

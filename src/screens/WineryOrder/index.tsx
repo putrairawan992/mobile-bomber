@@ -20,6 +20,7 @@ import {currency} from '../../utils/function';
 import ModalNotTableSucces from '../../components/molecules/Modal/ModalNotTableSucces';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {MainStackParams} from '../../navigation/MainScreenStack';
+import ModalNotTableSuccesV2 from '../../components/molecules/Modal/ModalNotTableSucces/ModalNotTableSuccesV2';
 
 type Props = NativeStackScreenProps<MainStackParams, 'WineryOrder', 'MyStack'>;
 export interface FriendInterface {
@@ -137,8 +138,7 @@ export default function WineryOrder({route, navigation}: Props) {
 
   return (
     <Layout>
-      <Header transparent title="" hasBackBtn />
-      <Spacer height={30} />
+      <Header transparent title="Fodd Order" centerIsTrue={false} hasBackBtn />
       <View className="px-3">
         <TextInput
           placeholder="Search spirit"
@@ -206,7 +206,13 @@ export default function WineryOrder({route, navigation}: Props) {
       <TouchableOpacity
         activeOpacity={0.8}
         onPress={() => {
-          isNotTable ? setShowNotTablePay(true) : setShowCart(true);
+          isNotTable
+            ? setShowNotTablePay(true)
+            : navigation.navigate('CheckoutWinnery', {
+                data: checkoutItems,
+                totalPrice:
+                  calculateTotalQuantityAndPrice(checkoutItems).totalPrice,
+              });
         }}>
         <LinearGradient
           className="py-4"
@@ -214,11 +220,12 @@ export default function WineryOrder({route, navigation}: Props) {
           start={{x: 0, y: 0}}
           end={{x: 1, y: 0}}>
           <DefaultText
-            title="View Cart | "
+            title="View cart"
             subtitleClassName="text-base font-inter-bold text-center"
-            subtitle={currency(
+            subtitle={`(${currency(
               calculateTotalQuantityAndPrice(checkoutItems).totalPrice,
-            )}
+              true,
+            )} )`}
             titleClassName="text-base font-inter-bold text-center"
           />
         </LinearGradient>
@@ -253,6 +260,13 @@ export default function WineryOrder({route, navigation}: Props) {
         checkoutItems={checkoutItems}
         show={showOrderDetail}
         hide={() => setShowOrderDetail(false)}
+      />
+
+      <ModalNotTableSuccesV2
+        show={isNotTable as boolean}
+        hide={() => {
+          navigation.navigate('Nightlife', {isOrder: false});
+        }}
       />
 
       <ModalNotTableSucces

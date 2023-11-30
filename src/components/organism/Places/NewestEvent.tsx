@@ -20,15 +20,10 @@ interface PlaceCategoryProps {
 export const NewestEvent = ({
   title,
   data,
-  itemWidthStyle,
-  fullSliderWidth,
   onSelect,
   userLocation,
 }: PlaceCategoryProps) => {
   const theme = useTheme();
-  const [index, setIndex] = React.useState<number>(0);
-  console.log(index);
-
   let renderItem = ({item}: any) => (
     <NewstEventCard
       item={item}
@@ -49,42 +44,14 @@ export const NewestEvent = ({
       <Carousel
         data={data}
         renderItem={renderItem}
-        sliderWidth={fullSliderWidth ? WIDTH : WIDTH - 40}
-        itemWidth={itemWidthStyle ? WIDTH - 90 : WIDTH - 145}
+        sliderWidth={WIDTH}
+        itemWidth={180}
         inactiveSlideOpacity={1}
         inactiveSlideScale={1}
         sliderHeight={HEIGHT}
         activeSlideAlignment={'start'}
-        onSnapToItem={i => setIndex(i)}
       />
       <Gap height={8} />
-      {/* <Pagination
-        dotsLength={data.length}
-        activeDotIndex={index}
-        containerStyle={{
-          backgroundColor: theme?.colors.BACKGROUND,
-          paddingTop: 3,
-          paddingBottom: 12,
-        }}
-        dotStyle={{
-          width: 16,
-          height: 10,
-          borderRadius: 5,
-          marginHorizontal: 0,
-          backgroundColor: theme?.colors.PRIMARY,
-        }}
-        inactiveDotStyle={{
-          // Define styles for inactive dots here
-          width: 12,
-          height: 12,
-        }}
-        inactiveDotOpacity={0.4}
-        inactiveDotScale={0.6}
-        animatedDuration={250}
-        animatedFriction={4}
-        animatedTension={50}
-        delayPressInDot={0}
-      /> */}
     </Section>
   );
 };

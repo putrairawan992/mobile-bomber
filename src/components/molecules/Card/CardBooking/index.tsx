@@ -25,6 +25,7 @@ function CardBooking({type, data, onSelect, status}: CardBooking) {
   let bgColorTagOne = '#EF9533';
   let bgColorTagTwo = '#0CA35F';
   let bgColorTagThree;
+
   const isWalkIn = status === 'Walk In Ticket';
 
   if (data?.isFullPayment === 1) {
@@ -72,6 +73,7 @@ function CardBooking({type, data, onSelect, status}: CardBooking) {
   return (
     <TouchableOpacity
       activeOpacity={0.7}
+      style={{height: 170}}
       className="mx-3 p-3 bg-[#262626] rounded-xl mb-3"
       onPress={() => (data ? onSelect(data) : undefined)}>
       <View className="flex-row justify-between">
@@ -149,27 +151,73 @@ function CardBooking({type, data, onSelect, status}: CardBooking) {
             </View>
           )}
         </View>
-        <DefaultText
-          title={`${moment(
-            isWalkIn ? data?.visitDate : data?.bookingDate,
-          ).format('ddd, DD MMM')}`}
-          titleClassName="text-xs mt-2 text-neutral-400"
-        />
+        {status === 'Booking Table' && (
+          <Section isRow isBetween>
+            <DefaultText
+              title={`${currency(data?.paidTotal)} | ${type.toUpperCase()}`}
+              titleClassName={
+                'text-right text-green-500 font-inter-bold text-xs'
+              }
+            />
+          </Section>
+        )}
       </View>
       <Gap height={10} />
       <View className="flex-row">
-        <Image
-          source={{uri: data?.clubImg}}
-          className="w-[80] h-[80] rounded-lg"
-          resizeMode="cover"
-        />
+        <View
+          style={{
+            width: 80,
+            height: 80,
+            padding: 12,
+            borderColor: '#525252',
+            borderWidth: 1,
+            borderRadius: 4,
+            marginTop: 2,
+          }}>
+          <Image
+            source={{uri: data?.logo}}
+            style={{
+              width: '100%',
+              height: '100%',
+            }}
+            resizeMode="contain"
+          />
+        </View>
         <Gap width={10} />
         <View className="flex-1 ml-2">
-          <DefaultText
-            title={`ID : ${data?.bookingNumber}`}
-            titleClassName="text-xs text-neutral-400 flex-1"
-          />
-          <Gap height={status === 'Walk In Ticket' ? 2.5 : 4} />
+          {status !== 'Booking Table' ? (
+            <DefaultText
+              title={`ID : ${data?.bookingNumber}`}
+              titleClassName="text-xs text-neutral-400"
+            />
+          ) : (
+            <Section isRow isBetween>
+              <DefaultText
+                title={`${moment(
+                  isWalkIn ? data?.visitDate : data?.bookingDate,
+                ).format('ddd, DD MMMM')}`}
+                titleClassName="text-xs mt-2 text-neutral-400"
+              />
+              <Section
+                style={{
+                  backgroundColor: '#313131',
+                  padding: 4,
+                  borderRadius: 4,
+                }}
+                isRow>
+                <Image
+                  source={IcPeopleTwo}
+                  resizeMode="contain"
+                  className="w-[16] h-[16]"
+                />
+                <DefaultText
+                  title={`${data?.joinedTotal}`}
+                  titleClassName="text-xs font-inter-medium text-neutral-500 ml-1"
+                />
+              </Section>
+            </Section>
+          )}
+          <Gap height={status === 'Walk In Ticket' ? 2.5 : 0} />
           <DefaultText
             title={`${data?.clubName}`}
             titleClassName="text-base font-inter-semibold"
@@ -188,67 +236,41 @@ function CardBooking({type, data, onSelect, status}: CardBooking) {
             </View>
           ) : (
             status === 'Booking Table' && (
-              <View className="flex-row items-center mt-1 ">
-                <Sofa color={Colors['white-100']} size={20} />
-                <DefaultText
-                  title={
-                    tableName.length > 11
-                      ? tableName.substring(0, 10) + '...'
-                      : tableName
-                  }
-                  titleClassName="text-xs ml-1 font-inter-medium"
-                />
-                <TouchableOpacity className={'ml-5'}>
-                  <CalendarSecond color={Colors['white-70']} size={20} />
-                </TouchableOpacity>
-                <DefaultText
-                  title={`${moment(data?.bookingDate).format('ddd, DD MMM')}`}
-                  titleClassName="text-xs font-inter-medium ml-1"
-                />
-              </View>
-            )
-          )}
-          {status !== 'Direct Order' && <Gap height={10} />}
-          {status !== 'Direct Order' && (
-            <View className="w-full h-[0.5px] bg-neutral-600" />
-          )}
-          {status !== 'Direct Order' && <Gap height={10} />}
-          {status === 'Booking Table' ? (
-            <Section isRow isBetween>
-              <Section isRow>
-                <>
-                  <Image
-                    source={IcPeopleTwo}
-                    resizeMode="contain"
-                    className="w-[16] h-[16]"
-                  />
+              <Section style={{marginTop: 6}}>
+                <View className="flex-row items-center mt-1 ">
+                  <Sofa color={Colors['white-100']} size={20} />
                   <DefaultText
-                    title={`${data?.joinedTotal}`}
-                    titleClassName="text-xs font-inter-medium text-neutral-500 ml-1"
+                    title={tableName}
+                    titleClassName="text-xs ml-1 font-inter-medium"
                   />
-                </>
+                </View>
+                <View className="flex-row mt-2">
+                  <TouchableOpacity>
+                    <CalendarSecond color={Colors['white-70']} size={20} />
+                  </TouchableOpacity>
+                  <DefaultText
+                    title={`${moment(data?.bookingDate).format(
+                      'ddd, DD MMMM',
+                    )}`}
+                    titleClassName="text-xs font-inter-medium ml-1"
+                  />
+                </View>
               </Section>
-              <DefaultText
-                title={`${currency(data?.paidTotal)} | ${type.toUpperCase()}`}
-                titleClassName={
-                  'text-right text-green-500 font-inter-bold text-xs'
-                }
-              />
-            </Section>
-          ) : (
-            status === 'Walk In Ticket' && (
-              <DefaultText
-                title={`${currency(data?.paidTotal)} | ${type.toUpperCase()}`}
-                titleClassName={
-                  'text-right text-green-500 font-inter-bold text-xs'
-                }
-              />
             )
+          )}
+          {status !== 'Direct Order' && <Gap height={10} />}
+          {status === 'Walk In Ticket' && (
+            <DefaultText
+              title={`${currency(data?.paidTotal)} | ${type.toUpperCase()}`}
+              titleClassName={
+                'text-right text-green-500 font-inter-bold text-xs'
+              }
+            />
           )}
           {status === 'Direct Order' && (
             <DefaultText title={'1x Jack D, 1x Balihai beer'} />
           )}
-          <Gap height={10} />
+          {status === 'Direct Order' && <Gap height={10} />}
           {status === 'Direct Order' && (
             <DefaultText
               title={`${currency(data?.paidTotal)} | ${type.toUpperCase()}`}

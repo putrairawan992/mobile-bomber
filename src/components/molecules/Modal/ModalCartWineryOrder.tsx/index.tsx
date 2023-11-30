@@ -62,11 +62,9 @@ export default function ModalCartWineryOrder({
 
   useEffect(() => {
     setData(selectedCart);
-    console.log(selectedCart);
   }, [selectedCart]);
 
   useEffect(() => {
-    console.log(data);
     const res = calculateTotalQuantityAndPrice(data).totalPrice;
     setTotalPrice(res);
   }, [data]);
@@ -74,7 +72,6 @@ export default function ModalCartWineryOrder({
   useEffect(() => {
     if (totalPrice > 0) {
       setTotalPrice(totalPrice - getPriceWinny);
-      console.log('Total Price ' + totalPrice);
     }
   }, [totalPrice]);
 
@@ -95,30 +92,17 @@ export default function ModalCartWineryOrder({
       },
       {totalQuantity: 0, totalPrice: 0},
     );
-
     return result;
   };
   const actionAkumulasi = (ket: string, values: number, item: Product) => {
-    console.log(ket);
     if (ket === '') {
       const res = calculateTotalQuantityAndPrice(data).totalPrice;
       setTotalPrice(res);
     } else {
       item.quantity = values;
-      // console.log(calculateTotalQuantityAndPrice(selectedCart))
       const res = calculateTotalQuantityAndPrice(data).totalPrice;
       setTotalPrice(res);
     }
-
-    // if(ket=="plus"){
-    //   setTotalPrice(tempPrice+price * values);
-    // }
-    // else if (ket=="min"){
-    //   setTotalPrice(tempPrice-price * values);
-    // }
-    // else{
-    //   setTotalPrice(tempPrice+price * values);
-    // }
   };
 
   const onConfirmTime = (selectedTime: any) => {

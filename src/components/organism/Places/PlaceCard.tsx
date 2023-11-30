@@ -81,6 +81,12 @@ export const PlaceCard = ({
     {name: 'Rooftop'},
     {name: 'Freeflow'},
   ];
+  console.log(
+    '!!userLocation?.latitude && !!item?.latitude',
+    !!userLocation?.latitude && !!item?.latitude,
+    userLocation?.latitude,
+    item?.latitude,
+  );
 
   return (
     <ScaleAnimation
@@ -89,12 +95,12 @@ export const PlaceCard = ({
       scaleTo={0.97}
       style={{
         backgroundColor: '#262626',
-        ...(!isPlaceDetail && {
-          borderRadius: 8,
+        borderRadius: 8,
+        marginLeft: 20,
+        ...(isVertical && {
+          marginBottom: 20,
+          width: WIDTH / 1.105,
         }),
-        height: WIDTH / 1,
-        marginLeft: isPlaceDetail || isVertical ? 0 : 20,
-        ...(isVertical && {marginBottom: 20}),
       }}>
       <>
         <ImageBackground
@@ -103,11 +109,8 @@ export const PlaceCard = ({
           }}
           style={{width: '100%', height: 231}}
           imageStyle={{
-            ...(!isPlaceDetail && {
-              borderTopLeftRadius: 8,
-              borderTopRightRadius: 8,
-            }),
-            opacity: 0.4,
+            borderTopLeftRadius: 8,
+            borderTopRightRadius: 8,
           }}
           resizeMode="cover">
           <View style={{position: 'absolute', top: 15, left: 10}}>
@@ -197,14 +200,17 @@ export const PlaceCard = ({
               fontWeight="poppins-semi-bold"
               label={item.name}
             />
-
             <Gap height={10} />
             <Text
               variant="small"
-              style={{lineHeight: 20, height: 66}}
-              label={item.address.slice(0, 80) + '...'}
+              style={{lineHeight: 20, height: 40}}
+              label={
+                item.address?.length > 50
+                  ? item.address.slice(0, 80) + '...'
+                  : item.address
+              }
             />
-            <Gap height={15} />
+            <Gap height={10} />
             <Section isRow isBetween>
               <Section isRow>
                 {[1].map((star: number) => (
@@ -235,6 +241,7 @@ export const PlaceCard = ({
             </Section>
           </Section>
         )}
+        <Gap height={5} />
       </>
     </ScaleAnimation>
   );

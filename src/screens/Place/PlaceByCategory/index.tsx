@@ -42,16 +42,6 @@ const PlaceByCategory = ({route, navigation}: Props) => {
   const [vValue, setvValue] = useState(category.title);
   const [idParams, setIdParams] = useState<string>(category.id);
   const [isFocus, setIsFocus] = useState(false);
-  const [isHidden, setIsHidden] = useState(true);
-  const [offset, setOffset] = useState(0);
-
-  const handleScroll = (event: any) => {
-    const currentOffset = event.nativeEvent.contentOffset.y;
-    const direction = currentOffset > offset ? 'down' : 'up';
-    setIsHidden(direction === 'down');
-    setIsHidden(direction === 'up');
-    setOffset(currentOffset);
-  };
 
   useEffect(() => {
     fetchDiscoverData(); // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -139,7 +129,7 @@ const PlaceByCategory = ({route, navigation}: Props) => {
 
   return (
     <Layout contentContainerStyle={styles.container} isDisableKeyboardAware>
-      {isHidden && (
+      <ScrollView showsVerticalScrollIndicator={false}>
         <Header
           transparent
           hasBackBtn
@@ -147,99 +137,105 @@ const PlaceByCategory = ({route, navigation}: Props) => {
           titleStyle={{fontSize: 16, color: Colors['white-100']}}
           title="Category Page"
         />
-      )}
-      {isLoading && <Loading />}
-      <Gap height={5} />
-      <Section padding="8px 16px">
-        <Dropdown
-          selectedTextStyle={{
-            fontSize: 14,
-            marginLeft: 10,
-            textAlign: 'left',
-            fontFamily: 'Inter-Regular',
-            color: theme?.colors.TEXT_PRIMARY,
-          }}
-          placeholderStyle={{color: theme?.colors.TEXT_PRIMARY, marginLeft: 10}}
-          placeholder={!isFocus ? `${category.title}` : '...'}
-          iconStyle={s.iconStyle}
-          itemTextStyle={{
-            fontSize: 14,
-            color: Colors['white-100'],
-            fontFamily: 'Inter-Regular',
-          }}
-          containerStyle={{
-            marginTop: 8,
-            backgroundColor: theme?.colors.BACKGROUND2,
-            borderRadius: 16,
-            borderWidth: 0,
-            width: '100%',
-          }}
-          maxHeight={300}
-          style={[
-            s.dropdown,
-            {
-              backgroundColor: theme?.colors.SECTION,
-            },
-          ]}
-          renderRightIcon={visible =>
-            visible ? (
-              <ArrowUp2 color={theme?.colors.PRIMARY} size={16} />
-            ) : (
-              <ArrowDown2 color={theme?.colors.PRIMARY} size={16} />
-            )
-          }
-          data={PLACE_CATEGORY}
-          activeColor={theme?.colors.BACKGROUND2}
-          iconColor={theme?.colors.PRIMARY}
-          labelField="label"
-          onFocus={() => setIsFocus(true)}
-          onBlur={() => setIsFocus(false)}
-          valueField="value"
-          value={vValue}
-          renderLeftIcon={() => category.icon as any}
-          renderItem={(item, index) => {
-            let imageGet = item.image;
-            if (item.label === 'Nightclub' && index === true) {
-              imageGet = <DiscoLight size={24} color={theme?.colors.PRIMARY} />;
+
+        {isLoading && <Loading />}
+        <Gap height={5} />
+        <Section padding="8px 16px">
+          <Dropdown
+            selectedTextStyle={{
+              fontSize: 14,
+              marginLeft: 10,
+              textAlign: 'left',
+              fontFamily: 'Inter-Regular',
+              color: theme?.colors.TEXT_PRIMARY,
+            }}
+            placeholderStyle={{
+              color: theme?.colors.TEXT_PRIMARY,
+              marginLeft: 10,
+            }}
+            placeholder={!isFocus ? `${category.title}` : '...'}
+            iconStyle={s.iconStyle}
+            itemTextStyle={{
+              fontSize: 14,
+              color: Colors['white-100'],
+              fontFamily: 'Inter-Regular',
+            }}
+            containerStyle={{
+              marginTop: 8,
+              backgroundColor: theme?.colors.BACKGROUND2,
+              borderRadius: 16,
+              borderWidth: 0,
+              width: '100%',
+            }}
+            maxHeight={300}
+            style={[
+              s.dropdown,
+              {
+                backgroundColor: theme?.colors.SECTION,
+              },
+            ]}
+            renderRightIcon={visible =>
+              visible ? (
+                <ArrowUp2 color={theme?.colors.PRIMARY} size={16} />
+              ) : (
+                <ArrowDown2 color={theme?.colors.PRIMARY} size={16} />
+              )
             }
-            if (item.label === 'KTV' && index === true) {
-              imageGet = <Karaoke size={24} color={theme?.colors.PRIMARY} />;
-            }
-            if (item.label === 'Pregames' && index === true) {
-              imageGet = <Beer size={24} color={theme?.colors.PRIMARY} />;
-            }
-            if (item.label === 'Bar' && index === true) {
-              imageGet = <WineBottle size={24} color={theme?.colors.PRIMARY} />;
-            }
-            return (
-              <Section
-                style={{
-                  borderTopColor: theme?.colors.SECTION,
-                  borderTopWidth: 0.9,
-                }}>
-                <Section isRow rounded={8} padding="14px 6px">
-                  {imageGet}
-                  <Gap width={6} />
-                  <Text
-                    variant="small"
-                    color={index && theme?.colors.PRIMARY}
-                    fontWeight="medium"
-                    label={item.label}
-                  />
+            data={PLACE_CATEGORY}
+            activeColor={theme?.colors.BACKGROUND2}
+            iconColor={theme?.colors.PRIMARY}
+            labelField="label"
+            onFocus={() => setIsFocus(true)}
+            onBlur={() => setIsFocus(false)}
+            valueField="value"
+            value={vValue}
+            renderLeftIcon={() => category.icon as any}
+            renderItem={(item, index) => {
+              let imageGet = item.image;
+              if (item.label === 'Nightclub' && index === true) {
+                imageGet = (
+                  <DiscoLight size={24} color={theme?.colors.PRIMARY} />
+                );
+              }
+              if (item.label === 'KTV' && index === true) {
+                imageGet = <Karaoke size={24} color={theme?.colors.PRIMARY} />;
+              }
+              if (item.label === 'Pregames' && index === true) {
+                imageGet = <Beer size={24} color={theme?.colors.PRIMARY} />;
+              }
+              if (item.label === 'Bar' && index === true) {
+                imageGet = (
+                  <WineBottle size={24} color={theme?.colors.PRIMARY} />
+                );
+              }
+              return (
+                <Section
+                  style={{
+                    borderTopColor: theme?.colors.SECTION,
+                    borderTopWidth: 0.9,
+                  }}>
+                  <Section isRow rounded={8} padding="14px 6px">
+                    {imageGet}
+                    <Gap width={6} />
+                    <Text
+                      variant="small"
+                      color={index && theme?.colors.PRIMARY}
+                      fontWeight="medium"
+                      label={item.label}
+                    />
+                  </Section>
                 </Section>
-              </Section>
-            );
-          }}
-          onChange={item => {
-            setvValue(item.value);
-            setIdParams(item.value);
-            setSearchValue('');
-            setIsFocus(false);
-          }}
-        />
-      </Section>
-      <Gap height={32} />
-      <ScrollView onScroll={handleScroll} showsVerticalScrollIndicator={false}>
+              );
+            }}
+            onChange={item => {
+              setvValue(item.value);
+              setIdParams(item.value);
+              setSearchValue('');
+              setIsFocus(false);
+            }}
+          />
+        </Section>
+        <Gap height={10} />
         {placeData?.length ? (
           <TopPlaces
             title={`Top 5 ${category.title} this Week`}
@@ -256,7 +252,7 @@ const PlaceByCategory = ({route, navigation}: Props) => {
         <Section padding="8px 16px">
           <TextInput
             value={searchValue}
-            style={{height: 45}}
+            style={{height: 45, color: '#5D5C5C'}}
             onChangeText={(value: string) => setSearchValue(value)}
             placeholder="Search in night club"
             type="search"
@@ -264,26 +260,26 @@ const PlaceByCategory = ({route, navigation}: Props) => {
           />
         </Section>
         <Gap height={10} />
-        <Section padding="0px 16px">
+        <Section padding="8px 16px">
           <Text
             color={theme?.colors.PRIMARY}
             label="Discover All Place"
             fontWeight="bold"
           />
-          <Gap height={10} />
-          {discoverData?.length ? (
-            discoverData.map(item => (
-              <PlaceCard
-                item={item}
-                onSelect={onPlaceSelect}
-                isVertical
-                userLocation={userLocation}
-              />
-            ))
-          ) : (
-            <></>
-          )}
         </Section>
+        <Gap height={10} />
+        {discoverData?.length ? (
+          discoverData.map(item => (
+            <PlaceCard
+              item={item}
+              onSelect={onPlaceSelect}
+              isVertical
+              userLocation={userLocation}
+            />
+          ))
+        ) : (
+          <></>
+        )}
       </ScrollView>
     </Layout>
   );

@@ -38,6 +38,7 @@ interface PlaceCardProps {
   isPlaceDetail?: boolean;
   onOpenSchedule?: () => void;
   operation?: PlaceOperationalTimeInterface | null;
+  operationFull?: any;
   onOpenGallery?: () => void;
   isVertical?: boolean;
 }
@@ -48,6 +49,7 @@ export const PlaceCardSecond = ({
   onOpenSchedule,
   onOpenGallery,
   operation,
+  operationFull,
 }: PlaceCardProps) => {
   const theme = useTheme();
   const aspectRatio = useImageAspectRatio(
@@ -116,7 +118,7 @@ export const PlaceCardSecond = ({
 
   const renderSchedule = () => {
     const currentTime = new Date().getHours() + ':' + new Date().getMinutes();
-    const isOpen = (currentTime >= operation?.open) as any;
+    const isOpen = currentTime > operation?.open;
 
     return (
       <View>
@@ -125,18 +127,23 @@ export const PlaceCardSecond = ({
             label={isOpen ? 'Open Now' : 'Closed'}
             color={isOpen ? theme?.colors.SUCCESS : Colors['danger-400']}
           />
-          <TouchableOpacity onPress={onOpenSchedule}>
-            <Text
-              label={` |  ${getDayNight(operation?.open ?? '')} - ${getDayNight(
-                operation?.close ?? '',
-              )}`}
-              color={theme?.colors.TEXT_PRIMARY}
-            />
-          </TouchableOpacity>
+          {operationFull?.open ||
+            (operationFull?.close && (
+              <TouchableOpacity onPress={onOpenSchedule}>
+                <Text
+                  label={` |  ${getDayNight(
+                    operationFull?.open ?? '',
+                  )} - ${getDayNight(operationFull?.close ?? '')}`}
+                  color={theme?.colors.TEXT_PRIMARY}
+                />
+              </TouchableOpacity>
+            ))}
           <Gap width={4} />
-          <TouchableOpacity onPress={onOpenSchedule}>
-            <ArrowDown2 size={16} color={theme?.colors.ICON} />
-          </TouchableOpacity>
+          {operationFull?.open && (
+            <TouchableOpacity onPress={onOpenSchedule}>
+              <ArrowDown2 size={16} color={theme?.colors.ICON} />
+            </TouchableOpacity>
+          )}
         </Section>
       </View>
     );
@@ -263,7 +270,7 @@ export const PlaceCardSecond = ({
           <Gap height={15} />
           {isPlaceDetail ? (
             <Section style={{alignItems: 'center'}} isRow>
-              <View style={{width: data?.logo ? 150 : '50%', height: 30}}>
+              <View style={{width: data?.logo ? 150 : '50%'}}>
                 <TouchableOpacity
                   onPress={() => openMapDirection()}
                   activeOpacity={0.7}>
@@ -275,7 +282,6 @@ export const PlaceCardSecond = ({
               </View>
               {distanceToSingsou !== null && (
                 <Text
-                  style={{height: 30}}
                   label={`${currency(distanceToSingsou.toFixed(2), true)} km`}
                 />
               )}

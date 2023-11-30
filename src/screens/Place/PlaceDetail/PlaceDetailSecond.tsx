@@ -26,8 +26,6 @@ import useTheme from '../../../theme/useTheme';
 import {BottomSheetModal} from '@gorhom/bottom-sheet';
 import {NightlifeService} from '../../../service/NightlifeService';
 import {HEIGHT, WIDTH} from '../../../utils/config';
-import {dateFormatter} from '../../../utils/dateFormatter';
-
 import {PlaceCardSecond} from '../../../components/organism/Places/PlaceCardSecond';
 import PagerView from 'react-native-pager-view';
 import {placeDetailDummy} from '../../../theme/Images';
@@ -35,6 +33,7 @@ import {TabMenuSecond} from '../../../components/molecules/Menu/HorizontalMenuSe
 import {Colors} from '../../../theme';
 import {OperationalHoursSheet} from '../../../components/organism';
 import Carousel from 'react-native-snap-carousel';
+import {dateFormatter} from '../../../utils/dateFormatter';
 
 type Props = NativeStackScreenProps<
   MainStackParams,
@@ -50,7 +49,6 @@ export const PlaceDetailSecond = ({route, navigation}: Props) => {
     undefined,
   ) as any;
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const aspectRatio = useImageAspectRatio(data?.logo as string);
   const placeDetailSheetRef = React.useRef<BottomSheetModal>(null);
   const [menu] = useState<string[]>(['Walk in Ticket', 'Booking Table']);
   const [initialPage, setInitialPage] = useState<number>(1);
@@ -87,56 +85,70 @@ export const PlaceDetailSecond = ({route, navigation}: Props) => {
         ) : (
           <EntryAnimation index={1}>
             <Section key={1} backgroundColor="#171717">
-              <View
-                style={{
-                  padding: 16,
-                  backgroundColor: '#262626',
-                  borderBottomLeftRadius: 12,
-                  borderBottomRightRadius: 12,
-                }}>
-                <Text label="Our Facilities" variant="medium" />
-                {!data?.features?.length && (
-                  <Text
-                    color={Colors['gray-400']}
-                    label="There are no facilities"
-                  />
-                )}
-                <Gap height={12} />
-                {data?.features.map(
-                  (item: PlaceOverviewFeaturesInterface, idx: number) => {
-                    return (
-                      <Section
-                        style={{marginLeft: 20}}
-                        key={`facilities_${idx}`}
-                        isRow
-                        isCenter>
-                        {item.icon === 'rated' && (
-                          <Speaker size={26} color={theme?.colors.ICON} />
-                        )}
-                        {item.icon === 'clothing' && (
-                          <WristClock size={26} color={theme?.colors.ICON} />
-                        )}
-                        {item.icon === 'live' && (
-                          <Video size={26} color={theme?.colors.ICON} />
-                        )}
-                        <Section padding="12px 16px">
-                          <Text
-                            variant="medium"
-                            style={{lineHeight: 28}}
-                            label={item.title}
-                          />
-                          <Text
-                            label={item.subtitle}
-                            style={{width: 333}}
-                            variant="small"
-                            color={theme?.colors.TEXT_SECONDARY}
-                          />
+              {data?.features?.length > 0 ? (
+                <View
+                  style={{
+                    padding: 16,
+                    backgroundColor: '#262626',
+                  }}>
+                  <Text label="Our Facilities" variant="medium" />
+                  {!data?.features?.length && (
+                    <Text
+                      color={Colors['gray-400']}
+                      label="There are no facilities"
+                    />
+                  )}
+                  <Gap height={12} />
+                  {data?.features.map(
+                    (item: PlaceOverviewFeaturesInterface, idx: number) => {
+                      return (
+                        <Section
+                          style={{marginLeft: 20}}
+                          key={`facilities_${idx}`}
+                          isRow
+                          isCenter>
+                          {item.icon === 'rated' && (
+                            <Speaker size={26} color={theme?.colors.ICON} />
+                          )}
+                          {item.icon === 'clothing' && (
+                            <WristClock size={26} color={theme?.colors.ICON} />
+                          )}
+                          {item.icon === 'live' && (
+                            <Video size={26} color={theme?.colors.ICON} />
+                          )}
+                          <Section padding="12px 16px">
+                            <Text
+                              variant="medium"
+                              style={{lineHeight: 28}}
+                              label={item.title}
+                            />
+                            <Text
+                              label={item.subtitle}
+                              style={{width: 333}}
+                              variant="small"
+                              color={theme?.colors.TEXT_SECONDARY}
+                            />
+                          </Section>
                         </Section>
-                      </Section>
-                    );
-                  },
-                )}
-              </View>
+                      );
+                    },
+                  )}
+                </View>
+              ) : (
+                <View
+                  style={{
+                    padding: 10,
+                    backgroundColor: '#262626',
+                    paddingBottom: 20,
+                    marginTop: -10,
+                  }}>
+                  <Text
+                    label={data?.about?.replace(/(<([^>]+)>)/gi, '')}
+                    variant="small"
+                    color={theme?.colors.TEXT_SECONDARY}
+                  />
+                </View>
+              )}
               <Gap height={10} />
               <View style={{padding: 16, backgroundColor: '#171717'}}>
                 <View className="flex-row items-center">
@@ -229,19 +241,11 @@ export const PlaceDetailSecond = ({route, navigation}: Props) => {
       </>
     );
   };
+  console.log('placedata', placeData);
 
   const handleSheetChanges = React.useCallback((index: number) => {
     setSheetIndex(index);
   }, []);
-  console.log(
-    data?.operation?.find(
-      (item: {day: string}) => item.day === dateFormatter(new Date(), 'eeee'),
-    ),
-    'data.operation===>',
-    data?.operation,
-    'data.formatter===>',
-    dateFormatter(new Date(), 'eeee'),
-  );
 
   return (
     <Layout contentContainerStyle={styles.container} isScrollable={false}>
@@ -255,7 +259,11 @@ export const PlaceDetailSecond = ({route, navigation}: Props) => {
               onSelect={() => undefined}
               isPlaceDetail
               onOpenSchedule={() => placeDetailSheetRef.current?.present()}
-              operation={data.operation?.find(
+              operation={data?.operation?.find(
+                (item: {day: string}) =>
+                  item.day === dateFormatter(new Date(), 'eeee'),
+              )}
+              operationFull={data?.operation?.find(
                 (item: {day: string}) => item.day,
               )}
               onOpenGallery={() =>

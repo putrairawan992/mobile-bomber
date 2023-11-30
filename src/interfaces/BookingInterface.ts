@@ -85,6 +85,7 @@ export interface PayloadWaitingListInterface {
 
 export interface BookingInterface {
   bookingId: string;
+  logo: string;
   ticketName: string;
   bookingNumber: string;
   isChecked: number | null;

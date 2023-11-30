@@ -25,15 +25,15 @@ export default function CardWineryOrder({
           title={item?.englishProductTitle ?? ''}
           titleClassName="font-inter-medium"
         />
-        <Gap height={4} />
+        {/* <Gap height={4} />
         <DefaultText
           title={item?.chineseProductTitle ?? ''}
           titleClassName="font-inter-medium text-xs"
-        />
+        /> */}
         <Gap height={4} />
         <DefaultText
           title={currency(item.price)}
-          titleClassName="font-inter-medium text-xs text-[#3ca6ec]"
+          titleClassName="font-inter-medium text-xs text-[#EC7410]"
         />
         <Gap height={8} />
         {showNumber ? (

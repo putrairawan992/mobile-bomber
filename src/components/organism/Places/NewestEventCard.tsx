@@ -7,7 +7,6 @@ import {
 } from '../../../interfaces/PlaceInterface';
 import {ScaleAnimation} from '../../atoms';
 import {UserLocationInterface} from '../../../interfaces/UserInterface';
-import {WIDTH} from '../../../utils/config';
 
 interface PlaceCardProps {
   item: PlaceInterface;
@@ -29,14 +28,14 @@ export const NewstEventCard = ({
     <ScaleAnimation
       onPress={() => onSelect(item.clubId.toString())}
       disabled={isPlaceDetail ? true : false}
-      style={{marginLeft: 20, height: 240, width: WIDTH}}
+      style={{marginLeft: 20, height: 240, width: 160}}
       scaleTo={0.97}>
       <Image
         source={{
           uri: item?.coverImage,
         }}
         resizeMode="cover"
-        style={{height: '100%', width: WIDTH / 1.4}}
+        style={{height: '100%', width: '100%'}}
       />
     </ScaleAnimation>
   );

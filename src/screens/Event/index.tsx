@@ -148,6 +148,7 @@ export default function EventScreen({route, navigation}: Props) {
         <View key="2">
           {activeTheme === 'Unpaid' && (
             <Unpaid
+              status={status}
               activeTheme={activeTheme}
               dataEvents={dataEvents}
               onSelect={handleBookingSelect}
@@ -157,6 +158,7 @@ export default function EventScreen({route, navigation}: Props) {
         <View key="3">
           {activeTheme === 'Canceled' && (
             <Canceled
+              status={status}
               activeTheme={activeTheme}
               dataEvents={dataEvents}
               onSelect={handleBookingSelect}
@@ -166,6 +168,7 @@ export default function EventScreen({route, navigation}: Props) {
         <View key="4">
           {activeTheme === 'Finished' && (
             <Finished
+              status={status}
               activeTheme={activeTheme}
               dataEvents={dataEvents}
               onSelect={handleBookingSelect}
@@ -231,7 +234,7 @@ export default function EventScreen({route, navigation}: Props) {
   });
 
   return (
-    <Layout contentContainerStyle={styles.container} backgroundColor="#313131">
+    <Layout contentContainerStyle={styles.container}>
       <Gap height={16} />
       <Text
         variant="base"

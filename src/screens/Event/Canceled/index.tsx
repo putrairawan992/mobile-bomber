@@ -6,6 +6,7 @@ import {BookingInterface} from '../../../interfaces/BookingInterface';
 
 interface Finished {
   activeTheme: string;
+  status: string;
   dataEvents: BookingInterface[];
   onSelect: (data: BookingInterface) => void;
 }
@@ -14,6 +15,7 @@ export default function Finished({
   activeTheme,
   dataEvents,
   onSelect,
+  status,
 }: Finished) {
   return (
     <ScrollView
@@ -25,6 +27,7 @@ export default function Finished({
         ) : (
           <CardBooking
             key={key}
+            status={status}
             data={value}
             type="Canceled"
             onSelect={onSelect}

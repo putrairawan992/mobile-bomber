@@ -47,6 +47,8 @@ import Settings from '../screens/Profile/Settings';
 import SearchFriends from '../screens/Friends/Search';
 import ScanOnTable from '../screens/ScanOnTable';
 import {Redirect} from '../screens/Redirect';
+import OurPlatformPromoDetail from '../screens/Place/PlaceDetail/OurPlatformPromoDetail';
+import CheckoutWinnery from '../screens/WineryOrder/CheckoutWinnery';
 
 export type MainStackParams = {
   ComingSoon: undefined;
@@ -68,6 +70,8 @@ export type MainStackParams = {
   Notification: {
     id: string | null;
   };
+  OurPlatformPromoDetail: undefined;
+  CheckoutWinnery: {data: any; totalPrice: number};
   Main: undefined;
   BookingWalkIn: {
     placeData: PlaceInterface | null;
@@ -280,6 +284,11 @@ const MainScreenStack = () => {
       <Stack.Screen name="PlaceDetailSecond" component={PlaceDetailSecond} />
       <Stack.Screen name="ComingSoon" component={ComingSoon} />
       <Stack.Screen name="Main" component={Main} />
+      <Stack.Screen name="CheckoutWinnery" component={CheckoutWinnery} />
+      <Stack.Screen
+        name="OurPlatformPromoDetail"
+        component={OurPlatformPromoDetail}
+      />
       <Stack.Screen name="Notification" component={NotificationScreen} />
       <Stack.Screen name="PlaceDetail" component={PlaceDetail} />
       <Stack.Screen name="MyBookingDetail" component={MyBookingDetail} />

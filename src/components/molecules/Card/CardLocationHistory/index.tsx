@@ -46,7 +46,7 @@ export const CardLocationHistory = ({
             <Gap height={4} />
             <Text
               label={item.formatted_address}
-              fontWeight="bold"
+              fontWeight="medium"
               color={'#D8D8D8'}
               variant="small"
             />

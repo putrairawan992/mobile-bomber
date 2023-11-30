@@ -488,7 +488,7 @@ export default function MyBookingDetail({route, navigation}: Props) {
           {isTableBooking && (
             <>
               <Section isRow isBetween>
-                <View className="w-[185] h-[5] bg-white rounded-full self-center">
+                <View className="w-[180] h-[5] bg-white rounded-full self-center">
                   {spendPercetage > 0 && (
                     <View
                       className={`w-[${spendPercetage}%] h-[5] bg-yellow-600 rounded-full"`}
@@ -502,7 +502,7 @@ export default function MyBookingDetail({route, navigation}: Props) {
                           booking?.currentSpend === null
                             ? 0
                             : currency(booking?.paidTotal)
-                        } / ${currency(booking?.paidTotal)}`
+                        } / ${currency(booking?.paidTotal, true)}`
                       : ''
                   }
                   titleClassName="text-center font-inter-medium text-neutral-400"
