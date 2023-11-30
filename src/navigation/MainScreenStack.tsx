@@ -49,6 +49,7 @@ import ScanOnTable from '../screens/ScanOnTable';
 import {Redirect} from '../screens/Redirect';
 import OurPlatformPromoDetail from '../screens/Place/PlaceDetail/OurPlatformPromoDetail';
 import CheckoutWinnery from '../screens/WineryOrder/CheckoutWinnery';
+import OurPlatformPromoViewDetail from '../screens/Place/PlaceDetail/OurPlatformPromoViewDetail';
 
 export type MainStackParams = {
   ComingSoon: undefined;
@@ -71,6 +72,7 @@ export type MainStackParams = {
     id: string | null;
   };
   OurPlatformPromoDetail: undefined;
+  OurPlatformPromoViewDetail: {id: string | null};
   CheckoutWinnery: {data: any; totalPrice: number};
   Main: undefined;
   BookingWalkIn: {
@@ -288,6 +290,10 @@ const MainScreenStack = () => {
       <Stack.Screen
         name="OurPlatformPromoDetail"
         component={OurPlatformPromoDetail}
+      />
+      <Stack.Screen
+        name="OurPlatformPromoViewDetail"
+        component={OurPlatformPromoViewDetail}
       />
       <Stack.Screen name="Notification" component={NotificationScreen} />
       <Stack.Screen name="PlaceDetail" component={PlaceDetail} />

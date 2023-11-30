@@ -22,17 +22,11 @@ interface OurPlatformPromoProps {
 export const OurPlatformPromo = ({
   title,
   data,
-  onSelect,
-  userLocation,
   navigation,
 }: OurPlatformPromoProps) => {
   const theme = useTheme();
   let renderItem = ({item}: any) => (
-    <OurPlatformPromoPlaceCard
-      item={item}
-      onSelect={onSelect}
-      userLocation={userLocation}
-    />
+    <OurPlatformPromoPlaceCard navigation={navigation} item={item} />
   );
   return (
     <Section style={{backgroundColor: 'transparent'}}>

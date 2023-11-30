@@ -32,20 +32,6 @@ export const NightlifeService = {
     const response = await ax.get(`${URL}/get_product/${clubId}`);
     return response.data;
   },
-  getProductFoodOrder: async ({
-    bookingId,
-    userId,
-  }: {
-    bookingId: string;
-    userId: string;
-  }): Promise<APIResponse<BannerInterface[]>> => {
-    const response = await ax.get(
-      `${URL}/get_food_order?booking_id=${bookingId}&user_id=${userId}`,
-    );
-    console.log('getProductFoodOrder', response);
-
-    return response.data;
-  },
   getTopFiveNightClub: async (): Promise<APIResponse<PlaceInterface[]>> => {
     const response = await ax.get(`${URL}/get_top5_nightclub/`);
     return response.data;
@@ -56,6 +42,20 @@ export const NightlifeService = {
     city_id: number;
   }): Promise<APIResponse<BannerInterface[]>> => {
     const response = await ax.get(`${URL}/get_banner/${city_id}`);
+    return response.data;
+  },
+  getPlatformPromotion: async (): Promise<APIResponse<any[]>> => {
+    const response = await ax.get(`${URL}/get_platform_promotion`);
+    return response.data;
+  },
+  getPlatformPromotionDetail: async ({
+    promotion_id,
+  }: {
+    promotion_id: string;
+  }): Promise<APIResponse<any[]>> => {
+    const response = await ax.get(
+      `${URL}/detail_promotion?promotion_id=${promotion_id}`,
+    );
     return response.data;
   },
   getWalkInTicket: async (

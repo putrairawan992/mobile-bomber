@@ -19,6 +19,16 @@ import ax from './axios';
 const URL = 'event';
 
 export const MyEventService = {
+  getProductFoodOrder: async ({
+    bookingId,
+  }: {
+    bookingId: string;
+  }): Promise<APIResponse<any>> => {
+    const response = await ax.get(`${URL}/get_table_fnb_order/${bookingId}`);
+    console.log('getProductFoodOrder', response);
+
+    return response.data;
+  },
   getEventAllBookingCouponList: async ({}): Promise<APIResponse<any>> => {
     const response = await ax.get('/app/nightlife/get_coupon_list');
     return response.data;

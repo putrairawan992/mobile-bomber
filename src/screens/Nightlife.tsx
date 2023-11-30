@@ -93,6 +93,7 @@ function NightlifeScreen({route, navigation}: Props) {
   const [topFiveNightClub, setTopFiveNightClub] = React.useState<
     PlaceInterface[]
   >([]);
+  const [platformPromotion, setPlatformPromotion] = React.useState<any>([]);
   const [bookingReminder, setBookingReminder] = React.useState<any>([]);
   const {isFineLocationGranted} = usePermission();
   const {currentLocation, getOneTimeLocation} = useCheckLocation();
@@ -234,11 +235,12 @@ function NightlifeScreen({route, navigation}: Props) {
           customer_id: user.id,
         }),
         NightlifeService.getInvitedOrder({id: user.id}),
+        NightlifeService.getPlatformPromotion(),
       ])
         .then(response => {
           setBookingReminder(response[2]?.data);
-          console.log('response[2]', response[2]?.data?.booking, user.token);
-          console.log('response[3]', response[3]);
+          console.log('response[4]', response[4]);
+          setPlatformPromotion(response[4]?.data);
           setTopFiveNightClub(
             response[0].data.map((item, idx) => {
               const latitude = COORDINATE_DATA[idx].latitude;
@@ -791,7 +793,7 @@ function NightlifeScreen({route, navigation}: Props) {
               navigation={navigation}
               userLocation={userLocation}
               title="Our platform promo"
-              data={topFiveNightClub}
+              data={platformPromotion}
               itemWidthStyle
               fullSliderWidth
               onSelect={onPlaceSelect}

@@ -50,7 +50,6 @@ import InviteFriendsScreen from '../../components/molecules/Modal/InviteFriendsS
 import {UserGroup} from '../../assets/icons';
 import {NotificationService} from '../../service/NotificationService';
 import {useDispatch} from 'react-redux';
-import {NightlifeService} from '../../service/NightlifeService';
 
 type Props = NativeStackScreenProps<
   MainStackParams,
@@ -138,10 +137,10 @@ export default function MyBookingDetail({route, navigation}: Props) {
 
   const fetchGetFoorOrder = async () => {
     try {
-      const response = await NightlifeService.getProductFoodOrder({
+      const response = await MyEventService.getProductFoodOrder({
         bookingId: bookingId,
-        userId: user?.id,
       });
+      console.log('response=3', response);
       setFoodOrderList(response.data);
     } catch (error: any) {
       console.log('errorfetchGetFoorOrder', error);
@@ -149,13 +148,12 @@ export default function MyBookingDetail({route, navigation}: Props) {
   };
 
   useEffect(() => {
-    fetchGetFoorOrder();
     if (isTableBooking) {
       fethData();
     } else {
       fetchWalkInData();
     }
-
+    fetchGetFoorOrder();
     actionSpentOrder();
   }, []);
 

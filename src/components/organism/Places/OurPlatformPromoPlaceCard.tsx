@@ -2,20 +2,27 @@
 import React from 'react';
 import {ImageBackground} from 'react-native';
 import {ScaleAnimation, Section, Text} from '../../atoms';
-import {ImgProductPromo2} from '../../../theme/Images';
+import moment from 'moment';
 
 interface OurPlatformPromoPlaceCardProps {
   item?: any;
   isVertical?: boolean;
   horizontal?: boolean;
+  navigation?: any;
 }
 
 export const OurPlatformPromoPlaceCard = ({
   horizontal,
+  item,
+  navigation,
 }: OurPlatformPromoPlaceCardProps) => {
   return (
     <ScaleAnimation
-      onPress={() => undefined}
+      onPress={() =>
+        navigation.navigate('OurPlatformPromoViewDetail', {
+          id: item?.promotion_id,
+        })
+      }
       disabled={false}
       scaleTo={0.97}
       style={{
@@ -30,7 +37,7 @@ export const OurPlatformPromoPlaceCard = ({
       }}>
       <>
         <ImageBackground
-          source={ImgProductPromo2}
+          source={{uri: item?.banner}}
           style={{
             width: '100%',
             height: 178,
@@ -51,7 +58,10 @@ export const OurPlatformPromoPlaceCard = ({
               borderRadius: 4,
               backgroundColor: '#F04835',
             }}>
-            <Text variant="small" label={'14:10'} />
+            <Text
+              variant="small"
+              label={moment(item?.end_time).format('DD MMMM YYYY')}
+            />
           </Section>
         </ImageBackground>
       </>
