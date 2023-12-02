@@ -1,10 +1,13 @@
 /* eslint-disable react-native/no-inline-styles */
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Section, Spacer, Text, Layout, Gap} from '../components/atoms';
 import {ImageBackground, Platform, TouchableOpacity} from 'react-native';
 import useTheme from '../theme/useTheme';
 import * as Yup from 'yup';
-import {SignUpPayloadInterface} from '../interfaces/UserInterface';
+import {
+  SignUpPayloadInterface,
+  UserLocationInterface,
+} from '../interfaces/UserInterface';
 import {AuthStackParams} from '../navigation/AuthScreenStack';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {useFormik} from 'formik';
@@ -19,15 +22,16 @@ import {bgOnboarding} from '../theme/Images';
 import {HEIGHT, WIDTH} from '../utils/config';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {ScrollView} from 'react-native-gesture-handler';
+import {LocationService} from '../service/LocationService';
+import {useCheckLocation} from '../hooks/useCheckLocation';
 
 type Props = NativeStackScreenProps<AuthStackParams, 'SignUp', 'MyStack'>;
 
 export const SignUp = ({navigation}: Props) => {
   const theme = useTheme();
   const [isAgree, setIsAgree] = useState<boolean>(false);
-  const [phoneCode, setPhoneCode] = useState<string>(
-    COUNTRY_PHONE_CODE[0].country,
-  );
+  const [phoneCode, setPhoneCode] = useState<string>();
+  const {currentLocation} = useCheckLocation();
   let EMAIL_REGX = /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$/;
   const formik = useFormik<SignUpPayloadInterface>({
     initialValues: {
@@ -80,6 +84,25 @@ export const SignUp = ({navigation}: Props) => {
       });
     },
   });
+
+  useEffect(() => {
+    const fetchUserLocation = async () => {
+      const location: UserLocationInterface =
+        await LocationService.geocodeReverse({
+          latitude: currentLocation.latitude,
+          longitude: currentLocation.longitude,
+        });
+      const kodearea = COUNTRY_PHONE_CODE.find(
+        c => c.country === location.country,
+      );
+      setPhoneCode(kodearea?.country);
+    };
+    fetchUserLocation();
+  }, [currentLocation]);
+
+  useEffect(() => {
+    console.log(phoneCode);
+  }, [phoneCode]);
   return (
     <KeyboardAwareScrollView>
       <ImageBackground

@@ -7,6 +7,7 @@ import {AuthStackParams} from '../../navigation/AuthScreenStack';
 import {
   LoginPayloadInterface,
   UserInterface,
+  UserLocationInterface,
 } from '../../interfaces/UserInterface';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import styles from './Styles/LogInStyle';
@@ -42,6 +43,8 @@ import {
 import {HEIGHT, WIDTH} from '../../utils/config';
 import {bgOnboarding} from '../../theme/Images';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
+import {useCheckLocation} from '../../hooks/useCheckLocation';
+import {LocationService} from '../../service/LocationService';
 
 type Props = NativeStackScreenProps<AuthStackParams, 'LogIn', 'MyStack'>;
 
@@ -49,12 +52,10 @@ function LogInScreen({navigation}: Props) {
   const theme = useTheme();
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isLoadingDj, setIsLoadingDj] = useState<boolean>(false);
-  const [phoneCode, setPhoneCode] = useState<string>(
-    COUNTRY_PHONE_CODE[0].country,
-  );
+  const [phoneCode, setPhoneCode] = useState<string>();
   const [isLoadingGoogle, setIsLoadingGoogle] = useState<boolean>(false);
   const dispatch = useDispatch();
-
+  const {currentLocation} = useCheckLocation();
   const {
     isShowToast,
     setIsShowToast,
@@ -266,6 +267,34 @@ function LogInScreen({navigation}: Props) {
       dispatch(setUserType('dj'));
     }, 2000);
   };
+
+  useEffect(() => {
+    const fetchUserLocation = async () => {
+      const location: UserLocationInterface =
+        await LocationService.geocodeReverse({
+          latitude: currentLocation.latitude,
+          longitude: currentLocation.longitude,
+        });
+      const kodearea = COUNTRY_PHONE_CODE.find(
+        c => c.country === location.country,
+      );
+      setPhoneCode(kodearea?.country);
+    };
+
+    try {
+      setIsLoadingGoogle(true);
+      fetchUserLocation();
+    } catch (err) {
+      console.log(err);
+      setIsLoadingGoogle(false);
+    } finally {
+      setIsLoadingGoogle(false);
+    }
+  }, [currentLocation]);
+
+  useEffect(() => {
+    console.log(phoneCode);
+  }, [phoneCode]);
 
   return (
     <ImageBackground
